@@ -11,41 +11,64 @@ struct GoodsDetailView: View {
     var goods: Goods
     
     var body: some View {
+        //장바구니 홈 등등 오른쪽위 버튼 필요
         //이미지 > 회사이름 조그맣게 > 디바이더 > 카테고리 > 상품이름 > 금액 > 디바이더 > 상품설명 > 장바구니담기버튼및구매버튼
+        
+        
         VStack {
-            VStack(spacing: 5) {
-                Image(goods.thumbnailImageName)
-                    .resizable()
-                    .frame(width: 400, height: 250)
-                Text(goods.seller.name)
-                    .font(.headline)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            HStack {
+                Button {
+                    //홈으로 돌아가는 코드
+                } label: {
+                    Image(systemName: "house")
+                }
+                Button {
+                    //장바구니로 가는 코드
+                } label: {
+                    Image(systemName: "cart")
+                }
+                
             }
-            Divider()
-            
-            VStack(spacing: 10) {
-                Text(goods.category.rawValue)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text(goods.name)
-                    .font(.title)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text(goods.formattedPrice)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            Divider()
-            
+            .foregroundStyle(Color.black)
+            .frame(maxWidth: .infinity, alignment: .trailing)
             ScrollView {
-                Text(goods.bodyContent)
-                    .multilineTextAlignment(.leading)
-                    .lineSpacing(7)
+                
+                VStack(spacing: 5) {
+                    Image(goods.thumbnailImageName)
+                        .resizable()
+                        .frame(width: 400, height: 250)
+                    Text(goods.seller.name)
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
+                Divider()
+                
+                VStack(spacing: 10) {
+                    Text(goods.category.rawValue)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text(goods.name)
+                        .font(.title)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text(goods.formattedPrice)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                Divider()
+                VStack{
+                    Text(goods.bodyContent)
+                        .multilineTextAlignment(.leading)
+                        .lineSpacing(7)
+                    
+                    Spacer()
+                }
+                
             }
-            .padding(5)
-            
-            Spacer()
+            //스크롤 뷰 패딩이 안먹어서 고민중
+            .padding()
             
             HStack {
                 Button {
-                    //장바구니 담기 로직
+                    //장바구니 담기 로직 필요
                     print("\(goods.name) 장바구니 담기 ")
                 } label: {
                     Text("장바구니 담기")
@@ -58,7 +81,7 @@ struct GoodsDetailView: View {
                 }
                 
                 Button {
-                    //구매로직
+                    //구매로직 필요
                     print("\(goods.name) 바로 구매")
                 } label: {
                     Text("바로 구매하기")
