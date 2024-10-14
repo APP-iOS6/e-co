@@ -67,6 +67,7 @@ final class UserStore: ObservableObject, DataControllable {
             
             let id = snapshot.documentID
             let loginMethod = docData["login_method"] as? String ?? "none"
+            let isAdmin = docData["is_admin"] as? Bool ?? false
             let name = docData["name"] as? String ?? "none"
             let profileImageName = docData["profile_image"] as? String ?? "none"
             let pointCount = docData["point"] as? Int ?? 0
@@ -81,7 +82,7 @@ final class UserStore: ObservableObject, DataControllable {
                 }
             }
             
-            userData = User(id: id, loginMethod: loginMethod, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart)
+            userData = User(id: id, loginMethod: loginMethod, isAdmin: isAdmin, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart)
             
             return DataResult.none
         } catch {
@@ -102,6 +103,7 @@ final class UserStore: ObservableObject, DataControllable {
         do {
             try await db.collection("User").document(id).setData([
                 "login_method": user.loginMethod,
+                "is_admin": user.isAdmin,
                 "name": user.name,
                 "profile_image": user.profileImageName,
                 "point": user.pointCount,
