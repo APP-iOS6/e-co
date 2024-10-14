@@ -13,4 +13,5 @@ enum GoodsCategory: String, CaseIterable {
     case passion = "패션"
     case beauty = "뷰티"
     case food = "음식"
+    case none = "none"
 }
