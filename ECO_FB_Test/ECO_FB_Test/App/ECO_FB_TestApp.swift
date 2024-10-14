@@ -37,7 +37,7 @@ struct ECO_FB_TestApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()ffei
+            ContentView()
                 .onOpenURL { url in
                     if (AuthApi.isKakaoTalkLoginUrl(url)) {
                         _ = AuthController.handleOpenUrl(url: url)
