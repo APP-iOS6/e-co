@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50131AE72CBCAB4B0020D1DE /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50131AE62CBCAB4B0020D1DE /* Kakao.xcconfig */; };
+		50131AEB2CBCACD10020D1DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50131AEA2CBCACD10020D1DE /* GoogleService-Info.plist */; };
 		FE1847A42CB9686F00BE530C /* KaKaoLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */; };
 		FE40BBED2CB93F4A00786E34 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FE40BBEC2CB93F4A00786E34 /* FirebaseCore */; };
 		FE40BBEF2CB93F4A00786E34 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FE40BBEE2CB93F4A00786E34 /* FirebaseFirestore */; };
@@ -20,13 +22,11 @@
 		FE40BC0A2CB9452B00786E34 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC092CB9452B00786E34 /* User.swift */; };
 		FE40BC0D2CB947D300786E34 /* DataParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC0C2CB947D300786E34 /* DataParam.swift */; };
 		FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC0E2CB94B0F00786E34 /* DataError.swift */; };
-		FE568D6C2CBA7EA200857DFE /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */; };
 		FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7ADD2CB99C78000F5DB6 /* Goods.swift */; };
 		FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE02CB99D5B000F5DB6 /* Seller.swift */; };
 		FE6A7AE32CB9A121000F5DB6 /* GoodsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */; };
 		FE6A7AE52CB9A2D8000F5DB6 /* SellerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE42CB9A2D8000F5DB6 /* SellerStore.swift */; };
 		FE6A7AE72CB9A434000F5DB6 /* DataResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE62CB9A434000F5DB6 /* DataResult.swift */; };
-		FE6A7AE92CB9AAF1000F5DB6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */; };
 		FE6A7AEC2CB9AB73000F5DB6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FE6A7AEB2CB9AB73000F5DB6 /* FirebaseAuth */; };
 		FE6A7AEF2CB9ABA2000F5DB6 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = FE6A7AEE2CB9ABA2000F5DB6 /* GoogleSignIn */; };
 		FE6A7AF12CB9ABA2000F5DB6 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FE6A7AF02CB9ABA2000F5DB6 /* GoogleSignInSwift */; };
@@ -65,6 +65,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		50131AE62CBCAB4B0020D1DE /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
+		50131AEA2CBCACD10020D1DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE1847A22CB966C600BE530C /* ECO-FB-Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ECO-FB-Test-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaKaoLoginManager.swift; sourceTree = "<group>"; };
 		FE40BBBC2CB93E4100786E34 /* ECO_FB_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECO_FB_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,13 +82,11 @@
 		FE40BC092CB9452B00786E34 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FE40BC0C2CB947D300786E34 /* DataParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParam.swift; sourceTree = "<group>"; };
 		FE40BC0E2CB94B0F00786E34 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
-		FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
 		FE6A7ADD2CB99C78000F5DB6 /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 		FE6A7AE02CB99D5B000F5DB6 /* Seller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seller.swift; sourceTree = "<group>"; };
 		FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStore.swift; sourceTree = "<group>"; };
 		FE6A7AE42CB9A2D8000F5DB6 /* SellerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerStore.swift; sourceTree = "<group>"; };
 		FE6A7AE62CB9A434000F5DB6 /* DataResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResult.swift; sourceTree = "<group>"; };
-		FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE6A7AF22CB9ADCF000F5DB6 /* LoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
 		FE6A7AF62CB9AE44000F5DB6 /* LoginControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginControllable.swift; sourceTree = "<group>"; };
 		FE6A7AF82CB9AEBF000F5DB6 /* GoogleLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginManager.swift; sourceTree = "<group>"; };
@@ -102,6 +102,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		50131AEC2CBCAE5C0020D1DE /* MyPageViews */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MyPageViews;
+			sourceTree = "<group>";
+		};
 		FE40BBCF2CB93E4200786E34 /* ECO_FB_TestTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ECO_FB_TestTests;
@@ -171,6 +176,7 @@
 		FE40BBF32CB9405F00786E34 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				50131AEC2CBCAE5C0020D1DE /* MyPageViews */,
 				FEDA91112CBCA36800D75552 /* Sample */,
 			);
 			path = View;
@@ -187,8 +193,8 @@
 				FE40BC062CB943F800786E34 /* Model */,
 				FE40BBF32CB9405F00786E34 /* View */,
 				FE40BBF42CB9405F00786E34 /* Assets.xcassets */,
-				FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */,
-				FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */,
+				50131AEA2CBCACD10020D1DE /* GoogleService-Info.plist */,
+				50131AE62CBCAB4B0020D1DE /* Kakao.xcconfig */,
 			);
 			path = ECO_FB_Test;
 			sourceTree = "<group>";
@@ -348,6 +354,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				50131AEC2CBCAE5C0020D1DE /* MyPageViews */,
+			);
 			name = ECO_FB_Test;
 			packageProductDependencies = (
 				FE40BBEC2CB93F4A00786E34 /* FirebaseCore */,
@@ -463,9 +472,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE6A7AE92CB9AAF1000F5DB6 /* GoogleService-Info.plist in Resources */,
-				FE568D6C2CBA7EA200857DFE /* Kakao.xcconfig in Resources */,
 				FE40BBFA2CB9405F00786E34 /* Assets.xcassets in Resources */,
+				50131AEB2CBCACD10020D1DE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,6 +481,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50131AE72CBCAB4B0020D1DE /* Kakao.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,7 +561,6 @@
 /* Begin XCBuildConfiguration section */
 		FE40BBDE2CB93E4200786E34 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -616,7 +624,6 @@
 		};
 		FE40BBDF2CB93E4200786E34 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
