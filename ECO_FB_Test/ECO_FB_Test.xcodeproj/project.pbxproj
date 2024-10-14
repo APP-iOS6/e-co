@@ -673,6 +673,7 @@
 /* Begin XCBuildConfiguration section */
 		FE40BBDE2CB93E4200786E34 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 502256852CBD0301006F6D5C /* Kakao.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -736,6 +737,7 @@
 		};
 		FE40BBDF2CB93E4200786E34 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 502256852CBD0301006F6D5C /* Kakao.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
