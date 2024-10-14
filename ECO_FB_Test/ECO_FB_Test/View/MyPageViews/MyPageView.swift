@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct MyPageView: View {
-    @EnvironmentObject var authManager: AuthManager  // AuthManager를 환경 객체로 받아옴
-
-    @State private var points: Int = 0  // 포인트
-    @State private var isAdmin: Bool = false  // 관리자인지 여부
+    @EnvironmentObject private var userStore: UserStore
 
     @State private var cartItems: Int = 3
     @State private var orderStatus: String = "처리 중"
@@ -22,9 +19,9 @@ struct MyPageView: View {
         NavigationView {
             List {
                 // 로그인 상태일 경우
-                if let userName = authManager.loggedInUserName {
+                if let user = userStore.userData {
                     Section {
-                        Text("이름: \(userName)")
+                        Text("이름: \(user.name)")
                             .font(.headline)
                     }
                     
@@ -33,7 +30,7 @@ struct MyPageView: View {
                         HStack {
                             Text("포인트 현황:")
                             Spacer()
-                            Text("\(points)점")
+                            Text("\(user.pointCount)점")
                                 .foregroundColor(.green)
                         }
                         
@@ -48,7 +45,7 @@ struct MyPageView: View {
                     }
                     
                     // 관리자 섹션: 관리자인 경우에만 상품 추가 기능 표시
-                    if isAdmin {
+                    if user.isAdmin {
                         Section(header: Text("관리자")) {
                             NavigationLink("상품 추가", destination: AddProductView())
                         }
@@ -83,23 +80,11 @@ struct MyPageView: View {
             .sheet(isPresented: $showLoginView) {
                 LoginView()
             }
-            .onAppear {
-                if let userID = authManager.loggedInUserName {
-                    Task {
-                        do {
-                            points = try await DataManager.shared.getUserPoints(userID: userID)
-                            isAdmin = try await DataManager.shared.checkIfUserIsAdmin(userID: userID)
-                        } catch {
-                            print("포인트 또는 관리자 여부 가져오기 실패: \(error.localizedDescription)")
-                        }
-                    }
-                }
-            }
         }
     }
 
     func handleLogout() {
-        authManager.logout()
+        AuthManager.shared.logout()
     }
 }
 

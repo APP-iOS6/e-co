@@ -8,10 +8,10 @@
 import Foundation
 
 enum GoodsCategory: String, CaseIterable {
+    case none = "none"
     case refill = "리필"
     case electronics = "전자제품"
     case passion = "패션"
     case beauty = "뷰티"
     case food = "음식"
-    case none = "none"
 }

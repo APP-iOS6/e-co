@@ -55,7 +55,7 @@ struct StoreView: View {
                                 HStack {
                                     ForEach(Array(goodsByCategories.keys), id: \.self) { category in
                                         Button {
-                                            goodsStore.selectCategoryAction(category)
+                                            goodsStore.categorySelectAction(category)
                                         } label: {
                                             Text(category.rawValue)
                                         }

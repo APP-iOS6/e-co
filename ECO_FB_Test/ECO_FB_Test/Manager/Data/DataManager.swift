@@ -107,22 +107,4 @@ final class DataManager: ObservableObject {
     func deleteData() {
         
     }
-    
-    // 관리자 여부 확인 메소드 추가
-    func checkIfUserIsAdmin(userID: String) async throws -> Bool {
-        let snapshot = try await _db.collection("User").document(userID).getDocument()
-        guard let docData = snapshot.data() else {
-            throw DataError.fetchError(reason: "User document is nil")
-        }
-        return docData["isAdmin"] as? Bool ?? false
-    }
-    
-    // 포인트 정보 가져오는 메소드
-    func getUserPoints(userID: String) async throws -> Int {
-        let snapshot = try await _db.collection("User").document(userID).getDocument()
-        guard let docData = snapshot.data() else {
-            throw DataError.fetchError(reason: "User document is nil")
-        }
-        return docData["point"] as? Int ?? 0
-    }
 }

@@ -12,9 +12,7 @@ final class GoodsStore: ObservableObject, DataControllable {
     static let shared: GoodsStore = GoodsStore()
     private let db: Firestore = DataManager.shared.db
     @Published private(set) var goodsList: [Goods] = []
-
     @Published private(set) var selectedCategory: GoodsCategory = GoodsCategory.none
-    
     @Published private(set) var goodsByCategories: [GoodsCategory: [Goods]] = [:]
     @Published private(set) var filteredGoodsByCategories: [GoodsCategory: [Goods]] = [:]
     
@@ -33,6 +31,57 @@ final class GoodsStore: ObservableObject, DataControllable {
                 
                 filteredGoodsByCategories = goodsByCategories
             }
+        }
+    }
+    
+    /**
+     카테고리 선택시 해당하는 상품만 필터링 해준다
+     */
+    func categorySelectAction(_ category: GoodsCategory) {
+        if selectedCategory == category {
+            selectedCategory = GoodsCategory.none
+        } else {
+            selectedCategory = category
+        }
+        
+        filteredGoodsByCategories = if selectedCategory == GoodsCategory.none {
+            goodsByCategories
+        } else {
+            [selectedCategory : goodsByCategories[selectedCategory] ?? []]
+        }
+    }
+    
+    /**
+     검색 키워드에 따라 상품을 필터링 해준다 (선택된 카테고리가 있을땐 해당 카테고리 안에서 검색)
+     */
+    func searchAction(_ text: String) {
+        if text == "" {
+            filteredGoodsByCategories = if selectedCategory == GoodsCategory.none {
+                goodsByCategories
+            } else {
+                [selectedCategory : goodsByCategories[selectedCategory] ?? []]
+            }
+            return
+        }
+        
+        var newGoodsByCategories: [GoodsCategory: [Goods]] = [:]
+        
+        let filteredGoods: [Goods] = goodsList.filter {
+            $0.name.contains(text) || $0.bodyContent.contains(text) || $0.category.rawValue.contains(text)
+        }
+        
+        for goods in filteredGoods {
+            if newGoodsByCategories[goods.category] != nil {
+                newGoodsByCategories[goods.category]?.append(goods)
+            } else {
+                newGoodsByCategories[goods.category] = [goods]
+            }
+        }
+        
+        filteredGoodsByCategories = if selectedCategory != GoodsCategory.none {
+            [selectedCategory : newGoodsByCategories[selectedCategory] ?? []]
+        } else {
+            newGoodsByCategories
         }
     }
     
@@ -159,52 +208,5 @@ final class GoodsStore: ObservableObject, DataControllable {
             throw DataError.convertError(reason: "Can't find matched string")
         }
 
-    }
-    
-    // 카테고리 선택시 해당하는 상품만 필터링 해준다
-    func selectCategoryAction(_ category: GoodsCategory) {
-        if selectedCategory == category {
-            selectedCategory = GoodsCategory.none
-        } else {
-            selectedCategory = category
-        }
-        
-        filteredGoodsByCategories = if selectedCategory == GoodsCategory.none {
-            goodsByCategories
-        } else {
-            [selectedCategory : goodsByCategories[selectedCategory] ?? []]
-        }
-    }
-    
-    // 검색 키워드에 따라 상품을 필터링 해준다 (선택된 카테고리가 있을땐 해당 카테고리 안에서 검색)
-    func searchAction(_ text: String) {
-        if text == "" {
-            filteredGoodsByCategories = if selectedCategory == GoodsCategory.none {
-                goodsByCategories
-            } else {
-                [selectedCategory : goodsByCategories[selectedCategory] ?? []]
-            }
-            return
-        }
-        
-        var newGoodsByCategories: [GoodsCategory: [Goods]] = [:]
-        
-        let filteredGoods: [Goods] = goodsList.filter {
-            $0.name.contains(text) || $0.bodyContent.contains(text) || $0.category.rawValue.contains(text)
-        }
-        
-        for goods in filteredGoods {
-            if newGoodsByCategories[goods.category] != nil {
-                newGoodsByCategories[goods.category]?.append(goods)
-            } else {
-                newGoodsByCategories[goods.category] = [goods]
-            }
-        }
-        
-        filteredGoodsByCategories = if selectedCategory != GoodsCategory.none {
-            [selectedCategory : newGoodsByCategories[selectedCategory] ?? []]
-        } else {
-            newGoodsByCategories
-        }
     }
 }
