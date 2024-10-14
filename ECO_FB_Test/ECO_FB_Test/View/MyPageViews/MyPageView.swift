@@ -10,6 +10,8 @@ import AuthenticationServices
 
 struct MyPageView: View {
     
+    @StateObject private var store = NoticeStore() // NoticeStore를 관리
+    
     @State private var loggedInUser: String? = "admin@example.com"
     @State private var points: Int = 1200
     @State private var cartItems: Int = 3
@@ -82,7 +84,7 @@ struct MyPageView: View {
                 
                 // 공지사항, 1:1 문의, 상품 문의, 개인정보 고지, 설정
                 Section(header: Text("지원")) {
-                    NavigationLink("공지사항", destination: NoticesView())
+                    NavigationLink("공지사항", destination: NoticeView().environmentObject(store)) // NoticeView에 store 전달
                     NavigationLink("1:1 문의", destination: InquiriesView())
                     NavigationLink("상품 문의", destination: ProductQuestionsView())
                     NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
@@ -125,7 +127,7 @@ struct OrderManagementView: View { var body: some View { Text("주문 관리") }
 struct RecentlyViewedView: View { var body: some View { Text("최근 본 상품") } }
 struct LikedProductsView: View { var body: some View { Text("찜한 상품") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
-struct NoticesView: View { var body: some View { Text("공지사항") } }
+
 struct InquiriesView: View { var body: some View { Text("1:1 문의") } }
 struct ProductQuestionsView: View { var body: some View { Text("상품 문의") } }
 struct PrivacyPolicyView: View { var body: some View { Text("개인정보 고지") } }

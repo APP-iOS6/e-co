@@ -107,6 +107,11 @@
 			path = MyPageViews;
 			sourceTree = "<group>";
 		};
+		50131AEF2CBCBB9B0020D1DE /* Notice */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Notice;
+			sourceTree = "<group>";
+		};
 		FE40BBCF2CB93E4200786E34 /* ECO_FB_TestTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ECO_FB_TestTests;
@@ -238,6 +243,7 @@
 		FE40BC062CB943F800786E34 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				50131AEF2CBCBB9B0020D1DE /* Notice */,
 				FE6A7ADF2CB99D52000F5DB6 /* Seller */,
 				FE6A7ADC2CB99C6D000F5DB6 /* Goods */,
 				FEACD5382CB95BF300EF206D /* Admin */,
@@ -356,6 +362,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				50131AEC2CBCAE5C0020D1DE /* MyPageViews */,
+				50131AEF2CBCBB9B0020D1DE /* Notice */,
 			);
 			name = ECO_FB_Test;
 			packageProductDependencies = (
