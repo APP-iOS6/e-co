@@ -88,7 +88,7 @@ final class GoodsStore: ObservableObject, DataControllable {
         }
     }
     
-    func getGoodsAll() async throws -> DataResult {
+    private func getGoodsAll() async throws -> DataResult {
         goodsList.removeAll()
         
         do {
@@ -112,8 +112,8 @@ final class GoodsStore: ObservableObject, DataControllable {
                     throw DataError.convertError(reason: "DataResult is not a seller")
                 }
                 
-                let goodsData = Goods(id: id, name: name, category: category, thumbnailImageName: thumbnailImageName, bodyContent: bodyContent, bodyImageNames: bodyImageNames, price: price, seller: result)
-                goodsList.append(goodsData)
+                let goods = Goods(id: id, name: name, category: category, thumbnailImageName: thumbnailImageName, bodyContent: bodyContent, bodyImageNames: bodyImageNames, price: price, seller: result)
+                goodsList.append(goods)
             }
             
             return DataResult.none
