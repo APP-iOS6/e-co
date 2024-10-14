@@ -44,6 +44,7 @@
 		FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA72CB975F400E3D86A /* KakaoSDKCommon */; };
 		FEBEFBAA2CB975F400E3D86A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA92CB975F400E3D86A /* KakaoSDKUser */; };
 		FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */; };
+		FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA91192CBCABD300D75552 /* CartView.swift */; };
 		FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +99,7 @@
 		FEACD53B2CB95C2F00EF206D /* AdminStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStore.swift; sourceTree = "<group>"; };
 		FEACD53D2CB95CD200EF206D /* AdminTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTestView.swift; sourceTree = "<group>"; };
 		FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsCategory.swift; sourceTree = "<group>"; };
+		FEDA91192CBCABD300D75552 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchFlow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				FEDA91112CBCA36800D75552 /* Sample */,
+				FEDA91192CBCABD300D75552 /* CartView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
 				FE40BC0A2CB9452B00786E34 /* User.swift in Sources */,
+				FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */,
 				FEACD53E2CB95CD200EF206D /* AdminTestView.swift in Sources */,
 				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
 				FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */,
