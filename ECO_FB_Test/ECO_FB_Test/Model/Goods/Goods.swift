@@ -10,7 +10,7 @@ import Foundation
 struct Goods: Identifiable, Hashable {
     let id: String
     let name: String
-    let category: String
+    let category: GoodsCategory
     let thumbnailImageName: String
     let bodyContent: String
     let bodyImageNames: [String]

@@ -37,7 +37,7 @@ struct UserTestView: View {
                 let seller: Seller = Seller(id: "Q6awSoN6OCHcbUDeMxyd", name: "Seller", profileImageName: "It will be replace to id matches seller")
                 let price = Int.random(in: 100...15000)
                 
-                let goodsDummy: Goods = Goods(id: UUID().uuidString, name: "Dummy Goods", category: "Bag", thumbnailImageName: "test.png", bodyContent: "it's bag it's bag it's bag it's bag it's bag it's bag it's bag", bodyImageNames: ["test.png", "bag.png", "bag23232.png", "bag_final.png"], price: price, seller: seller)
+                let goodsDummy: Goods = Goods(id: UUID().uuidString, name: "Dummy Goods", category: .passion, thumbnailImageName: "test.png", bodyContent: "it's bag it's bag it's bag it's bag it's bag it's bag it's bag", bodyImageNames: ["test.png", "bag.png", "bag23232.png", "bag_final.png"], price: price, seller: seller)
                 
                 goods.append(goodsDummy)
                 
