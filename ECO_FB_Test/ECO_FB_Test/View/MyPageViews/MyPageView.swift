@@ -17,67 +17,86 @@ struct MyPageView: View {
     
     // 관리자 여부를 확인하는 상태 변수
     @State private var isAdmin: Bool = false
+    @State private var showLoginView: Bool = false  // 로그인 화면으로 이동 여부
     
     var body: some View {
         NavigationView {
             List {
-                // 로그인 된 아이디 표시
+                // 로그인 상태일 경우
                 if let user = loggedInUser {
                     Section {
-                        Text("로그인된 사용자: \(user)")
+                        Text("ID: \(user)")
                             .font(.headline)
                     }
-                }
-                
-                // 포인트 현황, 장바구니, 주문 현황 / 배송 조회
-                Section(header: Text("계정 정보")) {
-                    HStack {
-                        Text("포인트 현황:")
-                        Spacer()
-                        Text("\(points)점")
-                            .foregroundColor(.green)
+                    
+                    // 포인트 현황, 장바구니, 주문 현황 / 배송 조회
+                    Section(header: Text("계정 정보")) {
+                        HStack {
+                            Text("포인트 현황:")
+                            Spacer()
+                            Text("\(points)점")
+                                .foregroundColor(.green)
+                        }
+                        
+                        NavigationLink("장바구니: \(cartItems)개", destination: CartView())
+                        
+                        HStack {
+                            Text("주문 현황:")
+                            Spacer()
+                            Text(orderStatus)
+                        }
+                        
+                        // 결제 취소, 교환, 반품
+                        NavigationLink("주문 관리", destination: OrderManagementView())
                     }
                     
-                    NavigationLink("장바구니: \(cartItems)개", destination: CartView())
-                    
-                    HStack {
-                        Text("주문 현황:")
-                        Spacer()
-                        Text(orderStatus)
+                    // 최근 본 상품, 찜한 상품 보기
+                    Section(header: Text("나의 상품")) {
+                        NavigationLink("최근 본 상품", destination: RecentlyViewedView())
+                        NavigationLink("찜한 상품", destination: LikedProductsView())
                     }
                     
-                    // 결제 취소, 교환, 반품
-                    NavigationLink("주문 관리", destination: OrderManagementView())
-                }
-                
-                // 최근 본 상품, 찜한 상품 보기
-                Section(header: Text("나의 상품")) {
-                    NavigationLink("최근 본 상품", destination: RecentlyViewedView())
-                    NavigationLink("찜한 상품", destination: LikedProductsView())
-                }
-                
-                // 관리자 섹션: 관리자인 경우에만 상품 추가 기능 표시
-                if isAdmin {
-                    Section(header: Text("관리자")) {
-                        NavigationLink("상품 추가", destination: AddProductView())
+                    // 관리자 섹션: 관리자인 경우에만 상품 추가 기능 표시
+                    if isAdmin {
+                        Section(header: Text("관리자")) {
+                            NavigationLink("상품 추가", destination: AddProductView())
+                        }
+                    }
+                    
+                    // 로그아웃 섹션
+                    Section(header: Text("로그아웃")) {
+                        Button("로그아웃", action: handleLogout)
+                            .foregroundColor(.red)
+                    }
+                    
+                } else {
+                    // 로그아웃 상태일 때 로그인 안내 메시지
+                    Section {
+                        Text("로그인 해주세요")
+                            .foregroundColor(.blue)
+                            .onTapGesture {
+                                showLoginView.toggle()  // 로그인 뷰로 이동
+                            }
                     }
                 }
                 
-                // 공지사항, 1:1 문의, 상품 문의, 개인정보 고지, 설정, 로그아웃
+                // 공지사항, 1:1 문의, 상품 문의, 개인정보 고지, 설정
                 Section(header: Text("지원")) {
                     NavigationLink("공지사항", destination: NoticesView())
                     NavigationLink("1:1 문의", destination: InquiriesView())
                     NavigationLink("상품 문의", destination: ProductQuestionsView())
                     NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
-                    NavigationLink("설정", destination: SettingsView())
-                    Button("로그아웃", action: handleLogout)
-                        .foregroundColor(.red)
                 }
             }
+            .listStyle(.insetGrouped)
             .navigationTitle("마이 페이지")
             .onAppear {
-                // 여기에서 관리자 여부를 확인하는 로직을 추가
+                // 관리자 여부를 확인하는 로직
                 checkIfAdmin()
+            }
+            .sheet(isPresented: $showLoginView) {
+                // 로그인 화면 표시 (여기서는 LoginView를 가정)
+                LoginView()
             }
         }
     }
@@ -91,8 +110,7 @@ struct MyPageView: View {
     
     // 관리자 여부를 확인하는 함수
     func checkIfAdmin() {
-        // 실제 구현에서는 사용자 정보를 기반으로 관리자 여부를 확인하는 로직을 추가
-        // 예: Firebase에서 role 필드를 확인하거나, 사용자 이메일을 체크
+        // 실제 구현에서는 사용자 정보를 기반으로 관리자 여부를 확인하는 로직 추가
         if loggedInUser == "admin@example.com" {
             isAdmin = true
         } else {
@@ -111,7 +129,14 @@ struct NoticesView: View { var body: some View { Text("공지사항") } }
 struct InquiriesView: View { var body: some View { Text("1:1 문의") } }
 struct ProductQuestionsView: View { var body: some View { Text("상품 문의") } }
 struct PrivacyPolicyView: View { var body: some View { Text("개인정보 고지") } }
-struct SettingsView: View { var body: some View { Text("설정") } }
+
+// Placeholder for LoginView
+struct LoginView: View {
+    var body: some View {
+        Text("로그인 화면")
+            .font(.largeTitle)
+    }
+}
 
 #Preview {
     MyPageView()
