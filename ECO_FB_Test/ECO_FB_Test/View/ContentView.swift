@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(AnnouncementStore.self) var announcementStore: AnnouncementStore
     var body: some View {
         TabView {
             EcoView()
