@@ -11,6 +11,14 @@ struct EcoView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                HStack {
+                    Text("이코 E-co")
+                        .font(.system(size: 25, weight: .bold))
+                    Image(systemName: "leaf.fill")
+                    Spacer()
+                }
+                .padding()
+                
                 // 상단 Info Area
                 EcoTopInfoView()    // TODO: 건강앱에서 추적한 걸음수 데이터 가져와 전달하기
                 
