@@ -131,24 +131,26 @@ struct ItemListView: View {
         
         LazyVGrid(columns: gridItems) {
             ForEach(0..<4) { index in
-                VStack(alignment: .leading) {
-                    // TODO: 카테고리 별 상세 페이지 만들고 네비게이션 링크로 바꾸기
-                    Image(systemName: "photo.artframe")
-                    //                        Image(goods.thumbnailImageName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(minHeight: 80)
-                    
-                    HStack {
-                        Text(allGoods[index].name)
-                            .font(.system(size: 14, weight: .semibold))
-                        Spacer()
-                        Text("\(allGoods[index].price)")
-                            .font(.system(size: 12))
+                if allGoods.count > index {
+                    VStack(alignment: .leading) {
+                        // TODO: 카테고리 별 상세 페이지 만들고 네비게이션 링크로 바꾸기
+                        Image(systemName: "photo.artframe")
+                        //                        Image(goods.thumbnailImageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(minHeight: 80)
+                        
+                        HStack {
+                            Text(allGoods[index].name)
+                                .font(.system(size: 14, weight: .semibold))
+                            Spacer()
+                            Text("\(allGoods[index].price)")
+                                .font(.system(size: 12))
+                        }
+                        .padding(.bottom)
                     }
-                    .padding(.bottom)
+                    .padding(5)
                 }
-                .padding(5)
             }
         }
         .padding(.horizontal, 10)
