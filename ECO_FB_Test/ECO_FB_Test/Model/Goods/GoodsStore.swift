@@ -11,7 +11,7 @@ import FirebaseFirestore
 final class GoodsStore: ObservableObject, DataControllable {
     static let shared: GoodsStore = GoodsStore()
     private let db: Firestore = DataManager.shared.db
-    @Published private var goodsList: [Goods] = []
+    @Published private(set) var goodsList: [Goods] = []
     
     private init() {}
     
