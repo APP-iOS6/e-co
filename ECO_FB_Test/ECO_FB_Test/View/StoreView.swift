@@ -23,61 +23,64 @@ struct StoreView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    HStack {
-                        VStack {
-                            HStack {
-                                Text("이코 E-co")
-                                    .font(.system(size: 25, weight: .bold))
-                                Image(systemName: "leaf.fill")
-                                Spacer()
-                            }
-                            .padding()
-                            
-                            HStack {
-                                TextField("", text: $searchText)
-                                    .textFieldStyle(.roundedBorder)
-                                    .onChange(of: searchText) { oldValue, newValue in
-                                        goodsStore.searchAction(newValue)
-                                    }
-                                
-                                Button {
-                                    searchText = ""
-                                } label: {
-                                    Image(systemName: "xmark.circle.fill")
-                                }
-                            }
-                            .padding(.horizontal)
-                            
-                            ScrollView(.horizontal) {
+        if DataManager.shared.dataFetchFlow == .loading {
+            ProgressView()
+        } else {
+            NavigationStack {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            VStack {
                                 HStack {
-                                    ForEach(Array(goodsByCategories.keys), id: \.self) { category in
-                                        Button {
-                                            goodsStore.categorySelectAction(category)
-                                        } label: {
-                                            Text(category.rawValue)
+                                    Text("이코 E-co")
+                                        .font(.system(size: 25, weight: .bold))
+                                    Image(systemName: "leaf.fill")
+                                    Spacer()
+                                }
+                                .padding(.horizontal)
+                                
+                                HStack {
+                                    TextField("", text: $searchText)
+                                        .textFieldStyle(.roundedBorder)
+                                        .onChange(of: searchText) { oldValue, newValue in
+                                            goodsStore.searchAction(newValue)
                                         }
-                                        .buttonStyle(.bordered)
-                                        .foregroundStyle(selectedCategory == category ? .gray : .black)
+                                    
+                                    Button {
+                                        searchText = ""
+                                    } label: {
+                                        Image(systemName: "xmark.circle.fill")
                                     }
                                 }
+                                .padding(.horizontal)
+                                
+                                ScrollView(.horizontal) {
+                                    HStack {
+                                        ForEach(Array(goodsByCategories.keys), id: \.self) { category in
+                                            Button {
+                                                goodsStore.categorySelectAction(category)
+                                            } label: {
+                                                Text(category.rawValue)
+                                            }
+                                            .buttonStyle(.bordered)
+                                            .foregroundStyle(selectedCategory == category ? .gray : .black)
+                                        }
+                                    }
+                                }
+                                .padding()
+                                
+                                recommendedItemsView(goodsByCategories: goodsByCategories)
                             }
-                            .padding()
-                            
-                            recommendedItemsView(goodsByCategories: goodsByCategories)
                         }
-                    }
-                    .padding(.vertical)
-                    
-                    ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                        ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                        .padding(.vertical)
+                        
+                        ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+                            ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                        }
                     }
                 }
             }
         }
-        .ignoresSafeArea()
     }
 }
 
@@ -132,24 +135,29 @@ struct ItemListView: View {
         LazyVGrid(columns: gridItems) {
             ForEach(0..<4) { index in
                 if allGoods.count > index {
-                    VStack(alignment: .leading) {
-                        // TODO: 카테고리 별 상세 페이지 만들고 네비게이션 링크로 바꾸기
-                        Image(systemName: "photo.artframe")
-                        //                        Image(goods.thumbnailImageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(minHeight: 80)
-                        
-                        HStack {
-                            Text(allGoods[index].name)
-                                .font(.system(size: 14, weight: .semibold))
-                            Spacer()
-                            Text("\(allGoods[index].price)")
-                                .font(.system(size: 12))
+                    
+                    NavigationLink {
+                        GoodsDetailView(goods: allGoods[index])
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Image(systemName: "photo.artframe")
+                            //                        Image(goods.thumbnailImageName)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(minHeight: 80)
+                            
+                            HStack {
+                                Text(allGoods[index].name)
+                                    .font(.system(size: 14, weight: .semibold))
+                                Spacer()
+                                Text("\(allGoods[index].price)")
+                                    .font(.system(size: 12))
+                            }
+                            .padding(.bottom)
                         }
-                        .padding(.bottom)
+                        .padding(5)
                     }
-                    .padding(5)
+                    
                 }
             }
         }
@@ -168,22 +176,25 @@ struct allGoodsOfCategoryView: View {
         ScrollView {
             LazyVGrid(columns: gridItems) {
                 ForEach(allGoods) { goods in
-                    VStack(alignment: .leading) {
-                        // TODO: 카테고리 별 상세 페이지 만들고 네비게이션 링크로 바꾸기
-                        Image(systemName: "photo.artframe")
-                        //                        Image(goods.thumbnailImageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(minHeight: 70)
-                        
-                        HStack {
-                            Text(goods.name)
-                                .font(.system(size: 14, weight: .semibold))
-                            Spacer()
-                            Text("\(goods.price)")
-                                .font(.system(size: 12))
+                    NavigationLink {
+                        GoodsDetailView(goods: goods)
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Image(systemName: "photo.artframe")
+                            //                        Image(goods.thumbnailImageName)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(minHeight: 70)
+                            
+                            HStack {
+                                Text(goods.name)
+                                    .font(.system(size: 14, weight: .semibold))
+                                Spacer()
+                                Text("\(goods.price)")
+                                    .font(.system(size: 12))
+                            }
+                            .padding(.bottom)
                         }
-                        .padding(.bottom)
                     }
                 }
             }
@@ -191,7 +202,7 @@ struct allGoodsOfCategoryView: View {
         .scrollIndicators(.hidden)
         .padding()
         .navigationTitle(category.rawValue)
-//        .navigationBarBackButtonHidden()
+        //        .navigationBarBackButtonHidden()
     }
 }
 
