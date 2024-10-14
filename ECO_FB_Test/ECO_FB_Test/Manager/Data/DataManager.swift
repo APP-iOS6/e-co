@@ -17,7 +17,8 @@ final class DataManager {
         UserStore.shared,
         SellerStore.shared,
         GoodsStore.shared,
-        PaymentInfoStore.shared
+        PaymentInfoStore.shared,
+        AnnouncementStore.shared
     ]
     private(set) var dataFetchFlow: DataFetchFlow = .none
     

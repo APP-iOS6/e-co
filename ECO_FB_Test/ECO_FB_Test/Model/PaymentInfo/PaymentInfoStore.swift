@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
+@Observable
 final class PaymentInfoStore: DataControllable {
     static let shared: PaymentInfoStore = PaymentInfoStore()
     private let db: Firestore = DataManager.shared.db
@@ -17,10 +18,10 @@ final class PaymentInfoStore: DataControllable {
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         do {
-            if case .paymentInfoAll(_) = parameter {
-                return try await getPaymentInfoAll(parameter: parameter)
-            } else if case .paymentInfoLoad(_, _) = parameter {
-                return try await getPaymentInfoByID(parameter: parameter)
+            if case .paymentInfoAll(let userID) = parameter {
+                return try await getPaymentInfoAll(userID: userID)
+            } else if case .paymentInfoLoad(let id) = parameter {
+                return try await getPaymentInfoByID(id)
             } else {
                 throw DataError.fetchError(reason: "The DataParam is not a payment info load or payment info all")
             }
@@ -37,38 +38,24 @@ final class PaymentInfoStore: DataControllable {
         
     }
     
-    private func getPaymentInfoByID(parameter: DataParam) async throws -> DataResult {
-        guard case let .paymentInfoLoad(id, userID) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a payment info load")
-        }
-        
+    private func getPaymentInfoByID(_ id: String) async throws -> DataResult {
         do {
-            let snapshots = try await db.collection("PaymentInfo")
-                .whereField("user_id", isEqualTo: userID)
-                .whereField(FieldPath.documentID(), isEqualTo: id)
-                .getDocuments()
+            let snapshot = try await db.collection("PaymentInfo").document(id).getDocument()
             
-            guard let snapshot = snapshots.documents.first else { throw DataError.fetchError(reason: "Invalid ID") }
-            
-            let docData = snapshot.data()
+            guard let docData = snapshot.data() else {
+                throw DataError.fetchError(reason: "The Document Data is nil")
+            }
             
             let id = snapshot.documentID
-            let userID = docData["user_id"] as? String ?? "none"
-            let address = docData["address"] as? String ?? "none"
-            let payment = docData["payment_method"] as? [String] ?? []
             
-            let paymentInfo = PaymentInfo(id: id, userID: userID, address: address, paymentMethod: payment)
+            let paymentInfo = getData(id: id, docData: docData)
             return DataResult.paymentInfo(result: paymentInfo)
         } catch {
             throw error
         }
     }
     
-    private func getPaymentInfoAll(parameter: DataParam) async throws -> DataResult {
-        guard case let .paymentInfoAll(userID) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a payment info all")
-        }
-
+    private func getPaymentInfoAll(userID: String) async throws -> DataResult {
         paymentList.removeAll()
         
         do {
@@ -80,11 +67,8 @@ final class PaymentInfoStore: DataControllable {
                 let docData = document.data()
                 
                 let id = document.documentID
-                let userID = docData["user_id"] as? String ?? "none"
-                let address = docData["address"] as? String ?? "none"
-                let payment = docData["payment_method"] as? [String] ?? []
                 
-                let paymentInfo = PaymentInfo(id: id, userID: userID, address: address, paymentMethod: payment)
+                let paymentInfo = getData(id: id, docData: docData)
                 paymentList.append(paymentInfo)
             }
             
@@ -92,5 +76,14 @@ final class PaymentInfoStore: DataControllable {
         } catch {
             throw error
         }
+    }
+    
+    private func getData(id: String, docData: [String: Any]) -> PaymentInfo {
+        let userID = docData["user_id"] as? String ?? "none"
+        let address = docData["address"] as? String ?? "none"
+        let payment = docData["payment_method"] as? [String] ?? []
+        
+        let paymentInfo = PaymentInfo(id: id, userID: userID, address: address, paymentMethod: payment)
+        return paymentInfo
     }
 }

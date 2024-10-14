@@ -40,14 +40,14 @@ final class GoogleLoginManager: LoginControllable {
             guard let profile = googleUser.profile else { throw LoginError.userError(reason: "Google user doesn't have profile") }
             
             let id = profile.email
-            let userExist = await DataManager.shared.checkIfUserExists(parameter: .userLoad(id: id))
+            let userExist = await DataManager.shared.checkIfUserExists(parameter: .userSearch(id: id))
             
             if !userExist {
                 let user: User = User(id: id, loginMethod: LoginMethod.google.rawValue, isAdmin: false, name: "Google User", profileImageName: "Test.png", pointCount: 0, cart: [])
                 // TODO: 최초 로그인 시 이름 받기, 프로필 설정하기(기본 프로필도 하나 정하기)
                 await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: id, user: user))
             } else {
-                let loginMethod = await DataManager.shared.getUserLoginMethod(parameter: .userLoad(id: id))
+                let loginMethod = await DataManager.shared.getUserLoginMethod(parameter: .userSearch(id: id))
                 
                 if loginMethod != LoginMethod.google.rawValue {
                     throw LoginError.emailError(reason: "계정이 \(loginMethod) 로그인으로 연결되어 있습니다.")
@@ -55,7 +55,7 @@ final class GoogleLoginManager: LoginControllable {
             }
             
             _ = try await Auth.auth().signIn(with: credential)
-            _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id))
+            _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false))
         } catch {
             throw error
         }

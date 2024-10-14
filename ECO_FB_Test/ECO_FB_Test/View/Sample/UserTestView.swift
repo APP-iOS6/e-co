@@ -92,7 +92,7 @@ struct UserTestView: View {
                     .font(.title2)
                     .refreshable {
                         Task {
-                            await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: user.id))
+                            await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: user.id, shouldReturnUser: false))
                         }
                     }
                 }

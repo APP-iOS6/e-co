@@ -19,19 +19,17 @@ final class GoodsStore: DataControllable {
     
     private init() {
         Task {
-            do {
-                _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll)
-                
-                for goods in goodsList {
-                    if goodsByCategories[goods.category] != nil {
-                        goodsByCategories[goods.category]?.append(goods)
-                    } else {
-                        goodsByCategories[goods.category] = [goods]
-                    }
+            _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll)
+            
+            for goods in goodsList {
+                if goodsByCategories[goods.category] != nil {
+                    goodsByCategories[goods.category]?.append(goods)
+                } else {
+                    goodsByCategories[goods.category] = [goods]
                 }
-                
-                filteredGoodsByCategories = goodsByCategories
             }
+            
+            filteredGoodsByCategories = goodsByCategories
         }
     }
     
@@ -90,8 +88,8 @@ final class GoodsStore: DataControllable {
         do {
             if case .goodsAll = parameter {
                 return try await getGoodsAll()
-            } else if case .goodsLoad(_) = parameter {
-                return try await getGoodsByID(parameter)
+            } else if case .goodsLoad(let id) = parameter {
+                return try await getGoodsByID(id)
             } else {
                 throw DataError.fetchError(reason: "The DataParam is not a goods load or goods all")
             }
@@ -123,12 +121,8 @@ final class GoodsStore: DataControllable {
     func deleteData() {
         
     }
-
-    private func getGoodsByID(_ parameter: DataParam) async throws -> DataResult {
-        guard case let .goodsLoad(id) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a goods load")
-        }
-        
+    
+    private func getGoodsByID(_ id: String) async throws -> DataResult {
         do {
             let snapshot = try await db.collection("Goods").document(id).getDocument()
             
@@ -137,22 +131,8 @@ final class GoodsStore: DataControllable {
             }
             
             let id = snapshot.documentID
-            let name = docData["name"] as? String ?? "none"
-            let category = try stringToCategoryEnum(docData["category"] as? String ?? "none")
-            let thumbnailImageName = docData["thumbnail"] as? String ?? "none"
-            let bodyContent = docData["body_content"] as? String ?? "none"
-            let bodyImageNames = docData["body_images"] as? [String] ?? []
-            let price = docData["price"] as? Int ?? 0
-            
-            let sellerID = docData["seller_id"] as? String ?? "none"
-            let seller = await DataManager.shared.fetchData(type: .seller, parameter: .sellerLoad(id: sellerID))
-            
-            guard case let .seller(result) = seller else {
-                throw DataError.convertError(reason: "DataResult is not a seller")
-            }
-            
-            let goods: Goods = Goods(id: id, name: name, category: category, thumbnailImageName: thumbnailImageName, bodyContent: bodyContent, bodyImageNames: bodyImageNames, price: price, seller: result)
-            
+           
+            let goods = try await getData(id: id, docData: docData)
             return DataResult.goods(result: goods)
         } catch {
             throw error
@@ -169,21 +149,7 @@ final class GoodsStore: DataControllable {
                 let docData = document.data()
                 let id = document.documentID
                 
-                let name = docData["name"] as? String ?? "none"
-                let category = try stringToCategoryEnum(docData["category"] as? String ?? "none")
-                let thumbnailImageName = docData["thumbnail"] as? String ?? "none"
-                let bodyContent = docData["body_content"] as? String ?? "none"
-                let bodyImageNames = docData["body_images"] as? [String] ?? []
-                let price = docData["price"] as? Int ?? 0
-                
-                let sellerID = docData["seller_id"] as? String ?? "none"
-                let seller = await DataManager.shared.fetchData(type: .seller, parameter: .sellerLoad(id: sellerID))
-                
-                guard case let .seller(result) = seller else {
-                    throw DataError.convertError(reason: "DataResult is not a seller")
-                }
-                
-                let goods = Goods(id: id, name: name, category: category, thumbnailImageName: thumbnailImageName, bodyContent: bodyContent, bodyImageNames: bodyImageNames, price: price, seller: result)
+                let goods = try await getData(id: id, docData: docData)
                 goodsList.append(goods)
             }
             
@@ -191,6 +157,25 @@ final class GoodsStore: DataControllable {
         } catch {
             throw error
         }
+    }
+    
+    private func getData(id: String, docData: [String: Any]) async throws -> Goods {
+        let name = docData["name"] as? String ?? "none"
+        let category = try stringToCategoryEnum(docData["category"] as? String ?? "none")
+        let thumbnailImageName = docData["thumbnail"] as? String ?? "none"
+        let bodyContent = docData["body_content"] as? String ?? "none"
+        let bodyImageNames = docData["body_images"] as? [String] ?? []
+        let price = docData["price"] as? Int ?? 0
+        
+        let sellerID = docData["seller_id"] as? String ?? "none"
+        let seller = await DataManager.shared.fetchData(type: .seller, parameter: .sellerLoad(id: sellerID))
+        
+        guard case let .seller(result) = seller else {
+            throw DataError.convertError(reason: "DataResult is not a seller")
+        }
+        
+        let goods = Goods(id: id, name: name, category: category, thumbnailImageName: thumbnailImageName, bodyContent: bodyContent, bodyImageNames: bodyImageNames, price: price, seller: result)
+        return goods
     }
     
     private func stringToCategoryEnum(_ string: String) throws -> GoodsCategory {
@@ -208,6 +193,6 @@ final class GoodsStore: DataControllable {
         default:
             throw DataError.convertError(reason: "Can't find matched string")
         }
-
+        
     }
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(AnnouncementStore.self) var announcementStore: AnnouncementStore
     var body: some View {
         TabView {
             EcoView()
@@ -28,4 +29,5 @@ struct ContentView: View {
         .environment(GoodsStore.shared)
         .environment(DataManager.shared)
         .environment(AuthManager.shared)
+        .environment(AnnouncementStore.shared)
 }

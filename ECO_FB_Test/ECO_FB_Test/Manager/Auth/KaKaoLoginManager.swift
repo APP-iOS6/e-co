@@ -35,14 +35,14 @@ final class KaKaoLoginManager: LoginControllable {
                 let credential = OAuthProvider.credential(providerID: .custom("oidc.kakao"), idToken: idToken, accessToken: accessToken)
                 
                 let id = try await getUserEmail()
-                let userExist = await DataManager.shared.checkIfUserExists(parameter: .userLoad(id: id))
+                let userExist = await DataManager.shared.checkIfUserExists(parameter: .userSearch(id: id))
                 
                 if !userExist {
                     let user: User = User(id: id, loginMethod: LoginMethod.kakao.rawValue, isAdmin: false, name: "KaKao User", profileImageName: "Test.png", pointCount: 0, cart: [])
                     
                     await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: id, user: user))
                 } else {
-                    let loginMethod = await DataManager.shared.getUserLoginMethod(parameter: .userLoad(id: id))
+                    let loginMethod = await DataManager.shared.getUserLoginMethod(parameter: .userSearch(id: id))
                     
                     if loginMethod != LoginMethod.kakao.rawValue {
                         throw LoginError.emailError(reason: "계정이 \(loginMethod) 로그인으로 연결되어 있습니다.")
@@ -50,7 +50,7 @@ final class KaKaoLoginManager: LoginControllable {
                 }
                 
                 _ = try await Auth.auth().signIn(with: credential)
-                _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id))
+                _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false))
             } catch {
                 throw error
             }

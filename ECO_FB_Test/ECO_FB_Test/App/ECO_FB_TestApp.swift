@@ -45,6 +45,7 @@ struct ECO_FB_TestApp: App {
                 .environment(UserStore.shared)
                 .environment(GoodsStore.shared)
                 .environment(AuthManager.shared)
+                .environment(AnnouncementStore.shared)
         }
     }
 }

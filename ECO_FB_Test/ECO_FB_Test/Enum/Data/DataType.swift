@@ -12,4 +12,5 @@ enum DataType: Int {
     case seller
     case goods
     case paymentInfo
+    case announcement
 }
