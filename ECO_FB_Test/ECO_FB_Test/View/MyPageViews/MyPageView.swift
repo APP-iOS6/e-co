@@ -104,18 +104,18 @@ struct MyPageView: View {
 }
 
 // Placeholder Views for Navigation Links
-struct CartView: View { var body: some View { Text("장바구니") } }
+//struct CartView: View { var body: some View { Text("장바구니") } }
 struct OrderStatusView: View { var body: some View { Text("주문 현황") } }
 struct RecentlyViewedView: View { var body: some View { Text("최근 본 상품") } }
 struct LikedProductsView: View { var body: some View { Text("찜한 상품") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
 
-struct LoginView: View {
-    var body: some View {
-        Text("로그인 화면")
-            .font(.largeTitle)
-    }
-}
+//struct LoginView: View {
+//    var body: some View {
+//        Text("로그인 화면")
+//            .font(.largeTitle)
+//    }
+//}
 
 #Preview {
     MyPageView()
