@@ -17,7 +17,7 @@ final class AuthManager: ObservableObject {
     ]
     
     @Published private(set) var emailExistErrorMessage: String? = nil
-    @Published var loggedInUserName: String? = "admin"  // 로그인한 사용자 이름 저장
+    @Published var loggedInUserName: String? = nil  // 로그인한 사용자 이름 저장
 
     private init() {}
     
