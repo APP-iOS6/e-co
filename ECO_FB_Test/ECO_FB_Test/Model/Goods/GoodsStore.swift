@@ -12,7 +12,7 @@ final class GoodsStore: ObservableObject, DataControllable {
     static let shared: GoodsStore = GoodsStore()
     private let db: Firestore = DataManager.shared.db
     @Published private(set) var goodsList: [Goods] = []
-    
+
     @Published private(set) var selectedCategory: GoodsCategory = GoodsCategory.none
     
     @Published private(set) var goodsByCategories: [GoodsCategory: [Goods]] = [:]
@@ -70,6 +70,10 @@ final class GoodsStore: ObservableObject, DataControllable {
         }
     }
     
+    func deleteData() {
+        
+    }
+
     private func getGoodsByID(_ parameter: DataParam) async throws -> DataResult {
         guard case let .goodsLoad(id) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a goods load")
@@ -154,10 +158,7 @@ final class GoodsStore: ObservableObject, DataControllable {
         default:
             throw DataError.convertError(reason: "Can't find matched string")
         }
-    }
-    
-    func deleteData() {
-        
+
     }
     
     // 카테고리 선택시 해당하는 상품만 필터링 해준다

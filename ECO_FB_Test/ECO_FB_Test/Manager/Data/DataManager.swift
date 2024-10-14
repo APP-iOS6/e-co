@@ -25,15 +25,15 @@ final class DataManager: ObservableObject {
     private init() {}
     
     /**
-    유저 존재 여부 확인 메소드
+     유저 존재 여부 확인 메소드
      
-    - parameter parameter: 에러가 날 수 있으니 꼭 .userLoad(id)를 넣어야 합니다.
-    - Returns: 유저가 존재한다면 true, 존재하지 않는다면 false
-    */
+     - parameter parameter: 에러가 날 수 있으니 꼭 .userLoad(id)를 넣어야 합니다.
+     - Returns: 유저가 존재한다면 true, 존재하지 않는다면 false
+     */
     func checkIfUserExists(parameter: DataParam) async -> Bool {
         do {
             let result = try await UserStore.shared.checkIfUserExists(parameter: parameter)
-
+            
             return result
         } catch {
             print("Error: \(error)")
@@ -43,11 +43,11 @@ final class DataManager: ObservableObject {
     }
     
     /**
-    유저의 로그인 방법 조회 메소드
+     유저의 로그인 방법 조회 메소드
      
-    - parameter parameter: 에러가 날 수 있으니 꼭 .userLoad(id)를 넣어야 합니다.
-    - Returns: 문자열 형식의 유저의 로그인 방법, 알 수 없다면 none
-    */
+     - parameter parameter: 에러가 날 수 있으니 꼭 .userLoad(id)를 넣어야 합니다.
+     - Returns: 문자열 형식의 유저의 로그인 방법, 알 수 없다면 none
+     */
     func getUserLoginMethod(parameter: DataParam) async -> String {
         do {
             let result = try await UserStore.shared.getUserLoginMethod(parameter: parameter)
@@ -61,20 +61,20 @@ final class DataManager: ObservableObject {
     }
     
     /**
-    로그아웃 후 유저 정보를 초기화 하는 메소드
-    */
+     로그아웃 후 유저 정보를 초기화 하는 메소드
+     */
     func setLogout() {
         UserStore.shared.setLogout()
     }
     
     /**
-    데이터를 가져오는 메소드
+     데이터를 가져오는 메소드
      
-    - parameters:
-        - type: 가져올 대상, 예) 유저라면 .user
-        - parameter: 가져올 대상의 정보, 뒤에 Load가 붙은 값들을 써야합니다. 예) 유저라면 .userLoad(id)
-    - Returns: 가져온 데이터, 만약 가져온 데이터를 Store 자체에서 저장한다면 반환값은 none이고, 데이터를 가져올 수 없다면 error가 반환됩니다.
-    */
+     - parameters:
+     - type: 가져올 대상, 예) 유저라면 .user
+     - parameter: 가져올 대상의 정보, 뒤에 Load가 붙은 값들을 써야합니다. 예) 유저라면 .userLoad(id)
+     - Returns: 가져온 데이터, 만약 가져온 데이터를 Store 자체에서 저장한다면 반환값은 none이고, 데이터를 가져올 수 없다면 error가 반환됩니다.
+     */
     func fetchData(type: DataType, parameter: DataParam) async -> DataResult {
         do {
             dataFetchFlow = .loading
@@ -90,12 +90,12 @@ final class DataManager: ObservableObject {
     }
     
     /**
-    데이터를 업데이트 하거나 새로 추가하는 메소드
+     데이터를 업데이트 하거나 새로 추가하는 메소드
      
-    - parameters:
-        - type: 업데이트 할 대상, 예) 유저라면 .user
-        - parameter: 업데이트 할 대상의 정보, 뒤에 Update가 붙은 값들을 써야합니다. 예) 유저라면 .userUpdate(id, user)
-    */
+     - parameters:
+     - type: 업데이트 할 대상, 예) 유저라면 .user
+     - parameter: 업데이트 할 대상의 정보, 뒤에 Update가 붙은 값들을 써야합니다. 예) 유저라면 .userUpdate(id, user)
+     */
     func updateData(type: DataType, parameter: DataParam) async {
         do {
             try await dataStores[type.rawValue].updateData(parameter: parameter)
@@ -106,5 +106,23 @@ final class DataManager: ObservableObject {
     
     func deleteData() {
         
+    }
+    
+    // 관리자 여부 확인 메소드 추가
+    func checkIfUserIsAdmin(userID: String) async throws -> Bool {
+        let snapshot = try await _db.collection("User").document(userID).getDocument()
+        guard let docData = snapshot.data() else {
+            throw DataError.fetchError(reason: "User document is nil")
+        }
+        return docData["isAdmin"] as? Bool ?? false
+    }
+    
+    // 포인트 정보 가져오는 메소드
+    func getUserPoints(userID: String) async throws -> Int {
+        let snapshot = try await _db.collection("User").document(userID).getDocument()
+        guard let docData = snapshot.data() else {
+            throw DataError.fetchError(reason: "User document is nil")
+        }
+        return docData["point"] as? Int ?? 0
     }
 }
