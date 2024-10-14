@@ -22,6 +22,11 @@
 		FE40BC0A2CB9452B00786E34 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC092CB9452B00786E34 /* User.swift */; };
 		FE40BC0D2CB947D300786E34 /* DataParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC0C2CB947D300786E34 /* DataParam.swift */; };
 		FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC0E2CB94B0F00786E34 /* DataError.swift */; };
+
+		FE42060C2CBCE2B20004941B /* CartGoodsInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42060B2CBCE2B20004941B /* CartGoodsInfoView.swift */; };
+		FE42060F2CBCE75B0004941B /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42060E2CBCE75B0004941B /* CheckBox.swift */; };
+		FE568D6C2CBA7EA200857DFE /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */; };
+
 		FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7ADD2CB99C78000F5DB6 /* Goods.swift */; };
 		FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE02CB99D5B000F5DB6 /* Seller.swift */; };
 		FE6A7AE32CB9A121000F5DB6 /* GoodsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */; };
@@ -45,6 +50,7 @@
 		FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA72CB975F400E3D86A /* KakaoSDKCommon */; };
 		FEBEFBAA2CB975F400E3D86A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA92CB975F400E3D86A /* KakaoSDKUser */; };
 		FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */; };
+		FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA91192CBCABD300D75552 /* CartView.swift */; };
 		FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +89,11 @@
 		FE40BC092CB9452B00786E34 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FE40BC0C2CB947D300786E34 /* DataParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParam.swift; sourceTree = "<group>"; };
 		FE40BC0E2CB94B0F00786E34 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
+
+		FE42060B2CBCE2B20004941B /* CartGoodsInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartGoodsInfoView.swift; sourceTree = "<group>"; };
+		FE42060E2CBCE75B0004941B /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
+
 		FE6A7ADD2CB99C78000F5DB6 /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 		FE6A7AE02CB99D5B000F5DB6 /* Seller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seller.swift; sourceTree = "<group>"; };
 		FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStore.swift; sourceTree = "<group>"; };
@@ -100,6 +111,7 @@
 		FEACD53B2CB95C2F00EF206D /* AdminStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStore.swift; sourceTree = "<group>"; };
 		FEACD53D2CB95CD200EF206D /* AdminTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTestView.swift; sourceTree = "<group>"; };
 		FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsCategory.swift; sourceTree = "<group>"; };
+		FEDA91192CBCABD300D75552 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchFlow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,7 +185,12 @@
 		FE40BBF32CB9405F00786E34 /* View */ = {
 			isa = PBXGroup;
 			children = (
+
 				6EAA49992CBCA9B60014A5C6 /* StoreView.swift */,
+
+				FE42060D2CBCE7480004941B /* Custom */,
+				FE42060A2CBCE2830004941B /* Cart */,
+
 				FEDA91112CBCA36800D75552 /* Sample */,
 			);
 			path = View;
@@ -250,6 +267,23 @@
 				FE40BC092CB9452B00786E34 /* User.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		FE42060A2CBCE2830004941B /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				FEDA91192CBCABD300D75552 /* CartView.swift */,
+				FE42060B2CBCE2B20004941B /* CartGoodsInfoView.swift */,
+			);
+			path = Cart;
+			sourceTree = "<group>";
+		};
+		FE42060D2CBCE7480004941B /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				FE42060E2CBCE75B0004941B /* CheckBox.swift */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 		FE6A7ADC2CB99C6D000F5DB6 /* Goods */ = {
@@ -507,6 +541,7 @@
 				FE40BBF82CB9405F00786E34 /* UserTestView.swift in Sources */,
 				FE6A7AE52CB9A2D8000F5DB6 /* SellerStore.swift in Sources */,
 				FE40BC052CB9436F00786E34 /* DataType.swift in Sources */,
+				FE42060F2CBCE75B0004941B /* CheckBox.swift in Sources */,
 				FEACD53A2CB95C0000EF206D /* Admin.swift in Sources */,
 				FE40BC022CB9432C00786E34 /* DataManager.swift in Sources */,
 				FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */,
@@ -514,7 +549,9 @@
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
+				FE42060C2CBCE2B20004941B /* CartGoodsInfoView.swift in Sources */,
 				FE40BC0A2CB9452B00786E34 /* User.swift in Sources */,
+				FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */,
 				FEACD53E2CB95CD200EF206D /* AdminTestView.swift in Sources */,
 				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
 				FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */,
