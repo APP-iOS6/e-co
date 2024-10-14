@@ -11,11 +11,6 @@ struct PrivacyPolicyView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-                Text("개인정보 처리방침")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding(.bottom, 20)
-                
                 Text("1. 개인정보의 수집 및 이용 목적")
                     .font(.headline)
                 Text("""

@@ -23,7 +23,7 @@ struct InquiriesView: View {
                 
                 // 내용 입력 필드
                 TextEditor(text: $inquiryContent)
-                    .frame(height: 200)
+                    .frame(height: 300)
                     .border(Color.gray, width: 1)
                     .padding(.horizontal)
                 
