@@ -29,7 +29,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct ECO_FB_TestApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject private var userStore: UserStore = UserStore.shared
     
     init () {
         KakaoSDK.initSDK(appKey: Bundle.main.infoDictionary?["AppKey"] as! String)
@@ -43,8 +42,9 @@ struct ECO_FB_TestApp: App {
                         _ = AuthController.handleOpenUrl(url: url)
                     }
                 }
-                .environmentObject(UserStore.shared)
-                .environmentObject(GoodsStore.shared)
+                .environment(UserStore.shared)
+                .environment(GoodsStore.shared)
+                .environment(AuthManager.shared)
         }
     }
 }

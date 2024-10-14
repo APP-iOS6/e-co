@@ -24,6 +24,7 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(UserStore.shared)
-        .environmentObject(GoodsStore.shared)
+        .environment(UserStore.shared)
+        .environment(GoodsStore.shared)
+        .environment(DataManager.shared)
 }

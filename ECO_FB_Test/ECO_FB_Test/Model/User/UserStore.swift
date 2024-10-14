@@ -9,10 +9,11 @@ import Foundation
 import Combine
 import FirebaseFirestore
 
-final class UserStore: ObservableObject, DataControllable {
+@Observable
+final class UserStore: DataControllable {
     static let shared: UserStore = UserStore()
     private let db: Firestore = DataManager.shared.db
-    @Published private(set) var userData: User? = nil
+    private(set) var userData: User? = nil
     
     private init() {}
     

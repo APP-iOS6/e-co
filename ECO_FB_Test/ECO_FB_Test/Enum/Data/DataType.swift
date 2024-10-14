@@ -9,7 +9,6 @@ import Foundation
 
 enum DataType: Int {
     case user
-    case admin
     case seller
     case goods
 }

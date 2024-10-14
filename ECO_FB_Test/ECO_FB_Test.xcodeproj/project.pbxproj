@@ -50,9 +50,6 @@
 		FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AFE2CB9B01F000F5DB6 /* LoginError.swift */; };
 		FE6A7B012CB9B043000F5DB6 /* CommonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7B002CB9B043000F5DB6 /* CommonError.swift */; };
 		FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */; };
-		FEACD53A2CB95C0000EF206D /* Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACD5392CB95C0000EF206D /* Admin.swift */; };
-		FEACD53C2CB95C2F00EF206D /* AdminStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACD53B2CB95C2F00EF206D /* AdminStore.swift */; };
-		FEACD53E2CB95CD200EF206D /* AdminTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACD53D2CB95CD200EF206D /* AdminTestView.swift */; };
 		FEBEFBA62CB975F400E3D86A /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA52CB975F400E3D86A /* KakaoSDKAuth */; };
 		FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA72CB975F400E3D86A /* KakaoSDKCommon */; };
 		FEBEFBAA2CB975F400E3D86A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA92CB975F400E3D86A /* KakaoSDKUser */; };
@@ -121,9 +118,6 @@
 		FE6A7AFE2CB9B01F000F5DB6 /* LoginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginError.swift; sourceTree = "<group>"; };
 		FE6A7B002CB9B043000F5DB6 /* CommonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonError.swift; sourceTree = "<group>"; };
 		FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginMethod.swift; sourceTree = "<group>"; };
-		FEACD5392CB95C0000EF206D /* Admin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Admin.swift; sourceTree = "<group>"; };
-		FEACD53B2CB95C2F00EF206D /* AdminStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStore.swift; sourceTree = "<group>"; };
-		FEACD53D2CB95CD200EF206D /* AdminTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTestView.swift; sourceTree = "<group>"; };
 		FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsCategory.swift; sourceTree = "<group>"; };
 		FEDA91192CBCABD300D75552 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchFlow.swift; sourceTree = "<group>"; };
@@ -303,7 +297,6 @@
 				50131AEF2CBCBB9B0020D1DE /* Notice */,
 				FE6A7ADF2CB99D52000F5DB6 /* Seller */,
 				FE6A7ADC2CB99C6D000F5DB6 /* Goods */,
-				FEACD5382CB95BF300EF206D /* Admin */,
 				FE40BC0B2CB9452F00786E34 /* User */,
 			);
 			path = Model;
@@ -401,20 +394,10 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
-		FEACD5382CB95BF300EF206D /* Admin */ = {
-			isa = PBXGroup;
-			children = (
-				FEACD53B2CB95C2F00EF206D /* AdminStore.swift */,
-				FEACD5392CB95C0000EF206D /* Admin.swift */,
-			);
-			path = Admin;
-			sourceTree = "<group>";
-		};
 		FEDA91112CBCA36800D75552 /* Sample */ = {
 			isa = PBXGroup;
 			children = (
 				FE40BBF22CB9405F00786E34 /* UserTestView.swift */,
-				FEACD53D2CB95CD200EF206D /* AdminTestView.swift */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -590,7 +573,6 @@
 				FE6A7AE32CB9A121000F5DB6 /* GoodsStore.swift in Sources */,
 				FE1847A42CB9686F00BE530C /* KaKaoLoginManager.swift in Sources */,
 				4223D7352CBCB49900F94D1B /* EcoStepsView.swift in Sources */,
-				FEACD53C2CB95C2F00EF206D /* AdminStore.swift in Sources */,
 				FE6A7B012CB9B043000F5DB6 /* CommonError.swift in Sources */,
 				4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */,
 				FE6A7AF92CB9AEBF000F5DB6 /* GoogleLoginManager.swift in Sources */,
@@ -602,7 +584,6 @@
 				F6386E362CBCF63800F67671 /* CreateAccountView.swift in Sources */,
 				FE40BC052CB9436F00786E34 /* DataType.swift in Sources */,
 				FE42060F2CBCE75B0004941B /* CheckBox.swift in Sources */,
-				FEACD53A2CB95C0000EF206D /* Admin.swift in Sources */,
 				FE40BC022CB9432C00786E34 /* DataManager.swift in Sources */,
 				FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */,
 				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
@@ -613,7 +594,6 @@
 				FE42060C2CBCE2B20004941B /* CartGoodsInfoView.swift in Sources */,
 				FE40BC0A2CB9452B00786E34 /* User.swift in Sources */,
 				FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */,
-				FEACD53E2CB95CD200EF206D /* AdminTestView.swift in Sources */,
 				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
 				FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */,
 				FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */,

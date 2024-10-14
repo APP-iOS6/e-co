@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct StoreView: View {
-    @EnvironmentObject private var goodsStore: GoodsStore
+    @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @State var searchText: String = ""
     
     var goodsByCategories: [GoodsCategory : [Goods]] {
@@ -208,5 +208,5 @@ struct allGoodsOfCategoryView: View {
 }
 
 #Preview {
-    StoreView().environmentObject(GoodsStore.shared)
+    StoreView().environment(GoodsStore.shared)
 }

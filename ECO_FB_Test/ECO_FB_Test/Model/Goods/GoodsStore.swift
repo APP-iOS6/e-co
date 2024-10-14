@@ -8,13 +8,14 @@
 import Foundation
 import FirebaseFirestore
 
-final class GoodsStore: ObservableObject, DataControllable {
+@Observable
+final class GoodsStore: DataControllable {
     static let shared: GoodsStore = GoodsStore()
     private let db: Firestore = DataManager.shared.db
-    @Published private(set) var goodsList: [Goods] = []
-    @Published private(set) var selectedCategory: GoodsCategory = GoodsCategory.none
-    @Published private(set) var goodsByCategories: [GoodsCategory: [Goods]] = [:]
-    @Published private(set) var filteredGoodsByCategories: [GoodsCategory: [Goods]] = [:]
+    private(set) var goodsList: [Goods] = []
+    private(set) var selectedCategory: GoodsCategory = GoodsCategory.none
+    private(set) var goodsByCategories: [GoodsCategory: [Goods]] = [:]
+    private(set) var filteredGoodsByCategories: [GoodsCategory: [Goods]] = [:]
     
     private init() {
         Task {

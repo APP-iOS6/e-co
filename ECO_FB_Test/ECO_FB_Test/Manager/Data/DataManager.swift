@@ -9,16 +9,16 @@ import Foundation
 import FirebaseFirestore
 
 @MainActor
-final class DataManager: ObservableObject {
+@Observable
+final class DataManager {
     static let shared: DataManager = DataManager()
     private let _db: Firestore = Firestore.firestore()
-    private lazy var dataStores: [DataControllable] = [
+    @ObservationIgnored private lazy var dataStores: [DataControllable] = [
         UserStore.shared,
-        AdminStore.shared,
         SellerStore.shared,
         GoodsStore.shared
     ]
-    @Published private(set) var dataFetchFlow: DataFetchFlow = .none
+    private(set) var dataFetchFlow: DataFetchFlow = .none
     
     var db: Firestore { _db }
     
