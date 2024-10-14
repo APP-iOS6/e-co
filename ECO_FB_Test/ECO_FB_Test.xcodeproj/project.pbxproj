@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F6386DFF2CBCAB2B00F67671 /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F6386DFD2CBCAB2B00F67671 /* Kakao.xcconfig */; };
 		F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */; };
 		F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E2F2CBCE5CA00F67671 /* LoginView.swift */; };
 		F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E312CBCE89400F67671 /* UnderLineView.swift */; };
@@ -31,7 +30,6 @@
 		FE6A7AE32CB9A121000F5DB6 /* GoodsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */; };
 		FE6A7AE52CB9A2D8000F5DB6 /* SellerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE42CB9A2D8000F5DB6 /* SellerStore.swift */; };
 		FE6A7AE72CB9A434000F5DB6 /* DataResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE62CB9A434000F5DB6 /* DataResult.swift */; };
-		FE6A7AE92CB9AAF1000F5DB6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */; };
 		FE6A7AEC2CB9AB73000F5DB6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FE6A7AEB2CB9AB73000F5DB6 /* FirebaseAuth */; };
 		FE6A7AEF2CB9ABA2000F5DB6 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = FE6A7AEE2CB9ABA2000F5DB6 /* GoogleSignIn */; };
 		FE6A7AF12CB9ABA2000F5DB6 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FE6A7AF02CB9ABA2000F5DB6 /* GoogleSignInSwift */; };
@@ -70,7 +68,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F6386DFD2CBCAB2B00F67671 /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
 		F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailView.swift; sourceTree = "<group>"; };
 		F6386E2F2CBCE5CA00F67671 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F6386E312CBCE89400F67671 /* UnderLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineView.swift; sourceTree = "<group>"; };
@@ -96,7 +93,6 @@
 		FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStore.swift; sourceTree = "<group>"; };
 		FE6A7AE42CB9A2D8000F5DB6 /* SellerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerStore.swift; sourceTree = "<group>"; };
 		FE6A7AE62CB9A434000F5DB6 /* DataResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResult.swift; sourceTree = "<group>"; };
-		FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE6A7AF22CB9ADCF000F5DB6 /* LoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
 		FE6A7AF62CB9AE44000F5DB6 /* LoginControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginControllable.swift; sourceTree = "<group>"; };
 		FE6A7AF82CB9AEBF000F5DB6 /* GoogleLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginManager.swift; sourceTree = "<group>"; };
@@ -202,8 +198,6 @@
 				FE40BC062CB943F800786E34 /* Model */,
 				FE40BBF32CB9405F00786E34 /* View */,
 				FE40BBF42CB9405F00786E34 /* Assets.xcassets */,
-				FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */,
-				F6386DFD2CBCAB2B00F67671 /* Kakao.xcconfig */,
 			);
 			path = ECO_FB_Test;
 			sourceTree = "<group>";
@@ -478,8 +472,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE6A7AE92CB9AAF1000F5DB6 /* GoogleService-Info.plist in Resources */,
-				F6386DFF2CBCAB2B00F67671 /* Kakao.xcconfig in Resources */,
 				FE40BBFA2CB9405F00786E34 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
