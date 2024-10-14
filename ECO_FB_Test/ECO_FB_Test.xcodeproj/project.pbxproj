@@ -1,0 +1,928 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FE1847A42CB9686F00BE530C /* KaKaoLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */; };
+		FE40BBED2CB93F4A00786E34 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FE40BBEC2CB93F4A00786E34 /* FirebaseCore */; };
+		FE40BBEF2CB93F4A00786E34 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FE40BBEE2CB93F4A00786E34 /* FirebaseFirestore */; };
+		FE40BBF82CB9405F00786E34 /* UserTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BBF22CB9405F00786E34 /* UserTestView.swift */; };
+		FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BBF52CB9405F00786E34 /* ECO_FB_TestApp.swift */; };
+		FE40BBFA2CB9405F00786E34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE40BBF42CB9405F00786E34 /* Assets.xcassets */; };
+		FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BBFF2CB9428700786E34 /* DataControllable.swift */; };
+		FE40BC022CB9432C00786E34 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC012CB9432C00786E34 /* DataManager.swift */; };
+		FE40BC052CB9436F00786E34 /* DataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC042CB9436F00786E34 /* DataType.swift */; };
+		FE40BC082CB9440800786E34 /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC072CB9440800786E34 /* UserStore.swift */; };
+		FE40BC0A2CB9452B00786E34 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC092CB9452B00786E34 /* User.swift */; };
+		FE40BC0D2CB947D300786E34 /* DataParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC0C2CB947D300786E34 /* DataParam.swift */; };
+		FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC0E2CB94B0F00786E34 /* DataError.swift */; };
+		FE568D6C2CBA7EA200857DFE /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */; };
+		FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7ADD2CB99C78000F5DB6 /* Goods.swift */; };
+		FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE02CB99D5B000F5DB6 /* Seller.swift */; };
+		FE6A7AE32CB9A121000F5DB6 /* GoodsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */; };
+		FE6A7AE52CB9A2D8000F5DB6 /* SellerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE42CB9A2D8000F5DB6 /* SellerStore.swift */; };
+		FE6A7AE72CB9A434000F5DB6 /* DataResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE62CB9A434000F5DB6 /* DataResult.swift */; };
+		FE6A7AE92CB9AAF1000F5DB6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */; };
+		FE6A7AEC2CB9AB73000F5DB6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FE6A7AEB2CB9AB73000F5DB6 /* FirebaseAuth */; };
+		FE6A7AEF2CB9ABA2000F5DB6 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = FE6A7AEE2CB9ABA2000F5DB6 /* GoogleSignIn */; };
+		FE6A7AF12CB9ABA2000F5DB6 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FE6A7AF02CB9ABA2000F5DB6 /* GoogleSignInSwift */; };
+		FE6A7AF32CB9ADCF000F5DB6 /* LoginType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AF22CB9ADCF000F5DB6 /* LoginType.swift */; };
+		FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AF62CB9AE44000F5DB6 /* LoginControllable.swift */; };
+		FE6A7AF92CB9AEBF000F5DB6 /* GoogleLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AF82CB9AEBF000F5DB6 /* GoogleLoginManager.swift */; };
+		FE6A7AFD2CB9AF58000F5DB6 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AFC2CB9AF58000F5DB6 /* AuthManager.swift */; };
+		FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AFE2CB9B01F000F5DB6 /* LoginError.swift */; };
+		FE6A7B012CB9B043000F5DB6 /* CommonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7B002CB9B043000F5DB6 /* CommonError.swift */; };
+		FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */; };
+		FEACD53A2CB95C0000EF206D /* Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACD5392CB95C0000EF206D /* Admin.swift */; };
+		FEACD53C2CB95C2F00EF206D /* AdminStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACD53B2CB95C2F00EF206D /* AdminStore.swift */; };
+		FEACD53E2CB95CD200EF206D /* AdminTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACD53D2CB95CD200EF206D /* AdminTestView.swift */; };
+		FEBEFBA62CB975F400E3D86A /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA52CB975F400E3D86A /* KakaoSDKAuth */; };
+		FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA72CB975F400E3D86A /* KakaoSDKCommon */; };
+		FEBEFBAA2CB975F400E3D86A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA92CB975F400E3D86A /* KakaoSDKUser */; };
+		FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */; };
+		FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FE40BBCD2CB93E4200786E34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FE40BBB42CB93E4100786E34 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FE40BBBB2CB93E4100786E34;
+			remoteInfo = ECO_FB_Test;
+		};
+		FE40BBD72CB93E4200786E34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FE40BBB42CB93E4100786E34 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FE40BBBB2CB93E4100786E34;
+			remoteInfo = ECO_FB_Test;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FE1847A22CB966C600BE530C /* ECO-FB-Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ECO-FB-Test-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaKaoLoginManager.swift; sourceTree = "<group>"; };
+		FE40BBBC2CB93E4100786E34 /* ECO_FB_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECO_FB_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE40BBCC2CB93E4100786E34 /* ECO_FB_TestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ECO_FB_TestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE40BBD62CB93E4200786E34 /* ECO_FB_TestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ECO_FB_TestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE40BBF22CB9405F00786E34 /* UserTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTestView.swift; sourceTree = "<group>"; };
+		FE40BBF42CB9405F00786E34 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FE40BBF52CB9405F00786E34 /* ECO_FB_TestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECO_FB_TestApp.swift; sourceTree = "<group>"; };
+		FE40BBFF2CB9428700786E34 /* DataControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataControllable.swift; sourceTree = "<group>"; };
+		FE40BC012CB9432C00786E34 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		FE40BC042CB9436F00786E34 /* DataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataType.swift; sourceTree = "<group>"; };
+		FE40BC072CB9440800786E34 /* UserStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
+		FE40BC092CB9452B00786E34 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		FE40BC0C2CB947D300786E34 /* DataParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParam.swift; sourceTree = "<group>"; };
+		FE40BC0E2CB94B0F00786E34 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
+		FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
+		FE6A7ADD2CB99C78000F5DB6 /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
+		FE6A7AE02CB99D5B000F5DB6 /* Seller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seller.swift; sourceTree = "<group>"; };
+		FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStore.swift; sourceTree = "<group>"; };
+		FE6A7AE42CB9A2D8000F5DB6 /* SellerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerStore.swift; sourceTree = "<group>"; };
+		FE6A7AE62CB9A434000F5DB6 /* DataResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResult.swift; sourceTree = "<group>"; };
+		FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FE6A7AF22CB9ADCF000F5DB6 /* LoginType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginType.swift; sourceTree = "<group>"; };
+		FE6A7AF62CB9AE44000F5DB6 /* LoginControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginControllable.swift; sourceTree = "<group>"; };
+		FE6A7AF82CB9AEBF000F5DB6 /* GoogleLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginManager.swift; sourceTree = "<group>"; };
+		FE6A7AFC2CB9AF58000F5DB6 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		FE6A7AFE2CB9B01F000F5DB6 /* LoginError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginError.swift; sourceTree = "<group>"; };
+		FE6A7B002CB9B043000F5DB6 /* CommonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonError.swift; sourceTree = "<group>"; };
+		FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginMethod.swift; sourceTree = "<group>"; };
+		FEACD5392CB95C0000EF206D /* Admin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Admin.swift; sourceTree = "<group>"; };
+		FEACD53B2CB95C2F00EF206D /* AdminStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStore.swift; sourceTree = "<group>"; };
+		FEACD53D2CB95CD200EF206D /* AdminTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTestView.swift; sourceTree = "<group>"; };
+		FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsCategory.swift; sourceTree = "<group>"; };
+		FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchFlow.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		FE40BBCF2CB93E4200786E34 /* ECO_FB_TestTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ECO_FB_TestTests;
+			sourceTree = "<group>";
+		};
+		FE40BBD92CB93E4200786E34 /* ECO_FB_TestUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ECO_FB_TestUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FE40BBB92CB93E4100786E34 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */,
+				FE6A7AEC2CB9AB73000F5DB6 /* FirebaseAuth in Frameworks */,
+				FE40BBED2CB93F4A00786E34 /* FirebaseCore in Frameworks */,
+				FE6A7AF12CB9ABA2000F5DB6 /* GoogleSignInSwift in Frameworks */,
+				FE40BBEF2CB93F4A00786E34 /* FirebaseFirestore in Frameworks */,
+				FEBEFBAA2CB975F400E3D86A /* KakaoSDKUser in Frameworks */,
+				FEBEFBA62CB975F400E3D86A /* KakaoSDKAuth in Frameworks */,
+				FE6A7AEF2CB9ABA2000F5DB6 /* GoogleSignIn in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE40BBC92CB93E4100786E34 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE40BBD32CB93E4200786E34 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FE40BBB32CB93E4100786E34 = {
+			isa = PBXGroup;
+			children = (
+				FE40BBF72CB9405F00786E34 /* ECO_FB_Test */,
+				FE40BBCF2CB93E4200786E34 /* ECO_FB_TestTests */,
+				FE40BBD92CB93E4200786E34 /* ECO_FB_TestUITests */,
+				FE6A7AEA2CB9AB73000F5DB6 /* Frameworks */,
+				FE40BBBD2CB93E4100786E34 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FE40BBBD2CB93E4100786E34 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FE40BBBC2CB93E4100786E34 /* ECO_FB_Test.app */,
+				FE40BBCC2CB93E4100786E34 /* ECO_FB_TestTests.xctest */,
+				FE40BBD62CB93E4200786E34 /* ECO_FB_TestUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FE40BBF32CB9405F00786E34 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FEDA91112CBCA36800D75552 /* Sample */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FE40BBF72CB9405F00786E34 /* ECO_FB_Test */ = {
+			isa = PBXGroup;
+			children = (
+				FE1847A22CB966C600BE530C /* ECO-FB-Test-Info.plist */,
+				FE40BBFC2CB9406F00786E34 /* App */,
+				FE40BBFE2CB9422600786E34 /* Protocol */,
+				FE40BC032CB9435B00786E34 /* Enum */,
+				FE40BBFD2CB9408300786E34 /* Manager */,
+				FE40BC062CB943F800786E34 /* Model */,
+				FE40BBF32CB9405F00786E34 /* View */,
+				FE40BBF42CB9405F00786E34 /* Assets.xcassets */,
+				FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */,
+				FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */,
+			);
+			path = ECO_FB_Test;
+			sourceTree = "<group>";
+		};
+		FE40BBFC2CB9406F00786E34 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				FE40BBF52CB9405F00786E34 /* ECO_FB_TestApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		FE40BBFD2CB9408300786E34 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				FE6A7AFB2CB9AF49000F5DB6 /* Auth */,
+				FE6A7AFA2CB9AF42000F5DB6 /* Data */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		FE40BBFE2CB9422600786E34 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				FE40BBFF2CB9428700786E34 /* DataControllable.swift */,
+				FE6A7AF62CB9AE44000F5DB6 /* LoginControllable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		FE40BC032CB9435B00786E34 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				FE6A7AF52CB9ADDC000F5DB6 /* Login */,
+				FE6A7AF42CB9ADD2000F5DB6 /* Data */,
+				FE6A7B002CB9B043000F5DB6 /* CommonError.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		FE40BC062CB943F800786E34 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FE6A7ADF2CB99D52000F5DB6 /* Seller */,
+				FE6A7ADC2CB99C6D000F5DB6 /* Goods */,
+				FEACD5382CB95BF300EF206D /* Admin */,
+				FE40BC0B2CB9452F00786E34 /* User */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FE40BC0B2CB9452F00786E34 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				FE40BC072CB9440800786E34 /* UserStore.swift */,
+				FE40BC092CB9452B00786E34 /* User.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		FE6A7ADC2CB99C6D000F5DB6 /* Goods */ = {
+			isa = PBXGroup;
+			children = (
+				FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */,
+				FE6A7ADD2CB99C78000F5DB6 /* Goods.swift */,
+			);
+			path = Goods;
+			sourceTree = "<group>";
+		};
+		FE6A7ADF2CB99D52000F5DB6 /* Seller */ = {
+			isa = PBXGroup;
+			children = (
+				FE6A7AE42CB9A2D8000F5DB6 /* SellerStore.swift */,
+				FE6A7AE02CB99D5B000F5DB6 /* Seller.swift */,
+			);
+			path = Seller;
+			sourceTree = "<group>";
+		};
+		FE6A7AEA2CB9AB73000F5DB6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FE6A7AF42CB9ADD2000F5DB6 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				FE40BC042CB9436F00786E34 /* DataType.swift */,
+				FE40BC0C2CB947D300786E34 /* DataParam.swift */,
+				FE6A7AE62CB9A434000F5DB6 /* DataResult.swift */,
+				FE40BC0E2CB94B0F00786E34 /* DataError.swift */,
+				FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */,
+				FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		FE6A7AF52CB9ADDC000F5DB6 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				FE6A7AF22CB9ADCF000F5DB6 /* LoginType.swift */,
+				FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */,
+				FE6A7AFE2CB9B01F000F5DB6 /* LoginError.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		FE6A7AFA2CB9AF42000F5DB6 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				FE40BC012CB9432C00786E34 /* DataManager.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		FE6A7AFB2CB9AF49000F5DB6 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				FE6A7AFC2CB9AF58000F5DB6 /* AuthManager.swift */,
+				FE6A7AF82CB9AEBF000F5DB6 /* GoogleLoginManager.swift */,
+				FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		FEACD5382CB95BF300EF206D /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				FEACD53B2CB95C2F00EF206D /* AdminStore.swift */,
+				FEACD5392CB95C0000EF206D /* Admin.swift */,
+			);
+			path = Admin;
+			sourceTree = "<group>";
+		};
+		FEDA91112CBCA36800D75552 /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				FE40BBF22CB9405F00786E34 /* UserTestView.swift */,
+				FEACD53D2CB95CD200EF206D /* AdminTestView.swift */,
+			);
+			path = Sample;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FE40BBBB2CB93E4100786E34 /* ECO_FB_Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE40BBE02CB93E4200786E34 /* Build configuration list for PBXNativeTarget "ECO_FB_Test" */;
+			buildPhases = (
+				FE40BBB82CB93E4100786E34 /* Sources */,
+				FE40BBB92CB93E4100786E34 /* Frameworks */,
+				FE40BBBA2CB93E4100786E34 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ECO_FB_Test;
+			packageProductDependencies = (
+				FE40BBEC2CB93F4A00786E34 /* FirebaseCore */,
+				FE40BBEE2CB93F4A00786E34 /* FirebaseFirestore */,
+				FEBEFBA52CB975F400E3D86A /* KakaoSDKAuth */,
+				FEBEFBA72CB975F400E3D86A /* KakaoSDKCommon */,
+				FEBEFBA92CB975F400E3D86A /* KakaoSDKUser */,
+				FE6A7AEB2CB9AB73000F5DB6 /* FirebaseAuth */,
+				FE6A7AEE2CB9ABA2000F5DB6 /* GoogleSignIn */,
+				FE6A7AF02CB9ABA2000F5DB6 /* GoogleSignInSwift */,
+			);
+			productName = ECO_FB_Test;
+			productReference = FE40BBBC2CB93E4100786E34 /* ECO_FB_Test.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FE40BBCB2CB93E4100786E34 /* ECO_FB_TestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE40BBE32CB93E4200786E34 /* Build configuration list for PBXNativeTarget "ECO_FB_TestTests" */;
+			buildPhases = (
+				FE40BBC82CB93E4100786E34 /* Sources */,
+				FE40BBC92CB93E4100786E34 /* Frameworks */,
+				FE40BBCA2CB93E4100786E34 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FE40BBCE2CB93E4200786E34 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FE40BBCF2CB93E4200786E34 /* ECO_FB_TestTests */,
+			);
+			name = ECO_FB_TestTests;
+			packageProductDependencies = (
+			);
+			productName = ECO_FB_TestTests;
+			productReference = FE40BBCC2CB93E4100786E34 /* ECO_FB_TestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FE40BBD52CB93E4200786E34 /* ECO_FB_TestUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE40BBE62CB93E4200786E34 /* Build configuration list for PBXNativeTarget "ECO_FB_TestUITests" */;
+			buildPhases = (
+				FE40BBD22CB93E4200786E34 /* Sources */,
+				FE40BBD32CB93E4200786E34 /* Frameworks */,
+				FE40BBD42CB93E4200786E34 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FE40BBD82CB93E4200786E34 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FE40BBD92CB93E4200786E34 /* ECO_FB_TestUITests */,
+			);
+			name = ECO_FB_TestUITests;
+			packageProductDependencies = (
+			);
+			productName = ECO_FB_TestUITests;
+			productReference = FE40BBD62CB93E4200786E34 /* ECO_FB_TestUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FE40BBB42CB93E4100786E34 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					FE40BBBB2CB93E4100786E34 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					FE40BBCB2CB93E4100786E34 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = FE40BBBB2CB93E4100786E34;
+					};
+					FE40BBD52CB93E4200786E34 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = FE40BBBB2CB93E4100786E34;
+					};
+				};
+			};
+			buildConfigurationList = FE40BBB72CB93E4100786E34 /* Build configuration list for PBXProject "ECO_FB_Test" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FE40BBB32CB93E4100786E34;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FE40BBEB2CB93F4A00786E34 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				FEBEFBA42CB975F400E3D86A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				FE6A7AED2CB9ABA2000F5DB6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FE40BBBD2CB93E4100786E34 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FE40BBBB2CB93E4100786E34 /* ECO_FB_Test */,
+				FE40BBCB2CB93E4100786E34 /* ECO_FB_TestTests */,
+				FE40BBD52CB93E4200786E34 /* ECO_FB_TestUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FE40BBBA2CB93E4100786E34 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE6A7AE92CB9AAF1000F5DB6 /* GoogleService-Info.plist in Resources */,
+				FE568D6C2CBA7EA200857DFE /* Kakao.xcconfig in Resources */,
+				FE40BBFA2CB9405F00786E34 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE40BBCA2CB93E4100786E34 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE40BBD42CB93E4200786E34 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FE40BBB82CB93E4100786E34 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */,
+				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
+				FE40BC082CB9440800786E34 /* UserStore.swift in Sources */,
+				FE6A7AFD2CB9AF58000F5DB6 /* AuthManager.swift in Sources */,
+				FE6A7AE32CB9A121000F5DB6 /* GoodsStore.swift in Sources */,
+				FE1847A42CB9686F00BE530C /* KaKaoLoginManager.swift in Sources */,
+				FEACD53C2CB95C2F00EF206D /* AdminStore.swift in Sources */,
+				FE6A7B012CB9B043000F5DB6 /* CommonError.swift in Sources */,
+				FE6A7AF92CB9AEBF000F5DB6 /* GoogleLoginManager.swift in Sources */,
+				FE6A7AF32CB9ADCF000F5DB6 /* LoginType.swift in Sources */,
+				FE6A7AE72CB9A434000F5DB6 /* DataResult.swift in Sources */,
+				FE40BBF82CB9405F00786E34 /* UserTestView.swift in Sources */,
+				FE6A7AE52CB9A2D8000F5DB6 /* SellerStore.swift in Sources */,
+				FE40BC052CB9436F00786E34 /* DataType.swift in Sources */,
+				FEACD53A2CB95C0000EF206D /* Admin.swift in Sources */,
+				FE40BC022CB9432C00786E34 /* DataManager.swift in Sources */,
+				FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */,
+				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
+				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
+				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
+				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
+				FE40BC0A2CB9452B00786E34 /* User.swift in Sources */,
+				FEACD53E2CB95CD200EF206D /* AdminTestView.swift in Sources */,
+				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
+				FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */,
+				FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */,
+				FE40BC0D2CB947D300786E34 /* DataParam.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE40BBC82CB93E4100786E34 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FE40BBD22CB93E4200786E34 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FE40BBCE2CB93E4200786E34 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FE40BBBB2CB93E4100786E34 /* ECO_FB_Test */;
+			targetProxy = FE40BBCD2CB93E4200786E34 /* PBXContainerItemProxy */;
+		};
+		FE40BBD82CB93E4200786E34 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FE40BBBB2CB93E4100786E34 /* ECO_FB_Test */;
+			targetProxy = FE40BBD72CB93E4200786E34 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		FE40BBDE2CB93E4200786E34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FE40BBDF2CB93E4200786E34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FE40BBE12CB93E4200786E34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = HBVHMLA55U;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iucyh.ECO-FB-Test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		FE40BBE22CB93E4200786E34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = HBVHMLA55U;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iucyh.ECO-FB-Test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		FE40BBE42CB93E4200786E34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HBVHMLA55U;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iucyh.ECO-FB-TestTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ECO_FB_Test.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ECO_FB_Test";
+			};
+			name = Debug;
+		};
+		FE40BBE52CB93E4200786E34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HBVHMLA55U;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iucyh.ECO-FB-TestTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ECO_FB_Test.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ECO_FB_Test";
+			};
+			name = Release;
+		};
+		FE40BBE72CB93E4200786E34 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HBVHMLA55U;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iucyh.ECO-FB-TestUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ECO_FB_Test;
+			};
+			name = Debug;
+		};
+		FE40BBE82CB93E4200786E34 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HBVHMLA55U;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iucyh.ECO-FB-TestUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ECO_FB_Test;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FE40BBB72CB93E4100786E34 /* Build configuration list for PBXProject "ECO_FB_Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE40BBDE2CB93E4200786E34 /* Debug */,
+				FE40BBDF2CB93E4200786E34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE40BBE02CB93E4200786E34 /* Build configuration list for PBXNativeTarget "ECO_FB_Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE40BBE12CB93E4200786E34 /* Debug */,
+				FE40BBE22CB93E4200786E34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE40BBE32CB93E4200786E34 /* Build configuration list for PBXNativeTarget "ECO_FB_TestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE40BBE42CB93E4200786E34 /* Debug */,
+				FE40BBE52CB93E4200786E34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE40BBE62CB93E4200786E34 /* Build configuration list for PBXNativeTarget "ECO_FB_TestUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE40BBE72CB93E4200786E34 /* Debug */,
+				FE40BBE82CB93E4200786E34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FE40BBEB2CB93F4A00786E34 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.3.0;
+			};
+		};
+		FE6A7AED2CB9ABA2000F5DB6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+		FEBEFBA42CB975F400E3D86A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FE40BBEC2CB93F4A00786E34 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE40BBEB2CB93F4A00786E34 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		FE40BBEE2CB93F4A00786E34 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE40BBEB2CB93F4A00786E34 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		FE6A7AEB2CB9AB73000F5DB6 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE40BBEB2CB93F4A00786E34 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		FE6A7AEE2CB9ABA2000F5DB6 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE6A7AED2CB9ABA2000F5DB6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		FE6A7AF02CB9ABA2000F5DB6 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE6A7AED2CB9ABA2000F5DB6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		FEBEFBA52CB975F400E3D86A /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FEBEFBA42CB975F400E3D86A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		FEBEFBA72CB975F400E3D86A /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FEBEFBA42CB975F400E3D86A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		FEBEFBA92CB975F400E3D86A /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FEBEFBA42CB975F400E3D86A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = FE40BBB42CB93E4100786E34 /* Project object */;
+}
