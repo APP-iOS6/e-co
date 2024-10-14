@@ -42,14 +42,7 @@ struct MyPageView: View {
                         
                         NavigationLink("장바구니: \(cartItems)개", destination: CartView())
                         
-                        HStack {
-                            Text("주문 현황:")
-                            Spacer()
-                            Text(orderStatus)
-                        }
-                        
-                        // 결제 취소, 교환, 반품
-                        NavigationLink("주문 관리", destination: OrderManagementView())
+                        NavigationLink("주문 관리: \(orderStatus)", destination: OrderStatusView()) // 주문 현황 네비게이션
                     }
                     
                     // 최근 본 상품, 찜한 상품 보기
@@ -123,7 +116,7 @@ struct MyPageView: View {
 
 // Placeholder Views for Navigation Links
 struct CartView: View { var body: some View { Text("장바구니") } }
-struct OrderManagementView: View { var body: some View { Text("주문 관리") } }
+struct OrderStatusView: View { var body: some View { Text("주문 현황") } } // 주문 현황 뷰
 struct RecentlyViewedView: View { var body: some View { Text("최근 본 상품") } }
 struct LikedProductsView: View { var body: some View { Text("찜한 상품") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
