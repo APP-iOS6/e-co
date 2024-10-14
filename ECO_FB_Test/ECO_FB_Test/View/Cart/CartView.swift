@@ -10,28 +10,34 @@ import SwiftUI
 struct CartView: View {
     @EnvironmentObject private var userStore: UserStore
     @EnvironmentObject private var goodsStore: GoodsStore
+    @State private var selectedGoods: [Goods] = []
     @State private var totalPrice: Int = 0
-    @State private var isOn: Bool = false
+    @State private var isSelectedAll: Bool = false
     
     var body: some View {
         VStack(alignment: .center) {
             HStack {
-                CheckBox(isOn: $isOn) {
+                CheckBox(isOn: $isSelectedAll) {
                     
                 }
                 
                 Text("전체선택")
             }
             .alignmentGuide(HorizontalAlignment.center) { _ in
-                195
+                190
             }
             
             GeometryReader { geometry in
                 ScrollView {
                     LazyVStack {
                         ForEach(goodsStore.goodsList) { goods in
-                            CartGoodsInfoView(goods: goods, screenWidth: geometry.size.width)
-                                .frame(width: geometry.size.width - 15)
+                            CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods, screenWidth: geometry.size.width) { isOn, goods in
+                                if isOn {
+                                    selectedGoods.append(goods)
+                                } else {
+                                    selectedGoods.removeAll(where: { $0.id == goods.id })
+                                }
+                            }
                         }
                     }
                 }

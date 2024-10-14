@@ -8,50 +8,58 @@
 import SwiftUI
 
 struct CartGoodsInfoView: View {
+    @State private var isOn: Bool = false
+    @Binding var totalSelected: Bool
     var goods: Goods
     var screenWidth: CGFloat
-    @State private var isOn: Bool = false
+    var selectEvent: (Bool, Goods) -> Void
     
     var body: some View {
-        HStack(alignment: .top) {
-            Image(systemName: "clipboard.fill")
-                .frame(width: 100, height: 100)
-                .background {
-                    Rectangle()
-                        .foregroundStyle(.gray)
-                }
-            
-            VStack(alignment: .leading) {
-                Text("\(goods.seller.name)")
-                    .font(.title3)
-                Text("\(goods.name)")
-                    .font(.title)
-                    .fontWeight(.bold)
-                Text("\(goods.formattedPrice)")
-                    .font(.title2)
-                    .fontWeight(.bold)
+        VStack {
+            HStack(alignment: .top) {
+                Image(systemName: "clipboard.fill")
+                    .frame(width: 100, height: 100)
+                    .background {
+                        Rectangle()
+                            .foregroundStyle(.gray)
+                    }
                 
-                Button {
-                    
-                } label: {
-                    Text("바로 구매")
-                        .foregroundStyle(.black)
+                VStack(alignment: .leading) {
+                    Text("\(goods.seller.name)")
+                        .font(.title3)
+                    Text("\(goods.name)")
+                        .font(.title2)
                         .fontWeight(.bold)
-                        .frame(width: 250, height: 35)
-                        .background {
-                            RoundedRectangle(cornerRadius: 5)
-                                .foregroundStyle(.white)
-                                .border(.gray)
-                        }
+                    Text("\(goods.formattedPrice)")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                    
+                    Button {
+                        
+                    } label: {
+                        Text("바로 구매")
+                            .foregroundStyle(.black)
+                            .fontWeight(.bold)
+                            .frame(width: 250, height: 35)
+                            .background {
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundStyle(.white)
+                                    .border(.gray)
+                            }
+                    }
                 }
+                .frame(width: 255)
                 
-                Divider()
-                    .frame(width: screenWidth)
+                CheckBox(isOn: $isOn) {
+                    selectEvent(isOn, goods)
+                }
             }
             
-            CheckBox(isOn: $isOn) {
-                
-            }
+            Divider()
+        }
+        .onChange(of: totalSelected) {
+            isOn = totalSelected
+            selectEvent(isOn, goods)
         }
     }
 }
