@@ -16,7 +16,8 @@ final class DataManager {
     @ObservationIgnored private lazy var dataStores: [DataControllable] = [
         UserStore.shared,
         SellerStore.shared,
-        GoodsStore.shared
+        GoodsStore.shared,
+        PaymentInfoStore.shared
     ]
     private(set) var dataFetchFlow: DataFetchFlow = .none
     
@@ -72,7 +73,7 @@ final class DataManager {
      
      - parameters:
      - type: 가져올 대상, 예) 유저라면 .user
-     - parameter: 가져올 대상의 정보, 뒤에 Load가 붙은 값들을 써야합니다. 예) 유저라면 .userLoad(id)
+     - parameter: 가져올 대상의 정보, 뒤에 Load가 붙은 값들을 쓰거나 특정 대상에 한해 All이 붙은 값을 쓸 수 있습니다. 예) 유저라면 .userLoad(id)
      - Returns: 가져온 데이터, 만약 가져온 데이터를 Store 자체에서 저장한다면 반환값은 none이고, 데이터를 가져올 수 없다면 error가 반환됩니다.
      */
     func fetchData(type: DataType, parameter: DataParam) async -> DataResult {

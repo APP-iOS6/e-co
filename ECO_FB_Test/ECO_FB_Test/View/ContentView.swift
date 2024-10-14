@@ -27,4 +27,5 @@ struct ContentView: View {
         .environment(UserStore.shared)
         .environment(GoodsStore.shared)
         .environment(DataManager.shared)
+        .environment(AuthManager.shared)
 }

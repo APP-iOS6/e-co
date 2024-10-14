@@ -163,9 +163,9 @@ final class GoodsStore: DataControllable {
         goodsList.removeAll()
         
         do {
-            let snapshot = try await db.collection("Goods").getDocuments()
+            let snapshots = try await db.collection("Goods").getDocuments()
             
-            for document in snapshot.documents {
+            for document in snapshots.documents {
                 let docData = document.data()
                 let id = document.documentID
                 

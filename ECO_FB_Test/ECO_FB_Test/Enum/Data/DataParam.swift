@@ -12,15 +12,21 @@ enum DataParam {
     case userLoad(id: String)
     case sellerLoad(id: String)
     case goodsLoad(id: String)
+    case paymentInfoLoad(id: String, userID: String)
     
     // Update(기존 데이터 갱신), Add(새로운 데이터 추가) 작업이 필요할 때 사용
     case userUpdate(id: String, user: User)
     case sellerUpdate(id: String, seller: Seller)
     case goodsUpdate(id: String, goods: Goods)
+    case paymentInfoUpdate(id: String, userID: String, orderInfo: PaymentInfo)
     
     // 모든 데이터를 불러올 때 사용
     /**
      물건을 모두 불러올 때 사용, 결과값은 GoodsStore의 goodsList에 저장됩니다.
      */
     case goodsAll
+    /**
+     결제정보를 모두 불러올 때 사용, 결과값은 PaymentInfo의 paymentInfoList에 저장됩니다.
+     */
+    case paymentInfoAll(userID: String)
 }
