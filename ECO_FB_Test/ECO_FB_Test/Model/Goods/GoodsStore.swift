@@ -19,7 +19,7 @@ final class GoodsStore: ObservableObject, DataControllable {
         do {
             if case .goodsAll = parameter {
                 return try await getGoodsAll()
-            } else if case .goodsLoad(let id) = parameter {
+            } else if case .goodsLoad(_) = parameter {
                 return try await getGoodsByID(parameter)
             } else {
                 throw DataError.fetchError(reason: "The DataParam is not a goods load or goods all")
@@ -37,7 +37,7 @@ final class GoodsStore: ObservableObject, DataControllable {
         do {
             try await db.collection("Goods").document(id).setData([
                 "name": goods.name,
-                "category": goods.category,
+                "category": goods.category.rawValue,
                 "thumbnail": goods.thumbnailImageName,
                 "body_content": goods.bodyContent,
                 "body_images": goods.bodyImageNames,
@@ -67,7 +67,7 @@ final class GoodsStore: ObservableObject, DataControllable {
             
             let id = snapshot.documentID
             let name = docData["name"] as? String ?? "none"
-            let category = docData["category"] as? String ?? "none"
+            let category = try stringToCategoryEnum(docData["category"] as? String ?? "none")
             let thumbnailImageName = docData["thumbnail"] as? String ?? "none"
             let bodyContent = docData["body_content"] as? String ?? "none"
             let bodyImageNames = docData["body_images"] as? [String] ?? []
@@ -99,7 +99,7 @@ final class GoodsStore: ObservableObject, DataControllable {
                 let id = document.documentID
                 
                 let name = docData["name"] as? String ?? "none"
-                let category = docData["category"] as? String ?? "none"
+                let category = try stringToCategoryEnum(docData["category"] as? String ?? "none")
                 let thumbnailImageName = docData["thumbnail"] as? String ?? "none"
                 let bodyContent = docData["body_content"] as? String ?? "none"
                 let bodyImageNames = docData["body_images"] as? [String] ?? []
@@ -119,6 +119,23 @@ final class GoodsStore: ObservableObject, DataControllable {
             return DataResult.none
         } catch {
             throw error
+        }
+    }
+    
+    private func stringToCategoryEnum(_ string: String) throws -> GoodsCategory {
+        switch string {
+        case GoodsCategory.refill.rawValue:
+            return .refill
+        case GoodsCategory.electronics.rawValue:
+            return .electronics
+        case GoodsCategory.passion.rawValue:
+            return .passion
+        case GoodsCategory.beauty.rawValue:
+            return .beauty
+        case GoodsCategory.food.rawValue:
+            return .food
+        default:
+            throw DataError.convertError(reason: "Can't find matched string")
         }
     }
 }
