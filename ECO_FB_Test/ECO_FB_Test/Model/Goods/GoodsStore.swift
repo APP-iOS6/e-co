@@ -3,7 +3,7 @@
 //  ECO_FB_Test
 //
 //  Created by Jaemin Hong on 10/12/24.
-// 
+//
 
 import Foundation
 import FirebaseFirestore
@@ -12,8 +12,29 @@ final class GoodsStore: ObservableObject, DataControllable {
     static let shared: GoodsStore = GoodsStore()
     private let db: Firestore = DataManager.shared.db
     @Published private(set) var goodsList: [Goods] = []
+
+    @Published private(set) var selectedCategory: GoodsCategory = GoodsCategory.none
     
-    private init() {}
+    @Published private(set) var goodsByCategories: [GoodsCategory: [Goods]] = [:]
+    @Published private(set) var filteredGoodsByCategories: [GoodsCategory: [Goods]] = [:]
+    
+    private init() {
+        Task {
+            do {
+                _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll)
+                
+                for goods in goodsList {
+                    if goodsByCategories[goods.category] != nil {
+                        goodsByCategories[goods.category]?.append(goods)
+                    } else {
+                        goodsByCategories[goods.category] = [goods]
+                    }
+                }
+                
+                filteredGoodsByCategories = goodsByCategories
+            }
+        }
+    }
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         do {
@@ -52,7 +73,7 @@ final class GoodsStore: ObservableObject, DataControllable {
     func deleteData() {
         
     }
-    
+
     private func getGoodsByID(_ parameter: DataParam) async throws -> DataResult {
         guard case let .goodsLoad(id) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a goods load")
@@ -136,6 +157,54 @@ final class GoodsStore: ObservableObject, DataControllable {
             return .food
         default:
             throw DataError.convertError(reason: "Can't find matched string")
+        }
+
+    }
+    
+    // 카테고리 선택시 해당하는 상품만 필터링 해준다
+    func selectCategoryAction(_ category: GoodsCategory) {
+        if selectedCategory == category {
+            selectedCategory = GoodsCategory.none
+        } else {
+            selectedCategory = category
+        }
+        
+        filteredGoodsByCategories = if selectedCategory == GoodsCategory.none {
+            goodsByCategories
+        } else {
+            [selectedCategory : goodsByCategories[selectedCategory] ?? []]
+        }
+    }
+    
+    // 검색 키워드에 따라 상품을 필터링 해준다 (선택된 카테고리가 있을땐 해당 카테고리 안에서 검색)
+    func searchAction(_ text: String) {
+        if text == "" {
+            filteredGoodsByCategories = if selectedCategory == GoodsCategory.none {
+                goodsByCategories
+            } else {
+                [selectedCategory : goodsByCategories[selectedCategory] ?? []]
+            }
+            return
+        }
+        
+        var newGoodsByCategories: [GoodsCategory: [Goods]] = [:]
+        
+        let filteredGoods: [Goods] = goodsList.filter {
+            $0.name.contains(text) || $0.bodyContent.contains(text) || $0.category.rawValue.contains(text)
+        }
+        
+        for goods in filteredGoods {
+            if newGoodsByCategories[goods.category] != nil {
+                newGoodsByCategories[goods.category]?.append(goods)
+            } else {
+                newGoodsByCategories[goods.category] = [goods]
+            }
+        }
+        
+        filteredGoodsByCategories = if selectedCategory != GoodsCategory.none {
+            [selectedCategory : newGoodsByCategories[selectedCategory] ?? []]
+        } else {
+            newGoodsByCategories
         }
     }
 }

@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4223D72B2CBCA96C00F94D1B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4223D72A2CBCA96C00F94D1B /* GoogleService-Info.plist */; };
-		4223D72D2CBCA97A00F94D1B /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4223D72C2CBCA97A00F94D1B /* Kakao.xcconfig */; };
 		4223D72F2CBCAA3D00F94D1B /* EcoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D72E2CBCAA3D00F94D1B /* EcoView.swift */; };
 		4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */; };
 		4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */; };
 		4223D7352CBCB49900F94D1B /* EcoStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7342CBCB49900F94D1B /* EcoStepsView.swift */; };
+		50131AE72CBCAB4B0020D1DE /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50131AE62CBCAB4B0020D1DE /* Kakao.xcconfig */; };
+		50131AEB2CBCACD10020D1DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50131AEA2CBCACD10020D1DE /* GoogleService-Info.plist */; };
+		F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */; };
+		F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E2F2CBCE5CA00F67671 /* LoginView.swift */; };
+		F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E312CBCE89400F67671 /* UnderLineView.swift */; };
+		F6386E342CBCEBFF00F67671 /* LoginTextfieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E332CBCEBFF00F67671 /* LoginTextfieldStyle.swift */; };
+		F6386E362CBCF63800F67671 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E352CBCF63800F67671 /* CreateAccountView.swift */; };
+		6EAA499A2CBCA9C30014A5C6 /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA49992CBCA9B60014A5C6 /* StoreView.swift */; };
+
 		FE1847A42CB9686F00BE530C /* KaKaoLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */; };
 		FE40BBED2CB93F4A00786E34 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FE40BBEC2CB93F4A00786E34 /* FirebaseCore */; };
 		FE40BBEF2CB93F4A00786E34 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FE40BBEE2CB93F4A00786E34 /* FirebaseFirestore */; };
@@ -26,6 +33,11 @@
 		FE40BC0A2CB9452B00786E34 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC092CB9452B00786E34 /* User.swift */; };
 		FE40BC0D2CB947D300786E34 /* DataParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC0C2CB947D300786E34 /* DataParam.swift */; };
 		FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE40BC0E2CB94B0F00786E34 /* DataError.swift */; };
+
+		FE42060C2CBCE2B20004941B /* CartGoodsInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42060B2CBCE2B20004941B /* CartGoodsInfoView.swift */; };
+		FE42060F2CBCE75B0004941B /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE42060E2CBCE75B0004941B /* CheckBox.swift */; };
+		FE568D6C2CBA7EA200857DFE /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */; };
+
 		FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7ADD2CB99C78000F5DB6 /* Goods.swift */; };
 		FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE02CB99D5B000F5DB6 /* Seller.swift */; };
 		FE6A7AE32CB9A121000F5DB6 /* GoodsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */; };
@@ -48,6 +60,7 @@
 		FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA72CB975F400E3D86A /* KakaoSDKCommon */; };
 		FEBEFBAA2CB975F400E3D86A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA92CB975F400E3D86A /* KakaoSDKUser */; };
 		FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */; };
+		FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA91192CBCABD300D75552 /* CartView.swift */; };
 		FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,12 +82,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4223D72A2CBCA96C00F94D1B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4223D72C2CBCA97A00F94D1B /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
+
 		4223D72E2CBCAA3D00F94D1B /* EcoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoView.swift; sourceTree = "<group>"; };
 		4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoTopInfoView.swift; sourceTree = "<group>"; };
 		4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoEventsView.swift; sourceTree = "<group>"; };
 		4223D7342CBCB49900F94D1B /* EcoStepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoStepsView.swift; sourceTree = "<group>"; };
+		50131AE62CBCAB4B0020D1DE /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
+		50131AEA2CBCACD10020D1DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailView.swift; sourceTree = "<group>"; };
+		F6386E2F2CBCE5CA00F67671 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F6386E312CBCE89400F67671 /* UnderLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineView.swift; sourceTree = "<group>"; };
+		F6386E332CBCEBFF00F67671 /* LoginTextfieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextfieldStyle.swift; sourceTree = "<group>"; };
+		F6386E352CBCF63800F67671 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
+		6EAA49992CBCA9B60014A5C6 /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
+
 		FE1847A22CB966C600BE530C /* ECO-FB-Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ECO-FB-Test-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaKaoLoginManager.swift; sourceTree = "<group>"; };
 		FE40BBBC2CB93E4100786E34 /* ECO_FB_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECO_FB_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +111,12 @@
 		FE40BC092CB9452B00786E34 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FE40BC0C2CB947D300786E34 /* DataParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataParam.swift; sourceTree = "<group>"; };
 		FE40BC0E2CB94B0F00786E34 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
+
+		FE42060B2CBCE2B20004941B /* CartGoodsInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartGoodsInfoView.swift; sourceTree = "<group>"; };
+		FE42060E2CBCE75B0004941B /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		FE568D6B2CBA7EA200857DFE /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
+
+
 		FE6A7ADD2CB99C78000F5DB6 /* Goods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goods.swift; sourceTree = "<group>"; };
 		FE6A7AE02CB99D5B000F5DB6 /* Seller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seller.swift; sourceTree = "<group>"; };
 		FE6A7AE22CB9A121000F5DB6 /* GoodsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStore.swift; sourceTree = "<group>"; };
@@ -106,10 +133,21 @@
 		FEACD53B2CB95C2F00EF206D /* AdminStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminStore.swift; sourceTree = "<group>"; };
 		FEACD53D2CB95CD200EF206D /* AdminTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTestView.swift; sourceTree = "<group>"; };
 		FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsCategory.swift; sourceTree = "<group>"; };
+		FEDA91192CBCABD300D75552 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchFlow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		50131AEC2CBCAE5C0020D1DE /* MyPageViews */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MyPageViews;
+			sourceTree = "<group>";
+		};
+		50131AEF2CBCBB9B0020D1DE /* Notice */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Notice;
+			sourceTree = "<group>";
+		};
 		FE40BBCF2CB93E4200786E34 /* ECO_FB_TestTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ECO_FB_TestTests;
@@ -189,8 +227,24 @@
 		FE40BBF32CB9405F00786E34 /* View */ = {
 			isa = PBXGroup;
 			children = (
+
+				50131AEC2CBCAE5C0020D1DE /* MyPageViews */,
+
+
+				6EAA49992CBCA9B60014A5C6 /* StoreView.swift */,
+
+				FE42060D2CBCE7480004941B /* Custom */,
+				FE42060A2CBCE2830004941B /* Cart */,
+
+
 				FEDA91112CBCA36800D75552 /* Sample */,
 				4223D7362CBCD97900F94D1B /* EcoViews */,
+				F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */,
+				F6386E2F2CBCE5CA00F67671 /* LoginView.swift */,
+				F6386E352CBCF63800F67671 /* CreateAccountView.swift */,
+				F6386E312CBCE89400F67671 /* UnderLineView.swift */,
+				F6386E332CBCEBFF00F67671 /* LoginTextfieldStyle.swift */,
+
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -208,6 +262,11 @@
 				FE40BC062CB943F800786E34 /* Model */,
 				FE40BBF32CB9405F00786E34 /* View */,
 				FE40BBF42CB9405F00786E34 /* Assets.xcassets */,
+
+				FE6A7AE82CB9AAF1000F5DB6 /* GoogleService-Info.plist */,
+				6EAA49972CBCA9850014A5C6 /* Kakao.xcconfig */,
+
+
 			);
 			path = ECO_FB_Test;
 			sourceTree = "<group>";
@@ -251,6 +310,7 @@
 		FE40BC062CB943F800786E34 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				50131AEF2CBCBB9B0020D1DE /* Notice */,
 				FE6A7ADF2CB99D52000F5DB6 /* Seller */,
 				FE6A7ADC2CB99C6D000F5DB6 /* Goods */,
 				FEACD5382CB95BF300EF206D /* Admin */,
@@ -266,6 +326,23 @@
 				FE40BC092CB9452B00786E34 /* User.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		FE42060A2CBCE2830004941B /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				FEDA91192CBCABD300D75552 /* CartView.swift */,
+				FE42060B2CBCE2B20004941B /* CartGoodsInfoView.swift */,
+			);
+			path = Cart;
+			sourceTree = "<group>";
+		};
+		FE42060D2CBCE7480004941B /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				FE42060E2CBCE75B0004941B /* CheckBox.swift */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 		FE6A7ADC2CB99C6D000F5DB6 /* Goods */ = {
@@ -367,6 +444,10 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				50131AEC2CBCAE5C0020D1DE /* MyPageViews */,
+				50131AEF2CBCBB9B0020D1DE /* Notice */,
 			);
 			name = ECO_FB_Test;
 			packageProductDependencies = (
@@ -483,9 +564,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+
+
+				6EAA49982CBCA9850014A5C6 /* Kakao.xcconfig in Resources */,
+				FE6A7AE92CB9AAF1000F5DB6 /* GoogleService-Info.plist in Resources */,
+
 				FE40BBFA2CB9405F00786E34 /* Assets.xcassets in Resources */,
-				4223D72D2CBCA97A00F94D1B /* Kakao.xcconfig in Resources */,
-				4223D72B2CBCA96C00F94D1B /* GoogleService-Info.plist in Resources */,
+				50131AEB2CBCACD10020D1DE /* GoogleService-Info.plist in Resources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +579,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50131AE72CBCAB4B0020D1DE /* Kakao.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */,
+				F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */,
 				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
 				FE40BC082CB9440800786E34 /* UserStore.swift in Sources */,
 				4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */,
@@ -527,19 +615,27 @@
 				FE6A7AE72CB9A434000F5DB6 /* DataResult.swift in Sources */,
 				FE40BBF82CB9405F00786E34 /* UserTestView.swift in Sources */,
 				FE6A7AE52CB9A2D8000F5DB6 /* SellerStore.swift in Sources */,
+				F6386E362CBCF63800F67671 /* CreateAccountView.swift in Sources */,
 				FE40BC052CB9436F00786E34 /* DataType.swift in Sources */,
+				FE42060F2CBCE75B0004941B /* CheckBox.swift in Sources */,
 				FEACD53A2CB95C0000EF206D /* Admin.swift in Sources */,
 				FE40BC022CB9432C00786E34 /* DataManager.swift in Sources */,
 				FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */,
 				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
+				F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */,
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
+				FE42060C2CBCE2B20004941B /* CartGoodsInfoView.swift in Sources */,
 				FE40BC0A2CB9452B00786E34 /* User.swift in Sources */,
+				FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */,
 				FEACD53E2CB95CD200EF206D /* AdminTestView.swift in Sources */,
 				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
 				FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */,
 				FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */,
+				F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */,
+				F6386E342CBCEBFF00F67671 /* LoginTextfieldStyle.swift in Sources */,
+				6EAA499A2CBCA9C30014A5C6 /* StoreView.swift in Sources */,
 				FE40BC0D2CB947D300786E34 /* DataParam.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
