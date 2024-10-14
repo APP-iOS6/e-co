@@ -11,6 +11,7 @@
 		4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */; };
 		4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */; };
 		4223D7352CBCB49900F94D1B /* EcoStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7342CBCB49900F94D1B /* EcoStepsView.swift */; };
+		429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429157B02CBD0EFD0085828F /* HealthKitManager.swift */; };
 		502256842CBD02FA006F6D5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 502256832CBD02FA006F6D5C /* GoogleService-Info.plist */; };
 		502256862CBD0301006F6D5C /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 502256852CBD0301006F6D5C /* Kakao.xcconfig */; };
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
@@ -83,6 +84,8 @@
 		4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoTopInfoView.swift; sourceTree = "<group>"; };
 		4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoEventsView.swift; sourceTree = "<group>"; };
 		4223D7342CBCB49900F94D1B /* EcoStepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoStepsView.swift; sourceTree = "<group>"; };
+		429157AA2CBD0E4A0085828F /* ECO_FB_Test.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ECO_FB_Test.entitlements; sourceTree = "<group>"; };
+		429157B02CBD0EFD0085828F /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		502256832CBD02FA006F6D5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		502256852CBD0301006F6D5C /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
 		502256872CBD038F006F6D5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -196,6 +199,14 @@
 			path = EcoViews;
 			sourceTree = "<group>";
 		};
+		429157B12CBD0EFD0085828F /* New Folder */ = {
+			isa = PBXGroup;
+			children = (
+				429157B02CBD0EFD0085828F /* HealthKitManager.swift */,
+			);
+			path = "New Folder";
+			sourceTree = "<group>";
+		};
 		5022568A2CBD04FD006F6D5C /* AuthView */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +258,7 @@
 		FE40BBF72CB9405F00786E34 /* ECO_FB_Test */ = {
 			isa = PBXGroup;
 			children = (
+				429157AA2CBD0E4A0085828F /* ECO_FB_Test.entitlements */,
 				FE1847A22CB966C600BE530C /* ECO-FB-Test-Info.plist */,
 				FE40BBFC2CB9406F00786E34 /* App */,
 				FE40BBFE2CB9422600786E34 /* Protocol */,
@@ -274,6 +286,7 @@
 			children = (
 				FE6A7AFB2CB9AF49000F5DB6 /* Auth */,
 				FE6A7AFA2CB9AF42000F5DB6 /* Data */,
+				429157B12CBD0EFD0085828F /* New Folder */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -585,6 +598,7 @@
 				502256882CBD038F006F6D5C /* ContentView.swift in Sources */,
 				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
 				FE40BC082CB9440800786E34 /* UserStore.swift in Sources */,
+				429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */,
 				4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */,
 				FE6A7AFD2CB9AF58000F5DB6 /* AuthManager.swift in Sources */,
 				FE6A7AE32CB9A121000F5DB6 /* GoodsStore.swift in Sources */,
@@ -778,13 +792,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ECO_FB_Test/ECO_FB_Test.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = HBVHMLA55U;
+				DEVELOPMENT_TEAM = CWRPBX9CLY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -813,13 +830,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ECO_FB_Test/ECO_FB_Test.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = HBVHMLA55U;
+				DEVELOPMENT_TEAM = CWRPBX9CLY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
