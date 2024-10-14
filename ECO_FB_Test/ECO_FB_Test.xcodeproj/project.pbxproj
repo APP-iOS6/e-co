@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		F6386DFF2CBCAB2B00F67671 /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F6386DFD2CBCAB2B00F67671 /* Kakao.xcconfig */; };
 		F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */; };
+		F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E2F2CBCE5CA00F67671 /* LoginView.swift */; };
+		F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E312CBCE89400F67671 /* UnderLineView.swift */; };
+		F6386E342CBCEBFF00F67671 /* LoginTextfieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E332CBCEBFF00F67671 /* LoginTextfieldStyle.swift */; };
+		F6386E362CBCF63800F67671 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E352CBCF63800F67671 /* CreateAccountView.swift */; };
 		FE1847A42CB9686F00BE530C /* KaKaoLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */; };
 		FE40BBED2CB93F4A00786E34 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FE40BBEC2CB93F4A00786E34 /* FirebaseCore */; };
 		FE40BBEF2CB93F4A00786E34 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FE40BBEE2CB93F4A00786E34 /* FirebaseFirestore */; };
@@ -68,6 +72,10 @@
 /* Begin PBXFileReference section */
 		F6386DFD2CBCAB2B00F67671 /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
 		F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailView.swift; sourceTree = "<group>"; };
+		F6386E2F2CBCE5CA00F67671 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F6386E312CBCE89400F67671 /* UnderLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineView.swift; sourceTree = "<group>"; };
+		F6386E332CBCEBFF00F67671 /* LoginTextfieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTextfieldStyle.swift; sourceTree = "<group>"; };
+		F6386E352CBCF63800F67671 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		FE1847A22CB966C600BE530C /* ECO-FB-Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ECO-FB-Test-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaKaoLoginManager.swift; sourceTree = "<group>"; };
 		FE40BBBC2CB93E4100786E34 /* ECO_FB_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECO_FB_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +183,10 @@
 			children = (
 				FEDA91112CBCA36800D75552 /* Sample */,
 				F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */,
+				F6386E2F2CBCE5CA00F67671 /* LoginView.swift */,
+				F6386E352CBCF63800F67671 /* CreateAccountView.swift */,
+				F6386E312CBCE89400F67671 /* UnderLineView.swift */,
+				F6386E332CBCEBFF00F67671 /* LoginTextfieldStyle.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -494,6 +506,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */,
+				F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */,
 				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
 				FE40BC082CB9440800786E34 /* UserStore.swift in Sources */,
 				FE6A7AFD2CB9AF58000F5DB6 /* AuthManager.swift in Sources */,
@@ -506,11 +519,13 @@
 				FE6A7AE72CB9A434000F5DB6 /* DataResult.swift in Sources */,
 				FE40BBF82CB9405F00786E34 /* UserTestView.swift in Sources */,
 				FE6A7AE52CB9A2D8000F5DB6 /* SellerStore.swift in Sources */,
+				F6386E362CBCF63800F67671 /* CreateAccountView.swift in Sources */,
 				FE40BC052CB9436F00786E34 /* DataType.swift in Sources */,
 				FEACD53A2CB95C0000EF206D /* Admin.swift in Sources */,
 				FE40BC022CB9432C00786E34 /* DataManager.swift in Sources */,
 				FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */,
 				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
+				F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */,
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
@@ -520,6 +535,7 @@
 				FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */,
 				FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */,
 				F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */,
+				F6386E342CBCEBFF00F67671 /* LoginTextfieldStyle.swift in Sources */,
 				FE40BC0D2CB947D300786E34 /* DataParam.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
