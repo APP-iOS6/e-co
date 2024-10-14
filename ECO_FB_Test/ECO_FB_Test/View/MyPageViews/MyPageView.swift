@@ -5,25 +5,17 @@
 //  Created by Hwang_Inyoung on 10/14/24.
 //
 
-//
-//  MyPageView.swift
-//  ECO_FB_Test
-//
-//  Created by Hwang_Inyoung on 10/14/24.
-//
-
 import SwiftUI
 import AuthenticationServices
 
 struct MyPageView: View {
     @EnvironmentObject var authManager: AuthManager  // AuthManager를 환경 객체로 받아옴
-    @StateObject private var store = NoticeStore() // NoticeStore를 관리
-    
-    @State private var points: Int = 1200
+    @State private var points: Int = 0  // 포인트
     @State private var cartItems: Int = 3
     @State private var orderStatus: String = "처리 중"
     
     @State private var showLoginView: Bool = false  // 로그인 화면으로 이동 여부
+    @State private var isAdmin: Bool = false  // 관리자인지 여부
     
     var body: some View {
         NavigationView {
@@ -40,7 +32,7 @@ struct MyPageView: View {
                         HStack {
                             Text("포인트 현황:")
                             Spacer()
-                            Text("\(points)점")
+                            Text("\(points)점")  // 동적으로 가져온 포인트 표시
                                 .foregroundColor(.green)
                         }
                         
@@ -55,7 +47,7 @@ struct MyPageView: View {
                     }
                     
                     // 관리자 섹션: 관리자인 경우에만 상품 추가 기능 표시
-                    if isAdmin() {
+                    if isAdmin {
                         Section(header: Text("관리자")) {
                             NavigationLink("상품 추가", destination: AddProductView())
                         }
@@ -80,7 +72,7 @@ struct MyPageView: View {
                 
                 // 공지사항, 1:1 문의, 상품 문의, 개인정보 고지, 설정
                 Section(header: Text("지원")) {
-                    NavigationLink("공지사항", destination: NoticeView().environmentObject(store))
+                    NavigationLink("공지사항", destination: NoticeView())
                     NavigationLink("1:1 문의", destination: InquiriesView())
                     NavigationLink("상품 문의", destination: ProductQuestionsView())
                     NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
@@ -92,20 +84,24 @@ struct MyPageView: View {
                 // 로그인 화면 표시
                 LoginView()
             }
+            .onAppear {
+                if let userID = authManager.loggedInUserName {
+                    Task {
+                        do {
+                            points = try await DataManager.shared.getUserPoints(userID: userID)  // 포인트 가져오기
+                            isAdmin = try await DataManager.shared.checkIfUserIsAdmin(userID: userID)  // 관리자 여부 확인
+                        } catch {
+                            print("포인트 또는 관리자 여부 가져오기 실패: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
         }
     }
     
     // 로그아웃 기능
     func handleLogout() {
         authManager.logout()  // AuthManager의 로그아웃 호출
-    }
-    
-    // 관리자 여부를 확인하는 함수
-    func isAdmin() -> Bool {
-        if let userName = authManager.loggedInUserName {
-            return userName == "admin"  // 관리자로 설정한 경우
-        }
-        return false
     }
 }
 
@@ -115,8 +111,6 @@ struct OrderStatusView: View { var body: some View { Text("주문 현황") } }
 struct RecentlyViewedView: View { var body: some View { Text("최근 본 상품") } }
 struct LikedProductsView: View { var body: some View { Text("찜한 상품") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
-
-
 
 struct LoginView: View {
     var body: some View {
