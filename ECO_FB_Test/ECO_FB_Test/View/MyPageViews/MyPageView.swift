@@ -116,7 +116,7 @@ struct RecentlyViewedView: View { var body: some View { Text("최근 본 상품"
 struct LikedProductsView: View { var body: some View { Text("찜한 상품") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
 
-struct ProductQuestionsView: View { var body: some View { Text("상품 문의") } }
+
 struct PrivacyPolicyView: View { var body: some View { Text("개인정보 고지") } }
 
 struct LoginView: View {
