@@ -23,10 +23,11 @@ struct StoreView: View {
     }
     
     var body: some View {
-        if DataManager.shared.dataFetchFlow == .loading {
-            ProgressView()
-        } else {
-            NavigationStack {
+        
+        NavigationStack {
+            if DataManager.shared.dataFetchFlow == .loading {
+                ProgressView()
+            } else {
                 ScrollView {
                     VStack(alignment: .leading) {
                         HStack {
