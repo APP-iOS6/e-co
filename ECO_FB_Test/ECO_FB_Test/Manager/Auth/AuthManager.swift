@@ -76,7 +76,9 @@ final class AuthManager {
             }
         }
     }
-    
+    /**
+     이메일로그인 메소드
+    */
     func EmailLogin(withEmail email: String, password: String) async throws {
         do {
            
@@ -102,7 +104,7 @@ final class AuthManager {
             }
             
             // 데이터 갱신
-            _ = await DataManager.shared.fetchData(type: .user, parameter: .userSearch(id: email))
+            _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: email, shouldReturnUser: false))
         } catch {
             // 오류 출력문들 처리 ui에 처리 어떻게 해야할지 생각필요 
             print("로그인 오류 발생: \(error.localizedDescription)")
@@ -119,4 +121,29 @@ final class AuthManager {
             throw error 
         }
     }
+    /**
+     게스트 로그인 메소드
+    */
+    func guestLogin() async throws {
+            // 게스트로그인
+            // 게스트 임시 프로필 생성
+            let guestEmail = "guest_\(UUID().uuidString)@example.com"
+            let guestUser = User(
+                id: guestEmail,
+                loginMethod: LoginMethod.guest.rawValue,
+                isAdmin: false,
+                name: "게스트 사용자",
+                profileImageName: "Guest.png",
+                pointCount: 0,
+                cart: []
+            )
+            
+            // Firebase에 사용자 데이터 저장 및 로드
+            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: guestEmail, user: guestUser))
+        
+        _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: guestEmail, shouldReturnUser: false))
+            
+            isLoggedIn = true
+            print("비회원 로그인 성공: \(guestEmail)")
+        }
 }
