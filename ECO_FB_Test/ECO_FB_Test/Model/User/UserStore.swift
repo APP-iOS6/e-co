@@ -9,16 +9,17 @@ import Foundation
 import Combine
 import FirebaseFirestore
 
-final class UserStore: ObservableObject, DataControllable {
+@Observable
+final class UserStore: DataControllable {
     static let shared: UserStore = UserStore()
     private let db: Firestore = DataManager.shared.db
-    @Published private(set) var userData: User? = nil
+    private(set) var userData: User? = nil
     
     private init() {}
     
     func checkIfUserExists(parameter: DataParam) async throws -> Bool {
-        guard case let .userLoad(id) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a user load")
+        guard case let .userSearch(id) = parameter else {
+            throw DataError.fetchError(reason: "The DataParam is not a user search")
         }
         
         do {
@@ -31,8 +32,8 @@ final class UserStore: ObservableObject, DataControllable {
     }
     
     func getUserLoginMethod(parameter: DataParam) async throws -> String {
-        guard case let .userLoad(id) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a user load")
+        guard case let .userSearch(id) = parameter else {
+            throw DataError.fetchError(reason: "The DataParam is not a user search")
         }
 
         do {
@@ -54,37 +55,16 @@ final class UserStore: ObservableObject, DataControllable {
     }
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
-        guard case let .userLoad(id) = parameter else {
+        guard case let .userLoad(id, shouldReturnUser) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a user load")
         }
         
         do {
-            let snapshot = try await db.collection("User").document(id).getDocument()
-            
-            guard let docData = snapshot.data() else {
-                throw DataError.fetchError(reason: "The Document Data is nil")
+            if shouldReturnUser {
+                return try await getUserWithReturn(id: id)
+            } else {
+                return try await getUserWithNoReturn(id: id)
             }
-            
-            let id = snapshot.documentID
-            let loginMethod = docData["login_method"] as? String ?? "none"
-            let isAdmin = docData["is_admin"] as? Bool ?? false
-            let name = docData["name"] as? String ?? "none"
-            let profileImageName = docData["profile_image"] as? String ?? "none"
-            let pointCount = docData["point"] as? Int ?? 0
-            
-            var cart: Set<Goods> = []
-            let goodsIDs = docData["cart"] as? [String] ?? []
-            for goodsId in goodsIDs {
-                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId))
-                
-                if case let .goods(result) = goodsResult {
-                    cart.insert(result)
-                }
-            }
-            
-            userData = User(id: id, loginMethod: loginMethod, isAdmin: isAdmin, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart)
-            
-            return DataResult.none
         } catch {
             throw error
         }
@@ -116,5 +96,53 @@ final class UserStore: ObservableObject, DataControllable {
     
     func deleteData() {
         
+    }
+    
+    private func getUserWithReturn(id: String) async throws -> DataResult {
+        do {
+            let snapshot = try await db.collection("User").document(id).getDocument()
+            
+            let user = try await getData(document: snapshot)
+            return DataResult.user(result: user)
+        } catch {
+            throw error
+        }
+    }
+    
+    private func getUserWithNoReturn(id: String) async throws -> DataResult {
+        do {
+            let snapshot = try await db.collection("User").document(id).getDocument()
+            
+            userData = try await getData(document: snapshot)
+            return DataResult.none
+        } catch {
+            throw error
+        }
+    }
+    
+    private func getData(document: DocumentSnapshot) async throws -> User {
+        guard let docData = document.data() else {
+            throw DataError.fetchError(reason: "The Document Data is nil")
+        }
+        
+        let id = document.documentID
+        let loginMethod = docData["login_method"] as? String ?? "none"
+        let isAdmin = docData["is_admin"] as? Bool ?? false
+        let name = docData["name"] as? String ?? "none"
+        let profileImageName = docData["profile_image"] as? String ?? "none"
+        let pointCount = docData["point"] as? Int ?? 0
+        
+        var cart: Set<Goods> = []
+        let goodsIDs = docData["cart"] as? [String] ?? []
+        for goodsId in goodsIDs {
+            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId))
+            
+            if case let .goods(result) = goodsResult {
+                cart.insert(result)
+            }
+        }
+        
+        let user = User(id: id, loginMethod: loginMethod, isAdmin: isAdmin, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart)
+        return user
     }
 }

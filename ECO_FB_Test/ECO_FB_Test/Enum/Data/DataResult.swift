@@ -10,8 +10,8 @@ import Foundation
 enum DataResult {
     case none
     case user(result: User)
-    case admin(result: Admin)
     case seller(result: Seller)
     case goods(result: Goods)
+    case paymentInfo(result: PaymentInfo)
     case error(reason: String)
 }

@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct UserTestView: View {
-    @EnvironmentObject private var userStore: UserStore
-    @StateObject private var dataManager = DataManager.shared
-    @StateObject private var authManager = AuthManager.shared
+    @Environment(UserStore.self) private var userStore: UserStore
+    @Environment(AuthManager.self) private var authManager: AuthManager
+    @Environment(DataManager.self) private var dataManager: DataManager
     @State private var goods: [Goods] = []
     
     var body: some View {
@@ -92,7 +92,7 @@ struct UserTestView: View {
                     .font(.title2)
                     .refreshable {
                         Task {
-                            await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: user.id))
+                            await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: user.id, shouldReturnUser: false))
                         }
                     }
                 }
@@ -110,5 +110,7 @@ struct UserTestView: View {
 
 #Preview {
     UserTestView()
-        .environmentObject(UserStore.shared)
+        .environment(UserStore.shared)
+        .environment(AuthManager.shared)
+        .environment(DataManager.shared)
 }

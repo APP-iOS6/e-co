@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CartView: View {
-    @EnvironmentObject private var userStore: UserStore
-    @EnvironmentObject private var goodsStore: GoodsStore
+    @Environment(UserStore.self) private var userStore: UserStore
+    @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @State private var selectedGoods: [Goods] = []
     @State private var totalPrice: Int = 0
     @State private var isSelectedAll: Bool = false
@@ -67,6 +67,6 @@ struct CartView: View {
 
 #Preview {
     CartView()
-        .environmentObject(UserStore.shared)
-        .environmentObject(GoodsStore.shared)
+        .environment(UserStore.shared)
+        .environment(GoodsStore.shared)
 }
