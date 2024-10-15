@@ -22,8 +22,10 @@ struct StoreView: View {
         goodsStore.filteredGoodsByCategories
     }
     
+    @State var isMapVisible: Bool = false
+    @FocusState var focused: Bool
+    
     var body: some View {
-        
         NavigationStack {
             if DataManager.shared.dataFetchFlow == .loading {
                 ProgressView()
@@ -33,25 +35,23 @@ struct StoreView: View {
                         HStack {
                             VStack {
                                 HStack {
-                                    Text("이코 E-co")
-                                        .font(.system(size: 25, weight: .bold))
-                                    Image(systemName: "leaf.fill")
-                                    Spacer()
-                                }
-                                .padding(.horizontal)
-                                
-                                HStack {
                                     TextField("", text: $searchText)
-                                        .textFieldStyle(.roundedBorder)
                                         .onChange(of: searchText) { oldValue, newValue in
                                             goodsStore.searchAction(newValue)
                                         }
+                                        .keyboardType(.default)
+                                        .focused($focused)
                                     
                                     Button {
                                         searchText = ""
                                     } label: {
                                         Image(systemName: "xmark.circle.fill")
                                     }
+                                }
+                                .padding(10)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(.gray, lineWidth: 1)
                                 }
                                 .padding(.horizontal)
                                 
@@ -77,6 +77,27 @@ struct StoreView: View {
                         
                         ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
                             ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                        }
+                    }
+                }
+                .navigationTitle("스토어")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            isMapVisible.toggle()
+                        } label: {
+                            Image(systemName: "map")
+                        }
+                        .sheet(isPresented: $isMapVisible) {
+                            StoreLocationView()
+                        }
+                    }
+                    
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Button {
+                            focused = false
+                        } label: {
+                            Text("return")
                         }
                     }
                 }
