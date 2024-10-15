@@ -14,7 +14,10 @@ import SwiftUI
  */
 struct EcoStepsView: View {
     // TODO: 전달받은 걸음수 데이터 띄우기, 목표 걸음수의 비율에 맞게 그래프 조정하기
-    @State var progress: CGFloat
+    var stepCount: Int
+    private var progress: CGFloat {
+        return Double(stepCount) / 10000 * 270
+    }
     
     var body: some View {
         VStack{
@@ -46,8 +49,14 @@ struct EcoStepsView: View {
 
                     VStack {
                         Text("오늘의 걸음")
-                        Text("6293")
+                        Text("\(stepCount)")
                             .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.green)
+                            .contentTransition(.numericText())
+                            .transaction { t in
+                                t.animation = .default
+                            }
                     }
                     
                     
@@ -55,28 +64,6 @@ struct EcoStepsView: View {
                         Text("목표: 10000")
                             .offset(y: 100)
                             .font(.title3)
-                        
-                        HStack {
-                            Spacer()
-                            Spacer()
-                            Button {
-                                
-                            } label: {
-                                Image(systemName: "square.and.arrow.up")
-                            }
-                            
-                            Spacer()
-                            
-                            Button {
-                                
-                            } label: {
-                                Image(systemName: "gearshape")
-                            }
-                            Spacer()
-                            Spacer()
-                        }
-                        .font(.title3)
-                        .offset(y: 120)
                     }
                 }
             }
@@ -85,5 +72,5 @@ struct EcoStepsView: View {
 }
 
 #Preview {
-    EcoStepsView(progress: 100)
+    EcoStepsView(stepCount: 5000)
 }

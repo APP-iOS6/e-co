@@ -18,7 +18,8 @@ final class DataManager {
         SellerStore.shared,
         GoodsStore.shared,
         PaymentInfoStore.shared,
-        AnnouncementStore.shared
+        AnnouncementStore.shared,
+        ZeroWasteShopStore.shared
     ]
     private(set) var dataFetchFlow: DataFetchFlow = .none
     

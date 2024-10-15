@@ -12,7 +12,8 @@ struct MyPageView: View {
 
     @State private var cartItems: Int = 3
     @State private var orderStatus: String = "처리 중"
-    
+    //로그인 상태 관리 위해 추가 
+    @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
     @State private var showLoginView: Bool = false  // 로그인 화면으로 이동 여부
 
     var body: some View {
@@ -85,6 +86,8 @@ struct MyPageView: View {
 
     func handleLogout() {
         AuthManager.shared.logout()
+        //여기 로그인 상태 관리위해 추가
+        isLoggedIn = false
     }
 }
 

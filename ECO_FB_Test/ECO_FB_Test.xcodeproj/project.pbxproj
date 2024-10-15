@@ -11,10 +11,14 @@
 		4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */; };
 		4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */; };
 		4223D7352CBCB49900F94D1B /* EcoStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7342CBCB49900F94D1B /* EcoStepsView.swift */; };
+		42807F022CBE2B69007A83D5 /* MoreEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42807F012CBE2B69007A83D5 /* MoreEventsView.swift */; };
+		429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429157B02CBD0EFD0085828F /* HealthKitManager.swift */; };
 		502256842CBD02FA006F6D5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 502256832CBD02FA006F6D5C /* GoogleService-Info.plist */; };
 		502256862CBD0301006F6D5C /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 502256852CBD0301006F6D5C /* Kakao.xcconfig */; };
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
 		6EAA499A2CBCA9C30014A5C6 /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA49992CBCA9B60014A5C6 /* StoreView.swift */; };
+		6EAA4A9B2CBD29E90014A5C6 /* StoreLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */; };
+		F620B5AF2CBE3E03002B58DE /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F620B5AE2CBE3E03002B58DE /* RootView.swift */; };
 		F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */; };
 		F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E2F2CBCE5CA00F67671 /* LoginView.swift */; };
 		F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E312CBCE89400F67671 /* UnderLineView.swift */; };
@@ -65,6 +69,8 @@
 		FEC6F3812CBE0D13000E5441 /* GoodsStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3802CBE0D13000E5441 /* GoodsStorageManager.swift */; };
 		FEC6F3A82CBE39BD000E5441 /* StorageResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3A72CBE39BD000E5441 /* StorageResult.swift */; };
 		FEC6F3AA2CBE3C99000E5441 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FEC6F3A92CBE3C99000E5441 /* FirebaseStorage */; };
+		FEC6F3942CBE2714000E5441 /* ZeroWasteShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3932CBE2714000E5441 /* ZeroWasteShop.swift */; };
+		FEC6F3962CBE28EC000E5441 /* ZeroWasteShopStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3952CBE28EC000E5441 /* ZeroWasteShopStore.swift */; };
 		FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */; };
 		FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA91192CBCABD300D75552 /* CartView.swift */; };
 		FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */; };
@@ -92,10 +98,15 @@
 		4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoTopInfoView.swift; sourceTree = "<group>"; };
 		4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoEventsView.swift; sourceTree = "<group>"; };
 		4223D7342CBCB49900F94D1B /* EcoStepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoStepsView.swift; sourceTree = "<group>"; };
+		42807F012CBE2B69007A83D5 /* MoreEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreEventsView.swift; sourceTree = "<group>"; };
+		429157AA2CBD0E4A0085828F /* ECO_FB_Test.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ECO_FB_Test.entitlements; sourceTree = "<group>"; };
+		429157B02CBD0EFD0085828F /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		502256832CBD02FA006F6D5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		502256852CBD0301006F6D5C /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
 		502256872CBD038F006F6D5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6EAA49992CBCA9B60014A5C6 /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
+		6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreLocationView.swift; sourceTree = "<group>"; };
+		F620B5AE2CBE3E03002B58DE /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailView.swift; sourceTree = "<group>"; };
 		F6386E2F2CBCE5CA00F67671 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F6386E312CBCE89400F67671 /* UnderLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineView.swift; sourceTree = "<group>"; };
@@ -141,6 +152,8 @@
 		FEC6F37C2CBE08F6000E5441 /* StorageParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageParam.swift; sourceTree = "<group>"; };
 		FEC6F3802CBE0D13000E5441 /* GoodsStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStorageManager.swift; sourceTree = "<group>"; };
 		FEC6F3A72CBE39BD000E5441 /* StorageResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageResult.swift; sourceTree = "<group>"; };
+		FEC6F3932CBE2714000E5441 /* ZeroWasteShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeroWasteShop.swift; sourceTree = "<group>"; };
+		FEC6F3952CBE28EC000E5441 /* ZeroWasteShopStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeroWasteShopStore.swift; sourceTree = "<group>"; };
 		FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsCategory.swift; sourceTree = "<group>"; };
 		FEDA91192CBCABD300D75552 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchFlow.swift; sourceTree = "<group>"; };
@@ -205,8 +218,17 @@
 				4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */,
 				4223D7342CBCB49900F94D1B /* EcoStepsView.swift */,
 				4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */,
+				42807F012CBE2B69007A83D5 /* MoreEventsView.swift */,
 			);
 			path = EcoViews;
+			sourceTree = "<group>";
+		};
+		429157B12CBD0EFD0085828F /* New Folder */ = {
+			isa = PBXGroup;
+			children = (
+				429157B02CBD0EFD0085828F /* HealthKitManager.swift */,
+			);
+			path = "New Folder";
 			sourceTree = "<group>";
 		};
 		5022568A2CBD04FD006F6D5C /* AuthView */ = {
@@ -272,6 +294,7 @@
 			children = (
 				50131AEC2CBCAE5C0020D1DE /* MyPageViews */,
 				6EAA49992CBCA9B60014A5C6 /* StoreView.swift */,
+				6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */,
 				FE42060D2CBCE7480004941B /* Custom */,
 				FE42060A2CBCE2830004941B /* Cart */,
 				FEDA91112CBCA36800D75552 /* Sample */,
@@ -279,6 +302,7 @@
 				F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */,
 				5022568A2CBD04FD006F6D5C /* AuthView */,
 				502256872CBD038F006F6D5C /* ContentView.swift */,
+				F620B5AE2CBE3E03002B58DE /* RootView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -286,6 +310,7 @@
 		FE40BBF72CB9405F00786E34 /* ECO_FB_Test */ = {
 			isa = PBXGroup;
 			children = (
+				429157AA2CBD0E4A0085828F /* ECO_FB_Test.entitlements */,
 				FE1847A22CB966C600BE530C /* ECO-FB-Test-Info.plist */,
 				FE40BBFC2CB9406F00786E34 /* App */,
 				FE29E1662CBD47E3005E2EFD /* Extension */,
@@ -315,6 +340,7 @@
 				FEC6F3742CBDFBD1000E5441 /* Storage */,
 				FE6A7AFB2CB9AF49000F5DB6 /* Auth */,
 				FE6A7AFA2CB9AF42000F5DB6 /* Data */,
+				429157B12CBD0EFD0085828F /* New Folder */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -343,6 +369,7 @@
 		FE40BC062CB943F800786E34 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FEC6F3922CBE26F0000E5441 /* ZeroWasteShop */,
 				FE40BC0B2CB9452F00786E34 /* User */,
 				FE6A7ADC2CB99C6D000F5DB6 /* Goods */,
 				FE6A7ADF2CB99D52000F5DB6 /* Seller */,
@@ -444,6 +471,7 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+
 		FEC6F3742CBDFBD1000E5441 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,6 +489,14 @@
 				FEC6F3A72CBE39BD000E5441 /* StorageResult.swift */,
 			);
 			path = Storage;
+      
+		FEC6F3922CBE26F0000E5441 /* ZeroWasteShop */ = {
+			isa = PBXGroup;
+			children = (
+				FEC6F3952CBE28EC000E5441 /* ZeroWasteShopStore.swift */,
+				FEC6F3932CBE2714000E5441 /* ZeroWasteShop.swift */,
+			);
+			path = ZeroWasteShop;
 			sourceTree = "<group>";
 		};
 		FEDA91112CBCA36800D75552 /* Sample */ = {
@@ -638,6 +674,7 @@
 				FEC6F37D2CBE08F6000E5441 /* StorageParam.swift in Sources */,
 				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
 				FE40BC082CB9440800786E34 /* UserStore.swift in Sources */,
+				429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */,
 				4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */,
 				FE29E1632CBD4193005E2EFD /* Announcement.swift in Sources */,
 				FE6A7AFD2CB9AF58000F5DB6 /* AuthManager.swift in Sources */,
@@ -664,6 +701,7 @@
 				FE42060F2CBCE75B0004941B /* CheckBox.swift in Sources */,
 				FE40BC022CB9432C00786E34 /* DataManager.swift in Sources */,
 				FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */,
+				6EAA4A9B2CBD29E90014A5C6 /* StoreLocationView.swift in Sources */,
 				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
 				FEC6F3A82CBE39BD000E5441 /* StorageResult.swift in Sources */,
 				F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */,
@@ -676,10 +714,14 @@
 				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
 				FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */,
 				FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */,
+				FEC6F3962CBE28EC000E5441 /* ZeroWasteShopStore.swift in Sources */,
 				F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */,
 				F6386E342CBCEBFF00F67671 /* LoginTextfieldStyle.swift in Sources */,
+				42807F022CBE2B69007A83D5 /* MoreEventsView.swift in Sources */,
+				F620B5AF2CBE3E03002B58DE /* RootView.swift in Sources */,
 				6EAA499A2CBCA9C30014A5C6 /* StoreView.swift in Sources */,
 				FEC6F3812CBE0D13000E5441 /* GoodsStorageManager.swift in Sources */,
+				FEC6F3942CBE2714000E5441 /* ZeroWasteShop.swift in Sources */,
 				FE40BC0D2CB947D300786E34 /* DataParam.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -840,13 +882,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ECO_FB_Test/ECO_FB_Test.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = HBVHMLA55U;
+
+				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
+                INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+                INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -875,13 +922,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ECO_FB_Test/ECO_FB_Test.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = HBVHMLA55U;
+
+				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
+                INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+                INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

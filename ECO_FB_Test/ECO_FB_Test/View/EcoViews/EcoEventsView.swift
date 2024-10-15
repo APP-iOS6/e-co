@@ -6,10 +6,19 @@
 //
 
 import SwiftUI
+import SafariServices
 
 struct EcoEventsView: View {
     // TODO: 실제 환경 이벤트정보로 변경
-    var sampleData: [String] = ["환경 마라톤", "분리수거 캠페인", "북극곰 구조"]
+    private var sampleData: [String] = ["환경 마라톤", "분리수거 캠페인", "북극곰 보호 캠페인"]
+    private var sampleImage: [Image] = [Image(.maraton), Image(.recycle), Image(.bear)]
+    private var sampleURL: [String] = ["https://event.kakaobank.com/p/saverace",
+                               "http://sunhanmedia.com/board_gald66/174756",
+                               "https://givingplus.or.kr/BEAR/"]
+    @State private var selectedIndex: Int = 0
+    
+    @State private var isShowSafari: Bool = false
+    @State private var isShowMoreEvent: Bool = false
     
     var body: some View {
         VStack {
@@ -20,21 +29,37 @@ struct EcoEventsView: View {
                 Spacer()
                 
                 // TODO: 환경이벤트 페이지로 이동하는 버튼으로 변경
-                Text("더보기")
-                Image(systemName: "chevron.right")
+                HStack {
+                    Text("더보기")
+                    Image(systemName: "chevron.right")
+                }
+                .onTapGesture {
+                    isShowMoreEvent.toggle()
+                }
+                .sheet(isPresented: $isShowMoreEvent) {
+                    MoreEventsView()
+                }
+                
             }
             .font(.footnote)
             
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 20) {
-                    ForEach(sampleData, id: \.self) { data in
+                    ForEach((0..<3), id: \.self) { index in
                         VStack(alignment: .leading) {
-                            Image(systemName: "photo")
+                            sampleImage[index]
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(maxWidth: 120)
-                            Text("\(data)")
+                                .onTapGesture {
+                                    self.selectedIndex = index
+                                    isShowSafari.toggle()
+                                }
+                                .sheet(isPresented: $isShowSafari) {
+                                    SafariView(url: URL(string: sampleURL[selectedIndex])!)
+                                }
+                            Text(sampleData[index])
                                 .font(.footnote)
                         }
                         .frame(maxHeight: 120)
@@ -44,6 +69,18 @@ struct EcoEventsView: View {
             .padding(.top)
         }
         .padding()
+    }
+}
+
+struct SafariView: UIViewControllerRepresentable {
+    let url: URL
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
+        return SFSafariViewController(url: url)
+    }
+    
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
+        
     }
 }
 
