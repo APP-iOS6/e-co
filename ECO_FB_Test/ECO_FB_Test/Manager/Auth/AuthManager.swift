@@ -16,11 +16,8 @@ final class AuthManager {
         GoogleLoginManager.shared,
         KaKaoLoginManager.shared
     ]
-
-    
-    @Published var isLoggedIn: Bool = false
-    @Published var signUpErrorMessage: String? = nil
-
+    private(set) var isLoggedIn: Bool = false
+    private(set) var signUpErrorMessage: String? = nil
     private(set) var emailExistErrorMessage: String? = nil
 
 
@@ -79,6 +76,7 @@ final class AuthManager {
             }
         }
     }
+    
     func EmailLogin(withEmail email: String, password: String) async throws {
         do {
            
@@ -89,11 +87,11 @@ final class AuthManager {
             let currentUser = authResult.user
             
             // 사용자의 id로 데이터 확인
-            let userExist = await DataManager.shared.checkIfUserExists(parameter: .userLoad(id: email))
+            let userExist = await DataManager.shared.checkIfUserExists(parameter: .userSearch(id: email))
             
             if userExist {
                 // 사용자가 이미 존재하는 경우// 이메일 로그인은 이미 사인업에서 데이터를 박아넣기때문에 존재할것이라고 예상
-                let loginMethod = await DataManager.shared.getUserLoginMethod(parameter: .userLoad(id: email))
+                let loginMethod = await DataManager.shared.getUserLoginMethod(parameter: .userSearch(id: email))
                 if loginMethod != LoginMethod.email.rawValue {
                     throw LoginError.emailError(reason: "계정이 \(loginMethod) 로그인으로 연결되어 있습니다.")
                 }
@@ -104,8 +102,7 @@ final class AuthManager {
             }
             
             // 데이터 갱신
-            _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: email))
-            
+            _ = await DataManager.shared.fetchData(type: .user, parameter: .userSearch(id: email))
         } catch {
             // 오류 출력문들 처리 ui에 처리 어떻게 해야할지 생각필요 
             print("로그인 오류 발생: \(error.localizedDescription)")
@@ -122,7 +119,4 @@ final class AuthManager {
             throw error 
         }
     }
-
-
-
 }
