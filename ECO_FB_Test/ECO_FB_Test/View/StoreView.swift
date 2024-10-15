@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 
 struct StoreView: View {
+    @Binding var index: Int
     @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @State var searchText: String = ""
     
@@ -71,13 +72,13 @@ struct StoreView: View {
                                 }
                                 .padding()
                                 
-                                recommendedItemsView(goodsByCategories: goodsByCategories)
+                                recommendedItemsView(index: $index, goodsByCategories: goodsByCategories)
                             }
                         }
                         .padding(.vertical)
                         
                         ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                            ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                            ItemListView(index: $index, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
                         }
                     }
                 }
@@ -111,6 +112,7 @@ struct StoreView: View {
 // 카테고리 별 대표 상품 보여주면 좋을거 같아요!
 // 필수 뷰는 아닙니다!
 struct recommendedItemsView: View {
+    @Binding var index: Int
     var goodsByCategories: [GoodsCategory : [Goods]]
     var body: some View {
         HStack {
@@ -125,10 +127,10 @@ struct recommendedItemsView: View {
                 ForEach(Array(goodsByCategories.keys), id: \.self) { category in
                     if let goods = goodsByCategories[category]?.last {
                         NavigationLink {
-                            GoodsDetailView(goods: goods)
+                            GoodsDetailView(index: $index, goods: goods)
                         } label: {
                             Image(goods.thumbnailImageName)
-                            Image(systemName: "photo.artframe")
+                            Image(.ecoBags)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(minHeight: 100)
@@ -138,11 +140,13 @@ struct recommendedItemsView: View {
             }
             .padding(.horizontal)
         }
+        .scrollTargetBehavior(.paging)
         .scrollIndicators(.hidden)
     }
 }
 
 struct ItemListView: View {
+    @Binding var index: Int
     var category: GoodsCategory
     var allGoods: [Goods]
     var gridItems: [GridItem] = [
@@ -152,7 +156,7 @@ struct ItemListView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: allGoodsOfCategoryView(category: category, allGoods: allGoods)) {
+            NavigationLink(destination: allGoodsOfCategoryView(index: $index, category: category, allGoods: allGoods)) {
                 Image(systemName: "chevron.forward")
                 Text(category.rawValue)
                 Spacer()
@@ -166,7 +170,7 @@ struct ItemListView: View {
                 if allGoods.count > index {
                     
                     NavigationLink {
-                        GoodsDetailView(goods: allGoods[index])
+                        GoodsDetailView(index: $index, goods: allGoods[index])
                     } label: {
                         VStack(alignment: .leading) {
                             Image(systemName: "photo.artframe")
@@ -195,6 +199,7 @@ struct ItemListView: View {
 }
 
 struct allGoodsOfCategoryView: View {
+    @Binding var index: Int
     var category: GoodsCategory
     var allGoods: [Goods]
     var gridItems: [GridItem] = [
@@ -206,7 +211,7 @@ struct allGoodsOfCategoryView: View {
             LazyVGrid(columns: gridItems) {
                 ForEach(allGoods) { goods in
                     NavigationLink {
-                        GoodsDetailView(goods: goods)
+                        GoodsDetailView(index: $index, goods: goods)
                     } label: {
                         VStack(alignment: .leading) {
                             Image(systemName: "photo.artframe")
@@ -236,5 +241,5 @@ struct allGoodsOfCategoryView: View {
 }
 
 #Preview {
-    StoreView().environment(GoodsStore.shared)
+    StoreView(index: .constant(1)).environment(GoodsStore.shared)
 }
