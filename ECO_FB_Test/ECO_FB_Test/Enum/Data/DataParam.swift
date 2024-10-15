@@ -39,4 +39,8 @@ enum DataParam {
      공지사항을 모두 불러올 때 사용, 20개씩 불러오며, 결과값은 AnnouncementStore의 announcementList에 저장됩니다.
      */
     case announcementAll
+    /**
+     친환경 가게 정보를 모두 불러올 때 사용, 결과값은 ZeroWasteShopStore의 zeroWasteShopList에 저장됩니다.
+     */
+    case zeroWasteShopLoadAll
 }
