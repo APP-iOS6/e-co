@@ -90,12 +90,15 @@ struct StoreView: View {
                         recommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories, imageURL: imageURLs[.passion] ?? URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
                         
                         ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+
                             ItemListView(index: $selectedTab, imageURL: imageURLs[category] ?? URL(string: "https://png.pngtree.com/png-vector/20190704/ourmid/pngtree-leaf-graphic-icon-design-template-vector-illustration-png-image_1538440.jpg")!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+
                         }
                     }
                 }
-                .navigationTitle("스토어")
+//                .navigationTitle("스토어")
                 .toolbar {
+
                     if selectedTab == 1 {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button {
@@ -107,6 +110,7 @@ struct StoreView: View {
                                 StoreLocationView()
                                     .presentationDragIndicator(.visible)
                             }
+
                         }
                         
                         ToolbarItemGroup(placement: .keyboard) {

@@ -81,6 +81,7 @@ struct MyPageView: View {
                     NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
                 }
             }
+
             .listStyle(.inset)
             .navigationTitle("마이 페이지")
             .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
@@ -99,6 +100,7 @@ struct MyPageView: View {
             }, message: {
                 Text("로그아웃 하시겠습니까?")
             })
+
         }
     }
     
