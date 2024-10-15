@@ -19,7 +19,7 @@ struct StoreLocationView: View {
                 VStack {
                     HStack {
                         Text("내 주변 친환경 매장")
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: 20, weight: .semibold))
                         Spacer()
                     }
                     .padding(.vertical)
@@ -44,7 +44,7 @@ struct StoreLocationView: View {
                 List(shopList) { shop in
                     HStack {
                         Text(shop.name)
-                            .bold()
+                            .fontWeight(.semibold)
                         Spacer()
                         Text(shop.phoneNumber)
                     }
@@ -75,7 +75,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     
     /** 위치 정보가 업데이트 될 때 호출되는 delegate 함수 */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last {
+        if let _ = locations.last {
             manager.stopUpdatingLocation()
 //            print(location.coordinate)
         }
