@@ -16,8 +16,9 @@ struct EcoStepsView: View {
     // TODO: 전달받은 걸음수 데이터 띄우기, 목표 걸음수의 비율에 맞게 그래프 조정하기
     var stepCount: Int
     private var progress: CGFloat {
-        return Double(stepCount) / 10000 * 270
+        return Double(stepCount) / 10000
     }
+    @State private var animatedProgress: CGFloat = 0
     
     var body: some View {
         VStack{
@@ -27,14 +28,13 @@ struct EcoStepsView: View {
 
                     // --------- 외부 원호 ---------
                     Path { path in
-                        let endAngle = Angle.degrees(135 + progress)
-                        
                         path.addArc(center: center,             // 위치
                                     radius: 130,                // 반지름
                                     startAngle: .degrees(135),  // 좌하단 시작점 : 135`
-                                    endAngle: endAngle,         // 우하단 끝점 : 45` (405`)
+                                    endAngle: .degrees(405),         // 우하단 끝점 : 45` (405`)
                                     clockwise: false)           // 시계 반대방향
                     }
+                    .trim(from: 0, to: animatedProgress)
                     .stroke(Color.green, lineWidth: 8)
                     
                     // --------- 내부 원호 ---------
@@ -66,6 +66,18 @@ struct EcoStepsView: View {
                             .font(.title3)
                     }
                 }
+            }
+        }
+        .onAppear {
+            animatedProgress = 0
+            withAnimation(.easeOut(duration: 1)) {
+                animatedProgress = progress
+            }
+        }
+        .onChange(of: stepCount) {
+            animatedProgress = 0
+            withAnimation(.easeOut(duration: 1)) {
+                animatedProgress = progress
             }
         }
     }
