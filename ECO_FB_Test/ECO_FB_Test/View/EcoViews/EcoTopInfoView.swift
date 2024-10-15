@@ -49,7 +49,7 @@ struct EcoTopInfoView: View {
             .padding()
             
             VStack {
-                Text("걸은 거리")
+                Text("이동 거리")
                 HStack {
                     Text("\(todayDistance)")
                         .font(.title)

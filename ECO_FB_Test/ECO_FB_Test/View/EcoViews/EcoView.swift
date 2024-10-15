@@ -33,10 +33,6 @@ struct EcoView: View {
                 EcoEventsView()
                 
             }
-            .refreshable {
-                healthManager.readCurrentStepCount()
-                healthManager.readCurrentDistance()
-            }
         }
         .onAppear {
             healthManager.requestAuthorization()
