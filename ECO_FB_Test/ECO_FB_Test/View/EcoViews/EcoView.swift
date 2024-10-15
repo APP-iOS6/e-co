@@ -49,6 +49,7 @@ struct EcoView: View {
                 EcoEventsView()
                 
             }
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     HStack {

@@ -83,7 +83,17 @@ struct MyPageView: View {
             }
 
             .listStyle(.inset)
-            .navigationTitle("마이 페이지")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Text("이코")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        Image(systemName: "leaf.fill")
+                    }
+                }
+            }
             .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
                 NavigationLink {
                     LoginView()
