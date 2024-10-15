@@ -9,8 +9,10 @@ import SwiftUI
 
 struct MyPageView: View {
     @EnvironmentObject private var userStore: UserStore
+
     @State private var cartItems: Int = 3
     @State private var orderStatus: String = "처리 중"
+    
     @State private var showLoginView: Bool = false  // 로그인 화면으로 이동 여부
 
     var body: some View {
@@ -67,7 +69,7 @@ struct MyPageView: View {
                 
                 // 공지사항, 1:1 문의, 상품 문의, 개인정보 고지, 설정
                 Section(header: Text("지원")) {
-                    NavigationLink("공지사항", destination: NoticeView())
+                    NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
                     NavigationLink("1:1 문의", destination: InquiriesView())
                     NavigationLink("상품 문의", destination: ProductQuestionsView())
                     NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
@@ -76,7 +78,6 @@ struct MyPageView: View {
             .listStyle(.insetGrouped)
             .navigationTitle("마이 페이지")
             .sheet(isPresented: $showLoginView) {
-                // 로그인 화면을 풀스크린으로 표시
                 LoginView()
             }
         }
@@ -88,12 +89,20 @@ struct MyPageView: View {
 }
 
 // Placeholder Views for Navigation Links
+//struct CartView: View { var body: some View { Text("장바구니") } }
 struct OrderStatusView: View { var body: some View { Text("주문 현황") } }
 struct RecentlyViewedView: View { var body: some View { Text("최근 본 상품") } }
 struct LikedProductsView: View { var body: some View { Text("찜한 상품") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
 
+//struct LoginView: View {
+//    var body: some View {
+//        Text("로그인 화면")
+//            .font(.largeTitle)
+//    }
+//}
+
 #Preview {
     MyPageView()
-        .environmentObject(UserStore.shared)
+        .environmentObject(UserStore.shared)  // AuthManager 객체 주입
 }
