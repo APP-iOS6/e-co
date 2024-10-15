@@ -20,13 +20,11 @@ struct LoginView: View {
     @State var userEmail: String = ""
     @State var userPassword: String = ""
     @FocusState private var focusedField: Field?
-    @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
-    @State private var showCreateAccountPasge = false
-    @State private var isLoggingIn = false // 로그인 중 상태 변수
+    @State private var showCreateAccountPage = false
+    @State private var goMainView: Bool = false
     @State private var loginErrorMessage: String?
+    
     var body: some View {
-        NavigationView {
-            
             VStack{
                 HStack{
                     Text("이코 E-co")
@@ -76,24 +74,22 @@ struct LoginView: View {
                 
                 VStack{
                     Button {
-                        isLoggingIn = true // 로그인 시작 시 프로그래스 뷰 표시
                         Task {
                             do {
                                 try await AuthManager.shared.EmailLogin(withEmail: userEmail, password: userPassword)
-                                isLoggedIn = true
                                 print("로그인 성공")
                                 loginErrorMessage = nil
+                                goMainView = true
                             } catch {
                                 print("로그인 실패: \(error.localizedDescription)")
                                 loginErrorMessage = "이메일 또는 패스워드를 확인해주세요"
                             }
-                            isLoggingIn = false // 로그인 처리 완료 후 프로그래스 뷰 숨김
                         }
                     } label: {
-                        if isLoggingIn {
+                        if authManager.tryToLoginNow {
                             ProgressView() // 로그인 중일 때 프로그래스 뷰 표시
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white)) // 프로그래스 뷰 스타일
-                                .frame(maxWidth: .infinity, maxHeight: 10)
+                                .frame(maxWidth: .infinity, maxHeight: 30)
                                 .padding(.vertical, 18)
                                 .background(Color.green)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -107,31 +103,38 @@ struct LoginView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
                     }
+                    .disabled(authManager.tryToLoginNow)
+                    
                     Divider()
                     //구글 공식 로그인버튼 이미지로 대체
                     Button {
                         Task {
                             await AuthManager.shared.login(type: .google)
-                            isLoggedIn = true
+                            goMainView = true
                         }
                     } label: {
                         Image("googleLogin")
+                        
                     }
+                    .disabled(authManager.tryToLoginNow)
+                    
                     //카카오 공식 버튼 이미지로 대체
                     Button {
                         Task {
                             await AuthManager.shared.login(type: .kakao)
-                            isLoggedIn = true
+                            goMainView = true
                         }
                     } label: {
                         Image("kakaoLogin")
                     }
+                    .disabled(authManager.tryToLoginNow)
+                    
                     //비회원 로그인
                     Button{
                         Task {
                             do {
                                 try await authManager.guestLogin()
-                                isLoggedIn = true
+                                goMainView = true
                             } catch {
                                 print("로그인 실패: \(error.localizedDescription)")
                             }
@@ -141,6 +144,7 @@ struct LoginView: View {
                             .underline()
                     }
                     .foregroundStyle(Color.green)
+                    .disabled(authManager.tryToLoginNow)
                 }
                 .padding(.top, 40)
                 
@@ -151,17 +155,21 @@ struct LoginView: View {
                         .foregroundStyle(.gray)
                     
                     Button("회원가입하러 가기") {
-                        showCreateAccountPasge = true
+                        showCreateAccountPage = true
                     }
                     .foregroundStyle(Color.green)
                 }
             }
             .padding()
-            .sheet(isPresented: $showCreateAccountPasge) {
+            .sheet(isPresented: $showCreateAccountPage) {
                 CreateAccountView()
                 
             }
-        }
+            .navigationDestination(isPresented: $goMainView, destination: {
+                ContentView()
+                    .navigationBarBackButtonHidden()
+            })
+            .navigationBarBackButtonHidden()
     }
 }
 

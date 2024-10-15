@@ -31,7 +31,6 @@ final class SellerStore: DataControllable {
             let profileImageName = docData["profile_image"] as? String ?? "none"
             
             let seller = Seller(id: id, name: name, profileImageName: profileImageName)
-            
             return DataResult.seller(result: seller)
         } catch {
             throw error

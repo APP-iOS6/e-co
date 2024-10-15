@@ -17,21 +17,7 @@ final class GoodsStore: DataControllable {
     private(set) var goodsByCategories: [GoodsCategory: [Goods]] = [:]
     private(set) var filteredGoodsByCategories: [GoodsCategory: [Goods]] = [:]
     
-    private init() {
-        Task {
-            _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll)
-            
-            for goods in goodsList {
-                if goodsByCategories[goods.category] != nil {
-                    goodsByCategories[goods.category]?.append(goods)
-                } else {
-                    goodsByCategories[goods.category] = [goods]
-                }
-            }
-            
-            filteredGoodsByCategories = goodsByCategories
-        }
-    }
+    private init() {}
     
     /**
      카테고리 선택시 해당하는 상품만 필터링 해준다
@@ -86,13 +72,29 @@ final class GoodsStore: DataControllable {
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         do {
+            var result: DataResult = .none
+            
             if case .goodsAll = parameter {
-                return try await getGoodsAll()
+                result = try await getGoodsAll()
+                
+                if goodsByCategories.isEmpty {
+                    for goods in goodsList {
+                        if goodsByCategories[goods.category] != nil {
+                            goodsByCategories[goods.category]?.append(goods)
+                        } else {
+                            goodsByCategories[goods.category] = [goods]
+                        }
+                    }
+                    
+                    filteredGoodsByCategories = goodsByCategories
+                }
             } else if case .goodsLoad(let id) = parameter {
-                return try await getGoodsByID(id)
+                result = try await getGoodsByID(id)
             } else {
                 throw DataError.fetchError(reason: "The DataParam is not a goods load or goods all")
             }
+            
+            return result
         } catch {
             throw error
         }
@@ -168,7 +170,9 @@ final class GoodsStore: DataControllable {
         let price = docData["price"] as? Int ?? 0
         
         let sellerID = docData["seller_id"] as? String ?? "none"
-        let seller = await DataManager.shared.fetchData(type: .seller, parameter: .sellerLoad(id: sellerID))
+        let seller = await DataManager.shared.fetchData(type: .seller, parameter: .sellerLoad(id: sellerID)) { _ in
+            
+        }
         
         guard case let .seller(result) = seller else {
             throw DataError.convertError(reason: "DataResult is not a seller")

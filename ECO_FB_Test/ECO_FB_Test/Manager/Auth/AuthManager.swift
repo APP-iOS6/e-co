@@ -16,10 +16,13 @@ final class AuthManager {
         GoogleLoginManager.shared,
         KaKaoLoginManager.shared
     ]
-    private(set) var isLoggedIn: Bool = false
     private(set) var signUpErrorMessage: String? = nil
     private(set) var emailExistErrorMessage: String? = nil
+    private(set) var tryToLoginNow: Bool = false
 
+    var isUserLoggedIn: Bool {
+        Auth.auth().currentUser != nil
+    }
 
     private init() {}
     
@@ -30,8 +33,12 @@ final class AuthManager {
     */
     func login(type: LoginType) async {
         do {
+            tryToLoginNow = true
+            
             try await loginManagers[type.rawValue].login()
             emailExistErrorMessage = nil
+            
+            tryToLoginNow = false
         } catch {
             if let loginError = error as? LoginError, case let .emailError(reason) = loginError {
                 emailExistErrorMessage = reason
@@ -52,9 +59,36 @@ final class AuthManager {
             print("Error: \(error.localizedDescription)")
         }
     }
+    /**
+     로그인 되어있을 시 유저 정보를 가져오는 메소드
+     */
+    func getLoggedInUserData() async {
+        do {
+            tryToLoginNow = true
+            
+            let id = try getUserID()
+            _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false)) { _ in
+            }
+            
+            tryToLoginNow = false
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
+    /**
+     유저의 아이디(현재는 이메일)을 가져옵니다.
+     */
+    func getUserID() throws -> String {
+        guard let user = Auth.auth().currentUser else { throw LoginError.userError(reason: "You Don't Login!") }
+        guard let email = user.email else { throw LoginError.emailError(reason: "User doesn't have a email")}
+        
+        return email
+    }
     
     func signUp(withEmail email: String, password: String, name: String) async throws {
         do {
+            tryToLoginNow = true
             
             _ = try await Auth.auth().createUser(withEmail: email, password: password)
        
@@ -62,6 +96,7 @@ final class AuthManager {
             let user = User(id: email, loginMethod: LoginMethod.email.rawValue, isAdmin: false, name: name, profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
             await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: email, user: user))
             
+            tryToLoginNow = false
         } catch let error as NSError {
             // Firebase Auth의 오류 처리
             switch AuthErrorCode(rawValue: error.code) {
@@ -104,7 +139,9 @@ final class AuthManager {
             }
             
             // 데이터 갱신
-            _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: email, shouldReturnUser: false))
+            _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: email, shouldReturnUser: false)) { _ in
+                
+            }
         } catch {
             // 오류 출력문들 처리 ui에 처리 어떻게 해야할지 생각필요 
             print("로그인 오류 발생: \(error.localizedDescription)")
@@ -142,9 +179,10 @@ final class AuthManager {
             // Firebase에 사용자 데이터 저장 및 로드
             await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: guestEmail, user: guestUser))
         
-        _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: guestEmail, shouldReturnUser: false))
+        _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: guestEmail, shouldReturnUser: false)) { _ in
             
-            isLoggedIn = true
+        }
+            
             print("비회원 로그인 성공: \(guestEmail)")
         }
 }

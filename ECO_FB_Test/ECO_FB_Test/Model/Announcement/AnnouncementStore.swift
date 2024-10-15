@@ -25,12 +25,15 @@ final class AnnouncementStore: DataControllable {
         }
         
         do {
+            var result = DataResult.none
             if isFirstFetch {
                 isFirstFetch = false
-                return try await initPage()
+                result = try await initPage()
             } else {
-                return try await getNextPage()
+                result = try await getNextPage()
             }
+            
+            return result
         } catch {
             throw error
         }
@@ -105,7 +108,9 @@ final class AnnouncementStore: DataControllable {
         let content = docData["content"] as? String ?? "none"
         
         let adminID = docData["admin_id"] as? String ?? "none"
-        let admin = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: adminID, shouldReturnUser: true))
+        let admin = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: adminID, shouldReturnUser: true)) { _ in
+            
+        }
         
         guard case let DataResult.user(result) = admin else {
             throw DataError.convertError(reason: "DataResult is not a user")

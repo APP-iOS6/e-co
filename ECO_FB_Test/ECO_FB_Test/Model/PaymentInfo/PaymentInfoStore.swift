@@ -18,13 +18,16 @@ final class PaymentInfoStore: DataControllable {
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         do {
+            var result = DataResult.none
             if case .paymentInfoAll(let userID) = parameter {
-                return try await getPaymentInfoAll(userID: userID)
+                result = try await getPaymentInfoAll(userID: userID)
             } else if case .paymentInfoLoad(let id) = parameter {
-                return try await getPaymentInfoByID(id)
+                result = try await getPaymentInfoByID(id)
             } else {
                 throw DataError.fetchError(reason: "The DataParam is not a payment info load or payment info all")
             }
+            
+            return result
         } catch {
             throw error
         }
