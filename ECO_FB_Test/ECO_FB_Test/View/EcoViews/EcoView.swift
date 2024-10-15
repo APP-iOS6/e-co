@@ -22,6 +22,7 @@ struct EcoView: View {
                     Image(systemName: "leaf.fill")
                     Spacer()
                 }
+                .foregroundStyle(.green)
                 .padding()
                 
                 // 상단 Info Area
@@ -29,6 +30,20 @@ struct EcoView: View {
                 
                 // 중앙 걸음수 Area
                 EcoStepsView(stepCount: healthManager.todayStepCount)
+                
+                if userStore.userData != nil {
+                    HStack {
+                        Text("보유 포인트: ")
+                        Text("\(userStore.userData!.pointCount)")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.green)
+                        Text("원")
+                    }
+                } else {
+                    Text("비회원의 경우 포인트가 적립되지 않습니다.")
+                        .font(.footnote)
+                }
                 
                 // 하단 친환경 행사 Area
                 EcoEventsView()
