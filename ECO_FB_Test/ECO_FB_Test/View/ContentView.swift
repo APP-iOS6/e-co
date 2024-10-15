@@ -8,18 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var index = 0
+    
     var body: some View {
-        TabView {
+        TabView(selection: $index, content: {
             EcoView()
                 .tabItem { Image(systemName: "house") }
+                .tag(0)
             
-            
-            StoreView()
+            StoreView(index:$index)
                 .tabItem { Image(systemName: "cart") }
-            
+                .tag(1)
+
             MyPageView()
                 .tabItem { Image(systemName: "person") }
-        }
+                .tag(1)
+        })
     }
 }
 

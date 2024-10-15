@@ -133,8 +133,8 @@ final class UserStore: DataControllable {
         let pointCount = docData["point"] as? Int ?? 0
         
         var cart: Set<Goods> = []
-        let goodsIDs = docData["cart"] as? [String] ?? []
-        for goodsId in goodsIDs {
+        let cartGoodsIDs = docData["cart"] as? [String] ?? []
+        for goodsId in cartGoodsIDs {
             let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId))
             
             if case let .goods(result) = goodsResult {
@@ -142,7 +142,17 @@ final class UserStore: DataControllable {
             }
         }
         
-        let user = User(id: id, loginMethod: loginMethod, isAdmin: isAdmin, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart)
+        var goodsRecentWatched: Set<Goods> = []
+        let recentGoodsIDs = docData["goods_recent_watched"] as? [String] ?? []
+        for goodsId in recentGoodsIDs {
+            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId))
+            
+            if case let .goods(result) = goodsResult {
+                goodsRecentWatched.insert(result)
+            }
+        }
+        
+        let user = User(id: id, loginMethod: loginMethod, isAdmin: isAdmin, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched)
         return user
     }
 }
