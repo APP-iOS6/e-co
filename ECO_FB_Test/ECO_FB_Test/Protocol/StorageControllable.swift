@@ -9,6 +9,6 @@ import Foundation
 
 @MainActor
 protocol StorageControllable {
-    func fetch(parameter: StorageParam) async throws -> URL
+    func fetch(parameter: StorageParam) async throws -> StorageResult
     func upload(parameter: StorageParam) async throws
 }

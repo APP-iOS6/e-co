@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CartView: View {
     @Environment(UserStore.self) private var userStore: UserStore
-    @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @State private var selectedGoods: [Goods] = []
     @State private var totalPrice: Int = 0
     @State private var isSelectedAll: Bool = false
@@ -26,16 +25,17 @@ struct CartView: View {
             .alignmentGuide(HorizontalAlignment.center) { _ in
                 190
             }
-            
-            GeometryReader { geometry in
-                ScrollView {
-                    LazyVStack {
-                        ForEach(goodsStore.goodsList) { goods in
-                            CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods, screenWidth: geometry.size.width) { isOn, goods in
-                                if isOn {
-                                    selectedGoods.append(goods)
-                                } else {
-                                    selectedGoods.removeAll(where: { $0.id == goods.id })
+            if let userData = userStore.userData {
+                GeometryReader { geometry in
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(userData.arrayCart) { goods in
+                                CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods, screenWidth: geometry.size.width) { isOn, goods in
+                                    if isOn {
+                                        selectedGoods.append(goods)
+                                    } else {
+                                        selectedGoods.removeAll(where: { $0.id == goods.id })
+                                    }
                                 }
                             }
                         }
