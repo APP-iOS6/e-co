@@ -96,18 +96,7 @@ struct StoreView: View {
                         }
                     }
                 }
-//                .navigationTitle("스토어")
-                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        HStack {
-                            Text("이코")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                            Image(systemName: "leaf.fill")
-                        }
-                    }
-                    
                     if selectedTab == 1 {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button {
