@@ -23,6 +23,7 @@ struct EcoView: View {
                     Spacer()
                 }
                 .padding()
+                
                 // 상단 Info Area
                 EcoTopInfoView(healthManager: healthManager)
                 
