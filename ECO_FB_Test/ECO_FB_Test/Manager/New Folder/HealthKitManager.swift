@@ -12,9 +12,17 @@ import HealthKit
 class HealthKitManager {
     let healthStore = HKHealthStore()
     
-    let read = Set([HKObjectType.quantityType(forIdentifier: .stepCount)!])
+    static let shared = HealthKitManager()
+    
+//    let read = Set([HKObjectType.quantityType(forIdentifier: .stepCount)!])
+    let read: Set<HKSampleType> = [
+        HKObjectType.quantityType(forIdentifier: .stepCount)!,
+        HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning)!
+    ]
     
     var stepCount = 0
+    var distanceWalking = 0.0
+    
     /**
      건강앱 권한요청 함수
      */
@@ -26,6 +34,11 @@ class HealthKitManager {
                 print("Authorization failed: \(error?.localizedDescription ?? "Unknown error")")
             }
         }
+    }
+    
+    func loadData() {
+        self.readCurrentStepCount()
+        self.readCurrentDistance()
     }
     
     /**
@@ -45,7 +58,7 @@ class HealthKitManager {
         let query = HKStatisticsQuery(quantityType: stepCountType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] (_, result, error) in
             guard let self = self, let result = result, let sum = result.sumQuantity() else {
                 if error != nil {
-                    print("칼로리 가져오기 오류: \\(error.localizedDescription)")
+                    print("걸음수 가져오기 오류: \(error!.localizedDescription)")
                 }
                 return
             }
@@ -53,6 +66,37 @@ class HealthKitManager {
             let stepCount = Int(sum.doubleValue(for: .count()))
             DispatchQueue.main.async {
                 self.stepCount = stepCount
+            }
+        }
+        
+        healthStore.execute(query)
+    }
+    
+    /**
+     건강앱의 걷기,뛴 거리 데이터를 가져오는 함수
+     */
+    func readCurrentDistance() {
+        guard let distanceType = HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning) else {
+            print("distanceType 타입을 가져올 수 없습니다.")
+            return
+        }
+        
+        let now = Date()
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: now)
+        let predicate = HKQuery.predicateForSamples(withStart: startOfDay, end: now, options: .strictStartDate)
+        
+        let query = HKStatisticsQuery(quantityType: distanceType, quantitySamplePredicate: predicate, options: .cumulativeSum) { [weak self] (_, result, error) in
+            guard let self = self, let result = result, let sum = result.sumQuantity() else {
+                if error != nil {
+                    print("거리 가져오기 오류: \(error!.localizedDescription)")
+                }
+                return
+            }
+            
+            let distance = sum.doubleValue(for: .meter())
+            DispatchQueue.main.async {
+                self.distanceWalking = distance
             }
         }
         
