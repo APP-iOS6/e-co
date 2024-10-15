@@ -11,7 +11,7 @@ import HealthKit
 struct EcoView: View {
     @Environment(UserStore.self) private var userStore: UserStore
     private var dataManager = DataManager.shared
-    private var healthManager = HealthKitManager.shared
+    @Bindable private var healthManager = HealthKitManager.shared
     
     var body: some View {
         NavigationStack {

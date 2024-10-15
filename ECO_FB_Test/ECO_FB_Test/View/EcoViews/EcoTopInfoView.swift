@@ -30,6 +30,10 @@ struct EcoTopInfoView: View {
                     Text("\(co2Reduction)")
                         .font(.title)
                         .fontWeight(.bold)
+                        .contentTransition(.numericText())
+                        .transaction { t in
+                            t.animation = .default
+                        }
                     Text("g")
                 }
                 .foregroundStyle(.green)
@@ -43,6 +47,10 @@ struct EcoTopInfoView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundStyle(.green)
+                        .contentTransition(.numericText())
+                        .transaction { t in
+                            t.animation = .default
+                        }
                     Text("원")
                 }
             }
@@ -55,6 +63,10 @@ struct EcoTopInfoView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundStyle(.green)
+                        .contentTransition(.numericText())
+                        .transaction { t in
+                            t.animation = .default
+                        }
                     Text("m")
                 }
             }

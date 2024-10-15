@@ -53,6 +53,10 @@ struct EcoStepsView: View {
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundStyle(.green)
+                            .contentTransition(.numericText())
+                            .transaction { t in
+                                t.animation = .default
+                            }
                     }
                     
                     
