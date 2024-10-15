@@ -512,6 +512,7 @@
 				FEC6F37C2CBE08F6000E5441 /* StorageParam.swift */,
 			);
 			path = Storage;
+		};
       
 		FEC6F3922CBE26F0000E5441 /* ZeroWasteShop */ = {
 			isa = PBXGroup;
