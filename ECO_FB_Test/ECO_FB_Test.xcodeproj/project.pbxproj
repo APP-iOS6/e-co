@@ -189,7 +189,6 @@
 			files = (
 				FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */,
 				FE6A7AEC2CB9AB73000F5DB6 /* FirebaseAuth in Frameworks */,
-				FEC6F3AA2CBE3C99000E5441 /* FirebaseStorage in Frameworks */,
 				FE40BBED2CB93F4A00786E34 /* FirebaseCore in Frameworks */,
 				FE6A7AF12CB9ABA2000F5DB6 /* GoogleSignInSwift in Frameworks */,
 				FE40BBEF2CB93F4A00786E34 /* FirebaseFirestore in Frameworks */,
@@ -511,7 +510,6 @@
 			children = (
 				FEC6F37A2CBE088C000E5441 /* StorageType.swift */,
 				FEC6F37C2CBE08F6000E5441 /* StorageParam.swift */,
-				FEC6F3A72CBE39BD000E5441 /* StorageResult.swift */,
 			);
 			path = Storage;
       
@@ -557,7 +555,6 @@
 				FE6A7AEB2CB9AB73000F5DB6 /* FirebaseAuth */,
 				FE6A7AEE2CB9ABA2000F5DB6 /* GoogleSignIn */,
 				FE6A7AF02CB9ABA2000F5DB6 /* GoogleSignInSwift */,
-				FEC6F3A92CBE3C99000E5441 /* FirebaseStorage */,
 			);
 			productName = ECO_FB_Test;
 			productReference = FE40BBBC2CB93E4100786E34 /* ECO_FB_Test.app */;
@@ -730,7 +727,6 @@
 				FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */,
 				6EAA4A9B2CBD29E90014A5C6 /* StoreLocationView.swift in Sources */,
 				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
-				FEC6F3A82CBE39BD000E5441 /* StorageResult.swift in Sources */,
 				F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */,
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
@@ -1162,11 +1158,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FEBEFBA42CB975F400E3D86A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
-		};
-		FEC6F3A92CBE3C99000E5441 /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FE40BBEB2CB93F4A00786E34 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
