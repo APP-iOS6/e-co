@@ -77,7 +77,14 @@ struct MyPageView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .navigationTitle("마이 페이지")
+//            .navigationTitle("마이 페이지")
+            .toolbar{
+                ToolbarItem(placement: .principal) {
+                    Text("마이페이지")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                }
+            }
             .alert(isPresented: $showLogoutAlert) {
                 Alert(
                     title: Text("로그아웃"),

@@ -84,8 +84,16 @@ struct StoreView: View {
                         }
                     }
                 }
-                .navigationTitle("스토어")
+//                .navigationTitle("스토어")
                 .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        HStack {
+                            Text("스토어")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                        }
+                    }
+                    
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             isMapVisible.toggle()
