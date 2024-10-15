@@ -242,6 +242,16 @@
 			path = AuthView;
 			sourceTree = "<group>";
 		};
+		50D468022CBE5B3B00757BAD /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				6EAA49992CBCA9B60014A5C6 /* StoreView.swift */,
+				6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */,
+				F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		FE29E15C2CBD312A005E2EFD /* PaymentInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,14 +302,12 @@
 		FE40BBF32CB9405F00786E34 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				50D468022CBE5B3B00757BAD /* Store */,
 				50131AEC2CBCAE5C0020D1DE /* MyPageViews */,
-				6EAA49992CBCA9B60014A5C6 /* StoreView.swift */,
-				6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */,
 				FE42060D2CBCE7480004941B /* Custom */,
 				FE42060A2CBCE2830004941B /* Cart */,
 				FEDA91112CBCA36800D75552 /* Sample */,
 				4223D7362CBCD97900F94D1B /* EcoViews */,
-				F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */,
 				5022568A2CBD04FD006F6D5C /* AuthView */,
 				502256872CBD038F006F6D5C /* ContentView.swift */,
 				F620B5AE2CBE3E03002B58DE /* RootView.swift */,
@@ -670,12 +678,7 @@
 			files = (
 				FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */,
 				F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */,
-				501650682CBE44F400414169 /* InquiriesView.swift in Sources */,
-				501650692CBE44F400414169 /* MyPageView.swift in Sources */,
-				5016506A2CBE44F400414169 /* NoticeView.swift in Sources */,
 				FE5924D92CBE54CD002FC977 /* StorageType.swift in Sources */,
-				5016506B2CBE44F400414169 /* PrivacyPolicyView.swift in Sources */,
-				5016506C2CBE44F400414169 /* ProductQuestionsView.swift in Sources */,
 				502256882CBD038F006F6D5C /* ContentView.swift in Sources */,
 				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
 				FE40BC082CB9440800786E34 /* UserStore.swift in Sources */,
@@ -891,13 +894,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
-                INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
-                INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -931,13 +933,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
-                INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
-                INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
