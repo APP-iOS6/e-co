@@ -69,6 +69,8 @@
 		FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7AFE2CB9B01F000F5DB6 /* LoginError.swift */; };
 		FE6A7B012CB9B043000F5DB6 /* CommonError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6A7B002CB9B043000F5DB6 /* CommonError.swift */; };
 		FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */; };
+		FE92D4AF2CBE785B00B08F8E /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = FE92D4AE2CBE785B00B08F8E /* Nuke */; };
+		FE92D4B12CBE785B00B08F8E /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = FE92D4B02CBE785B00B08F8E /* NukeUI */; };
 		FEBEFBA62CB975F400E3D86A /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA52CB975F400E3D86A /* KakaoSDKAuth */; };
 		FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA72CB975F400E3D86A /* KakaoSDKCommon */; };
 		FEBEFBAA2CB975F400E3D86A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA92CB975F400E3D86A /* KakaoSDKUser */; };
@@ -197,7 +199,9 @@
 				FE40BBEF2CB93F4A00786E34 /* FirebaseFirestore in Frameworks */,
 				FEBEFBAA2CB975F400E3D86A /* KakaoSDKUser in Frameworks */,
 				FEBEFBA62CB975F400E3D86A /* KakaoSDKAuth in Frameworks */,
+				FE92D4B12CBE785B00B08F8E /* NukeUI in Frameworks */,
 				FE6A7AEF2CB9ABA2000F5DB6 /* GoogleSignIn in Frameworks */,
+				FE92D4AF2CBE785B00B08F8E /* Nuke in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +565,8 @@
 				FE6A7AEE2CB9ABA2000F5DB6 /* GoogleSignIn */,
 				FE6A7AF02CB9ABA2000F5DB6 /* GoogleSignInSwift */,
 				FE5924D12CBE52A0002FC977 /* FirebaseStorage */,
+				FE92D4AE2CBE785B00B08F8E /* Nuke */,
+				FE92D4B02CBE785B00B08F8E /* NukeUI */,
 			);
 			productName = ECO_FB_Test;
 			productReference = FE40BBBC2CB93E4100786E34 /* ECO_FB_Test.app */;
@@ -648,6 +654,7 @@
 				FE40BBEB2CB93F4A00786E34 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				FEBEFBA42CB975F400E3D86A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				FE6A7AED2CB9ABA2000F5DB6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				FE92D4AD2CBE785B00B08F8E /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FE40BBBD2CB93E4100786E34 /* Products */;
@@ -1116,6 +1123,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		FE92D4AD2CBE785B00B08F8E /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.8.0;
+			};
+		};
 		FEBEFBA42CB975F400E3D86A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
@@ -1156,6 +1171,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FE6A7AED2CB9ABA2000F5DB6 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		FE92D4AE2CBE785B00B08F8E /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE92D4AD2CBE785B00B08F8E /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		FE92D4B02CBE785B00B08F8E /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE92D4AD2CBE785B00B08F8E /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
 		};
 		FEBEFBA52CB975F400E3D86A /* KakaoSDKAuth */ = {
 			isa = XCSwiftPackageProductDependency;

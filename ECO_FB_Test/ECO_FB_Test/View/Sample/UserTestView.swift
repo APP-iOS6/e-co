@@ -12,6 +12,7 @@ struct UserTestView: View {
     @Environment(AuthManager.self) private var authManager: AuthManager
     @Environment(DataManager.self) private var dataManager: DataManager
     @State private var goods: [Goods] = []
+    @State private var dataFetchFlow: DataFetchFlow = .none
     
     var body: some View {
         VStack {
@@ -92,13 +93,15 @@ struct UserTestView: View {
                     .font(.title2)
                     .refreshable {
                         Task {
-                            await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: user.id, shouldReturnUser: false))
+                            await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: user.id, shouldReturnUser: false)) { flow in
+                                dataFetchFlow = flow
+                            }
                         }
                     }
                 }
             }
             
-            if dataManager.dataFetchFlow == .loading {
+            if dataFetchFlow == .loading {
                 Text("데이터 로딩중...")
                     .font(.largeTitle)
                     .fontWeight(.bold)

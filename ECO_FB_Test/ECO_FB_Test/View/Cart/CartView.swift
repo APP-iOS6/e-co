@@ -57,11 +57,6 @@ struct CartView: View {
                     }
             }
         }
-        .onAppear {
-            Task {
-                await _ = DataManager.shared.fetchData(type: .goods, parameter: .goodsAll)
-            }
-        }
     }
 }
 

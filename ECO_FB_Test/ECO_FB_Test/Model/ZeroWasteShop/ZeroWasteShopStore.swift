@@ -17,7 +17,9 @@ final class ZeroWasteShopStore: DataControllable {
     
     private init() {
         Task {
-            _ = await DataManager.shared.fetchData(type: .zeroWasteShop, parameter: .zeroWasteShopLoadAll)
+            _ = await DataManager.shared.fetchData(type: .zeroWasteShop, parameter: .zeroWasteShopLoadAll) { _ in
+                
+            }
         }
     }
     

@@ -6,22 +6,30 @@
 //
 
 import SwiftUI
+import NukeUI
 
 struct GoodsDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var index: Int
     var goods: Goods
+    var thumbnail: URL
     
     var body: some View {
         GeometryReader { GeometryProxy in
             VStack {
                 ScrollView {
                     VStack {
-                        Image(goods.thumbnailImageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 400, height: 250)
-                            .padding(.bottom)
+                        LazyImage(url: thumbnail) { state in
+                            if let image = state.image {
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 400, height: 250)
+                                    .padding(.bottom)
+                            } else if state.isLoading {
+                                ProgressView()
+                            }
+                        }
                         
                         VStack(alignment: .leading) {
                             Text(goods.seller.name)
@@ -42,10 +50,9 @@ struct GoodsDetailView: View {
                                 .padding(.bottom, 30)
                         }
                     }
-                    .frame(width: GeometryProxy.size.width - 20)
+                    .frame(width: GeometryProxy.size.width)
                 }
                 .scrollIndicators(.hidden)
-                .frame(width: GeometryProxy.size.width - 20)
                 
                 HStack {
                     Button {
@@ -117,5 +124,5 @@ struct GoodsDetailView: View {
     )
     
     
-    GoodsDetailView(index: .constant(1),goods: sampleGoods)
+    GoodsDetailView(index: .constant(1),goods: sampleGoods, thumbnail: URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
 }

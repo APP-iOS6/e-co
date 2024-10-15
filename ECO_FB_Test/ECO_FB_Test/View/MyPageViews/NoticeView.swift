@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NoticeView: View {
     @Environment(AnnouncementStore.self) private var announcementStore: AnnouncementStore
+    @State private var dataFetchFlow: DataFetchFlow = .none
+    
     var body: some View {
         NavigationView {
             List(announcementStore.announcementList) { announcement in
@@ -26,7 +28,9 @@ struct NoticeView: View {
         }
         .onAppear {
             Task {
-                _ = await DataManager.shared.fetchData(type: .announcement, parameter: .announcementAll)
+                _ = await DataManager.shared.fetchData(type: .announcement, parameter: .announcementAll) { flow in
+                    dataFetchFlow = flow
+                }
             }
         }
         EmptyView()

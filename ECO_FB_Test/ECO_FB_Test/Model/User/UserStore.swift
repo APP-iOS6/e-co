@@ -60,11 +60,14 @@ final class UserStore: DataControllable {
         }
         
         do {
+            var result = DataResult.none
             if shouldReturnUser {
-                return try await getUserWithReturn(id: id)
+                result = try await getUserWithReturn(id: id)
             } else {
-                return try await getUserWithNoReturn(id: id)
+                result = try await getUserWithNoReturn(id: id)
             }
+
+            return result
         } catch {
             throw error
         }
@@ -135,7 +138,9 @@ final class UserStore: DataControllable {
         var cart: Set<Goods> = []
         let cartGoodsIDs = docData["cart"] as? [String] ?? []
         for goodsId in cartGoodsIDs {
-            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId))
+            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
+                
+            }
             
             if case let .goods(result) = goodsResult {
                 cart.insert(result)
@@ -145,7 +150,9 @@ final class UserStore: DataControllable {
         var goodsRecentWatched: Set<Goods> = []
         let recentGoodsIDs = docData["goods_recent_watched"] as? [String] ?? []
         for goodsId in recentGoodsIDs {
-            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId))
+            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
+                
+            }
             
             if case let .goods(result) = goodsResult {
                 goodsRecentWatched.insert(result)
