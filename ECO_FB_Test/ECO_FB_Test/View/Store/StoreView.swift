@@ -95,7 +95,6 @@ struct StoreView: View {
                             StoreLocationView()
                                 .presentationDragIndicator(.visible)
                         }
-                        .foregroundStyle(.black)
                     }
                     
                     ToolbarItemGroup(placement: .keyboard) {
