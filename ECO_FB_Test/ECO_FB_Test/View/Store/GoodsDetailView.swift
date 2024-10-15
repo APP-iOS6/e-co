@@ -42,10 +42,9 @@ struct GoodsDetailView: View {
                                 .padding(.bottom, 30)
                         }
                     }
-                    .frame(width: GeometryProxy.size.width - 20)
+                    .frame(width: GeometryProxy.size.width)
                 }
                 .scrollIndicators(.hidden)
-                .frame(width: GeometryProxy.size.width - 20)
                 
                 HStack {
                     Button {

@@ -22,7 +22,7 @@ struct ContentView: View {
 
             MyPageView()
                 .tabItem { Image(systemName: "person") }
-                .tag(1)
+                .tag(2)
         })
     }
 }
