@@ -91,6 +91,7 @@ struct StoreView: View {
                         }
                         .sheet(isPresented: $isMapVisible) {
                             StoreLocationView()
+                                .presentationDragIndicator(.visible)
                         }
                     }
                     

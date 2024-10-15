@@ -12,7 +12,7 @@ import Observation
 
 struct StoreLocationView: View {
     var coordinate = LocationManager.shared.coordinate
-    
+    var shopList = ZeroWasteShopStore.shared.zeroWasteShopList
     var body: some View {
         VStack {
             HStack {
@@ -20,18 +20,33 @@ struct StoreLocationView: View {
                     .font(.system(size: 20, weight: .bold))
                 Spacer()
             }
+            .padding(.vertical)
             
             Map {
-                // TODO: 파이어베이스에 스토어별 위도 경도 위치 정보 가져와서 주변 스토어들 핀 찍기
                 if let coordinate = coordinate {
                     Marker(coordinate: coordinate) {
-                        // 스토어 별로 핀 찍으려고 한거에여
                         Text("내 위치")
+                    }
+                }
+                
+                ForEach(shopList) { shop in
+                    Marker(coordinate: shop.position) {
+                        Text(shop.name)
                     }
                 }
             }
         }
         .padding()
+        
+        List(shopList) { shop in
+            HStack {
+                Text(shop.name)
+                    .bold()
+                Spacer()
+                Text(shop.phoneNumber)
+            }
+        }
+        .listStyle(.plain)
     }
 }
 
@@ -56,7 +71,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             manager.stopUpdatingLocation()
-            print(location.coordinate)
+//            print(location.coordinate)
         }
     }
 }

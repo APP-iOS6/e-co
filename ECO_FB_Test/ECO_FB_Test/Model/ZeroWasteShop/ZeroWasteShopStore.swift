@@ -15,7 +15,11 @@ final class ZeroWasteShopStore: DataControllable {
     private let db: Firestore = DataManager.shared.db
     private(set) var zeroWasteShopList: [ZeroWasteShop] = []
     
-    private init() {}
+    private init() {
+        Task {
+            _ = await DataManager.shared.fetchData(type: .zeroWasteShop, parameter: .zeroWasteShopLoadAll)
+        }
+    }
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         guard case .zeroWasteShopLoadAll = parameter else {
