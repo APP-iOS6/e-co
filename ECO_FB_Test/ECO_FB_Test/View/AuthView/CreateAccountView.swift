@@ -23,24 +23,28 @@ struct CreateAccountView: View {
     @State var checkUserPassword: String = ""
     @FocusState private var focusedField: Field?
     @Environment(\.dismiss) private var dismiss
-    
+    @State var emailErrorMasage: String = ""
+    private var isPasswordCount: Bool {
+        userPassword.count <= 5
+    }
     private var isEmailForm: Bool {
         let emailRegex = "^[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\\.[A-Za-z]{2,}$"
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         return emailPredicate.evaluate(with: userEmail)
     }
     var body: some View {
+        
         VStack {
             Text("SignUp")
                 .font(.title)
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, 30)
+            //이름영역
             VStack{
-               
                 Text("이름").textFieldStyle(paddingTop: 0, paddingLeading: -165, isFocused: focusedField == .name)
-                HStack(spacing: -10) {
-                    Image(systemName: "at")
+                HStack(spacing: -15) {
+                    Image(systemName: "person")
                     UnderlineTextFieldView(
                         text: $userName,
                         textFieldView: nameView,
@@ -49,14 +53,13 @@ struct CreateAccountView: View {
                     )
                     .focused($focusedField, equals: .name)
                 }
-            }
-            
+            }.frame(width: 370 , height: 75, alignment: .leading)
+            //이메일 영역
             VStack{
-                
                 Text("이메일")
-                    .textFieldStyle(paddingTop:20, paddingLeading: -165, isFocused: focusedField == .email)
-                HStack(spacing: -10) {
-                    Image(systemName: "person")
+                    .textFieldStyle(paddingTop: 0, paddingLeading: -165, isFocused: focusedField == .email)
+                HStack(spacing: -15) {
+                    Image(systemName: "at")
                     UnderlineTextFieldView(
                         text: $userEmail,
                         textFieldView: textView,
@@ -66,19 +69,32 @@ struct CreateAccountView: View {
                     .focused($focusedField, equals: .email)
                 }
                 HStack {
-                    Image(systemName: "exclamationmark.triangle.fill").font(.caption2)
-                    Text("이메일 형식으로 입력해주세요!")
-                        .font(.caption2)
+                    if !isEmailForm && !userEmail.isEmpty {
+                        Image(systemName: "exclamationmark.triangle.fill").font(.caption2).foregroundColor(.red)
+                        Text("이메일 형식으로 입력해주세요!")
+                            .font(.caption2)
+                            .foregroundColor(.red)
+                    } else if !emailErrorMasage.isEmpty {
+                        Image(systemName: "exclamationmark.triangle.fill").font(.caption2).foregroundColor(.red)
+                        Text(emailErrorMasage)
+                            .font(.caption2)
+                            .foregroundColor(.red)
+                    } else {
+                        Text("")
+                            .font(.caption2)
+                            .foregroundColor(.clear)
+                    }
                     Spacer()
                 }
                 .padding(.leading)
-                .foregroundColor(isEmailForm ? .clear : .red)
                 .opacity(userEmail.isEmpty ? (focusedField == .email ? 1 : 0) : 1)
             }
+            .frame(width: 370 , height: 60, alignment: .leading)
+            
+            //패스워드 영역
             VStack{
-                
                 Text("패스워드")
-                    .textFieldStyle(paddingTop: 2, paddingLeading: -165, isFocused: focusedField == .password)
+                    .textFieldStyle(paddingTop: 0, paddingLeading: -165, isFocused: focusedField == .password)
                 HStack(spacing: -10) {
                     Image(systemName: "lock")
                     UnderlineTextFieldView(
@@ -89,12 +105,23 @@ struct CreateAccountView: View {
                     )
                     .focused($focusedField, equals: .password)
                 }
-            }
+                HStack{
+                    
+                    Image(systemName: "exclamationmark.triangle.fill").font(.caption2)
+                    Text("패스워드는 6자리 이상 입력해주세용!")
+                        .font(.caption2)
+                    
+                    Spacer()
+                }
+                .padding(.leading)
+                .foregroundColor(isPasswordCount ? .red : .clear)
+                .opacity(userPassword.isEmpty ? (focusedField == .password ? 1 : 0) : 1)
+            }.frame(width: 370 , height: 60, alignment: .leading)
             
+            //패스워드 확인영역
             VStack{
-                
                 Text("패스워드 확인")
-                    .textFieldStyle(paddingTop: 20, paddingLeading: -165, isFocused: focusedField == .checkingPassword)
+                    .textFieldStyle(paddingTop: 0, paddingLeading: -165, isFocused: focusedField == .checkingPassword)
                 HStack(spacing: -10) {
                     Image(systemName: "lock")
                     UnderlineTextFieldView(
@@ -106,7 +133,6 @@ struct CreateAccountView: View {
                     .focused($focusedField, equals: .checkingPassword)
                 }
                 HStack{
-                    
                     if checkUserPassword != userPassword {
                         Image(systemName: "exclamationmark.triangle.fill").font(.caption2)
                         Text("비밀번호가 서로 달라용!")
@@ -118,21 +144,20 @@ struct CreateAccountView: View {
                 .opacity(checkUserPassword.isEmpty ? (focusedField == .checkingPassword ? 1 : 0) : 1)
                 //.foregroundColor(isPasswordUnCorrectError ? .red : .clear)
                 .foregroundColor(.red)
-                
-            }
-            
+            }.frame(width: 370 , height: 60, alignment: .leading)
+            //회원가입 버튼
             Button(action: {
-                //
-               
                 Task {
                     //await signUpUser()
                     do {
                         try await AuthManager.shared.signUp(withEmail: userEmail, password: userPassword, name: userName)
+                        emailErrorMasage = ""
                         print("회원가입함")
+                        dismiss()
                     }   catch {
+                        emailErrorMasage = "이미 사용중인 이메일 입니다."
                         print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
                     }
-                    dismiss()
                 }
             }, label: {
                 Text("회원가입").font(.headline)
@@ -141,13 +166,15 @@ struct CreateAccountView: View {
                 .background(checkSignup() ?Color.green :Color.gray)
                 .cornerRadius(10)
                 .foregroundColor(.white)
+                .padding(.top, 40)
             
             Spacer()
             
         }.padding()
     }
+    //조건에 맞지 않으면 버튼 비활성화, 즉 고로 이메일 중복 일때 제외하고 잘못된방법으로 회원가입 시도하였을때 회원가입 버튼을 비활성화함으로써 회원가입을 마금
     private func checkSignup() -> Bool {
-        if userName.isEmpty || userEmail.isEmpty || userPassword.isEmpty || checkUserPassword.isEmpty || checkUserPassword != userPassword || isEmailForm != true {
+        if userName.isEmpty || userEmail.isEmpty || userPassword.isEmpty || checkUserPassword.isEmpty || checkUserPassword != userPassword || isEmailForm != true || isPasswordCount {
             return false
         }
         

@@ -33,10 +33,10 @@ struct ECO_FB_TestApp: App {
     init () {
         KakaoSDK.initSDK(appKey: Bundle.main.infoDictionary?["AppKey"] as! String)
     }
-    
+    //앱 시작 로그인 화면위해 루트뷰로 변경하였습니다.
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
                 .onOpenURL { url in
                     if (AuthApi.isKakaoTalkLoginUrl(url)) {
                         _ = AuthController.handleOpenUrl(url: url)
