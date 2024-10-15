@@ -14,14 +14,29 @@ class HealthKitManager {
     
     static let shared = HealthKitManager()
     
-//    let read = Set([HKObjectType.quantityType(forIdentifier: .stepCount)!])
     let read: Set<HKSampleType> = [
         HKObjectType.quantityType(forIdentifier: .stepCount)!,
         HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning)!
     ]
     
-    var stepCount = 0
-    var distanceWalking = 0.0
+    private var stepCount = 0
+    private(set) var distanceWalking = 0.0
+    private(set) var remainStepCount = 0
+    private(set) var changeStepCount = 0
+    private(set) var todayPoint = 0
+    private(set) var isChangedTodayStepCount: Bool = false
+    private(set) var todayStepCount: Int {
+        get {
+            return stepCount
+        }
+        set {
+            if newValue > 10000 {
+                stepCount = 10000
+            } else {
+                stepCount = newValue
+            }
+        }
+    }
     
     /**
      건강앱 권한요청 함수
@@ -65,7 +80,11 @@ class HealthKitManager {
             
             let stepCount = Int(sum.doubleValue(for: .count()))
             DispatchQueue.main.async {
-                self.stepCount = stepCount
+                if self.todayStepCount < stepCount {
+                    self.isChangedTodayStepCount = true
+                    self.changeStepCount = stepCount - self.todayStepCount
+                }
+                self.todayStepCount = stepCount
             }
         }
         
@@ -101,5 +120,44 @@ class HealthKitManager {
         }
         
         healthStore.execute(query)
+    }
+    
+    /**
+     오늘의 걸음수를 가지고 오늘 획득한 총 포인트를 반환하는 함수
+     */
+    func getTodayStepPoint() -> Int {
+        var point = 0
+        remainStepCount = todayStepCount % 1000
+        
+        point += (todayStepCount / 1000) * 10    // 1000 걸음당 10포인트
+        
+        if todayStepCount >= 10000 {     // 10000걸음 목표 달성시 50포인트
+            point += 50
+        }
+        
+        todayPoint = point
+        return point
+    }
+    
+    /**
+     걸음수가 변경이 되었을때 해당걸음수의 포인트를 계산하는 함수
+     */
+    func getStepPoint() -> Int {
+        var point = 0
+        
+        let steps = remainStepCount + changeStepCount
+        remainStepCount = steps % 1000
+        
+        point += (steps / 1000) * 10
+        
+        if todayStepCount == 10000 {
+            point += 50
+        }
+        
+        if isChangedTodayStepCount == true {
+            isChangedTodayStepCount = false
+        }
+        
+        return point
     }
 }

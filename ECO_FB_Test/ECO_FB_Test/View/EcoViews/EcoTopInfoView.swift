@@ -10,31 +10,53 @@ import SwiftUI
 struct EcoTopInfoView: View {
     // TODO: 전달받은 걸음수 데이터를 가공하여 정보 계산하기
     var healthManager: HealthKitManager
+    
+    // 이산화탄소 저감량계산: 1km당 0.21kg저감, 100m당 0.021kg(21g), 1m당 0.21g(210mg)
     private var co2Reduction: Int {
         let distance = healthManager.distanceWalking
         return Int(distance * 0.21)
     }
-    // 이산화탄소 저감량계산: 1km당 0.21kg저감, 100m당 0.021kg(21g), 1m당 0.21g(210mg)
+    
+    private var todayDistance: String {
+        let str = String(format: "%.1f", healthManager.distanceWalking)
+        return str
+    }
+    
     var body: some View {
         HStack {
             VStack {
-                Text("CO2 저감(g)")
-                Text("\(co2Reduction)")
-                    .font(.title)
+                Text("CO2 저감")
+                HStack {
+                    Text("\(co2Reduction)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    Text("g")
+                }
+                .foregroundStyle(.green)
             }
             .padding()
             
             VStack {
                 Text("포인트")
-                Text("100")
-                    .font(.title)
+                HStack {
+                    Text("\(healthManager.getTodayStepPoint())")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.green)
+                    Text("원")
+                }
             }
             .padding()
             
             VStack {
-                Text("Km")
-                Text("\(healthManager.distanceWalking)")
-                    .font(.title)
+                Text("걸은 거리")
+                HStack {
+                    Text("\(todayDistance)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.green)
+                    Text("m")
+                }
             }
             .padding()
         }

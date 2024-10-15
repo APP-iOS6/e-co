@@ -51,6 +51,8 @@ struct EcoStepsView: View {
                         Text("오늘의 걸음")
                         Text("\(stepCount)")
                             .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.green)
                     }
                     
                     
@@ -58,28 +60,6 @@ struct EcoStepsView: View {
                         Text("목표: 10000")
                             .offset(y: 100)
                             .font(.title3)
-                        
-                        HStack {
-                            Spacer()
-                            Spacer()
-                            Button {
-                                
-                            } label: {
-                                Image(systemName: "square.and.arrow.up")
-                            }
-                            
-                            Spacer()
-                            
-                            Button {
-                                
-                            } label: {
-                                Image(systemName: "gearshape")
-                            }
-                            Spacer()
-                            Spacer()
-                        }
-                        .font(.title3)
-                        .offset(y: 120)
                     }
                 }
             }
