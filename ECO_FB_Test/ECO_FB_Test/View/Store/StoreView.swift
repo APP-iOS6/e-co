@@ -201,6 +201,7 @@ struct allGoodsOfCategoryView: View {
         GridItem(),
         GridItem()
     ]
+    //@State private var goodsImageURLs: [String : URL] = [:]
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridItems) {
@@ -209,11 +210,11 @@ struct allGoodsOfCategoryView: View {
                         GoodsDetailView(goods: goods)
                     } label: {
                         VStack(alignment: .leading) {
-                            Image(systemName: "photo.artframe")
-                            //                        Image(goods.thumbnailImageName)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(minHeight: 70)
+//                            Image(systemName: "photo.artframe")
+//                            //                        Image(goods.thumbnailImageName)
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(minHeight: 70)
                             
                             HStack {
                                 Text(goods.name)
@@ -231,7 +232,16 @@ struct allGoodsOfCategoryView: View {
         .scrollIndicators(.hidden)
         .padding()
         .navigationTitle(category.rawValue)
-        //        .navigationBarBackButtonHidden()
+//        .onAppear {
+//            Task {
+//                for goods in allGoods {
+//                    let result = await StorageManager.shared.fetch(type: .goods, parameter: .goodsThumbnail(goodsID: "0A44DC63-AFCB-4E7B-96A3-8C2E0926564D"))
+//                    if case .single(let url) = result {
+//                        goodsImageURLs[goods.id] = url
+//                    }
+//                }
+//            }
+//        }
     }
 }
 
