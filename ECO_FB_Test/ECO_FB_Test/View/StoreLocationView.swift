@@ -14,39 +14,45 @@ struct StoreLocationView: View {
     var coordinate = LocationManager.shared.coordinate
     var shopList = ZeroWasteShopStore.shared.zeroWasteShopList
     var body: some View {
-        VStack {
-            HStack {
-                Text("내 주변 친환경 스토어")
-                    .font(.system(size: 20, weight: .bold))
-                Spacer()
-            }
-            .padding(.vertical)
-            
-            Map {
-                if let coordinate = coordinate {
-                    Marker(coordinate: coordinate) {
-                        Text("내 위치")
+        GeometryReader { GeometryProxy in
+            VStack {
+                VStack {
+                    HStack {
+                        Text("내 주변 친환경 스토어")
+                            .font(.system(size: 20, weight: .bold))
+                        Spacer()
+                    }
+                    .padding(.vertical)
+                    
+                    Map {
+                        if let coordinate = coordinate {
+                            Marker(coordinate: coordinate) {
+                                Text("내 위치")
+                            }
+                        }
+                        
+                        ForEach(shopList) { shop in
+                            Marker(coordinate: shop.position) {
+                                Text(shop.name)
+                            }
+                        }
                     }
                 }
+                .padding()
+                .frame(width: GeometryProxy.size.width, height: GeometryProxy.size.height/3*2)
                 
-                ForEach(shopList) { shop in
-                    Marker(coordinate: shop.position) {
+                List(shopList) { shop in
+                    HStack {
                         Text(shop.name)
+                            .bold()
+                        Spacer()
+                        Text(shop.phoneNumber)
                     }
                 }
+                .frame(width: GeometryProxy.size.width, height: GeometryProxy.size.height/5*4)
+                .listStyle(.plain)
             }
         }
-        .padding()
-        
-        List(shopList) { shop in
-            HStack {
-                Text(shop.name)
-                    .bold()
-                Spacer()
-                Text(shop.phoneNumber)
-            }
-        }
-        .listStyle(.plain)
     }
 }
 
