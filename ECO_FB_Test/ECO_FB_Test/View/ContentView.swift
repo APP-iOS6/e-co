@@ -13,17 +13,18 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $index, content: {
             EcoView()
-                .tabItem { Image(systemName: "house") }
+                .tabItem { Image(systemName: "leaf.fill") }
                 .tag(0)
             
             StoreView(index:$index)
-                .tabItem { Image(systemName: "cart") }
+                .tabItem { Image(systemName: "bag.fill") }
                 .tag(1)
 
             MyPageView()
-                .tabItem { Image(systemName: "person") }
-                .tag(1)
+                .tabItem { Image(systemName: "person.fill") }
+                .tag(2)
         })
+        .accentColor(.green) // 아이콘과 텍스트의 선택된 색상을 초록색으로 설정
     }
 }
 

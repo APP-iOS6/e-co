@@ -24,6 +24,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
       return GIDSignIn.sharedInstance.handle(url)
     }
+    
+    // 앱이 종료될 때 호출되는 메서드
+    func applicationWillTerminate(_ application: UIApplication) {
+        // 로그아웃 처리
+        UserDefaults.standard.set(false, forKey: "isLoggedIn")
+    }
+    
+    // 백그라운드로 진입할 때 호출되는 메서드 (로그인 상태 유지)
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        // 로그인 상태를 유지하므로 별도 처리 없음
+    }
 }
 
 @main

@@ -61,10 +61,12 @@ struct MyPageView: View {
                 } else {
                     // 네비게이션으로 로그인 화면 이동
                     Section {
-                        NavigationLink(destination: LoginView(), isActive: $navigateToLogin) {
-                            Text("로그인 해주세요")
-                                .foregroundColor(.blue)
-                        }
+                        Text("로그인 해주세요")
+                            .foregroundColor(.blue)
+                            .onTapGesture {
+                                // 로그인 화면으로 이동
+                                isLoggedIn = false
+                            }
                     }
                 }
 
@@ -102,6 +104,7 @@ struct MyPageView: View {
 struct OrderStatusView: View { var body: some View { Text("주문 현황") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
 
+
 #Preview {
-    MyPageView()
+    ContentView()
 }

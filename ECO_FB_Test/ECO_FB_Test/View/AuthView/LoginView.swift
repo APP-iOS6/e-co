@@ -22,23 +22,26 @@ struct LoginView: View {
     @FocusState private var focusedField: Field?
     @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
     @State private var showCreateAccountPasge = false
-    @State private var isLoggingIn = false // 로그인 중 상태 변수
     @State private var loginErrorMessage: String?
+    
     var body: some View {
         NavigationView {
-            
-            VStack{
-                HStack{
+            VStack {
+                HStack {
                     Text("이코 E-co")
                         .font(.system(size: 25, weight: .bold))
                     Image(systemName: "leaf.fill")
                 }
+                .foregroundStyle(.green)
+                
                 Spacer()
+                
                 Text("Login")
                     .font(.title)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                //이메일영역
+                
+                // 이메일 입력 필드
                 VStack {
                     Text("이메일")
                         .textFieldStyle(paddingTop: 10, paddingLeading: -165, isFocused: focusedField == .email)
@@ -52,7 +55,8 @@ struct LoginView: View {
                         )
                         .focused($focusedField, equals: .email)
                     }
-                    //패스워드 영역
+                    
+                    // 패스워드 입력 필드
                     Text("패스워드")
                         .textFieldStyle(paddingTop: 20, paddingLeading: -165, isFocused: focusedField == .password)
                     HStack(spacing: -10){
@@ -65,18 +69,18 @@ struct LoginView: View {
                         )
                         .focused($focusedField, equals: .password)
                     }
+                    
                     if let message = loginErrorMessage {
                         Text(message)
-                            .foregroundColor(.red) // 빨간색 텍스트
+                            .foregroundColor(.red)
                             .padding(.top, 5)
                             .font(.footnote)
                     }
-                    
                 }
                 
-                VStack{
+                // 로그인 및 소셜 로그인 버튼들
+                VStack {
                     Button {
-                        isLoggingIn = true // 로그인 시작 시 프로그래스 뷰 표시
                         Task {
                             do {
                                 try await AuthManager.shared.EmailLogin(withEmail: userEmail, password: userPassword)
@@ -87,28 +91,20 @@ struct LoginView: View {
                                 print("로그인 실패: \(error.localizedDescription)")
                                 loginErrorMessage = "이메일 또는 패스워드를 확인해주세요"
                             }
-                            isLoggingIn = false // 로그인 처리 완료 후 프로그래스 뷰 숨김
                         }
                     } label: {
-                        if isLoggingIn {
-                            ProgressView() // 로그인 중일 때 프로그래스 뷰 표시
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white)) // 프로그래스 뷰 스타일
-                                .frame(maxWidth: .infinity, maxHeight: 10)
-                                .padding(.vertical, 18)
-                                .background(Color.green)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                        } else {
-                            Text("로그인") // 로그인 중이 아닐 때 텍스트 표시
-                                .frame(maxWidth: .infinity, maxHeight: 10)
-                                .padding(.vertical, 18)
-                                .foregroundStyle(.white)
-                                .font(.headline)
-                                .background(Color.green)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                        }
+                        Text("로그인")
+                            .frame(maxWidth: .infinity, maxHeight: 10)
+                            .padding(.vertical, 18)
+                            .foregroundStyle(.white)
+                            .font(.headline)
+                            .background(Color.green)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
+                    
                     Divider()
-                    //구글 공식 로그인버튼 이미지로 대체
+                    
+                    // 구글 로그인 버튼
                     Button {
                         Task {
                             await AuthManager.shared.login(type: .google)
@@ -117,7 +113,8 @@ struct LoginView: View {
                     } label: {
                         Image("googleLogin")
                     }
-                    //카카오 공식 버튼 이미지로 대체
+                    
+                    // 카카오 로그인 버튼
                     Button {
                         Task {
                             await AuthManager.shared.login(type: .kakao)
@@ -126,8 +123,9 @@ struct LoginView: View {
                     } label: {
                         Image("kakaoLogin")
                     }
-                    //비회원 로그인
-                    Button{
+                    
+                    // 비회원 로그인 버튼
+                    Button {
                         Task {
                             do {
                                 try await authManager.guestLogin()
@@ -145,7 +143,8 @@ struct LoginView: View {
                 .padding(.top, 40)
                 
                 Spacer()
-                //회원가입쪽
+                
+                // 회원가입 링크
                 HStack(alignment: .bottom) {
                     Text("계정이 없으신가요?")
                         .foregroundStyle(.gray)
@@ -159,14 +158,12 @@ struct LoginView: View {
             .padding()
             .sheet(isPresented: $showCreateAccountPasge) {
                 CreateAccountView()
-                
             }
         }
     }
 }
 
 extension LoginView {
-    
     private var textView: some View {
         TextField("", text: $userEmail)
             .foregroundColor(.black)

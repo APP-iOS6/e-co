@@ -80,7 +80,13 @@ struct StoreView: View {
                         .padding(.vertical)
                         
                         ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                            ItemListView(index: $index, imageURL: imageURLs[category]!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                            if let imageURL = imageURLs[category] {
+                                // imageURL이 존재하는 경우에만 ItemListView 호출
+                                ItemListView(index: $index, imageURL: imageURL, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                            } else {
+                                // imageURL이 없는 경우 기본 이미지 또는 다른 처리
+                                ItemListView(index: $index, imageURL: URL(string: "https://example.com/default-image.jpg")!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                            }
                         }
                     }
                 }
