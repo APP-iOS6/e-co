@@ -9,7 +9,7 @@ import SwiftUI
 import HealthKit
 
 struct EcoView: View {
-    @EnvironmentObject private var userStore: UserStore
+    @Environment(UserStore.self) private var userStore: UserStore
     private var dataManager = DataManager.shared
     private var healthManager = HealthKitManager.shared
     
@@ -56,5 +56,5 @@ struct EcoView: View {
 }
 
 #Preview {
-    EcoView()
+    EcoView().environment(UserStore.shared)
 }
