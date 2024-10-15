@@ -16,6 +16,11 @@
 		502256842CBD02FA006F6D5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 502256832CBD02FA006F6D5C /* GoogleService-Info.plist */; };
 		502256862CBD0301006F6D5C /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 502256852CBD0301006F6D5C /* Kakao.xcconfig */; };
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
+		50D468092CBE5DBD00757BAD /* InquiriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468032CBE5DBD00757BAD /* InquiriesView.swift */; };
+		50D4680A2CBE5DBD00757BAD /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468042CBE5DBD00757BAD /* MyPageView.swift */; };
+		50D4680B2CBE5DBD00757BAD /* NoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468052CBE5DBD00757BAD /* NoticeView.swift */; };
+		50D4680C2CBE5DBD00757BAD /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468062CBE5DBD00757BAD /* PrivacyPolicyView.swift */; };
+		50D4680D2CBE5DBD00757BAD /* ProductQuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468072CBE5DBD00757BAD /* ProductQuestionsView.swift */; };
 		6EAA499A2CBCA9C30014A5C6 /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA49992CBCA9B60014A5C6 /* StoreView.swift */; };
 		6EAA4A9B2CBD29E90014A5C6 /* StoreLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */; };
 		F620B5AF2CBE3E03002B58DE /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F620B5AE2CBE3E03002B58DE /* RootView.swift */; };
@@ -104,6 +109,11 @@
 		502256832CBD02FA006F6D5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		502256852CBD0301006F6D5C /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
 		502256872CBD038F006F6D5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		50D468032CBE5DBD00757BAD /* InquiriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiriesView.swift; sourceTree = "<group>"; };
+		50D468042CBE5DBD00757BAD /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		50D468052CBE5DBD00757BAD /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
+		50D468062CBE5DBD00757BAD /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
+		50D468072CBE5DBD00757BAD /* ProductQuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductQuestionsView.swift; sourceTree = "<group>"; };
 		6EAA49992CBCA9B60014A5C6 /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
 		6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreLocationView.swift; sourceTree = "<group>"; };
 		F620B5AE2CBE3E03002B58DE /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -160,11 +170,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		50131AEC2CBCAE5C0020D1DE /* MyPageViews */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MyPageViews;
-			sourceTree = "<group>";
-		};
 		FE40BBCF2CB93E4200786E34 /* ECO_FB_TestTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ECO_FB_TestTests;
@@ -242,6 +247,28 @@
 			path = AuthView;
 			sourceTree = "<group>";
 		};
+		50D468022CBE5B3B00757BAD /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				6EAA49992CBCA9B60014A5C6 /* StoreView.swift */,
+				6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */,
+				F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		50D468082CBE5DBD00757BAD /* MyPageViews */ = {
+			isa = PBXGroup;
+			children = (
+				50D468032CBE5DBD00757BAD /* InquiriesView.swift */,
+				50D468042CBE5DBD00757BAD /* MyPageView.swift */,
+				50D468052CBE5DBD00757BAD /* NoticeView.swift */,
+				50D468062CBE5DBD00757BAD /* PrivacyPolicyView.swift */,
+				50D468072CBE5DBD00757BAD /* ProductQuestionsView.swift */,
+			);
+			path = MyPageViews;
+			sourceTree = "<group>";
+		};
 		FE29E15C2CBD312A005E2EFD /* PaymentInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,14 +319,12 @@
 		FE40BBF32CB9405F00786E34 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				50131AEC2CBCAE5C0020D1DE /* MyPageViews */,
-				6EAA49992CBCA9B60014A5C6 /* StoreView.swift */,
-				6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */,
+				50D468022CBE5B3B00757BAD /* Store */,
+				50D468082CBE5DBD00757BAD /* MyPageViews */,
 				FE42060D2CBCE7480004941B /* Custom */,
 				FE42060A2CBCE2830004941B /* Cart */,
 				FEDA91112CBCA36800D75552 /* Sample */,
 				4223D7362CBCD97900F94D1B /* EcoViews */,
-				F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */,
 				5022568A2CBD04FD006F6D5C /* AuthView */,
 				502256872CBD038F006F6D5C /* ContentView.swift */,
 				F620B5AE2CBE3E03002B58DE /* RootView.swift */,
@@ -522,9 +547,6 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				50131AEC2CBCAE5C0020D1DE /* MyPageViews */,
-			);
 			name = ECO_FB_Test;
 			packageProductDependencies = (
 				FE40BBEC2CB93F4A00786E34 /* FirebaseCore */,
@@ -670,12 +692,7 @@
 			files = (
 				FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */,
 				F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */,
-				501650682CBE44F400414169 /* InquiriesView.swift in Sources */,
-				501650692CBE44F400414169 /* MyPageView.swift in Sources */,
-				5016506A2CBE44F400414169 /* NoticeView.swift in Sources */,
 				FE5924D92CBE54CD002FC977 /* StorageType.swift in Sources */,
-				5016506B2CBE44F400414169 /* PrivacyPolicyView.swift in Sources */,
-				5016506C2CBE44F400414169 /* ProductQuestionsView.swift in Sources */,
 				502256882CBD038F006F6D5C /* ContentView.swift in Sources */,
 				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
 				FE40BC082CB9440800786E34 /* UserStore.swift in Sources */,
@@ -715,6 +732,11 @@
 				FE42060C2CBCE2B20004941B /* CartGoodsInfoView.swift in Sources */,
 				FE40BC0A2CB9452B00786E34 /* User.swift in Sources */,
 				FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */,
+				50D468092CBE5DBD00757BAD /* InquiriesView.swift in Sources */,
+				50D4680A2CBE5DBD00757BAD /* MyPageView.swift in Sources */,
+				50D4680B2CBE5DBD00757BAD /* NoticeView.swift in Sources */,
+				50D4680C2CBE5DBD00757BAD /* PrivacyPolicyView.swift in Sources */,
+				50D4680D2CBE5DBD00757BAD /* ProductQuestionsView.swift in Sources */,
 				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
 				FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */,
 				FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */,
@@ -891,13 +913,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
-                INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
-                INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -931,13 +952,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "ECO-FB-Test-Info.plist";
-                INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
-                INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
+				INFOPLIST_KEY_NSHomeKitUsageDescription = "건강 앱의 데이터를 추적하기 위한 권한 요청입니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자 위치에 접근합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
