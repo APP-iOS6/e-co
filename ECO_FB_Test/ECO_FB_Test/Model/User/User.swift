@@ -3,7 +3,7 @@
 //  ECO_FB_Test
 //
 //  Created by Jaemin Hong on 10/11/24.
-// 
+//
 
 import Foundation
 
@@ -25,5 +25,15 @@ struct User: Identifiable {
         ]
         
         return cart.map(\.self).sorted(using: sortOrder)
+    }
+    
+    var recentWatchedArray: [Goods] {
+        let sortOrder: [KeyPathComparator] = [
+            KeyPathComparator(\Goods.name),
+            KeyPathComparator(\Goods.price),
+            KeyPathComparator(\Goods.id)
+        ]
+        
+        return goodsRecentWatched.map(\.self).sorted(using: sortOrder)
     }
 }
