@@ -12,6 +12,7 @@ struct StoreView: View {
     @Binding var index: Int
     @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @State var searchText: String = ""
+    @State var imageURLs: [GoodsCategory: URL] = [:]
     
     var goodsByCategories: [GoodsCategory : [Goods]] {
         goodsStore.goodsByCategories
@@ -78,7 +79,7 @@ struct StoreView: View {
                         .padding(.vertical)
                         
                         ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                            ItemListView(index: $index, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                            ItemListView(index: $index, imageURL: imageURLs[category]!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
                         }
                     }
                 }
@@ -103,6 +104,25 @@ struct StoreView: View {
                             Text("return")
                         }
                     }
+                }
+            }
+        }
+        .onAppear {
+            Task {
+                let refil = await StorageManager.shared.fetch(type: .goods, parameter: .goodsThumbnail(goodsID: "0A44DC63-AFCB-4E7B-96A3-8C2E0926564D"))
+                let food = await StorageManager.shared.fetch(type: .goods, parameter: .goodsThumbnail(goodsID: "07AE6761-E5D0-4546-847D-48098E47393E"))
+                let passion = await StorageManager.shared.fetch(type: .goods, parameter: .goodsThumbnail(goodsID: "0C0723FC-2839-47DA-BCA5-F3EC7F2CD471"))
+                
+                if case .single(let url) = refil {
+                    imageURLs[.food] = url
+                }
+                
+                if case .single(let url) = food {
+                    imageURLs[.refill] = url
+                }
+                
+                if case .single(let url) = passion {
+                    imageURLs[GoodsCategory.passion] = url
                 }
             }
         }
@@ -147,6 +167,7 @@ struct recommendedItemsView: View {
 
 struct ItemListView: View {
     @Binding var index: Int
+    var imageURL: URL
     var category: GoodsCategory
     var allGoods: [Goods]
     var gridItems: [GridItem] = [
@@ -173,11 +194,20 @@ struct ItemListView: View {
                         GoodsDetailView(index: $index, goods: allGoods[index])
                     } label: {
                         VStack(alignment: .leading) {
-                            Image(systemName: "photo.artframe")
-                            //                        Image(goods.thumbnailImageName)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(minHeight: 80)
+                            AsyncImage(url: imageURL) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(minHeight: 80)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            
+//                            Image(systemName: "photo.artframe")
+//                            //                        Image(goods.thumbnailImageName)
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(minHeight: 80)
                             
                             HStack {
                                 Text(allGoods[index].name)
