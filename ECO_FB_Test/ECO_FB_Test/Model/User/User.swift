@@ -13,7 +13,7 @@ struct User: Identifiable {
     let isAdmin: Bool
     let name: String
     let profileImageName: String
-    let pointCount: Int
+    var pointCount: Int
     var cart: Set<Goods>
     
     var arrayCart: [Goods] {
