@@ -16,14 +16,14 @@ struct EcoView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
-                    Text("이코 E-co")
-                        .font(.system(size: 25, weight: .bold))
-                    Image(systemName: "leaf.fill")
-                    Spacer()
-                }
-                .foregroundStyle(.green)
-                .padding()
+//                HStack {
+//                    Text("이코 E-co")
+//                        .font(.system(size: 25, weight: .bold))
+//                    Image(systemName: "leaf.fill")
+//                    Spacer()
+//                }
+//                .foregroundStyle(.green)
+//                .padding()
                 
                 // 상단 Info Area
                 EcoTopInfoView(healthManager: healthManager)
@@ -48,6 +48,16 @@ struct EcoView: View {
                 // 하단 친환경 행사 Area
                 EcoEventsView()
                 
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Text("이코")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        Image(systemName: "leaf.fill")
+                    }
+                }
             }
         }
         .onChange(of: healthManager.todayStepCount) {
