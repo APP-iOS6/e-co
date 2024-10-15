@@ -49,6 +49,7 @@ struct StoreView: View {
                                     } label: {
                                         Image(systemName: "xmark.circle.fill")
                                     }
+                                    .foregroundStyle(.black)
                                 }
                                 .padding(10)
                                 .background {
@@ -137,7 +138,7 @@ struct recommendedItemsView: View {
     var body: some View {
         HStack {
             Text("이런 상품은 어때요?")
-                .font(.system(size: 20, weight: .bold))
+                .font(.system(size: 18, weight: .semibold))
             Spacer()
         }
         .padding(.horizontal)
@@ -177,23 +178,34 @@ struct ItemListView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: allGoodsOfCategoryView(index: $index, category: category, allGoods: allGoods)) {
-                Image(systemName: "chevron.forward")
+            HStack {
                 Text(category.rawValue)
+                    .font(.system(size: 20, weight: .semibold))
                 Spacer()
+                
+                NavigationLink(destination: allGoodsOfCategoryView(index: $index, category: category, allGoods: allGoods)) {
+                    HStack {
+                        Text("더보기")
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundStyle(.black)
+                }
+                .bold()
             }
-            .bold()
-            .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
+            .font(.footnote)
+            .padding(.top)
+            Divider()
         }
+        .padding(.horizontal)
         
         LazyVGrid(columns: gridItems) {
             ForEach(0..<4) { index in
                 if allGoods.count > index {
-                    
                     NavigationLink {
                         GoodsDetailView(index: $index, goods: allGoods[index])
                     } label: {
                         VStack(alignment: .leading) {
+
                             AsyncImage(url: imageURL) { image in
                                 image
                                     .resizable()
@@ -203,26 +215,24 @@ struct ItemListView: View {
                                 ProgressView()
                             }
                             
-//                            Image(systemName: "photo.artframe")
-//                            //                        Image(goods.thumbnailImageName)
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(minHeight: 80)
+
+
                             
                             HStack {
                                 Text(allGoods[index].name)
                                     .font(.system(size: 14, weight: .semibold))
                                 Spacer()
-                                Text("\(allGoods[index].price)")
+                                Text("\(allGoods[index].price)원")
                                     .font(.system(size: 12))
                             }
                             .padding(.bottom)
+                            .foregroundStyle(.black)
                         }
                         .padding(5)
                     }
-                    
                 }
             }
+            .padding(.bottom)
         }
         .padding(.horizontal, 10)
     }
@@ -244,11 +254,11 @@ struct allGoodsOfCategoryView: View {
                         GoodsDetailView(index: $index, goods: goods)
                     } label: {
                         VStack(alignment: .leading) {
-                            Image(systemName: "photo.artframe")
+                            Image(.ecoBags)
                             //                        Image(goods.thumbnailImageName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(minHeight: 70)
+                                .frame(minHeight: 80)
                             
                             HStack {
                                 Text(goods.name)
@@ -258,13 +268,14 @@ struct allGoodsOfCategoryView: View {
                                     .font(.system(size: 12))
                             }
                             .padding(.bottom)
+                            .foregroundStyle(.black)
                         }
+                        .padding()
                     }
                 }
             }
         }
         .scrollIndicators(.hidden)
-        .padding()
         .navigationTitle(category.rawValue)
         //        .navigationBarBackButtonHidden()
     }

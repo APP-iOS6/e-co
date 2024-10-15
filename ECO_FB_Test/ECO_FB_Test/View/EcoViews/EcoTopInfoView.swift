@@ -18,27 +18,39 @@ struct EcoTopInfoView: View {
     }
     
     private var todayDistance: String {
-        let str = String(format: "%.1f", healthManager.distanceWalking)
-        return str
+        let distance = healthManager.distanceWalking
+        
+        if distance > 999 { // 1000이상일때 km로 변환
+            let km = distance / 1000
+            return String(format: "%.1f", km)
+        }
+        
+        let meter = String(format: "%.1f", distance)
+        return meter
     }
     
     var body: some View {
         HStack {
+            Spacer()
             VStack {
                 Text("CO2 저감")
                 HStack {
                     Text("\(co2Reduction)")
                         .font(.title)
                         .fontWeight(.bold)
+                        .foregroundStyle(.green)
                         .contentTransition(.numericText())
                         .transaction { t in
                             t.animation = .default
                         }
                     Text("g")
                 }
-                .foregroundStyle(.green)
+                
             }
+            .frame(maxWidth: .infinity)
             .padding()
+            
+            Spacer()
             
             VStack {
                 Text("포인트")
@@ -54,7 +66,10 @@ struct EcoTopInfoView: View {
                     Text("원")
                 }
             }
+            .frame(maxWidth: .infinity)
             .padding()
+            
+            Spacer()
             
             VStack {
                 Text("이동 거리")
@@ -67,10 +82,16 @@ struct EcoTopInfoView: View {
                         .transaction { t in
                             t.animation = .default
                         }
-                    Text("m")
+                    if healthManager.distanceWalking > 999 {
+                        Text("km")
+                    } else {
+                        Text("m")
+                    }
                 }
             }
+            .frame(maxWidth: .infinity)
             .padding()
+            Spacer()
         }
     }
 }
