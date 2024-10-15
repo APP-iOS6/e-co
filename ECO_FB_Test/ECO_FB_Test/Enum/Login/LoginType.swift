@@ -10,4 +10,5 @@ import Foundation
 enum LoginType: Int {
     case google
     case kakao
+    case email
 }
