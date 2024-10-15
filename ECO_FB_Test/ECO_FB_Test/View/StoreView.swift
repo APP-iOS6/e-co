@@ -35,7 +35,7 @@ struct StoreView: View {
                         HStack {
                             VStack {
                                 HStack {
-                                    TextField("", text: $searchText)
+                                    TextField("친환경 제품을 찾아보세요", text: $searchText)
                                         .onChange(of: searchText) { oldValue, newValue in
                                             goodsStore.searchAction(newValue)
                                         }
@@ -58,6 +58,7 @@ struct StoreView: View {
                                 ScrollView(.horizontal) {
                                     HStack {
                                         ForEach(Array(goodsByCategories.keys), id: \.self) { category in
+                                            
                                             Button {
                                                 goodsStore.categorySelectAction(category)
                                             } label: {
@@ -121,12 +122,17 @@ struct recommendedItemsView: View {
         ScrollView(.horizontal) {
             LazyHStack {
                 ForEach(Array(goodsByCategories.keys), id: \.self) { category in
-                    //  TODO: 상품 상세 페이지 만들고 네비게이션 링크로 바꾸기
-                    //                    Image(goodsByCategories[category]?.last?.thumbnailImageName ?? "")
-                    Image(systemName: "photo.artframe")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(minHeight: 100)
+                    if let goods = goodsByCategories[category]?.last {
+                        NavigationLink {
+                            GoodsDetailView(goods: goods)
+                        } label: {
+                            Image(goods.thumbnailImageName)
+                            Image(systemName: "photo.artframe")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(minHeight: 100)
+                        }
+                    }
                 }
             }
             .padding(.horizontal)
