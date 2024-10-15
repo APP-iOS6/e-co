@@ -16,13 +16,12 @@ struct LoginView: View {
         case name
     }
     
-    @StateObject private var authManager = AuthManager.shared
+    @Environment(AuthManager.self) var authManager: AuthManager
     @State var userEmail: String = ""
     @State var userPassword: String = ""
     @FocusState private var focusedField: Field?
     @State private var isLoggedIn = false
     @State private var showCreateAccountPasge = false
-    
     
     var body: some View {
         NavigationView {
@@ -178,4 +177,5 @@ extension LoginView {
 
 #Preview {
     LoginView()
+        .environment(AuthManager.shared)
 }

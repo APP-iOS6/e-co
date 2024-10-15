@@ -9,15 +9,21 @@ import Foundation
 import FirebaseAuth
 
 @MainActor
-final class AuthManager: ObservableObject {
+@Observable
+final class AuthManager {
     static let shared: AuthManager = AuthManager()
-    private lazy var loginManagers: [LoginControllable] = [
+    @ObservationIgnored private lazy var loginManagers: [LoginControllable] = [
         GoogleLoginManager.shared,
         KaKaoLoginManager.shared
     ]
-    @Published private(set) var emailExistErrorMessage: String? = nil
+
+    
     @Published var isLoggedIn: Bool = false
     @Published var signUpErrorMessage: String? = nil
+
+    private(set) var emailExistErrorMessage: String? = nil
+
+
     private init() {}
     
     /**

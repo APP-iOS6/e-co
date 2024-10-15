@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyPageView: View {
-    @EnvironmentObject private var userStore: UserStore
+    @Environment(UserStore.self) private var userStore: UserStore
 
     @State private var cartItems: Int = 3
     @State private var orderStatus: String = "처리 중"
@@ -104,5 +104,5 @@ struct AddProductView: View { var body: some View { Text("상품 추가") } }
 
 #Preview {
     MyPageView()
-        .environmentObject(AuthManager.shared)  // AuthManager 객체 주입
+          // AuthManager 객체 주입
 }
