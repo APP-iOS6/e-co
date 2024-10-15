@@ -59,7 +59,7 @@ final class AuthManager {
             _ = try await Auth.auth().createUser(withEmail: email, password: password)
        
             // 초기값 추가 id = email, loginmethod > email로 설정 포인트 프로필등 초기값
-            let user = User(id: email, loginMethod: LoginMethod.email.rawValue, isAdmin: false, name: name, profileImageName: "Test.png", pointCount: 0, cart: [])
+            let user = User(id: email, loginMethod: LoginMethod.email.rawValue, isAdmin: false, name: name, profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
             await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: email, user: user))
             
         } catch let error as NSError {
@@ -99,7 +99,7 @@ final class AuthManager {
                 }
             } else {
                 // 혹시몰라 추가
-                let user: User = User(id: email, loginMethod: LoginMethod.email.rawValue, isAdmin: false, name: currentUser.displayName ?? "이름 없음", profileImageName: "Test.png", pointCount: 0, cart: [])
+                let user: User = User(id: email, loginMethod: LoginMethod.email.rawValue, isAdmin: false, name: currentUser.displayName ?? "이름 없음", profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
                 await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: email, user: user))
             }
             
@@ -135,7 +135,8 @@ final class AuthManager {
                 name: "게스트 사용자",
                 profileImageName: "Guest.png",
                 pointCount: 0,
-                cart: []
+                cart: [],
+                goodsRecentWatched: []
             )
             
             // Firebase에 사용자 데이터 저장 및 로드

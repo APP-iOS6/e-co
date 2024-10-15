@@ -15,6 +15,7 @@ struct User: Identifiable {
     let profileImageName: String
     var pointCount: Int
     var cart: Set<Goods>
+    var goodsRecentWatched: Set<Goods>
     
     var arrayCart: [Goods] {
         let sortOrder: [KeyPathComparator] = [
