@@ -15,7 +15,6 @@
 		502256862CBD0301006F6D5C /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 502256852CBD0301006F6D5C /* Kakao.xcconfig */; };
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
 		6EAA499A2CBCA9C30014A5C6 /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA49992CBCA9B60014A5C6 /* StoreView.swift */; };
-		F620B52A2CBE1C9F002B58DE /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F620B5292CBE1C9F002B58DE /* RootView.swift */; };
 		F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */; };
 		F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E2F2CBCE5CA00F67671 /* LoginView.swift */; };
 		F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E312CBCE89400F67671 /* UnderLineView.swift */; };
@@ -90,7 +89,6 @@
 		502256852CBD0301006F6D5C /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
 		502256872CBD038F006F6D5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6EAA49992CBCA9B60014A5C6 /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
-		F620B5292CBE1C9F002B58DE /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailView.swift; sourceTree = "<group>"; };
 		F6386E2F2CBCE5CA00F67671 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F6386E312CBCE89400F67671 /* UnderLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineView.swift; sourceTree = "<group>"; };
@@ -267,7 +265,6 @@
 				F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */,
 				5022568A2CBD04FD006F6D5C /* AuthView */,
 				502256872CBD038F006F6D5C /* ContentView.swift */,
-				F620B5292CBE1C9F002B58DE /* RootView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -632,7 +629,6 @@
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
 				FE42060C2CBCE2B20004941B /* CartGoodsInfoView.swift in Sources */,
-				F620B52A2CBE1C9F002B58DE /* RootView.swift in Sources */,
 				FE40BC0A2CB9452B00786E34 /* User.swift in Sources */,
 				FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */,
 				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
