@@ -100,7 +100,6 @@ struct MyPageView: View {
 
 // Placeholder Views for Navigation Links
 struct OrderStatusView: View { var body: some View { Text("주문 현황") } }
-struct RecentlyViewedView: View { var body: some View { Text("최근 본 상품") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
 
 #Preview {

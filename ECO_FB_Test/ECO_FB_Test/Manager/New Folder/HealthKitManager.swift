@@ -49,6 +49,7 @@ class HealthKitManager {
                 print("Authorization failed: \(error?.localizedDescription ?? "Unknown error")")
             }
         }
+        loadData()
     }
     
     func loadData() {
