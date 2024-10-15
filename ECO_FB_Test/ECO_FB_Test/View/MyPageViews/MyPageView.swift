@@ -42,7 +42,6 @@ struct MyPageView: View {
                     // 최근 본 상품, 찜한 상품 보기
                     Section(header: Text("나의 상품")) {
                         NavigationLink("최근 본 상품", destination: RecentlyViewedView())
-                        NavigationLink("찜한 상품", destination: LikedProductsView())
                     }
                     
                     // 관리자 섹션: 관리자인 경우에만 상품 추가 기능 표시
@@ -95,7 +94,6 @@ struct MyPageView: View {
 //struct CartView: View { var body: some View { Text("장바구니") } }
 struct OrderStatusView: View { var body: some View { Text("주문 현황") } }
 struct RecentlyViewedView: View { var body: some View { Text("최근 본 상품") } }
-struct LikedProductsView: View { var body: some View { Text("찜한 상품") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
 
 //struct LoginView: View {
