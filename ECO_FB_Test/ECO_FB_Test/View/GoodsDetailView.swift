@@ -8,93 +8,93 @@
 import SwiftUI
 
 struct GoodsDetailView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var index: Int
     var goods: Goods
     
     var body: some View {
-        //장바구니 홈 등등 오른쪽위 버튼 필요
-        //이미지 > 회사이름 조그맣게 > 디바이더 > 카테고리 > 상품이름 > 금액 > 디바이더 > 상품설명 > 장바구니담기버튼및구매버튼
-        
-        
-        VStack {
-            HStack {
-                Button {
-                    //홈으로 돌아가는 코드
-                } label: {
-                    Image(systemName: "house")
+        GeometryReader { GeometryProxy in
+            VStack {
+                ScrollView {
+                    VStack {
+                        Image(goods.thumbnailImageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 400, height: 250)
+                            .padding(.bottom)
+                        
+                        VStack(alignment: .leading) {
+                            Text(goods.seller.name)
+                                .font(.headline)
+                            
+                            Divider()
+                            
+                            Text(goods.category.rawValue)
+                            
+                            Text(goods.name)
+                                .font(.title)
+                            Text(goods.formattedPrice)
+                            Divider()
+                            
+                            Text(goods.bodyContent)
+                                .multilineTextAlignment(.leading)
+                                .lineSpacing(7)
+                                .padding(.bottom, 30)
+                        }
+                    }
+                    .frame(width: GeometryProxy.size.width - 20)
                 }
-                Button {
-                    //장바구니로 가는 코드
-                } label: {
-                    Image(systemName: "cart")
-                }
+                .scrollIndicators(.hidden)
+                .frame(width: GeometryProxy.size.width - 20)
                 
-            }
-            .foregroundStyle(Color.black)
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            ScrollView {
-                
-                VStack(spacing: 5) {
-                    Image(goods.thumbnailImageName)
-                        .resizable()
-                        .frame(width: 400, height: 250)
-                    Text(goods.seller.name)
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                
-                Divider()
-                
-                VStack(spacing: 10) {
-                    Text(goods.category.rawValue)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(goods.name)
-                        .font(.title)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(goods.formattedPrice)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                Divider()
-                VStack{
-                    Text(goods.bodyContent)
-                        .multilineTextAlignment(.leading)
-                        .lineSpacing(7)
+                HStack {
+                    Button {
+                        //장바구니 담기 로직 필요
+                        print("\(goods.name) 장바구니 담기 ")
+                    } label: {
+                        Text("장바구니 담기")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .foregroundStyle(.black)
+                            .background(Color.blue)
+                            .font(.headline)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                    }
                     
-                    Spacer()
+                    Button {
+                        //구매로직 필요
+                        print("\(goods.name) 바로 구매")
+                    } label: {
+                        Text("바로 구매하기")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .foregroundStyle(.black)
+                            .background(Color.blue)
+                            .font(.headline)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                    }
                 }
-                
+                .padding(.top, 5)
             }
-            //스크롤 뷰 패딩이 안먹어서 고민중
-            .padding()
-            
-            HStack {
-                Button {
-                    //장바구니 담기 로직 필요
-                    print("\(goods.name) 장바구니 담기 ")
-                } label: {
-                    Text("장바구니 담기")
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .foregroundStyle(.black)
-                        .background(Color.blue)
-                        .font(.headline)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                }
-                
-                Button {
-                    //구매로직 필요
-                    print("\(goods.name) 바로 구매")
-                } label: {
-                    Text("바로 구매하기")
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .foregroundStyle(.black)
-                        .background(Color.blue)
-                        .font(.headline)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                HStack {
+                    Button {
+                        dismiss()
+                        index = 0
+                    } label: {
+                        Image(systemName: "house")
+                    }
+                    
+                    NavigationLink {
+                        // TODO: 장바구니 뷰 연결시키기
+                        //                        CartView()
+                    } label: {
+                        Image(systemName: "cart")
+                    }
                 }
             }
-            
-            Spacer()
         }
         .padding()
     }
@@ -117,5 +117,5 @@ struct GoodsDetailView: View {
     )
     
     
-    GoodsDetailView(goods: sampleGoods)
+    GoodsDetailView(index: .constant(1),goods: sampleGoods)
 }
