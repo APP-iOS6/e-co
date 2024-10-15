@@ -8,6 +8,6 @@
 import Foundation
 
 enum StorageParam {
-    case goodsThumbnail(goodsID: String, imageName: String)
-    case goodsContent(goodsID: String, imageName: String)
+    case goodsThumbnail(goodsID: String)
+    case goodsContent(goodsID: String)
 }

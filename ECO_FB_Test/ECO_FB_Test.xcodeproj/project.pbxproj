@@ -63,6 +63,8 @@
 		FEC6F37B2CBE088C000E5441 /* StorageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F37A2CBE088C000E5441 /* StorageType.swift */; };
 		FEC6F37D2CBE08F6000E5441 /* StorageParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F37C2CBE08F6000E5441 /* StorageParam.swift */; };
 		FEC6F3812CBE0D13000E5441 /* GoodsStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3802CBE0D13000E5441 /* GoodsStorageManager.swift */; };
+		FEC6F3A82CBE39BD000E5441 /* StorageResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3A72CBE39BD000E5441 /* StorageResult.swift */; };
+		FEC6F3AA2CBE3C99000E5441 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FEC6F3A92CBE3C99000E5441 /* FirebaseStorage */; };
 		FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */; };
 		FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA91192CBCABD300D75552 /* CartView.swift */; };
 		FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */; };
@@ -138,6 +140,7 @@
 		FEC6F37A2CBE088C000E5441 /* StorageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageType.swift; sourceTree = "<group>"; };
 		FEC6F37C2CBE08F6000E5441 /* StorageParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageParam.swift; sourceTree = "<group>"; };
 		FEC6F3802CBE0D13000E5441 /* GoodsStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStorageManager.swift; sourceTree = "<group>"; };
+		FEC6F3A72CBE39BD000E5441 /* StorageResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageResult.swift; sourceTree = "<group>"; };
 		FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsCategory.swift; sourceTree = "<group>"; };
 		FEDA91192CBCABD300D75552 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchFlow.swift; sourceTree = "<group>"; };
@@ -168,6 +171,7 @@
 			files = (
 				FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */,
 				FE6A7AEC2CB9AB73000F5DB6 /* FirebaseAuth in Frameworks */,
+				FEC6F3AA2CBE3C99000E5441 /* FirebaseStorage in Frameworks */,
 				FE40BBED2CB93F4A00786E34 /* FirebaseCore in Frameworks */,
 				FE6A7AF12CB9ABA2000F5DB6 /* GoogleSignInSwift in Frameworks */,
 				FE40BBEF2CB93F4A00786E34 /* FirebaseFirestore in Frameworks */,
@@ -454,6 +458,7 @@
 			children = (
 				FEC6F37A2CBE088C000E5441 /* StorageType.swift */,
 				FEC6F37C2CBE08F6000E5441 /* StorageParam.swift */,
+				FEC6F3A72CBE39BD000E5441 /* StorageResult.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -494,6 +499,7 @@
 				FE6A7AEB2CB9AB73000F5DB6 /* FirebaseAuth */,
 				FE6A7AEE2CB9ABA2000F5DB6 /* GoogleSignIn */,
 				FE6A7AF02CB9ABA2000F5DB6 /* GoogleSignInSwift */,
+				FEC6F3A92CBE3C99000E5441 /* FirebaseStorage */,
 			);
 			productName = ECO_FB_Test;
 			productReference = FE40BBBC2CB93E4100786E34 /* ECO_FB_Test.app */;
@@ -659,6 +665,7 @@
 				FE40BC022CB9432C00786E34 /* DataManager.swift in Sources */,
 				FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */,
 				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
+				FEC6F3A82CBE39BD000E5441 /* StorageResult.swift in Sources */,
 				F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */,
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
@@ -1078,6 +1085,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FEBEFBA42CB975F400E3D86A /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		FEC6F3A92CBE3C99000E5441 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE40BBEB2CB93F4A00786E34 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

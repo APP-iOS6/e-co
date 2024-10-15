@@ -18,7 +18,6 @@ struct EcoView: View {
                     Spacer()
                 }
                 .padding()
-                
                 // 상단 Info Area
                 EcoTopInfoView()    // TODO: 건강앱에서 추적한 걸음수 데이터 가져와 전달하기
                 
