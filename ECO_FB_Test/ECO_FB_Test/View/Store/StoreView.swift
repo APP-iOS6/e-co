@@ -29,59 +29,64 @@ struct StoreView: View {
     
     var body: some View {
         NavigationStack {
-            if DataManager.shared.dataFetchFlow == .loading {
-                ProgressView()
-            } else {
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            VStack {
-                                HStack {
-                                    TextField("친환경 제품을 찾아보세요", text: $searchText)
-                                        .onChange(of: searchText) { oldValue, newValue in
-                                            goodsStore.searchAction(newValue)
-                                        }
-                                        .keyboardType(.default)
-                                        .focused($focused)
-                                    
-                                    Button {
-                                        searchText = ""
-                                    } label: {
-                                        Image(systemName: "xmark.circle.fill")
+            ScrollView {
+                VStack(alignment: .leading) {
+                    HStack {
+                        VStack {
+                            HStack {
+                                TextField("친환경 제품을 찾아보세요", text: $searchText)
+                                    .onChange(of: searchText) { oldValue, newValue in
+                                        goodsStore.searchAction(newValue)
                                     }
-                                    .foregroundStyle(.black)
-                                }
-                                .padding(10)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(.gray, lineWidth: 1)
-                                }
-                                .padding(.horizontal)
+                                    .keyboardType(.default)
+                                    .focused($focused)
                                 
-                                ScrollView(.horizontal) {
-                                    HStack {
-                                        ForEach(Array(goodsByCategories.keys), id: \.self) { category in
-                                            
-                                            Button {
-                                                goodsStore.categorySelectAction(category)
-                                            } label: {
-                                                Text(category.rawValue)
-                                            }
-                                            .buttonStyle(.bordered)
-                                            .foregroundStyle(selectedCategory == category ? .gray : .black)
-                                        }
-                                    }
+                                Button {
+                                    searchText = ""
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
                                 }
-                                .padding()
-                                
-                                recommendedItemsView(index: $index, goodsByCategories: goodsByCategories)
+                                .foregroundStyle(.black)
                             }
+                            .padding(10)
+                            .background {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.gray, lineWidth: 1)
+                            }
+                            .padding(.horizontal)
+                            
+                            
                         }
                         .padding(.vertical)
-                        
-                        ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                            ItemListView(index: $index, imageURL: imageURLs[category]!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                    }
+                    
+                    if DataManager.shared.dataFetchFlow == .loading {
+                        HStack {
+                            Spacer()
+                            ProgressView()
+                            Spacer()
                         }
+                    } else {
+                        ScrollView(.horizontal) {
+                            HStack {
+                                ForEach(Array(goodsByCategories.keys), id: \.self) { category in
+                                    
+                                    Button {
+                                        goodsStore.categorySelectAction(category)
+                                    } label: {
+                                        Text(category.rawValue)
+                                    }
+                                    .buttonStyle(.bordered)
+                                    .foregroundStyle(selectedCategory == category ? .gray : .black)
+                                }
+                            }
+                        }
+                        .padding()
+                        
+                        recommendedItemsView(index: $index, goodsByCategories: goodsByCategories)
+                    }
+                    ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+                        ItemListView(index: $index, imageURL: imageURLs[category]!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
                     }
                 }
                 .navigationTitle("스토어")
@@ -150,11 +155,10 @@ struct recommendedItemsView: View {
                         NavigationLink {
                             GoodsDetailView(index: $index, goods: goods)
                         } label: {
-                            Image(goods.thumbnailImageName)
                             Image(.ecoBags)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(minHeight: 100)
+                                .frame(maxWidth: 200)
                         }
                     }
                 }
@@ -205,7 +209,7 @@ struct ItemListView: View {
                         GoodsDetailView(index: $index, goods: allGoods[index])
                     } label: {
                         VStack(alignment: .leading) {
-
+                            
                             AsyncImage(url: imageURL) { image in
                                 image
                                     .resizable()
@@ -214,9 +218,6 @@ struct ItemListView: View {
                             } placeholder: {
                                 ProgressView()
                             }
-                            
-
-
                             
                             HStack {
                                 Text(allGoods[index].name)
