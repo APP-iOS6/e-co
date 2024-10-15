@@ -80,7 +80,10 @@ struct StoreView: View {
                         .padding(.vertical)
                         
                         ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                            ItemListView(index: $index, imageURL: imageURLs[category]!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                            ItemListView(index: $index,
+                                         imageURL: imageURLs[category] ?? URL(string: "https://flexible.img.hani.co.kr/flexible/normal/970/777/imgdb/resize/2019/0926/00501881_20190926.JPG")!, // imageURLs 값이 nil일때 뷰가 그려지는거 같아서 런타임 에러가 발생합니다! 임시로 nil때의 고양이url 넣어놨습니다..
+                                         category: category,
+                                         allGoods: filteredGoodsByCategories[category] ?? [])
                         }
                     }
                 }
