@@ -18,7 +18,7 @@ struct StoreLocationView: View {
             VStack {
                 VStack {
                     HStack {
-                        Text("내 주변 친환경 스토어")
+                        Text("내 주변 친환경 매장")
                             .font(.system(size: 20, weight: .bold))
                         Spacer()
                     }

@@ -87,7 +87,7 @@ struct StoreView: View {
                         Button {
                             isMapVisible.toggle()
                         } label: {
-                            Image(systemName: "map")
+                            Text("오프라인 매장찾기")
                         }
                         .sheet(isPresented: $isMapVisible) {
                             StoreLocationView()
