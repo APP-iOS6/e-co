@@ -17,23 +17,16 @@ struct EcoView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Image(systemName: "leaf.fill")
-                    .foregroundStyle(.accent)
-                    .font(.system(size: 20))
-                Text("이코")
-                    .font(.system(size: 20))
-                    .font(.title3)
-                    .fontWeight(.bold)
-            }
-            .padding(.vertical)
+            AppNameView()
             
             // 상단 Info Area
             EcoTopInfoView(healthManager: healthManager)
+                .padding(.top, 20)
             
             // 중앙 걸음수 Area
             EcoStepsView(stepCount: healthManager.todayStepCount, selectedTab: $selectedTab)
                 
+
             // 하단 친환경 행사 Area
             EcoEventsView()
 
