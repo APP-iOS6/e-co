@@ -149,17 +149,22 @@ struct LoginView: View {
                 
                 Spacer()
                 //회원가입쪽
-               
-                HStack(alignment: .bottom) {
-                    Text("계정이 없으신가요?")
-                        .foregroundStyle(.gray)
-                    
-                    Button("회원가입하러 가기") {
-                        showCreateAccountPage = true
+                ZStack{
+                    if showToast == true {
+                        SignUpToastView(isVisible: $showToast, message: "회원가입에 성공하셨습니다.")
+                    } else {
+                        HStack(alignment: .bottom) {
+                            
+                            Text("계정이 없으신가요?")
+                                .foregroundStyle(.gray)
+                            
+                            Button("회원가입하러 가기") {
+                                showCreateAccountPage = true
+                            }
+                            .foregroundStyle(Color.green)
+                        }
                     }
-                    .foregroundStyle(Color.green)
-                }
-                SignUpToastView(isVisible: $showToast, message: "회원가입에 성공하셨습니다.")
+                }.background(Color.white)
                
             }
             .padding()
