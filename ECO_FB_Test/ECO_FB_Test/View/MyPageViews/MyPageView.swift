@@ -25,6 +25,7 @@ struct MyPageView: View {
                 } else {
                     loginPromptSection()
                 }
+              
                 helpSection()
                 
                 if userStore.userData != nil {

@@ -114,9 +114,30 @@ final class UserStore: DataControllable {
     
     private func getUserWithNoReturn(id: String) async throws -> DataResult {
         do {
-            let snapshot = try await db.collection("User").document(id).getDocument()
+            _ = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<DataResult, Error>) in
+                _ = db.collection("User").document(id).addSnapshotListener { [weak self] snapshot, error in
+                    if let error {
+                        continuation.resume(throwing: error)
+                    }
+                    
+                    guard let snapshot else {
+                        continuation.resume(throwing: DataError.fetchError(reason: "User Data Snapshot not exist"))
+                        return
+                    }
+                    
+                    Task {
+                        guard self != nil else {
+                            continuation.resume(throwing: CommonError.referenceError(reason: "The self is nil"))
+                            return
+                        }
+                        
+                        self!.userData = try await self!.getData(document: snapshot)
+                    }
+                    
+                    continuation.resume(returning: DataResult.none)
+                }
+            }
             
-            userData = try await getData(document: snapshot)
             return DataResult.none
         } catch {
             throw error
