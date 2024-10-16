@@ -16,6 +16,14 @@ struct MyPageView: View {
     @State private var navigateToLogin: Bool = false // 로그인 화면으로 이동 여부
     @State private var isNeedLogin: Bool = false 
     var body: some View {
+        HStack {
+            Text("이코")
+                .font(.system(size: 25, weight: .bold))
+            Image(systemName: "leaf.fill")
+            Spacer()
+        }
+        .foregroundStyle(.green)
+        .padding([.leading, .top])
         
         List {
             

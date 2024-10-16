@@ -15,7 +15,7 @@ struct ContentView: View {
         VStack {
             TabView(selection: $selection) {
                 Tab(value: 0) {
-                    EcoView()
+                    EcoView(selectedTab: $selection)
                 } label: {
                     Image(systemName: "leaf.fill")
                     Text("Home")
@@ -36,17 +36,6 @@ struct ContentView: View {
                 }
             }
         }
-//        .navigationBarTitleDisplayMode(.inline)
-//        .toolbar {
-//            ToolbarItem(placement: .principal) {
-//                HStack {
-//                    Text("이코")
-//                        .font(.title3)
-//                        .fontWeight(.bold)
-//                    Image(systemName: "leaf.fill")
-//                }
-//            }
-//        }
     }
 }
 
