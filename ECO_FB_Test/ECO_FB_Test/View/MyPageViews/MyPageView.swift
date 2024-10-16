@@ -16,6 +16,15 @@ struct MyPageView: View {
     @State private var navigateToLogin: Bool = false // 로그인 화면으로 이동 여부
     
     var body: some View {
+        HStack {
+            Text("이코")
+                .font(.system(size: 25, weight: .bold))
+            Image(systemName: "leaf.fill")
+            Spacer()
+        }
+        .foregroundStyle(.green)
+        .padding([.leading, .top])
+        
         List {
             // 로그인 상태일 경우
             if let user = userStore.userData {

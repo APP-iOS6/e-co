@@ -16,14 +16,14 @@ struct EcoView: View {
     
     var body: some View {
         VStack {
-            //                HStack {
-            //                    Text("이코 E-co")
-            //                        .font(.system(size: 25, weight: .bold))
-            //                    Image(systemName: "leaf.fill")
-            //                    Spacer()
-            //                }
-            //                .foregroundStyle(.green)
-            //                .padding()
+            HStack {
+                Text("이코")
+                    .font(.system(size: 25, weight: .bold))
+                Image(systemName: "leaf.fill")
+                Spacer()
+            }
+            .foregroundStyle(.green)
+            .padding([.leading, .top])
             
             // 상단 Info Area
             EcoTopInfoView(healthManager: healthManager)

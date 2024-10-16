@@ -35,6 +35,15 @@ struct StoreView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 HStack {
+                    Text("이코")
+                        .font(.system(size: 25, weight: .bold))
+                    Image(systemName: "leaf.fill")
+                    Spacer()
+                }
+                .foregroundStyle(.green)
+                .padding([.leading, .top])
+                
+                HStack {
                     VStack {
                         HStack {
                             TextField("친환경 제품을 찾아보세요", text: $searchText)

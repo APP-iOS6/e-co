@@ -32,17 +32,6 @@ struct ContentView: View {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                HStack {
-                    Text("이코")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                    Image(systemName: "leaf.fill")
-                }
-            }
-        }
     }
 }
 
