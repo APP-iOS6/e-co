@@ -15,6 +15,7 @@ struct HelpView: View {
                 .foregroundColor(.gray)
                 ) {
                     NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
+                    NavigationLink("FAQ", destination: FAQView())
                     NavigationLink("1:1 문의", destination: InquiriesView())
                     NavigationLink("상품 문의", destination: ProductQuestionsView())
                     NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
