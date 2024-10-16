@@ -23,9 +23,10 @@ struct CreateAccountView: View {
     @State var userPassword: String = ""
     @State var checkUserPassword: String = ""
     @FocusState private var focusedField: Field?
+    @FocusState private var isfocused: Bool //여기는 키보드 내리는거 위해
     @Environment(\.dismiss) private var dismiss
     @State var emailErrorMasage: String = ""
-        private var isPasswordCount: Bool {
+    private var isPasswordCount: Bool {
         userPassword.count <= 5
     }
     private var isEmailForm: Bool {
@@ -137,7 +138,7 @@ struct CreateAccountView: View {
                 HStack{
                     if checkUserPassword != userPassword {
                         Image(systemName: "exclamationmark.triangle.fill").font(.caption2)
-                        Text("비밀번호가 서로 달라용!")
+                        Text("비밀번호가 서로 다릅니다.")
                             .font(.caption2)
                     }
                     Spacer()
@@ -157,7 +158,7 @@ struct CreateAccountView: View {
                         showToast = true
                         print("회원가입함")
                         dismiss()
-                       
+                        
                     }   catch {
                         emailErrorMasage = "이미 사용중인 이메일 입니다."
                         print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
@@ -172,11 +173,18 @@ struct CreateAccountView: View {
                 .cornerRadius(10)
                 .foregroundColor(.white)
                 .padding(.top, 40)
-          
+            
             Spacer()
             
-        }.padding()
+        }
+        .padding()
+        .onTapGesture {
+            isfocused = false
+        }
     }
+    
+    
+    
     //조건에 맞지 않으면 버튼 비활성화, 즉 고로 이메일 중복 일때 제외하고 잘못된방법으로 회원가입 시도하였을때 회원가입 버튼을 비활성화함으로써 회원가입을 마금
     private func checkSignup() -> Bool {
         if userName.isEmpty || userEmail.isEmpty || userPassword.isEmpty || checkUserPassword.isEmpty || checkUserPassword != userPassword || isEmailForm != true || isPasswordCount {
@@ -192,39 +200,53 @@ extension CreateAccountView {
     
     private var nameView: some View {
         TextField("", text: $userName)
+            .textContentType(.newPassword) // 기존 키체인 제안 방지
+            .autocorrectionDisabled(true) // 자동 수정 비활성화
+            .textInputAutocapitalization(.never) // 자동 대문자화 비활성화
             .foregroundColor(.black)
             .keyboardType(.emailAddress)
             .autocapitalization(.none)
             .onTapGesture {
                 focusedField = .name
             }
+            .focused($isfocused)
     }
     
     private var textView: some View {
         TextField("", text: $userEmail)
+            .textContentType(.newPassword) // 기존 키체인 제안 방지
+            .autocorrectionDisabled(true) // 자동 수정 비활성화
+            .textInputAutocapitalization(.never) // 자동 대문자화 비활성화
             .foregroundColor(.black)
             .keyboardType(.emailAddress)
             .autocapitalization(.none)
             .onTapGesture {
                 focusedField = .email
             }
+            .focused($isfocused)
     }
     
     private var passwordView: some View {
         SecureField("", text: $userPassword)
+            .textContentType(.newPassword) // 자동완성 비활성화
+            .autocorrectionDisabled(true) // 자동 수정 비활성화
+            .textInputAutocapitalization(.never)
             .foregroundColor(.black)
             .onTapGesture {
                 focusedField = .password
             }
-        
+            .focused($isfocused)
     }
     private var checkPasswordView: some View {
         SecureField("", text: $checkUserPassword)
             .foregroundColor(.black)
+            .textContentType(.newPassword) // 기존 키체인 제안 방지
+            .autocorrectionDisabled(true) // 자동 수정 비활성화
+            .textInputAutocapitalization(.never) // 자동 대문자화 비활성화
             .onTapGesture {
                 focusedField = .checkingPassword
             }
-        
+            .focused($isfocused)
     }
 }
 
