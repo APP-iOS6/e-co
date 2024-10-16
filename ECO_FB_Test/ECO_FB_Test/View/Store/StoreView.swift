@@ -376,6 +376,15 @@ struct allGoodsOfCategoryView: View {
                 }
             }
         }
+        .refreshable {
+            Task {
+                if goodsStore.goodsByCategories[category] != nil {
+                    _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsStore.dataCount)) { flow in
+                        dataFetchFlow = flow
+                    }
+                }
+            }
+        }
     }
     
     private func getItemCountForPage(_ index: Int) -> Range<Int> {
