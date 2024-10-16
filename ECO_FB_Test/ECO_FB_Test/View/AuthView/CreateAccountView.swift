@@ -23,6 +23,7 @@ struct CreateAccountView: View {
     @State var userPassword: String = ""
     @State var checkUserPassword: String = ""
     @FocusState private var focusedField: Field?
+    @FocusState private var isfocused: Bool //여기는 키보드 내리는거 위해
     @Environment(\.dismiss) private var dismiss
     @State var emailErrorMasage: String = ""
     private var isPasswordCount: Bool {
@@ -137,7 +138,7 @@ struct CreateAccountView: View {
                 HStack{
                     if checkUserPassword != userPassword {
                         Image(systemName: "exclamationmark.triangle.fill").font(.caption2)
-                        Text("비밀번호가 서로 달라용!")
+                        Text("비밀번호가 서로 다릅니다.")
                             .font(.caption2)
                     }
                     Spacer()
@@ -175,8 +176,15 @@ struct CreateAccountView: View {
             
             Spacer()
             
-        }.padding()
+        }
+        .padding()
+        .onTapGesture {
+            isfocused = false
+        }
     }
+    
+    
+    
     //조건에 맞지 않으면 버튼 비활성화, 즉 고로 이메일 중복 일때 제외하고 잘못된방법으로 회원가입 시도하였을때 회원가입 버튼을 비활성화함으로써 회원가입을 마금
     private func checkSignup() -> Bool {
         if userName.isEmpty || userEmail.isEmpty || userPassword.isEmpty || checkUserPassword.isEmpty || checkUserPassword != userPassword || isEmailForm != true || isPasswordCount {
@@ -201,6 +209,7 @@ extension CreateAccountView {
             .onTapGesture {
                 focusedField = .name
             }
+            .focused($isfocused)
     }
     
     private var textView: some View {
@@ -214,6 +223,7 @@ extension CreateAccountView {
             .onTapGesture {
                 focusedField = .email
             }
+            .focused($isfocused)
     }
     
     private var passwordView: some View {
@@ -225,7 +235,7 @@ extension CreateAccountView {
             .onTapGesture {
                 focusedField = .password
             }
-        
+            .focused($isfocused)
     }
     private var checkPasswordView: some View {
         SecureField("", text: $checkUserPassword)
@@ -236,7 +246,7 @@ extension CreateAccountView {
             .onTapGesture {
                 focusedField = .checkingPassword
             }
-        
+            .focused($isfocused)
     }
 }
 

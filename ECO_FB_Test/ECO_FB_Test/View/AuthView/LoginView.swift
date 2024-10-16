@@ -25,7 +25,7 @@ struct LoginView: View {
     @State private var goMainView: Bool = false
     @State private var loginErrorMessage: String?
     @State private var showToast = false
-    
+    @FocusState private var isfocused: Bool // 여기는 키보드 내리는거 위해
     var body: some View {
         VStack{
             HStack {
@@ -173,13 +173,17 @@ struct LoginView: View {
         .padding()
         .sheet(isPresented: $showCreateAccountPage) {
             CreateAccountView(showToast: $showToast)
-            
         }
+        .onTapGesture {
+            isfocused = false
+        }
+        
         //            .navigationDestination(isPresented: $goMainView, destination: {
         //                ContentView()
         //                    .navigationBarBackButtonHidden()
         //            })
     }
+       
 }
 
 
@@ -196,6 +200,7 @@ extension LoginView {
             .onTapGesture {
                 focusedField = .email
             }
+            .focused($isfocused)
     }
     
     private var passwordView: some View {
@@ -208,6 +213,7 @@ extension LoginView {
             .onTapGesture {
                 focusedField = .password
             }
+            .focused($isfocused)
     }
 }
 struct TextDivider: View {
