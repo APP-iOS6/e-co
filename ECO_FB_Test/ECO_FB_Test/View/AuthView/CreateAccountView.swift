@@ -25,7 +25,7 @@ struct CreateAccountView: View {
     @FocusState private var focusedField: Field?
     @Environment(\.dismiss) private var dismiss
     @State var emailErrorMasage: String = ""
-        private var isPasswordCount: Bool {
+    private var isPasswordCount: Bool {
         userPassword.count <= 5
     }
     private var isEmailForm: Bool {
@@ -157,7 +157,7 @@ struct CreateAccountView: View {
                         showToast = true
                         print("회원가입함")
                         dismiss()
-                       
+                        
                     }   catch {
                         emailErrorMasage = "이미 사용중인 이메일 입니다."
                         print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
@@ -172,7 +172,7 @@ struct CreateAccountView: View {
                 .cornerRadius(10)
                 .foregroundColor(.white)
                 .padding(.top, 40)
-          
+            
             Spacer()
             
         }.padding()
@@ -192,6 +192,9 @@ extension CreateAccountView {
     
     private var nameView: some View {
         TextField("", text: $userName)
+            .textContentType(.newPassword) // 기존 키체인 제안 방지
+            .autocorrectionDisabled(true) // 자동 수정 비활성화
+            .textInputAutocapitalization(.never) // 자동 대문자화 비활성화
             .foregroundColor(.black)
             .keyboardType(.emailAddress)
             .autocapitalization(.none)
@@ -202,6 +205,9 @@ extension CreateAccountView {
     
     private var textView: some View {
         TextField("", text: $userEmail)
+            .textContentType(.newPassword) // 기존 키체인 제안 방지
+            .autocorrectionDisabled(true) // 자동 수정 비활성화
+            .textInputAutocapitalization(.never) // 자동 대문자화 비활성화
             .foregroundColor(.black)
             .keyboardType(.emailAddress)
             .autocapitalization(.none)
@@ -212,6 +218,9 @@ extension CreateAccountView {
     
     private var passwordView: some View {
         SecureField("", text: $userPassword)
+            .textContentType(.newPassword) // 자동완성 비활성화
+            .autocorrectionDisabled(true) // 자동 수정 비활성화
+            .textInputAutocapitalization(.never)
             .foregroundColor(.black)
             .onTapGesture {
                 focusedField = .password
@@ -221,6 +230,9 @@ extension CreateAccountView {
     private var checkPasswordView: some View {
         SecureField("", text: $checkUserPassword)
             .foregroundColor(.black)
+            .textContentType(.newPassword) // 기존 키체인 제안 방지
+            .autocorrectionDisabled(true) // 자동 수정 비활성화
+            .textInputAutocapitalization(.never) // 자동 대문자화 비활성화
             .onTapGesture {
                 focusedField = .checkingPassword
             }
