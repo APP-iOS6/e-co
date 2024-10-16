@@ -175,14 +175,7 @@ final class AuthManager {
                 cart: [],
                 goodsRecentWatched: []
             )
-            
-            // Firebase에 사용자 데이터 저장 및 로드
-            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: guestEmail, user: guestUser))
         
-        _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: guestEmail, shouldReturnUser: false)) { _ in
-            
-        }
-            
-            print("비회원 로그인 성공: \(guestEmail)")
-        }
+        print("비회원 로그인 성공: \(guestEmail)")
+    }
 }

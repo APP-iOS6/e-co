@@ -30,7 +30,7 @@ enum DataParam {
     /**
      물건을 모두 불러올 때 사용, 결과값은 GoodsStore의 goodsList에 저장됩니다.
      */
-    case goodsAll
+    case goodsAll(category: [GoodsCategory], limit: Int)
     /**
      결제정보를 모두 불러올 때 사용, 결과값은 PaymentInfoStore의 paymentInfoList에 저장됩니다.
      */

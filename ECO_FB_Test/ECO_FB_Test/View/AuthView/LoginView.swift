@@ -15,7 +15,8 @@ struct LoginView: View {
         case checkingPassword
         case name
     }
-    @State private var showToast = false
+    
+    @Environment(\.dismiss) var dismiss
     @Environment(AuthManager.self) var authManager: AuthManager
     @State var userEmail: String = ""
     @State var userPassword: String = ""
@@ -23,14 +24,26 @@ struct LoginView: View {
     @State private var showCreateAccountPage = false
     @State private var goMainView: Bool = false
     @State private var loginErrorMessage: String?
+    @State private var showToast = false
     
     var body: some View {
             VStack{
-                HStack{
-                    Text("이코 E-co")
-                        .font(.system(size: 25, weight: .bold))
+                HStack {
                     Image(systemName: "leaf.fill")
+                        .foregroundStyle(.accent)
+                        .font(.system(size: 20))
+                    Text("이코")
+                        .font(.system(size: 20))
+                        .font(.title3)
+                        .fontWeight(.bold)
                 }
+                .padding(.top)
+                
+//                HStack{
+//                    Text("이코 E-co")
+//                        .font(.system(size: 25, weight: .bold))
+//                    Image(systemName: "leaf.fill")
+//                }
                 Spacer()
                 Text("Login")
                     .font(.title)
@@ -69,7 +82,6 @@ struct LoginView: View {
                             .padding(.top, 5)
                             .font(.footnote)
                     }
-                    
                 }
                 
                 VStack{
@@ -79,7 +91,8 @@ struct LoginView: View {
                                 try await AuthManager.shared.EmailLogin(withEmail: userEmail, password: userPassword)
                                 print("로그인 성공")
                                 loginErrorMessage = nil
-                                goMainView = true
+//                                goMainView = true
+                                dismiss()
                             } catch {
                                 print("로그인 실패: \(error.localizedDescription)")
                                 loginErrorMessage = "이메일 또는 패스워드를 확인해주세요"
@@ -111,7 +124,8 @@ struct LoginView: View {
                     Button {
                         Task {
                             await AuthManager.shared.login(type: .google)
-                            goMainView = true
+//                            goMainView = true
+                            dismiss()
                         }
                     } label: {
                         Image("googleLogin2")
@@ -123,29 +137,30 @@ struct LoginView: View {
                     Button {
                         Task {
                             await AuthManager.shared.login(type: .kakao)
-                            goMainView = true
+//                            goMainView = true
+                            dismiss()
                         }
                     } label: {
                         Image("kakaoLogin")
                     }
                     .disabled(authManager.tryToLoginNow)
                     
-                    //비회원 로그인
-//                    Button{
-//                        Task {
-//                            do {
-//                                try await authManager.guestLogin()
+                    Button{
+                        Task {
+                            do {
+                                try await authManager.guestLogin()
 //                                goMainView = true
-//                            } catch {
-//                                print("로그인 실패: \(error.localizedDescription)")
-//                            }
-//                        }
-//                    } label: {
-//                        Text("앱 둘러보기")
-//                            .underline()
-//                    }
-//                    .foregroundStyle(Color.green)
-//                    .disabled(authManager.tryToLoginNow)
+                                dismiss()
+                            } catch {
+                                print("로그인 실패: \(error.localizedDescription)")
+                            }
+                        }
+                    } label: {
+                        Text("비회원으로 로그인")
+                            .underline()
+                    }
+                    .foregroundStyle(Color.green)
+                    .disabled(authManager.tryToLoginNow)
                 }
                 .padding(.top, 40)
                 
@@ -169,11 +184,10 @@ struct LoginView: View {
                 CreateAccountView(showToast: $showToast)
                 
             }
-            .navigationDestination(isPresented: $goMainView, destination: {
-                ContentView()
-                    .navigationBarBackButtonHidden()
-            })
-            .navigationBarBackButtonHidden()
+//            .navigationDestination(isPresented: $goMainView, destination: {
+//                ContentView()
+//                    .navigationBarBackButtonHidden()
+//            })
     }
 }
 

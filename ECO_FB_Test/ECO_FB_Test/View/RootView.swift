@@ -12,16 +12,17 @@ struct RootView: View {
     
     var body: some View {
         NavigationStack {
-            if authManager.isUserLoggedIn {
+//            if authManager.isUserLoggedIn {
                 ContentView()
                     .onAppear {
-                        Task {
-                            await authManager.getLoggedInUserData()
-                        }
+//                        Task {
+//                            await authManager.getLoggedInUserData()
+//                        }
                     }
-            } else {
-                LoginView()
-            }
+                    
+//            } else {
+//                LoginView()
+//            }
         }
     }
 }

@@ -59,9 +59,8 @@ struct EcoStepsView: View {
                             }
                     }
                     
-                    
                     VStack {
-                        Text("목표: 10000")
+                        Text("목표: 10,000")
                             .offset(y: 100)
                             .font(.title3)
                     }
