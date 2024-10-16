@@ -11,12 +11,15 @@ struct CartGoodsInfoView: View {
     @State private var isOn: Bool = false
     @Binding var totalSelected: Bool
     var goods: Goods
-    var screenWidth: CGFloat
     var selectEvent: (Bool, Goods) -> Void
     
     var body: some View {
         VStack {
-            HStack(alignment: .top) {
+            HStack(alignment: .center) {
+                CheckBox(isOn: $isOn) {
+                    selectEvent(isOn, goods)
+                }
+                
                 Image(systemName: "clipboard.fill")
                     .frame(width: 100, height: 100)
                     .background {
@@ -38,9 +41,9 @@ struct CartGoodsInfoView: View {
                         
                     } label: {
                         Text("바로 구매")
+                            .frame(maxWidth: .infinity)
                             .foregroundStyle(.black)
                             .fontWeight(.bold)
-                            .frame(width: 250, height: 35)
                             .background {
                                 RoundedRectangle(cornerRadius: 5)
                                     .foregroundStyle(.white)
@@ -48,11 +51,8 @@ struct CartGoodsInfoView: View {
                             }
                     }
                 }
-                .frame(width: 255)
                 
-                CheckBox(isOn: $isOn) {
-                    selectEvent(isOn, goods)
-                }
+                Spacer()
             }
             
             Divider()

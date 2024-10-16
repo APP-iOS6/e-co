@@ -34,7 +34,7 @@ struct CartView: View {
                                 Text("장바구니가 비어있습니다")
                             } else {
                                 ForEach(userData.arrayCart) { goods in
-                                    CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods, screenWidth: geometry.size.width) { isOn, goods in
+                                    CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods) { isOn, goods in
                                         if isOn {
                                             selectedGoods.append(goods)
                                         } else {
