@@ -136,30 +136,8 @@ struct StoreView: View {
                 
             }
         }
+        .padding(.top)
         .scrollIndicators(.hidden)
-        //        .toolbar {
-        //            if selectedTab == 1 {
-        //                ToolbarItem(placement: .topBarTrailing) {
-        //                    Button {
-        //                        isMapVisible.toggle()
-        //                    } label: {
-        //                        Text("오프라인 매장찾기")
-        //                    }
-        //                    .sheet(isPresented: $isMapVisible) {
-        //                        StoreLocationView()
-        //                            .presentationDragIndicator(.visible)
-        //                    }
-        //                }
-        //
-        //                ToolbarItem(placement: .keyboard) {
-        //                    Button {
-        //                        focused = false
-        //                    } label: {
-        //                        Text("return")
-        //                    }
-        //                }
-        //            }
-        //        }
         .onAppear {
             if StoreView.isFirstPresent {
                 Task {

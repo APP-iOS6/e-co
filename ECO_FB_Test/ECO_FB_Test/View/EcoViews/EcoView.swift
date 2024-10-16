@@ -54,6 +54,7 @@ struct EcoView: View {
                 } else {
                     Text("비회원의 경우 포인트가 적립되지 않습니다.")
                         .font(.footnote)
+                        .padding(.bottom)
                     
                     NavigationLink(destination: LoginView()) {
                         HStack {

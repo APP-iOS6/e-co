@@ -36,7 +36,7 @@ struct LoginView: View {
                 .font(.title)
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
+                .padding()
             //이메일영역
             VStack {
                 Text("이메일")
@@ -71,6 +71,7 @@ struct LoginView: View {
                         .font(.footnote)
                 }
             }
+            .padding()
             
             VStack{
                 Button {

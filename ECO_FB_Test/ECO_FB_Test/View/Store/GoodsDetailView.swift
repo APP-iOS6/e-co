@@ -57,8 +57,12 @@ struct GoodsDetailView: View {
                 
                 HStack {
                     Button {
-                        //장바구니 담기 로직 필요
-                        print("\(goods.name) 장바구니 담기 ")
+                        if var user = UserStore.shared.userData {
+                            Task {
+                                user.cart.insert(goods)
+                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                            }
+                        }
                     } label: {
                         Text("장바구니 담기")
                             .frame(maxWidth: .infinity)
