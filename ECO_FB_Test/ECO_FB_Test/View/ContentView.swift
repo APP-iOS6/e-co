@@ -13,35 +13,33 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                TabView(selection: $selection) {
-                    Tab(value: 0) {
-                        EcoView(selectedTab: $selection)
-                    } label: {
-                        Image(systemName: "leaf.fill")
-                        Text("Home")
-                    }
-                    
-                    Tab(value: 1) {
-                        StoreView(selectedTab: $selection)
-                    } label: {
-                        Image(systemName: "bag.fill")
-                        Text("Store")
-                    }
-                    
-                    Tab(value: 2) {
-                        MyPageView()
-                    } label: {
-                        Image(systemName: "person.fill")
-                        Text("My")
-                    }
+            TabView(selection: $selection) {
+                Tab(value: 0) {
+                    EcoView(selectedTab: $selection)
+                } label: {
+                    Image(systemName: "leaf.fill")
+                    Text("Home")
+                }
+                
+                Tab(value: 1) {
+                    StoreView(selectedTab: $selection)
+                } label: {
+                    Image(systemName: "bag.fill")
+                    Text("Store")
+                }
+                
+                Tab(value: 2) {
+                    MyPageView()
+                } label: {
+                    Image(systemName: "person.fill")
+                    Text("My")
                 }
             }
         }
         .onAppear {
-            if AuthManager.shared.isUserLoggedIn {
+            if authManager.isUserLoggedIn {
                 Task {
-                    await AuthManager.shared.getLoggedInUserData()
+                    await authManager.getLoggedInUserData()
                 }
             }
         }

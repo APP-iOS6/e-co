@@ -34,6 +34,10 @@ struct EcoView: View {
             // 중앙 걸음수 Area
             EcoStepsView(stepCount: healthManager.todayStepCount)
             
+            if AuthManager.shared.tryToLoginNow {
+                
+            }
+            
             if userStore.userData != nil {
                 HStack() {
                     Text("총 보유 포인트: ")
@@ -55,16 +59,21 @@ struct EcoView: View {
                     .fontWeight(.semibold)
                 }
                 
-            } else if AuthManager.shared.tryToLoginNow == false {
-                Text("비회원의 경우 포인트가 적립되지 않습니다.")
-                    .font(.footnote)
-                
-                NavigationLink(destination: LoginView()) {
-                    HStack {
-                        Text("로그인 하기")
-                        Image(systemName: "chevron.right")
+            } else {
+                if AuthManager.shared.tryToLoginNow {
+                    Text("로그인 중 입니다.")
+                        .font(.footnote)
+                } else {
+                    Text("비회원의 경우 포인트가 적립되지 않습니다.")
+                        .font(.footnote)
+                    
+                    NavigationLink(destination: LoginView()) {
+                        HStack {
+                            Text("로그인 하기")
+                            Image(systemName: "chevron.right")
+                        }
+                        .fontWeight(.semibold)
                     }
-                    .fontWeight(.semibold)
                 }
             }
             

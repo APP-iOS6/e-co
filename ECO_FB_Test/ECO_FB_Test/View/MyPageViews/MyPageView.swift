@@ -29,7 +29,6 @@ struct MyPageView: View {
         .padding(.top)
         
         List {
-            
             // 로그인 상태일 경우
             if let user = userStore.userData {
                 Section {
@@ -79,7 +78,7 @@ struct MyPageView: View {
             
             // 공지사항, 1:1 문의, 상품 문의, 개인정보 고지, 설정
             Section(header: Text("지원")) {
-                NavigationLink("도움이 필요하신가요", destination: HelpView())
+                NavigationLink("도움이 필요하신가요?", destination: HelpView())
             }
             
             // 로그아웃 섹션: 로그인 상태일 경우만 표시

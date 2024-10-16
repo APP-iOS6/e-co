@@ -9,4 +9,5 @@ import Foundation
 
 enum CommonError: Error {
     case windowSceneError(reason: String)
+    case referenceError(reason: String)
 }
