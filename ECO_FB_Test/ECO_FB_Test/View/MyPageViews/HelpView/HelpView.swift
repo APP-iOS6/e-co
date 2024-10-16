@@ -18,6 +18,7 @@ struct HelpView: View {
                     NavigationLink("FAQ", destination: FAQView())
                     NavigationLink("1:1 문의", destination: InquiriesView())
                     NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
+                    NavigationLink("도움말", destination: HealthHelpView())
                 }
             }
             .listStyle(InsetGroupedListStyle())

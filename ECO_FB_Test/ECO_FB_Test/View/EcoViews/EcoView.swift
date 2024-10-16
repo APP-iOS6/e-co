@@ -24,62 +24,21 @@ struct EcoView: View {
                 .padding(.top, 20)
             
             // 중앙 걸음수 Area
-            EcoStepsView(stepCount: healthManager.todayStepCount)
-            
-            if userStore.userData != nil {
-                HStack() {
-                    Text("총 보유 포인트: ")
-                    Text("\(userStore.userData!.pointCount)")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.green)
-                    Text("점")
-                }
-                .padding(.top)
+            EcoStepsView(stepCount: healthManager.todayStepCount, selectedTab: $selectedTab)
                 
-                Button {
-                    selectedTab = 1
-                } label: {
-                    HStack {
-                        Text("스토어로 이동하기")
-                        Image(systemName: "chevron.right")
-                    }
-                    .fontWeight(.semibold)
-                }
-                
-            } else {
-                if AuthManager.shared.tryToLoginNow {
-                    Text("로그인 중 입니다.")
-                        .font(.footnote)
-                } else {
-                    Text("비회원의 경우 포인트가 적립되지 않습니다.")
-                        .font(.footnote)
-                        .padding(.bottom)
-                    
-                    NavigationLink(destination: LoginView()) {
-                        HStack {
-                            Text("로그인 하기")
-                            Image(systemName: "chevron.right")
-                        }
-                        .fontWeight(.semibold)
-                    }
-                }
-            }
-            
+
             // 하단 친환경 행사 Area
             EcoEventsView()
+
         }
+
         .onChange(of: healthManager.todayStepCount) {
             healthManager.readCurrentStepCount()
             healthManager.readCurrentDistance()
             Task {
                 if var user = userStore.userData {  // 유저데이터가 존재하고 (로그인)
-                    //                    print("ecoView: 로그인되어있음")
                     if healthManager.isChangedTodayStepCount { // 오늘의 걸음수가 변경되었다면
-                        //                        print("ecoView: 걸음수 변경감지되었음")
-                        //                        print("ecoView: 변경전 유저 포인트 - \(user.pointCount)")
                         user.pointCount += healthManager.getStepPoint() // 방금 증가한 걸음수에 대한 포인트를 더함
-                        //                        print("ecoView: 변경후 유저 포인트 - \(user.pointCount)")
                         await dataManager.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                     }
                 }
@@ -90,12 +49,8 @@ struct EcoView: View {
             healthManager.readCurrentDistance()
             Task {
                 if var user = userStore.userData {  // 유저데이터가 존재하고 (로그인)
-                    //                    print("ecoView: 로그인되어있음")
                     if healthManager.isChangedTodayStepCount { // 오늘의 걸음수가 변경되었다면
-                        //                        print("ecoView: 걸음수 변경감지되었음")
-                        //                        print("ecoView: 변경전 유저 포인트 - \(user.pointCount)")
                         user.pointCount += healthManager.getStepPoint() // 방금 증가한 걸음수에 대한 포인트를 더함
-                        //                        print("ecoView: 변경후 유저 포인트 - \(user.pointCount)")
                         await dataManager.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                     }
                 }
@@ -105,6 +60,67 @@ struct EcoView: View {
             healthManager.requestAuthorization()
             healthManager.readCurrentStepCount()
             healthManager.readCurrentDistance()
+        }
+    }
+}
+
+struct EcoToastView: View {
+    @Binding var isVisible: Bool
+    let message: String
+    @Binding var isShowSheet: Bool
+    
+    var body: some View {
+        if isVisible {
+            HStack {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundColor(.white)
+                    .padding(.leading, 10)
+
+                Text(message)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding()
+
+                Button {
+                    isShowSheet.toggle()
+                } label: {
+                    Image(systemName: "chevron.right.circle.fill")
+                }
+                .foregroundStyle(.white)
+                
+                Spacer()
+            }
+            .background(Color.green)
+            .cornerRadius(10)
+            .padding(.horizontal, 20)
+            .padding(.top, 10)
+            .transition(.slide)
+            .animation(.easeInOut, value: isVisible)
+            .onAppear {
+              
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    withAnimation {
+                        isVisible = false
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct HealthHelpView: View {
+    var body: some View {
+        Text("혹시 모든 정보가 0으로만 보이고, 변화가 없으신가요?")
+            .padding(.top, 50)
+        Text("설정 > 앱 > 건강 > 데이터 접근 및 기기 >\ne-co에서 '모두 켜기'를 눌러주세요.")
+            .padding()
+        
+        ScrollView(.vertical) {
+            Image(.healthHelp)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity)
+                .padding()
         }
     }
 }
