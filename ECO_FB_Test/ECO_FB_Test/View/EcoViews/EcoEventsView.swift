@@ -25,7 +25,7 @@ struct EcoEventsView: View {
             HStack {
                 Text("친환경 행사")
                     .font(.headline)
-                    .fontWeight(.regular)
+                    .fontWeight(.semibold)
                 Spacer()
                 
                 // TODO: 환경이벤트 페이지로 이동하는 버튼으로 변경
