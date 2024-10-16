@@ -12,29 +12,28 @@ struct NoticeView: View {
     @State private var dataFetchFlow: DataFetchFlow = .none
     
     var body: some View {
-        NavigationView {
-            Group {
-                if announcementStore.announcementList.isEmpty {
-                    Text("공지사항이 없습니다.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                } else {
-                    List(announcementStore.announcementList) { announcement in
-                        VStack(alignment: .leading) {
-                            Text(announcement.title)
-                                .font(.headline)
-                            Text(announcement.content)
-                                .font(.subheadline)
-                            Text(announcement.formattedCreationDate)
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
+        
+        Group {
+            if announcementStore.announcementList.isEmpty {
+                Text("공지사항이 없습니다.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            } else {
+                List(announcementStore.announcementList) { announcement in
+                    VStack(alignment: .leading) {
+                        Text(announcement.title)
+                            .font(.headline)
+                        Text(announcement.content)
+                            .font(.subheadline)
+                        Text(announcement.formattedCreationDate)
+                            .font(.caption)
+                            .foregroundColor(.gray)
                     }
-                    .navigationTitle("공지사항")
-                    
                 }
+                .navigationTitle("공지사항")
+                .navigationBarTitleDisplayMode(.inline)
+                
             }
-            
         }
         .onAppear {
             Task {
