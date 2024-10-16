@@ -15,25 +15,30 @@ struct EcoView: View {
     @Bindable private var healthManager = HealthKitManager.shared
     
     var body: some View {
-            VStack {
-                HStack {
-                    Image(systemName: "leaf.fill")
-                        .foregroundStyle(.accent)
-                        .font(.system(size: 20))
-                    Text("이코")
-                        .font(.system(size: 20))
-                        .font(.title3)
-                        .fontWeight(.bold)
-                }
-                .padding(.top)
-                
-                // 상단 Info Area
-                EcoTopInfoView(healthManager: healthManager)
-                
-                // 중앙 걸음수 Area
-                EcoStepsView(stepCount: healthManager.todayStepCount)
-                
-               if userStore.userData != nil {
+        VStack {
+            HStack {
+                Image(systemName: "leaf.fill")
+                    .foregroundStyle(.accent)
+                    .font(.system(size: 20))
+                Text("이코")
+                    .font(.system(size: 20))
+                    .font(.title3)
+                    .fontWeight(.bold)
+            }
+            .padding(.top)
+            
+            // 상단 Info Area
+            EcoTopInfoView(healthManager: healthManager)
+            
+            // 중앙 걸음수 Area
+            EcoStepsView(stepCount: healthManager.todayStepCount)
+            
+            if AuthManager.shared.tryToLoginNow {
+                Text("로그인 중 입니다.")
+                    .font(.footnote)
+            }
+            
+            if userStore.userData != nil {
                 HStack() {
                     Text("총 보유 포인트: ")
                     Text("\(userStore.userData!.pointCount)")
@@ -43,12 +48,7 @@ struct EcoView: View {
                     Text("점")
                 }
                 .padding(.top)
-            } else {
-                Text("비회원의 경우 포인트가 적립되지 않습니다.")
-                    .font(.footnote)
-            }
-            
-            if userStore.userData != nil{
+                
                 Button {
                     selectedTab = 1
                 } label: {
@@ -58,7 +58,11 @@ struct EcoView: View {
                     }
                     .fontWeight(.semibold)
                 }
-            } else {
+                
+            } else if AuthManager.shared.tryToLoginNow == false {
+                Text("비회원의 경우 포인트가 적립되지 않습니다.")
+                    .font(.footnote)
+                
                 NavigationLink(destination: LoginView()) {
                     HStack {
                         Text("로그인 하기")
@@ -67,7 +71,7 @@ struct EcoView: View {
                     .fontWeight(.semibold)
                 }
             }
-              
+            
             // 하단 친환경 행사 Area
             EcoEventsView()
         }
