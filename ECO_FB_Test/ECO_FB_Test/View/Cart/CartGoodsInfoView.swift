@@ -36,20 +36,6 @@ struct CartGoodsInfoView: View {
                     Text("\(goods.formattedPrice)")
                         .font(.title3)
                         .fontWeight(.bold)
-                    
-                    Button {
-                        
-                    } label: {
-                        Text("바로 구매")
-                            .frame(maxWidth: .infinity)
-                            .foregroundStyle(.black)
-                            .fontWeight(.bold)
-                            .background {
-                                RoundedRectangle(cornerRadius: 5)
-                                    .foregroundStyle(.white)
-                                    .border(.gray)
-                            }
-                    }
                 }
                 
                 Spacer()
