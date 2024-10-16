@@ -43,5 +43,8 @@ struct RecentlyViewedView: View {
 }
 
 #Preview {
-    RecentlyViewedView()
+    NavigationStack {
+        RecentlyViewedView()
+            .environment(UserStore.shared)
+    }
 }

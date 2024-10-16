@@ -48,14 +48,6 @@ struct MyPageView: View {
                         NavigationLink("상품 추가", destination: AddProductView())
                     }
                 }
-                
-                // 로그아웃 섹션
-                Section(header: Text("로그아웃")) {
-                    Button("로그아웃") {
-                        showLogoutAlert = true // 알림 표시
-                    }
-                    .foregroundColor(.red)
-                }
             } else {
                 Section {
                     if AuthManager.shared.tryToLoginNow {
@@ -74,27 +66,34 @@ struct MyPageView: View {
             
             // 공지사항, 1:1 문의, 상품 문의, 개인정보 고지, 설정
             Section(header: Text("지원")) {
-                NavigationLink("도움이 필요하신가요?", destination: HelpView())
+                NavigationLink("도움이 필요하신가요", destination: HelpView())
+            }
+            
+            // 로그아웃 섹션: 로그인 상태일 경우만 표시
+            if userStore.userData != nil {
+                Section(header: Text("로그아웃")) {
+                    Button("로그아웃") {
+                        showLogoutAlert = true // 알림 표시
+                    }
+                    .foregroundColor(.red)
+                }
+                .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
+                    NavigationLink {
+                        LoginView()
+                            .environment(AuthManager.shared)
+                    } label: {
+                        Button("로그아웃", role: .destructive) {
+                            handleLogout()
+                        }
+                    }
+                    
+                    Button("취소", role: .cancel) { }
+                }, message: {
+                    Text("로그아웃 하시겠습니까?")
+                })
             }
         }
         .listStyle(.inset)
-        .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
-            NavigationLink {
-                LoginView()
-                    .environment(AuthManager.shared)
-            } label: {
-                Button("로그아웃", role: .destructive) {
-                    handleLogout()
-                }
-            }
-            
-            Button("취소", role: .cancel) {
-                
-            }
-        }, message: {
-            Text("로그아웃 하시겠습니까?")
-        })
-        
     }
     
     func handleLogout() {
@@ -102,7 +101,7 @@ struct MyPageView: View {
     }
 }
 
-// Placeholder Views for Navigation Links
+
 struct OrderStatusView: View { var body: some View { Text("주문 현황") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }
 
