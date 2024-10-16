@@ -14,45 +14,31 @@ struct EcoView: View {
     var dataManager = DataManager.shared
     @Bindable private var healthManager = HealthKitManager.shared
     @Environment(\.scenePhase) var scene
-//    @State var stepAuthorization: Bool = false
-//    @State var isShowSheet: Bool = false
     
     var body: some View {
-        ZStack {
-            VStack {
-                HStack {
-                    Image(systemName: "leaf.fill")
-                        .foregroundStyle(.accent)
-                        .font(.system(size: 20))
-                    Text("이코")
-                        .font(.system(size: 20))
-                        .font(.title3)
-                        .fontWeight(.bold)
-                }
-                .padding(.vertical)
-                
-                // 상단 Info Area
-                EcoTopInfoView(healthManager: healthManager)
-                
-                // 중앙 걸음수 Area
-                EcoStepsView(stepCount: healthManager.todayStepCount, selectedTab: $selectedTab)
-                
-                if AuthManager.shared.tryToLoginNow {
-                    
-                }
-                
-                // 하단 친환경 행사 Area
-                EcoEventsView()
+        VStack {
+            HStack {
+                Image(systemName: "leaf.fill")
+                    .foregroundStyle(.accent)
+                    .font(.system(size: 20))
+                Text("이코")
+                    .font(.system(size: 20))
+                    .font(.title3)
+                    .fontWeight(.bold)
             }
+            .padding(.vertical)
             
-//            VStack {
-//                Spacer()
-//                EcoToastView(isVisible: $stepAuthorization, message: "건강앱 읽기 권한이 감지되지 않습니다!", isShowSheet: $isShowSheet)
-//            }
+            // 상단 Info Area
+            EcoTopInfoView(healthManager: healthManager)
+            
+            // 중앙 걸음수 Area
+            EcoStepsView(stepCount: healthManager.todayStepCount, selectedTab: $selectedTab)
+                
+            // 하단 친환경 행사 Area
+            EcoEventsView()
+
         }
-//        .sheet(isPresented: $isShowSheet, content: {
-//            HealthHelpView()
-//        })
+
         .onChange(of: healthManager.todayStepCount) {
             healthManager.readCurrentStepCount()
             healthManager.readCurrentDistance()
@@ -81,8 +67,6 @@ struct EcoView: View {
             healthManager.requestAuthorization()
             healthManager.readCurrentStepCount()
             healthManager.readCurrentDistance()
-//            self.stepAuthorization = !healthManager.stepAuthorization
-//            print("\(self.stepAuthorization)")
         }
     }
 }

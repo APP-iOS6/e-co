@@ -11,5 +11,5 @@ enum LoginType: Int {
     case google
     case kakao
     case email
-    case guest
+    case none
 }

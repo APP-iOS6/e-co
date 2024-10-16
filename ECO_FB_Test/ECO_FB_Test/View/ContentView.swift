@@ -37,7 +37,7 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            if authManager.isUserLoggedIn {
+            if authManager.isUserLoggedIn && UserStore.shared.userData == nil {
                 Task {
                     await authManager.getLoggedInUserData()
                 }

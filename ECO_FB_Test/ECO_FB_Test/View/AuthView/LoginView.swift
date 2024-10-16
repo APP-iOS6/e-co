@@ -26,6 +26,7 @@ struct LoginView: View {
     @State private var loginErrorMessage: String?
     @State private var showToast = false
     @FocusState private var isfocused: Bool // 여기는 키보드 내리는거 위해
+    
     var body: some View {
         VStack{
             HStack {
@@ -39,16 +40,12 @@ struct LoginView: View {
             }
             .padding(.top)
             
-            //                HStack{
-            //                    Text("이코 E-co")
-            //                        .font(.system(size: 25, weight: .bold))
-            //                    Image(systemName: "leaf.fill")
-            //                }
             Spacer()
             Text("Login")
                 .font(.title)
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .leading)
+            
             //이메일영역
             VStack {
                 Text("이메일")
@@ -118,13 +115,11 @@ struct LoginView: View {
                 }
                 .disabled(authManager.tryToLoginNow)
                 
-                //Divider()
                 TextDivider(text: "or")
                 //구글 공식 로그인버튼 이미지로 대체
                 Button {
                     Task {
                         await AuthManager.shared.login(type: .google)
-                        //                            goMainView = true
                         dismiss()
                     }
                 } label: {
@@ -137,15 +132,16 @@ struct LoginView: View {
                 Button {
                     Task {
                         await AuthManager.shared.login(type: .kakao)
-                        //                            goMainView = true
                         dismiss()
                     }
                 } label: {
                     Image("kakaoLogin")
                 }
                 .disabled(authManager.tryToLoginNow)
+                
             }
             .padding(.top, 40)
+            
             
             Spacer()
             //회원가입쪽
@@ -166,24 +162,19 @@ struct LoginView: View {
                         .frame(height: 30)
                         .foregroundStyle(Color.green)
                     }
-                }
-            }.background(Color.white)
-            
+                }.background(Color.white)
+                
+            }
+            .padding()
+            .sheet(isPresented: $showCreateAccountPage) {
+                CreateAccountView(showToast: $showToast)
+                
+            }
+            .onTapGesture {
+                isfocused = false
+            }
         }
-        .padding()
-        .sheet(isPresented: $showCreateAccountPage) {
-            CreateAccountView(showToast: $showToast)
-        }
-        .onTapGesture {
-            isfocused = false
-        }
-        
-        //            .navigationDestination(isPresented: $goMainView, destination: {
-        //                ContentView()
-        //                    .navigationBarBackButtonHidden()
-        //            })
     }
-       
 }
 
 

@@ -97,7 +97,7 @@ struct MyPageView: View {
     @ViewBuilder
     private func helpSection() -> some View {
         Section(header: Text("지원")) {
-            NavigationLink("도움이 필요하신가요", destination: HelpView())
+            NavigationLink("도움이 필요하신가요?", destination: HelpView())
         }
     }
 
