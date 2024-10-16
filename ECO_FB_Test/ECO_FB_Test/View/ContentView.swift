@@ -9,7 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selection = 0
-
+    @State private var isNeedLogin: Bool = false
+    @Environment(AuthManager.self) var authManager: AuthManager
+    
     var body: some View {
         NavigationStack {
             TabView(selection: $selection) {
@@ -32,6 +34,9 @@ struct ContentView: View {
                 }
             }
         }
+        .onAppear {
+            isNeedLogin = !authManager.isUserLoggedIn
+        }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -42,6 +47,9 @@ struct ContentView: View {
                     Image(systemName: "leaf.fill")
                 }
             }
+        }
+        .fullScreenCover(isPresented: $isNeedLogin) {
+            LoginView()
         }
     }
 }
