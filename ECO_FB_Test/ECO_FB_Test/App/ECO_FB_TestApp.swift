@@ -33,7 +33,7 @@ struct ECO_FB_TestApp: App {
     init () {
         KakaoSDK.initSDK(appKey: Bundle.main.infoDictionary?["AppKey"] as! String)
     }
-    //앱 시작 로그인 화면위해 루트뷰로 변경하였습니다.
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -46,7 +46,6 @@ struct ECO_FB_TestApp: App {
                 .environment(GoodsStore.shared)
                 .environment(AuthManager.shared)
                 .environment(AnnouncementStore.shared)
-                .background(.white)
         }
     }
 }
