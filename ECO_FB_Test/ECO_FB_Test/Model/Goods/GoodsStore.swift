@@ -12,22 +12,24 @@ import FirebaseFirestore
 final class GoodsStore: DataControllable {
     static let shared: GoodsStore = GoodsStore()
     private let db: Firestore = DataManager.shared.db
+    private(set) var dataCount: Int = 0
     private(set) var goodsList: [Goods] = []
     private(set) var selectedCategory: GoodsCategory = GoodsCategory.none
     private(set) var goodsByCategories: [GoodsCategory: [Goods]] = [:]
     private(set) var filteredGoodsByCategories: [GoodsCategory: [Goods]] = [:]
+    private var lastGoodsEachCategory: [GoodsCategory: QueryDocumentSnapshot] = [:]
     
-    private init() {}
+    private init() {
+        Task {
+            dataCount = try await db.collection("Goods").getDocuments().count
+        }
+    }
     
     /**
      카테고리 선택시 해당하는 상품만 필터링 해준다
      */
     func categorySelectAction(_ category: GoodsCategory) {
-        if selectedCategory == category {
-            selectedCategory = GoodsCategory.none
-        } else {
-            selectedCategory = category
-        }
+        selectedCategory = category
         
         filteredGoodsByCategories = if selectedCategory == GoodsCategory.none {
             goodsByCategories
@@ -74,14 +76,14 @@ final class GoodsStore: DataControllable {
         do {
             var result: DataResult = .none
             
-            if case .goodsAll = parameter {
-                result = try await getGoodsAll()
-                goodsByCategories.removeAll()
+            if case .goodsAll(let categories, let limit) = parameter {
+                result = try await getGoodsAll(categories: categories, limit: limit)
                 
                 for goods in goodsList {
-                    if goodsByCategories[goods.category] != nil {
-                        goodsByCategories[goods.category]?.append(goods)
-                    } else {
+                    if var list = goodsByCategories[goods.category], !list.contains(where: { $0.id == goods.id}) {
+                        list.append(goods)
+                        goodsByCategories[goods.category] = list
+                    } else if goodsByCategories[goods.category] == nil {
                         goodsByCategories[goods.category] = [goods]
                     }
                 }
@@ -140,18 +142,61 @@ final class GoodsStore: DataControllable {
         }
     }
     
-    private func getGoodsAll() async throws -> DataResult {
-        goodsList.removeAll()
-        
+    private func getGoodsAll(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
+        if lastGoodsEachCategory.isEmpty {
+            return try await getFirstPages(categories: categories, limit: limit)
+        } else {
+            return try await getFirstPages(categories: categories, limit: limit)
+        }
+    }
+    
+    private func getFirstPages(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
         do {
-            let snapshots = try await db.collection("Goods").getDocuments()
-            
-            for document in snapshots.documents {
-                let docData = document.data()
-                let id = document.documentID
+            for category in categories {
+                let snapshots = try await db.collection("Goods")
+                    .whereField("category", isEqualTo: "\(category.rawValue)")
+                    .order(by: FieldPath.documentID())
+                    .limit(to: limit)
+                    .getDocuments()
                 
-                let goods = try await getData(id: id, docData: docData)
-                goodsList.append(goods)
+                for document in snapshots.documents {
+                    let docData = document.data()
+                    let id = document.documentID
+                    
+                    let goods = try await getData(id: id, docData: docData)
+                    goodsList.append(goods)
+                }
+                
+                lastGoodsEachCategory[category] = snapshots.documents.last
+            }
+            
+            return DataResult.none
+        } catch {
+            throw error
+        }
+    }
+    
+    private func getNextPages(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
+        do {
+            for category in categories {
+                guard let last = lastGoodsEachCategory[category] else { continue }
+                
+                let snapshots = try await db.collection("Goods")
+                    .whereField("category", isEqualTo: "\(category.rawValue)")
+                    .order(by: FieldPath.documentID())
+                    .start(afterDocument: last)
+                    .limit(to: limit)
+                    .getDocuments()
+                
+                for document in snapshots.documents {
+                    let docData = document.data()
+                    let id = document.documentID
+                    
+                    let goods = try await getData(id: id, docData: docData)
+                    goodsList.append(goods)
+                }
+                
+                lastGoodsEachCategory[category] = snapshots.documents.last
             }
             
             return DataResult.none

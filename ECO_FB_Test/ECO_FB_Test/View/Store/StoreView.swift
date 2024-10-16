@@ -33,101 +33,137 @@ struct StoreView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("이코")
-                        .font(.system(size: 25, weight: .bold))
-                    Image(systemName: "leaf.fill")
-                    Spacer()
-                }
-                .foregroundStyle(.green)
-                .padding([.leading, .top])
-                
-                HStack {
-                    VStack {
-                        HStack {
-                            TextField("친환경 제품을 찾아보세요", text: $searchText)
-                                .onChange(of: searchText) { oldValue, newValue in
-                                    goodsStore.searchAction(newValue)
-                                }
-                                .keyboardType(.default)
-                                .focused($focused)
-                            
-                            Button {
-                                searchText = ""
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                            }
-                            .foregroundStyle(.black)
-                        }
-                        .padding(10)
-                        .background {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.gray, lineWidth: 1)
-                        }
-                        .padding(.horizontal)
-                    }
-                }
-                .padding(.vertical)
-                
-                if dataFetchFlow == .loading {
+            HStack {
+                Image(systemName: "leaf.fill")
+                    .foregroundStyle(.accent)
+                    .font(.system(size: 20))
+                Text("이코")
+                    .font(.system(size: 20))
+                    .font(.title3)
+                    .fontWeight(.bold)
+            }
+            
+            LazyVStack(alignment: .leading, pinnedViews: [.sectionHeaders]) {
+                Section(header:
+                            VStack {
                     HStack {
                         Spacer()
                         
-                        ProgressView()
-                        
-                        Spacer()
+                        Button {
+                            isMapVisible.toggle()
+                        } label: {
+                            Text("오프라인 매장찾기")
+                        }
+                        .sheet(isPresented: $isMapVisible) {
+                            StoreLocationView()
+                                .presentationDragIndicator(.visible)
+                        }
+                        .padding(.horizontal)
                     }
-                } else {
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(Array(goodsByCategories.keys), id: \.self) { category in
+                    
+                    HStack {
+                        VStack {
+                            HStack {
+                                TextField("친환경 제품을 찾아보세요", text: $searchText)
+                                    .onChange(of: searchText) { oldValue, newValue in
+                                        goodsStore.searchAction(newValue)
+                                    }
+                                    .keyboardType(.default)
+                                    .focused($focused)
                                 
                                 Button {
-                                    goodsStore.categorySelectAction(category)
+                                    searchText = ""
+                                    focused = false
                                 } label: {
-                                    Text(category.rawValue)
+                                    Image(systemName: "xmark.circle.fill")
                                 }
-                                .buttonStyle(.bordered)
-                                .foregroundStyle(selectedCategory == category ? .gray : .black)
+                                .foregroundStyle(.black)
                             }
+                            .padding(10)
+                            .background {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.gray, lineWidth: 1)
+                            }
+                            .padding(.horizontal)
                         }
                     }
-                    .padding()
-                    
-                    recommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories, imageURL: imageURLs[.passion] ?? URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
-                    
-                    ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                        
-                        ItemListView(index: $selectedTab, imageURL: imageURLs[category] ?? URL(string: "https://png.pngtree.com/png-vector/20190704/ourmid/pngtree-leaf-graphic-icon-design-template-vector-illustration-png-image_1538440.jpg")!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
-                        
-                    }
+                    .padding(.bottom)
                 }
-            }
-        }
-        .toolbar {
-            if selectedTab == 1 {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        isMapVisible.toggle()
-                    } label: {
-                        Text("오프라인 매장찾기")
-                    }
-                    .sheet(isPresented: $isMapVisible) {
-                        StoreLocationView()
-                            .presentationDragIndicator(.visible)
+                    .background(Rectangle().foregroundColor(.white))
+                ) {
+                    if dataFetchFlow == .loading {
+                        HStack {
+                            Spacer()
+                            
+                            ProgressView()
+                            
+                            Spacer()
+                        }
+                    } else {
+                        VStack {
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    Button {
+                                        goodsStore.categorySelectAction(GoodsCategory.none)
+                                    } label: {
+                                        Text("ALL")
+                                    }
+                                    .buttonStyle(.bordered)
+                                    
+                                    ForEach(Array(goodsByCategories.keys), id: \.self) { category in
+                                        Button {
+                                            goodsStore.categorySelectAction(category)
+                                        } label: {
+                                            Text(category.rawValue)
+                                        }
+                                        .buttonStyle(.bordered)
+                                    }
+                                }
+                            }
+                            .scrollIndicators(.hidden)
+                            .padding()
+                            
+                            recommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories, imageURL: imageURLs[.passion] ?? URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
+                            
+                            ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+                                
+                                ItemListView(index: $selectedTab, imageURL: imageURLs[category] ?? URL(string: "https://png.pngtree.com/png-vector/20190704/ourmid/pngtree-leaf-graphic-icon-design-template-vector-illustration-png-image_1538440.jpg")!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                                
+                            }
+                        }
+                        .onTapGesture {
+                            focused = false
+                        }
                     }
                 }
                 
-                ToolbarItem(placement: .keyboard) {
-                    Button {
-                        focused = false
-                    } label: {
-                        Text("return")
-                    }
-                }
+                
             }
         }
+        .scrollIndicators(.hidden)
+        //        .toolbar {
+        //            if selectedTab == 1 {
+        //                ToolbarItem(placement: .topBarTrailing) {
+        //                    Button {
+        //                        isMapVisible.toggle()
+        //                    } label: {
+        //                        Text("오프라인 매장찾기")
+        //                    }
+        //                    .sheet(isPresented: $isMapVisible) {
+        //                        StoreLocationView()
+        //                            .presentationDragIndicator(.visible)
+        //                    }
+        //                }
+        //
+        //                ToolbarItem(placement: .keyboard) {
+        //                    Button {
+        //                        focused = false
+        //                    } label: {
+        //                        Text("return")
+        //                    }
+        //                }
+        //            }
+        //        }
         .onAppear {
             if StoreView.isFirstPresent {
                 Task {
@@ -141,6 +177,7 @@ struct StoreView: View {
                 await getGoods()
             }
         }
+        .padding(.top)
     }
     
     private func getGoods() async {
@@ -157,10 +194,10 @@ struct StoreView: View {
         }
         
         if case .single(let url) = passion {
-            imageURLs[GoodsCategory.passion] = url
+            imageURLs[.passion] = url
         }
         
-        _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll) { flow in
+        _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [.food, .refill, .passion], limit: 4)) { flow in
             dataFetchFlow = flow
         }
     }
@@ -221,7 +258,7 @@ struct ItemListView: View {
                     .font(.system(size: 20, weight: .semibold))
                 Spacer()
                 
-                NavigationLink(destination: allGoodsOfCategoryView(index: $index, imageURL: imageURL, category: category, allGoods: allGoods)) {
+                NavigationLink(destination: allGoodsOfCategoryView(index: $index, imageURL: imageURL, category: category, allGoods: allGoods).environment(GoodsStore.shared)) {
                     HStack {
                         Text("더보기")
                         Image(systemName: "chevron.right")
@@ -279,6 +316,7 @@ struct ItemListView: View {
 }
 
 struct allGoodsOfCategoryView: View {
+    @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @Binding var index: Int
     var imageURL: URL
     var category: GoodsCategory
@@ -287,44 +325,107 @@ struct allGoodsOfCategoryView: View {
         GridItem(),
         GridItem()
     ]
+    private let itemsPerPage: Int = 10
+    @State private var tabSelection: Int = 0
+    @State private var dataFetchFlow: DataFetchFlow = .loading
+    
+    private var numberOfPages: Int {
+        ((goodsStore.goodsByCategories[category] ?? []).count + itemsPerPage - 1) / itemsPerPage
+    }
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: gridItems) {
-                ForEach(allGoods) { goods in
-                    NavigationLink {
-                        GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
-                    } label: {
-                        VStack(alignment: .leading) {
-                            LazyImage(url: imageURL) { state in
-                                if let image = state.image {
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(minHeight: 80)
-                                } else if state.isLoading {
-                                    ProgressView()
-                                }
-                            }
-                            
-                            HStack {
-                                Text(goods.name)
-                                    .font(.system(size: 14, weight: .semibold))
-                                Spacer()
-                                Text("\(goods.price)")
-                                    .font(.system(size: 12))
-                            }
-                            .padding(.bottom)
-                            .foregroundStyle(.black)
+        VStack {
+            if dataFetchFlow == .loading {
+                ProgressView()
+            } else {
+                TabView(selection: $tabSelection) {
+                    ForEach(0 ..< numberOfPages, id: \.self) { index in
+                        Tab(value: index) {
+                            GoodsPageView(itemRange: getItemCountForPage(index), imageURL: imageURL, category: category, index: self.$index)
+                                .environment(goodsStore)
                         }
-                        .padding()
+                    }
+                }
+                .tabViewStyle(TabBarOnlyTabViewStyle())
+                
+                HStack {
+                    ForEach(1 ... numberOfPages, id: \.self) { index in
+                        Button("\(index)") {
+                            tabSelection = index - 1
+                        }
+                        .font(.title3)
+                        .frame(width: 10)
+                        .minimumScaleFactor(0.1)
                     }
                 }
             }
         }
         .scrollIndicators(.hidden)
         .navigationTitle(category.rawValue)
-        //        .navigationBarBackButtonHidden()
+        .onAppear {
+            Task {
+                if let goodsList = goodsStore.goodsByCategories[category] {
+                    _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsStore.dataCount)) { flow in
+                        dataFetchFlow = flow
+                    }
+                }
+            }
+        }
+    }
+    
+    private func getItemCountForPage(_ index: Int) -> Range<Int> {
+        guard let goodsList = goodsStore.goodsByCategories[category] else {
+            print(DataError.fetchError(reason: "Still goods are not fetched"))
+            return 0 ..< 1
+        }
+        
+        let startIndex = index * itemsPerPage
+        let endIndex = min(startIndex + itemsPerPage, goodsList.count)
+        
+        let result = (startIndex ..< endIndex)
+        return result
+    }
+}
+
+struct GoodsPageView: View {
+    var itemRange: Range<Int>
+    var imageURL: URL
+    var category: GoodsCategory
+    @Binding var index: Int
+    @Environment(GoodsStore.self) private var goodsStore: GoodsStore
+    
+    var body: some View {
+        VStack {
+            if let filteredGoods = goodsStore.filteredGoodsByCategories[category] {
+                List(filteredGoods[itemRange]) { goods in
+                    NavigationLink {
+                        GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
+                    } label: {
+                        HStack(spacing: 15) {
+                            LazyImage(url: imageURL) { state in
+                                if let image = state.image {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 80)
+                                } else if state.isLoading {
+                                    ProgressView()
+                                }
+                            }
+                            
+                            VStack(alignment: .leading) {
+                                Text(goods.name)
+                                    .font(.system(size: 20, weight: .semibold))
+                                Text("\(goods.formattedPrice)")
+                                    .font(.system(size: 15))
+                            }
+                        }
+                        .foregroundStyle(.black)
+                    }
+                }
+                .listStyle(.plain)
+            }
+        }
     }
 }
 

@@ -15,23 +15,25 @@ struct EcoView: View {
     @Bindable private var healthManager = HealthKitManager.shared
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("이코")
-                    .font(.system(size: 25, weight: .bold))
-                Image(systemName: "leaf.fill")
-                Spacer()
-            }
-            .foregroundStyle(.green)
-            .padding([.leading, .top])
-            
-            // 상단 Info Area
-            EcoTopInfoView(healthManager: healthManager)
-            
-            // 중앙 걸음수 Area
-            EcoStepsView(stepCount: healthManager.todayStepCount)
-            
-            if userStore.userData != nil {
+            VStack {
+                HStack {
+                    Image(systemName: "leaf.fill")
+                        .foregroundStyle(.accent)
+                        .font(.system(size: 20))
+                    Text("이코")
+                        .font(.system(size: 20))
+                        .font(.title3)
+                        .fontWeight(.bold)
+                }
+                .padding(.top)
+                
+                // 상단 Info Area
+                EcoTopInfoView(healthManager: healthManager)
+                
+                // 중앙 걸음수 Area
+                EcoStepsView(stepCount: healthManager.todayStepCount)
+                
+               if userStore.userData != nil {
                 HStack() {
                     Text("총 보유 포인트: ")
                     Text("\(userStore.userData!.pointCount)")
@@ -65,10 +67,9 @@ struct EcoView: View {
                     .fontWeight(.semibold)
                 }
             }
-            
+              
             // 하단 친환경 행사 Area
             EcoEventsView()
-            
         }
         .onChange(of: healthManager.todayStepCount) {
             healthManager.readCurrentStepCount()

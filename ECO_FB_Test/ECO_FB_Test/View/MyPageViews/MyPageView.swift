@@ -14,7 +14,7 @@ struct MyPageView: View {
     @State private var orderStatus: String = "처리 중"
     @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
     @State private var navigateToLogin: Bool = false // 로그인 화면으로 이동 여부
-    
+    @State private var isNeedLogin: Bool = false 
     var body: some View {
         HStack {
             Text("이코")
@@ -26,6 +26,7 @@ struct MyPageView: View {
         .padding([.leading, .top])
         
         List {
+            
             // 로그인 상태일 경우
             if let user = userStore.userData {
                 Section {
@@ -70,12 +71,17 @@ struct MyPageView: View {
                     if AuthManager.shared.tryToLoginNow {
                         Text("로그인 중...")
                     } else {
-                        NavigationLink {
-                            LoginView()
-                                .environment(AuthManager.shared)
+//                        NavigationLink {
+//                            LoginView()
+//                                .environment(AuthManager.shared)
+                        Button {
+                            isNeedLogin = true
                         } label: {
                             Text("로그인 해주세요")
                                 .foregroundStyle(.blue)
+                        }
+                        .fullScreenCover(isPresented: $isNeedLogin) {
+                            LoginView()
                         }
                     }
                 }
@@ -91,14 +97,14 @@ struct MyPageView: View {
         }
         .listStyle(.inset)
         .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
-            NavigationLink {
-                LoginView()
-                    .environment(AuthManager.shared)
-            } label: {
+//            NavigationLink {
+//                LoginView()
+//                    .environment(AuthManager.shared)
+//            } label: {
                 Button("로그아웃", role: .destructive) {
                     handleLogout()
                 }
-            }
+//            }
             
             Button("취소", role: .cancel) {
                 
