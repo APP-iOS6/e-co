@@ -148,10 +148,10 @@ struct StoreView: View {
         }
         
         if case .single(let url) = passion {
-            imageURLs[GoodsCategory.passion] = url
+            imageURLs[.passion] = url
         }
         
-        _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll) { flow in
+        _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [.food, .refill, .passion], limit: 4)) { flow in
             dataFetchFlow = flow
         }
     }
@@ -212,7 +212,7 @@ struct ItemListView: View {
                     .font(.system(size: 20, weight: .semibold))
                 Spacer()
                 
-                NavigationLink(destination: allGoodsOfCategoryView(index: $index, imageURL: imageURL, category: category, allGoods: allGoods)) {
+                NavigationLink(destination: allGoodsOfCategoryView(index: $index, imageURL: imageURL, category: category, allGoods: allGoods).environment(GoodsStore.shared)) {
                     HStack {
                         Text("더보기")
                         Image(systemName: "chevron.right")
@@ -270,6 +270,7 @@ struct ItemListView: View {
 }
 
 struct allGoodsOfCategoryView: View {
+    @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @Binding var index: Int
     var imageURL: URL
     var category: GoodsCategory
@@ -278,11 +279,79 @@ struct allGoodsOfCategoryView: View {
         GridItem(),
         GridItem()
     ]
+    private let itemsPerPage: Int = 10
+    @State private var tabSelection: Int = 0
+    @State private var dataFetchFlow: DataFetchFlow = .loading
+    
+    private var numberOfPages: Int {
+        ((goodsStore.goodsByCategories[category] ?? []).count + itemsPerPage - 1) / itemsPerPage
+    }
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: gridItems) {
-                ForEach(allGoods) { goods in
+        VStack {
+            if dataFetchFlow == .loading {
+                ProgressView()
+            } else {
+                TabView(selection: $tabSelection) {
+                    ForEach(0 ..< numberOfPages, id: \.self) { index in
+                        Tab(value: index) {
+                            GoodsPageView(itemRange: getItemCountForPage(index), imageURL: imageURL, category: category, index: self.$index)
+                                .environment(goodsStore)
+                        }
+                    }
+                }
+                .tabViewStyle(TabBarOnlyTabViewStyle())
+                
+                HStack {
+                    ForEach(1 ... numberOfPages, id: \.self) { index in
+                        Button("\(index)") {
+                            tabSelection = index - 1
+                        }
+                        .font(.title3)
+                        .frame(width: 10)
+                        .minimumScaleFactor(0.1)
+                    }
+                }
+            }
+        }
+        .scrollIndicators(.hidden)
+        .navigationTitle(category.rawValue)
+        .onAppear {
+            Task {
+                if let goodsList = goodsStore.goodsByCategories[category] {
+                    _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsList.count)) { flow in
+                        dataFetchFlow = flow
+                    }
+                }
+            }
+        }
+    }
+    
+    private func getItemCountForPage(_ index: Int) -> Range<Int> {
+        guard let goodsList = goodsStore.goodsByCategories[category] else {
+            print(DataError.fetchError(reason: "Still goods are not fetched"))
+            return 0 ..< 1
+        }
+        
+        let startIndex = index * itemsPerPage
+        let endIndex = min(startIndex + itemsPerPage, goodsList.count)
+        
+        let result = (startIndex ..< endIndex)
+        return result
+    }
+}
+
+struct GoodsPageView: View {
+    var itemRange: Range<Int>
+    var imageURL: URL
+    var category: GoodsCategory
+    @Binding var index: Int
+    @Environment(GoodsStore.self) private var goodsStore: GoodsStore
+    
+    var body: some View {
+        VStack {
+            if let filteredGoods = goodsStore.filteredGoodsByCategories[category] {
+                List(filteredGoods[itemRange]) { goods in
                     NavigationLink {
                         GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
                     } label: {
@@ -292,7 +361,6 @@ struct allGoodsOfCategoryView: View {
                                     image
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(minHeight: 80)
                                 } else if state.isLoading {
                                     ProgressView()
                                 }
@@ -302,20 +370,19 @@ struct allGoodsOfCategoryView: View {
                                 Text(goods.name)
                                     .font(.system(size: 14, weight: .semibold))
                                 Spacer()
-                                Text("\(goods.price)")
+                                Text("\(goods.formattedPrice)")
                                     .font(.system(size: 12))
                             }
                             .padding(.bottom)
                             .foregroundStyle(.black)
                         }
+                        .frame(height: 50)
                         .padding()
                     }
                 }
+                .listStyle(.plain)
             }
         }
-        .scrollIndicators(.hidden)
-        .navigationTitle(category.rawValue)
-        //        .navigationBarBackButtonHidden()
     }
 }
 
