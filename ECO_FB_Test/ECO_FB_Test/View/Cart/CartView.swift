@@ -14,34 +14,44 @@ struct CartView: View {
     @State private var isSelectedAll: Bool = false
     
     var body: some View {
-        VStack(alignment: .center) {
-            HStack {
-                CheckBox(isOn: $isSelectedAll) {
+        VStack {
+            Spacer()
+            
+            if let userData = userStore.userData {
+                HStack {
+                    CheckBox(isOn: $isSelectedAll) {
+                        
+                    }
                     
+                    Text("전체선택")
+                    Spacer()
                 }
                 
-                Text("전체선택")
-            }
-            .alignmentGuide(HorizontalAlignment.center) { _ in
-                190
-            }
-            if let userData = userStore.userData {
                 GeometryReader { geometry in
                     ScrollView {
                         LazyVStack {
-                            ForEach(userData.arrayCart) { goods in
-                                CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods, screenWidth: geometry.size.width) { isOn, goods in
-                                    if isOn {
-                                        selectedGoods.append(goods)
-                                    } else {
-                                        selectedGoods.removeAll(where: { $0.id == goods.id })
+                            if userData.arrayCart.count == 0 {
+                                Text("장바구니가 비어있습니다")
+                            } else {
+                                ForEach(userData.arrayCart) { goods in
+                                    CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods, screenWidth: geometry.size.width) { isOn, goods in
+                                        if isOn {
+                                            selectedGoods.append(goods)
+                                        } else {
+                                            selectedGoods.removeAll(where: { $0.id == goods.id })
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+            } else {
+                Text("로그인이 필요합니다")
             }
+            
+            Spacer()
+            
             
             Button {
                 
@@ -50,13 +60,16 @@ struct CartView: View {
                     .foregroundStyle(.white)
                     .font(.title2)
                     .fontWeight(.bold)
-                    .frame(width: 250, height: 50)
+//                    .frame(width: 250, height: 50)
+                    .frame(maxWidth: .infinity, maxHeight: 50)
                     .background {
                         RoundedRectangle(cornerRadius: 5)
-                            .foregroundStyle(.red)
+                            .foregroundStyle(userStore.userData == nil ? .gray : .accent)
                     }
             }
+            .disabled(userStore.userData == nil)
         }
+        .padding()
     }
 }
 

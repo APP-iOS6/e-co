@@ -26,11 +26,22 @@ struct LoginView: View {
     
     var body: some View {
             VStack{
-                HStack{
-                    Text("이코 E-co")
-                        .font(.system(size: 25, weight: .bold))
+                HStack {
                     Image(systemName: "leaf.fill")
+                        .foregroundStyle(.accent)
+                        .font(.system(size: 20))
+                    Text("이코")
+                        .font(.system(size: 20))
+                        .font(.title3)
+                        .fontWeight(.bold)
                 }
+                .padding(.top)
+                
+//                HStack{
+//                    Text("이코 E-co")
+//                        .font(.system(size: 25, weight: .bold))
+//                    Image(systemName: "leaf.fill")
+//                }
                 Spacer()
                 Text("Login")
                     .font(.title)
@@ -172,7 +183,6 @@ struct LoginView: View {
 //                ContentView()
 //                    .navigationBarBackButtonHidden()
 //            })
-            .navigationBarBackButtonHidden()
     }
 }
 

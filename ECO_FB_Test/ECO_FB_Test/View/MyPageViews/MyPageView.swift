@@ -16,7 +16,9 @@ struct MyPageView: View {
     @State private var navigateToLogin: Bool = false // 로그인 화면으로 이동 여부
     @State private var isNeedLogin: Bool = false 
     var body: some View {
+        
         List {
+            
             // 로그인 상태일 경우
             if let user = userStore.userData {
                 Section {
@@ -93,7 +95,6 @@ struct MyPageView: View {
 //            } label: {
                 Button("로그아웃", role: .destructive) {
                     handleLogout()
-                    isNeedLogin = true
                 }
 //            }
             
@@ -118,5 +119,6 @@ struct AddProductView: View { var body: some View { Text("상품 추가") } }
 #Preview {
     NavigationStack {
         MyPageView()
+            .environment(UserStore.shared)
     }
 }
