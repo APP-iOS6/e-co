@@ -17,6 +17,7 @@ enum Field{
 }
 
 struct CreateAccountView: View {
+    @Binding var showToast: Bool
     @State var userName: String = ""
     @State var userEmail: String = ""
     @State var userPassword: String = ""
@@ -24,7 +25,7 @@ struct CreateAccountView: View {
     @FocusState private var focusedField: Field?
     @Environment(\.dismiss) private var dismiss
     @State var emailErrorMasage: String = ""
-    private var isPasswordCount: Bool {
+        private var isPasswordCount: Bool {
         userPassword.count <= 5
     }
     private var isEmailForm: Bool {
@@ -58,12 +59,13 @@ struct CreateAccountView: View {
             VStack{
                 Text("이메일")
                     .textFieldStyle(paddingTop: 0, paddingLeading: -165, isFocused: focusedField == .email)
-                HStack(spacing: -15) {
+                HStack(spacing: -20) {
                     Image(systemName: "at")
+                        .padding(.trailing, 5)
                     UnderlineTextFieldView(
                         text: $userEmail,
                         textFieldView: textView,
-                        placeholder: "이메일" ,
+                        placeholder: " 이메일" ,
                         isFocused: focusedField == .email
                     )
                     .focused($focusedField, equals: .email)
@@ -152,8 +154,10 @@ struct CreateAccountView: View {
                     do {
                         try await AuthManager.shared.signUp(withEmail: userEmail, password: userPassword, name: userName)
                         emailErrorMasage = ""
+                        showToast = true
                         print("회원가입함")
                         dismiss()
+                       
                     }   catch {
                         emailErrorMasage = "이미 사용중인 이메일 입니다."
                         print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
@@ -161,13 +165,14 @@ struct CreateAccountView: View {
                 }
             }, label: {
                 Text("회원가입").font(.headline)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }).disabled(!checkSignup() ? true : false)
                 .frame(width: 280, height: 40)
                 .background(checkSignup() ?Color.green :Color.gray)
                 .cornerRadius(10)
                 .foregroundColor(.white)
                 .padding(.top, 40)
-            
+          
             Spacer()
             
         }.padding()
@@ -224,5 +229,5 @@ extension CreateAccountView {
 }
 
 #Preview {
-    CreateAccountView()
+    CreateAccountView(showToast: .constant(true))
 }
