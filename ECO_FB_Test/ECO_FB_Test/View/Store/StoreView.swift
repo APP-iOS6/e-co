@@ -316,6 +316,7 @@ struct ItemListView: View {
 }
 
 struct allGoodsOfCategoryView: View {
+    static private var loadedCategories: [GoodsCategory] = []
     @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @Binding var index: Int
     var imageURL: URL
@@ -327,7 +328,7 @@ struct allGoodsOfCategoryView: View {
     ]
     private let itemsPerPage: Int = 10
     @State private var tabSelection: Int = 0
-    @State private var dataFetchFlow: DataFetchFlow = .loading
+    @State private var dataFetchFlow: DataFetchFlow = .none
     
     private var numberOfPages: Int {
         ((goodsStore.goodsByCategories[category] ?? []).count + itemsPerPage - 1) / itemsPerPage
@@ -364,9 +365,13 @@ struct allGoodsOfCategoryView: View {
         .navigationTitle(category.rawValue)
         .onAppear {
             Task {
-                if goodsStore.goodsByCategories[category] != nil {
+                let isLoaded = allGoodsOfCategoryView.loadedCategories.contains(where: { $0 == category })
+                if !isLoaded && goodsStore.goodsByCategories[category] != nil {
+                    dataFetchFlow = .loading
                     _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsStore.dataCount)) { flow in
                         dataFetchFlow = flow
+                        
+                        allGoodsOfCategoryView.loadedCategories.append(category)
                     }
                 }
             }
