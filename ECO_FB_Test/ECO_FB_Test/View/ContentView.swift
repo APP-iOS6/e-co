@@ -31,15 +31,15 @@ struct ContentView: View {
                     Image(systemName: "person.fill")
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    HStack {
-                        Text("이코")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                        Image(systemName: "leaf.fill")
-                    }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                HStack {
+                    Text("이코")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                    Image(systemName: "leaf.fill")
                 }
             }
         }
@@ -47,10 +47,12 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
-        .environment(UserStore.shared)
-        .environment(GoodsStore.shared)
-        .environment(DataManager.shared)
-        .environment(AuthManager.shared)
-        .environment(AnnouncementStore.shared)
+    NavigationStack {
+        ContentView()
+            .environment(UserStore.shared)
+            .environment(GoodsStore.shared)
+            .environment(DataManager.shared)
+            .environment(AuthManager.shared)
+            .environment(AnnouncementStore.shared)
+    }
 }

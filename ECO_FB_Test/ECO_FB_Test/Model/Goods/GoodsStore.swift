@@ -76,18 +76,17 @@ final class GoodsStore: DataControllable {
             
             if case .goodsAll = parameter {
                 result = try await getGoodsAll()
+                goodsByCategories.removeAll()
                 
-                if goodsByCategories.isEmpty {
-                    for goods in goodsList {
-                        if goodsByCategories[goods.category] != nil {
-                            goodsByCategories[goods.category]?.append(goods)
-                        } else {
-                            goodsByCategories[goods.category] = [goods]
-                        }
+                for goods in goodsList {
+                    if goodsByCategories[goods.category] != nil {
+                        goodsByCategories[goods.category]?.append(goods)
+                    } else {
+                        goodsByCategories[goods.category] = [goods]
                     }
-                    
-                    filteredGoodsByCategories = goodsByCategories
                 }
+                filteredGoodsByCategories = goodsByCategories
+                
             } else if case .goodsLoad(let id) = parameter {
                 result = try await getGoodsByID(id)
             } else {
