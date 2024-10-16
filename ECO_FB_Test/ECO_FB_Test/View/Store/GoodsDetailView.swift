@@ -68,19 +68,6 @@ struct GoodsDetailView: View {
                             .background(Color.green)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
-                    
-                    Button {
-                        //구매로직 필요
-                        print("\(goods.name) 바로 구매")
-                    } label: {
-                        Text("바로 구매하기")
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
-                            .foregroundStyle(.white)
-                            .font(.headline)
-                            .background(Color.green)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                    }
                 }
                 .padding(.top, 5)
             }
