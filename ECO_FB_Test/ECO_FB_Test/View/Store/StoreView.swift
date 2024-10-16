@@ -319,7 +319,7 @@ struct allGoodsOfCategoryView: View {
         .onAppear {
             Task {
                 if let goodsList = goodsStore.goodsByCategories[category] {
-                    _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsList.count)) { flow in
+                    _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsStore.dataCount)) { flow in
                         dataFetchFlow = flow
                     }
                 }
@@ -355,29 +355,26 @@ struct GoodsPageView: View {
                     NavigationLink {
                         GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
                     } label: {
-                        VStack(alignment: .leading) {
+                        HStack(spacing: 15) {
                             LazyImage(url: imageURL) { state in
                                 if let image = state.image {
                                     image
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
+                                        .frame(height: 80)
                                 } else if state.isLoading {
                                     ProgressView()
                                 }
                             }
                             
-                            HStack {
+                            VStack(alignment: .leading) {
                                 Text(goods.name)
-                                    .font(.system(size: 14, weight: .semibold))
-                                Spacer()
+                                    .font(.system(size: 20, weight: .semibold))
                                 Text("\(goods.formattedPrice)")
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 15))
                             }
-                            .padding(.bottom)
-                            .foregroundStyle(.black)
                         }
-                        .frame(height: 50)
-                        .padding()
+                        .foregroundStyle(.black)
                     }
                 }
                 .listStyle(.plain)
