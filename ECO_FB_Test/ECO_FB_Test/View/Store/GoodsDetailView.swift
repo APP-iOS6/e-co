@@ -24,8 +24,8 @@ struct GoodsDetailView: View {
                             if let image = state.image {
                                 image
                                     .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 400, height: 250)
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(maxWidth: .infinity)
                                     .padding(.bottom)
                             } else if state.isLoading {
                                 ProgressView()
@@ -61,19 +61,6 @@ struct GoodsDetailView: View {
                         print("\(goods.name) 장바구니 담기 ")
                     } label: {
                         Text("장바구니 담기")
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
-                            .foregroundStyle(.white)
-                            .font(.headline)
-                            .background(Color.green)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                    }
-                    
-                    Button {
-                        //구매로직 필요
-                        print("\(goods.name) 바로 구매")
-                    } label: {
-                        Text("바로 구매하기")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
                             .foregroundStyle(.white)

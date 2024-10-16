@@ -6,6 +6,7 @@
 // 
 
 import Foundation
+import Combine
 import FirebaseAuth
 import GoogleSignIn
 import KakaoSDKUser
@@ -18,6 +19,7 @@ final class AuthManager {
         GoogleLoginManager.shared,
         KaKaoLoginManager.shared
     ]
+    private var cancellable: AnyCancellable? = nil
     private(set) var signUpErrorMessage: String? = nil
     private(set) var emailExistErrorMessage: String? = nil
     private(set) var tryToLoginNow: Bool = false
@@ -83,14 +85,19 @@ final class AuthManager {
             _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false)) { _ in
             }
             
-            tryToLoginNow = false
+            cancellable = Just(false)
+                .delay(for: .seconds(8), scheduler: RunLoop.main)
+                .sink { [weak self] value in
+                    self?.tryToLoginNow = value
+                    self?.cancellable = nil
+                }
         } catch {
             print("Error: \(error)")
         }
     }
     
     /**
-     유저의 아이디(현재는 이메일)을 가져옵니다.
+     유저의 아이디(현재는 이메일)을 가져오는 메소드
      */
     func getUserID() throws -> String {
         guard let user = Auth.auth().currentUser else { throw LoginError.userError(reason: "You Don't Login!") }
@@ -170,25 +177,5 @@ final class AuthManager {
             }
             throw error 
         }
-    }
-    /**
-     게스트 로그인 메소드
-    */
-    func guestLogin() async throws {
-            // 게스트로그인
-            // 게스트 임시 프로필 생성
-            let guestEmail = "guest_\(UUID().uuidString)@example.com"
-            let guestUser = User(
-                id: guestEmail,
-                loginMethod: LoginMethod.guest.rawValue,
-                isAdmin: false,
-                name: "게스트 사용자",
-                profileImageName: "Guest.png",
-                pointCount: 0,
-                cart: [],
-                goodsRecentWatched: []
-            )
-        
-        print("비회원 로그인 성공: \(guestEmail)")
     }
 }
