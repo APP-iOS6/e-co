@@ -7,6 +7,8 @@
 
 import Foundation
 import FirebaseAuth
+import GoogleSignIn
+import KakaoSDKUser
 
 @MainActor
 @Observable
@@ -40,6 +42,10 @@ final class AuthManager {
             
             tryToLoginNow = false
         } catch {
+            if (error as NSError).code == GIDSignInError.canceled.rawValue {
+                tryToLoginNow = false
+            }
+            
             if let loginError = error as? LoginError, case let .emailError(reason) = loginError {
                 emailExistErrorMessage = reason
             } else {
@@ -58,7 +64,14 @@ final class AuthManager {
         } catch {
             print("Error: \(error.localizedDescription)")
         }
+        
+        UserApi.shared.logout { error in
+            if let error {
+                print("\(error)")
+            }
+        }
     }
+    
     /**
      로그인 되어있을 시 유저 정보를 가져오는 메소드
      */
