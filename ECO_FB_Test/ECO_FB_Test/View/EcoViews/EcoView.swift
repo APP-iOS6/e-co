@@ -34,10 +34,6 @@ struct EcoView: View {
             // 중앙 걸음수 Area
             EcoStepsView(stepCount: healthManager.todayStepCount)
             
-            if AuthManager.shared.tryToLoginNow {
-                
-            }
-            
             if userStore.userData != nil {
                 HStack() {
                     Text("총 보유 포인트: ")

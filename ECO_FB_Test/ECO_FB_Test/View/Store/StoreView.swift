@@ -349,13 +349,15 @@ struct allGoodsOfCategoryView: View {
                 }
                 .tabViewStyle(TabBarOnlyTabViewStyle())
                 
-                HStack {
+                HStack(spacing: 25) {
                     ForEach(1 ... numberOfPages, id: \.self) { index in
                         Button("\(index)") {
                             tabSelection = index - 1
                         }
-                        .font(.title3)
-                        .frame(width: 10)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .frame(width: 15)
+                        .padding(.bottom, 20)
                         .minimumScaleFactor(0.1)
                     }
                 }

@@ -11,5 +11,4 @@ enum LoginMethod: String {
     case google = "구글"
     case kakao = "카카오"
     case email = "이메일"
-    case guest = "비회원"
 }

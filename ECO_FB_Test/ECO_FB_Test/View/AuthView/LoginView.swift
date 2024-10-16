@@ -39,11 +39,6 @@ struct LoginView: View {
                 }
                 .padding(.top)
                 
-//                HStack{
-//                    Text("이코 E-co")
-//                        .font(.system(size: 25, weight: .bold))
-//                    Image(systemName: "leaf.fill")
-//                }
                 Spacer()
                 Text("Login")
                     .font(.title)
@@ -118,13 +113,11 @@ struct LoginView: View {
                     }
                     .disabled(authManager.tryToLoginNow)
                     
-                    //Divider()
                     TextDivider(text: "or")
                     //구글 공식 로그인버튼 이미지로 대체
                     Button {
                         Task {
                             await AuthManager.shared.login(type: .google)
-//                            goMainView = true
                             dismiss()
                         }
                     } label: {
@@ -137,7 +130,6 @@ struct LoginView: View {
                     Button {
                         Task {
                             await AuthManager.shared.login(type: .kakao)
-//                            goMainView = true
                             dismiss()
                         }
                     } label: {
@@ -172,10 +164,6 @@ struct LoginView: View {
                 CreateAccountView(showToast: $showToast)
                 
             }
-//            .navigationDestination(isPresented: $goMainView, destination: {
-//                ContentView()
-//                    .navigationBarBackButtonHidden()
-//            })
     }
 }
 

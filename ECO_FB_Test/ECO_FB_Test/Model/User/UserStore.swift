@@ -133,9 +133,9 @@ final class UserStore: DataControllable {
                         
                         self!.userData = try await self!.getData(document: snapshot)
                     }
-                    
-                    continuation.resume(returning: DataResult.none)
                 }
+                
+                continuation.resume(returning: DataResult.none)
             }
             
             return DataResult.none
