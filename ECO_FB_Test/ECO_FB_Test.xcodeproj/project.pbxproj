@@ -18,6 +18,7 @@
 		502256862CBD0301006F6D5C /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 502256852CBD0301006F6D5C /* Kakao.xcconfig */; };
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
 		504B6E892CBFE9630069BC1D /* FAQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504B6E882CBFE9630069BC1D /* FAQView.swift */; };
+		50CF07902CC00FFB00C720A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */; };
 		50D468092CBE5DBD00757BAD /* InquiriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468032CBE5DBD00757BAD /* InquiriesView.swift */; };
 		50D4680A2CBE5DBD00757BAD /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468042CBE5DBD00757BAD /* MyPageView.swift */; };
 		50D4680B2CBE5DBD00757BAD /* NoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468052CBE5DBD00757BAD /* NoticeView.swift */; };
@@ -33,7 +34,6 @@
 		F6386E342CBCEBFF00F67671 /* LoginTextfieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E332CBCEBFF00F67671 /* LoginTextfieldStyle.swift */; };
 		F6386E362CBCF63800F67671 /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E352CBCF63800F67671 /* CreateAccountView.swift */; };
 		FE1847A42CB9686F00BE530C /* KaKaoLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */; };
-		FE28E7252CC002F0003CE610 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE28E7242CC002F0003CE610 /* GoogleService-Info.plist */; };
 		FE29E15E2CBD3162005E2EFD /* PaymentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29E15D2CBD3162005E2EFD /* PaymentInfo.swift */; };
 		FE29E1602CBD31B9005E2EFD /* PaymentInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29E15F2CBD31B9005E2EFD /* PaymentInfoStore.swift */; };
 		FE29E1632CBD4193005E2EFD /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE29E1622CBD4193005E2EFD /* Announcement.swift */; };
@@ -117,6 +117,7 @@
 		502256852CBD0301006F6D5C /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
 		502256872CBD038F006F6D5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		504B6E882CBFE9630069BC1D /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
+		50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		50D468032CBE5DBD00757BAD /* InquiriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiriesView.swift; sourceTree = "<group>"; };
 		50D468042CBE5DBD00757BAD /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		50D468052CBE5DBD00757BAD /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
@@ -133,7 +134,6 @@
 		F6386E352CBCF63800F67671 /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		FE1847A22CB966C600BE530C /* ECO-FB-Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ECO-FB-Test-Info.plist"; sourceTree = SOURCE_ROOT; };
 		FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaKaoLoginManager.swift; sourceTree = "<group>"; };
-		FE28E7242CC002F0003CE610 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE29E15D2CBD3162005E2EFD /* PaymentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentInfo.swift; sourceTree = "<group>"; };
 		FE29E15F2CBD31B9005E2EFD /* PaymentInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentInfoStore.swift; sourceTree = "<group>"; };
 		FE29E1622CBD4193005E2EFD /* Announcement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
@@ -369,7 +369,7 @@
 				FE40BC062CB943F800786E34 /* Model */,
 				FE40BBF32CB9405F00786E34 /* View */,
 				FE40BBF42CB9405F00786E34 /* Assets.xcassets */,
-				FE28E7242CC002F0003CE610 /* GoogleService-Info.plist */,
+				50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */,
 				502256852CBD0301006F6D5C /* Kakao.xcconfig */,
 			);
 			path = ECO_FB_Test;
@@ -692,7 +692,7 @@
 			files = (
 				FE40BBFA2CB9405F00786E34 /* Assets.xcassets in Resources */,
 				502256862CBD0301006F6D5C /* Kakao.xcconfig in Resources */,
-				FE28E7252CC002F0003CE610 /* GoogleService-Info.plist in Resources */,
+				50CF07902CC00FFB00C720A7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
