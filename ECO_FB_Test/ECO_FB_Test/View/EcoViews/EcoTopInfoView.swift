@@ -12,9 +12,19 @@ struct EcoTopInfoView: View {
     var healthManager: HealthKitManager
     
     // 이산화탄소 저감량계산: 1km당 0.21kg저감, 100m당 0.021kg(21g), 1m당 0.21g(210mg)
-    private var co2Reduction: Int {
+    private var co2Reduction: String {
         let distance = healthManager.distanceWalking
-        return Int(distance * 0.21)
+        let co2Reduction = 0.21 * distance
+        if co2Reduction > 999 {
+            let kgCo2 = co2Reduction / 1000
+            
+            if kgCo2 == floor(kgCo2){
+                return String(format: "%.1f", kgCo2)
+            } else {
+                return String(format: "%.0f", kgCo2)
+            }
+        }
+        return String(co2Reduction)
     }
     
     private var todayDistance: String {
@@ -22,15 +32,22 @@ struct EcoTopInfoView: View {
         
         if distance > 999 { // 1000이상일때 km로 변환
             let km = distance / 1000
-            return String(format: "%.1f", km)
+            if km == floor(km) {
+                return String(format: "%.0f", km)
+            } else {
+                return String(format: "%.1f", km)
+            }
         }
         
-        let meter = String(format: "%.1f", distance)
-        return meter
+        if distance == floor(distance) {
+            return String(format: "%.0f", distance)
+        } else {
+            return String(format: "%.1f", distance)
+        }
     }
     
     var body: some View {
-        HStack {
+        HStack(alignment: .bottom) {
             Spacer()
             VStack {
                 Text("CO2 저감")
@@ -38,12 +55,18 @@ struct EcoTopInfoView: View {
                     Text("\(co2Reduction)")
                         .font(.title)
                         .fontWeight(.bold)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                         .foregroundStyle(.green)
                         .contentTransition(.numericText())
                         .transaction { t in
                             t.animation = .default
                         }
-                    Text("g")
+                    if healthManager.distanceWalking > 999 {
+                        Text("kg")
+                    } else {
+                        Text("g")
+                    }
                 }
                 
             }
@@ -53,17 +76,21 @@ struct EcoTopInfoView: View {
             Spacer()
             
             VStack {
+                Text("오늘 획득한")
+                    .font(.caption)
                 Text("포인트")
                 HStack {
                     Text("\(healthManager.getTodayStepPoint())")
                         .font(.title)
                         .fontWeight(.bold)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                         .foregroundStyle(.green)
                         .contentTransition(.numericText())
                         .transaction { t in
                             t.animation = .default
                         }
-                    Text("원")
+                    Text("점")
                 }
             }
             .frame(maxWidth: .infinity)
@@ -77,6 +104,8 @@ struct EcoTopInfoView: View {
                     Text("\(todayDistance)")
                         .font(.title)
                         .fontWeight(.bold)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                         .foregroundStyle(.green)
                         .contentTransition(.numericText())
                         .transaction { t in

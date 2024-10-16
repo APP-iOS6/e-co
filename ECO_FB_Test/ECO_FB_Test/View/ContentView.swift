@@ -14,7 +14,7 @@ struct ContentView: View {
         NavigationStack {
             TabView(selection: $selection) {
                 Tab(value: 0) {
-                    EcoView()
+                    EcoView(selectedTab: $selection)
                 } label: {
                     Image(systemName: "leaf.fill")
                 }

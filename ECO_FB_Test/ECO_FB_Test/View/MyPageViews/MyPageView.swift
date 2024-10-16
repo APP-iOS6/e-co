@@ -112,5 +112,6 @@ struct AddProductView: View { var body: some View { Text("상품 추가") } }
 #Preview {
     NavigationStack {
         MyPageView()
+            .environment(UserStore.shared)
     }
 }
