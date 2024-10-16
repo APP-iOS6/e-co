@@ -15,6 +15,7 @@ struct LoginView: View {
         case checkingPassword
         case name
     }
+    
     @Environment(\.dismiss) var dismiss
     @Environment(AuthManager.self) var authManager: AuthManager
     @State var userEmail: String = ""
@@ -23,6 +24,7 @@ struct LoginView: View {
     @State private var showCreateAccountPage = false
     @State private var goMainView: Bool = false
     @State private var loginErrorMessage: String?
+    @State private var showToast = false
     
     var body: some View {
             VStack{
@@ -100,13 +102,13 @@ struct LoginView: View {
                         if authManager.tryToLoginNow {
                             ProgressView() // 로그인 중일 때 프로그래스 뷰 표시
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white)) // 프로그래스 뷰 스타일
-                                .frame(maxWidth: .infinity, maxHeight: 30)
+                                .frame(maxWidth: .infinity, maxHeight: 10)
                                 .padding(.vertical, 18)
                                 .background(Color.green)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         } else {
                             Text("로그인") // 로그인 중이 아닐 때 텍스트 표시
-                                .frame(maxWidth: .infinity, maxHeight: 10)
+                                .frame(maxWidth: 190, maxHeight: 10)
                                 .padding(.vertical, 18)
                                 .foregroundStyle(.white)
                                 .font(.headline)
@@ -116,7 +118,8 @@ struct LoginView: View {
                     }
                     .disabled(authManager.tryToLoginNow)
                     
-                    Divider()
+                    //Divider()
+                    TextDivider(text: "or")
                     //구글 공식 로그인버튼 이미지로 대체
                     Button {
                         Task {
@@ -125,7 +128,7 @@ struct LoginView: View {
                             dismiss()
                         }
                     } label: {
-                        Image("googleLogin")
+                        Image("googleLogin2")
                         
                     }
                     .disabled(authManager.tryToLoginNow)
@@ -142,7 +145,6 @@ struct LoginView: View {
                     }
                     .disabled(authManager.tryToLoginNow)
                     
-                    //비회원 로그인
                     Button{
                         Task {
                             do {
@@ -164,6 +166,7 @@ struct LoginView: View {
                 
                 Spacer()
                 //회원가입쪽
+               
                 HStack(alignment: .bottom) {
                     Text("계정이 없으신가요?")
                         .foregroundStyle(.gray)
@@ -173,10 +176,12 @@ struct LoginView: View {
                     }
                     .foregroundStyle(Color.green)
                 }
+                SignUpToastView(isVisible: $showToast, message: "회원가입에 성공하셨습니다.")
+               
             }
             .padding()
             .sheet(isPresented: $showCreateAccountPage) {
-                CreateAccountView()
+                CreateAccountView(showToast: $showToast)
                 
             }
 //            .navigationDestination(isPresented: $goMainView, destination: {
@@ -185,6 +190,7 @@ struct LoginView: View {
 //            })
     }
 }
+
 
 extension LoginView {
     
@@ -206,6 +212,27 @@ extension LoginView {
             }
     }
 }
+struct TextDivider: View {
+    let text: String
+    var body: some View {
+        HStack {
+                   Divider()
+                       .frame(maxWidth: 80, maxHeight: 1)
+                       .background(Color.gray)
+
+                   Text(text)
+                       .font(.system(size: 14, weight: .medium))
+                       .foregroundColor(.gray)
+                       .padding(.horizontal, 8)
+
+                   Divider()
+                .frame(maxWidth: 80, maxHeight: 1)
+                       .background(Color.gray)
+               
+               }
+               .padding(.vertical, 8)
+           }
+    }
 
 #Preview {
     LoginView()
