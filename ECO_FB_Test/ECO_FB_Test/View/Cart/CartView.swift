@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CartView: View {
+    @Environment(\.dismiss) var dismiss
     @Environment(UserStore.self) private var userStore: UserStore
     @State private var selectedGoods: [Goods] = []
     @State private var totalPrice: Int = 0
@@ -54,7 +55,8 @@ struct CartView: View {
             
             
             Button {
-                
+                // TODO: 임시로 구매 완료 알럿 띄우기 or 구매하기 로직 완성
+                dismiss()
             } label: {
                 Text("주문하기")
                     .foregroundStyle(.white)
