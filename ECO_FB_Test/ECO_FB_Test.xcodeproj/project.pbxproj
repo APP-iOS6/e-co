@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		186DD6B02CBE61E00024F705 /* RecentlyViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186DD6AF2CBE61CC0024F705 /* RecentlyViewerView.swift */; };
+		18DD4AC42CBF8AD7002AC8EA /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD4AC32CBF8ACD002AC8EA /* HelpView.swift */; };
 		4223D72F2CBCAA3D00F94D1B /* EcoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D72E2CBCAA3D00F94D1B /* EcoView.swift */; };
 		4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */; };
 		4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */; };
@@ -103,6 +104,7 @@
 
 /* Begin PBXFileReference section */
 		186DD6AF2CBE61CC0024F705 /* RecentlyViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyViewerView.swift; sourceTree = "<group>"; };
+		18DD4AC32CBF8ACD002AC8EA /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		4223D72E2CBCAA3D00F94D1B /* EcoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoView.swift; sourceTree = "<group>"; };
 		4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoTopInfoView.swift; sourceTree = "<group>"; };
 		4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoEventsView.swift; sourceTree = "<group>"; };
@@ -222,6 +224,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18DD4AC52CBF9041002AC8EA /* HelpView */ = {
+			isa = PBXGroup;
+			children = (
+				18DD4AC32CBF8ACD002AC8EA /* HelpView.swift */,
+				50D468052CBE5DBD00757BAD /* NoticeView.swift */,
+				50D468032CBE5DBD00757BAD /* InquiriesView.swift */,
+				50D468062CBE5DBD00757BAD /* PrivacyPolicyView.swift */,
+				50D468072CBE5DBD00757BAD /* ProductQuestionsView.swift */,
+			);
+			path = HelpView;
+			sourceTree = "<group>";
+		};
 		4223D7362CBCD97900F94D1B /* EcoViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,12 +280,9 @@
 		50D468082CBE5DBD00757BAD /* MyPageViews */ = {
 			isa = PBXGroup;
 			children = (
-				50D468032CBE5DBD00757BAD /* InquiriesView.swift */,
 				50D468042CBE5DBD00757BAD /* MyPageView.swift */,
-				50D468052CBE5DBD00757BAD /* NoticeView.swift */,
-				50D468062CBE5DBD00757BAD /* PrivacyPolicyView.swift */,
-				50D468072CBE5DBD00757BAD /* ProductQuestionsView.swift */,
 				186DD6AF2CBE61CC0024F705 /* RecentlyViewerView.swift */,
+				18DD4AC52CBF9041002AC8EA /* HelpView */,
 			);
 			path = MyPageViews;
 			sourceTree = "<group>";
@@ -705,6 +716,7 @@
 				FE5924D92CBE54CD002FC977 /* StorageType.swift in Sources */,
 				502256882CBD038F006F6D5C /* ContentView.swift in Sources */,
 				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
+				18DD4AC42CBF8AD7002AC8EA /* HelpView.swift in Sources */,
 				FE40BC082CB9440800786E34 /* UserStore.swift in Sources */,
 				429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */,
 				4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */,

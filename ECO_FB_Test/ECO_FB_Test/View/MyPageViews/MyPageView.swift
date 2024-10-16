@@ -74,10 +74,7 @@ struct MyPageView: View {
             
             // 공지사항, 1:1 문의, 상품 문의, 개인정보 고지, 설정
             Section(header: Text("지원")) {
-                NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
-                NavigationLink("1:1 문의", destination: InquiriesView())
-                NavigationLink("상품 문의", destination: ProductQuestionsView())
-                NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
+                NavigationLink("도움이 필요하신가요?", destination: HelpView())
             }
         }
         .listStyle(.inset)
@@ -112,5 +109,6 @@ struct AddProductView: View { var body: some View { Text("상품 추가") } }
 #Preview {
     NavigationStack {
         MyPageView()
+            .environment(UserStore.shared)
     }
 }
