@@ -33,92 +33,137 @@ struct StoreView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
-                HStack {
-                    VStack {
-                        HStack {
-                            TextField("친환경 제품을 찾아보세요", text: $searchText)
-                                .onChange(of: searchText) { oldValue, newValue in
-                                    goodsStore.searchAction(newValue)
-                                }
-                                .keyboardType(.default)
-                                .focused($focused)
-                            
-                            Button {
-                                searchText = ""
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                            }
-                            .foregroundStyle(.black)
-                        }
-                        .padding(10)
-                        .background {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.gray, lineWidth: 1)
-                        }
-                        .padding(.horizontal)
-                    }
-                }
-                .padding(.vertical)
-                
-                if dataFetchFlow == .loading {
+            HStack {
+                Image(systemName: "leaf.fill")
+                    .foregroundStyle(.accent)
+                    .font(.system(size: 20))
+                Text("이코")
+                    .font(.system(size: 20))
+                    .font(.title3)
+                    .fontWeight(.bold)
+            }
+            
+            LazyVStack(alignment: .leading, pinnedViews: [.sectionHeaders]) {
+                Section(header:
+                            VStack {
                     HStack {
                         Spacer()
                         
-                        ProgressView()
-                        
-                        Spacer()
+                        Button {
+                            isMapVisible.toggle()
+                        } label: {
+                            Text("오프라인 매장찾기")
+                        }
+                        .sheet(isPresented: $isMapVisible) {
+                            StoreLocationView()
+                                .presentationDragIndicator(.visible)
+                        }
+                        .padding(.horizontal)
                     }
-                } else {
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(Array(goodsByCategories.keys), id: \.self) { category in
+                    
+                    HStack {
+                        VStack {
+                            HStack {
+                                TextField("친환경 제품을 찾아보세요", text: $searchText)
+                                    .onChange(of: searchText) { oldValue, newValue in
+                                        goodsStore.searchAction(newValue)
+                                    }
+                                    .keyboardType(.default)
+                                    .focused($focused)
                                 
                                 Button {
-                                    goodsStore.categorySelectAction(category)
+                                    searchText = ""
+                                    focused = false
                                 } label: {
-                                    Text(category.rawValue)
+                                    Image(systemName: "xmark.circle.fill")
                                 }
-                                .buttonStyle(.bordered)
-                                .foregroundStyle(selectedCategory == category ? .gray : .black)
+                                .foregroundStyle(.black)
                             }
+                            .padding(10)
+                            .background {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.gray, lineWidth: 1)
+                            }
+                            .padding(.horizontal)
                         }
                     }
-                    .padding()
-                    
-                    recommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories, imageURL: imageURLs[.passion] ?? URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
-                    
-                    ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                        
-                        ItemListView(index: $selectedTab, imageURL: imageURLs[category] ?? URL(string: "https://png.pngtree.com/png-vector/20190704/ourmid/pngtree-leaf-graphic-icon-design-template-vector-illustration-png-image_1538440.jpg")!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
-                        
-                    }
+                    .padding(.bottom)
                 }
-            }
-        }
-        .toolbar {
-            if selectedTab == 1 {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        isMapVisible.toggle()
-                    } label: {
-                        Text("오프라인 매장찾기")
-                    }
-                    .sheet(isPresented: $isMapVisible) {
-                        StoreLocationView()
-                            .presentationDragIndicator(.visible)
+                    .background(Rectangle().foregroundColor(.white))
+                ) {
+                    if dataFetchFlow == .loading {
+                        HStack {
+                            Spacer()
+                            
+                            ProgressView()
+                            
+                            Spacer()
+                        }
+                    } else {
+                        VStack {
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    Button {
+                                        goodsStore.categorySelectAction(GoodsCategory.none)
+                                    } label: {
+                                        Text("ALL")
+                                    }
+                                    .buttonStyle(.bordered)
+                                    
+                                    ForEach(Array(goodsByCategories.keys), id: \.self) { category in
+                                        Button {
+                                            goodsStore.categorySelectAction(category)
+                                        } label: {
+                                            Text(category.rawValue)
+                                        }
+                                        .buttonStyle(.bordered)
+                                    }
+                                }
+                            }
+                            .scrollIndicators(.hidden)
+                            .padding()
+                            
+                            recommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories, imageURL: imageURLs[.passion] ?? URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
+                            
+                            ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+                                
+                                ItemListView(index: $selectedTab, imageURL: imageURLs[category] ?? URL(string: "https://png.pngtree.com/png-vector/20190704/ourmid/pngtree-leaf-graphic-icon-design-template-vector-illustration-png-image_1538440.jpg")!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                                
+                            }
+                        }
+                        .onTapGesture {
+                            focused = false
+                        }
                     }
                 }
                 
-                ToolbarItem(placement: .keyboard) {
-                    Button {
-                        focused = false
-                    } label: {
-                        Text("return")
-                    }
-                }
+                
             }
         }
+        .scrollIndicators(.hidden)
+        //        .toolbar {
+        //            if selectedTab == 1 {
+        //                ToolbarItem(placement: .topBarTrailing) {
+        //                    Button {
+        //                        isMapVisible.toggle()
+        //                    } label: {
+        //                        Text("오프라인 매장찾기")
+        //                    }
+        //                    .sheet(isPresented: $isMapVisible) {
+        //                        StoreLocationView()
+        //                            .presentationDragIndicator(.visible)
+        //                    }
+        //                }
+        //
+        //                ToolbarItem(placement: .keyboard) {
+        //                    Button {
+        //                        focused = false
+        //                    } label: {
+        //                        Text("return")
+        //                    }
+        //                }
+        //            }
+        //        }
         .onAppear {
             if StoreView.isFirstPresent {
                 Task {
@@ -132,6 +177,7 @@ struct StoreView: View {
                 await getGoods()
             }
         }
+        .padding(.top)
     }
     
     private func getGoods() async {

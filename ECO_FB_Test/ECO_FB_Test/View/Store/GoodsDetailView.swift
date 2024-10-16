@@ -13,6 +13,7 @@ struct GoodsDetailView: View {
     @Binding var index: Int
     var goods: Goods
     var thumbnail: URL
+    @State var moveToCart: Bool = false
     
     var body: some View {
         GeometryReader { GeometryProxy in
@@ -62,9 +63,9 @@ struct GoodsDetailView: View {
                         Text("장바구니 담기")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
-                            .foregroundStyle(.black)
-                            .background(Color.blue)
+                            .foregroundStyle(.white)
                             .font(.headline)
+                            .background(Color.green)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                     
@@ -75,9 +76,9 @@ struct GoodsDetailView: View {
                         Text("바로 구매하기")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 10)
-                            .foregroundStyle(.black)
-                            .background(Color.blue)
+                            .foregroundStyle(.white)
                             .font(.headline)
+                            .background(Color.green)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
                 }
@@ -86,21 +87,23 @@ struct GoodsDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                HStack {
-                    Button {
-                        dismiss()
-                        index = 0
-                    } label: {
-                        Image(systemName: "house")
-                    }
-                    
-                    NavigationLink {
-                        // TODO: 장바구니 뷰 연결시키기
-                        //                        CartView()
-                    } label: {
-                        Image(systemName: "cart")
-                    }
+                //                HStack {
+                //                    Button {
+                //                        dismiss()
+                //                        index = 0
+                //                    } label: {
+                //                        Image(systemName: "house")
+                //                    }
+                //
+                Button {
+                    moveToCart = true
+                } label: {
+                    Image(systemName: "cart")
                 }
+                .sheet(isPresented: $moveToCart) {
+                    CartView()
+                }
+                //                }
             }
         }
         .padding()

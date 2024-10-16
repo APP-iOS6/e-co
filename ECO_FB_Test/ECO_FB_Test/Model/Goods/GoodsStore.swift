@@ -23,11 +23,7 @@ final class GoodsStore: DataControllable {
      카테고리 선택시 해당하는 상품만 필터링 해준다
      */
     func categorySelectAction(_ category: GoodsCategory) {
-        if selectedCategory == category {
-            selectedCategory = GoodsCategory.none
-        } else {
-            selectedCategory = category
-        }
+        selectedCategory = category
         
         filteredGoodsByCategories = if selectedCategory == GoodsCategory.none {
             goodsByCategories
