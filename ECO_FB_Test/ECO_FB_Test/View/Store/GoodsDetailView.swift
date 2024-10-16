@@ -24,8 +24,8 @@ struct GoodsDetailView: View {
                             if let image = state.image {
                                 image
                                     .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 400, height: 250)
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(maxWidth: .infinity)
                                     .padding(.bottom)
                             } else if state.isLoading {
                                 ProgressView()
