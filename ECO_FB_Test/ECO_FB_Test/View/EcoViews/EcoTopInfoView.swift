@@ -75,9 +75,8 @@ struct EcoTopInfoView: View {
             Spacer()
             
             VStack {
-                Text("오늘 획득한")
-                    .font(.caption)
                 Text("포인트")
+                
                 HStack {
                     Text("\(healthManager.getTodayStepPoint())")
                         .font(.title)

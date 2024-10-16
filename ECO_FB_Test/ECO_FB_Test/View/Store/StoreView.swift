@@ -364,7 +364,7 @@ struct allGoodsOfCategoryView: View {
         .navigationTitle(category.rawValue)
         .onAppear {
             Task {
-                if let goodsList = goodsStore.goodsByCategories[category] {
+                if goodsStore.goodsByCategories[category] != nil {
                     _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsStore.dataCount)) { flow in
                         dataFetchFlow = flow
                     }

@@ -14,16 +14,19 @@ struct MyPageView: View {
     @State private var orderStatus: String = "처리 중"
     @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
     @State private var navigateToLogin: Bool = false // 로그인 화면으로 이동 여부
-    @State private var isNeedLogin: Bool = false 
+    @State private var isNeedLogin: Bool = false
     var body: some View {
         HStack {
-            Text("이코")
-                .font(.system(size: 25, weight: .bold))
             Image(systemName: "leaf.fill")
-            Spacer()
+                .foregroundStyle(.accent)
+                .font(.system(size: 20))
+            
+            Text("이코")
+                .font(.system(size: 20))
+                .font(.title3)
+                .fontWeight(.bold)
         }
-        .foregroundStyle(.green)
-        .padding([.leading, .top])
+        .padding(.top)
         
         List {
             
@@ -63,17 +66,12 @@ struct MyPageView: View {
                     if AuthManager.shared.tryToLoginNow {
                         Text("로그인 중...")
                     } else {
-//                        NavigationLink {
-//                            LoginView()
-//                                .environment(AuthManager.shared)
-                        Button {
-                            isNeedLogin = true
+                        NavigationLink {
+                            LoginView()
+                                .environment(AuthManager.shared)
                         } label: {
                             Text("로그인 해주세요")
                                 .foregroundStyle(.blue)
-                        }
-                        .fullScreenCover(isPresented: $isNeedLogin) {
-                            LoginView()
                         }
                     }
                 }
@@ -83,13 +81,6 @@ struct MyPageView: View {
             Section(header: Text("지원")) {
                 NavigationLink("도움이 필요하신가요", destination: HelpView())
             }
-        }
-        .listStyle(.inset)
-        .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
-                Button("로그아웃", role: .destructive) {
-                    handleLogout()
-                }
-        })
             
             // 로그아웃 섹션: 로그인 상태일 경우만 표시
             if userStore.userData != nil {
@@ -116,6 +107,11 @@ struct MyPageView: View {
             }
         }
         .listStyle(.inset)
+        .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
+            Button("로그아웃", role: .destructive) {
+                handleLogout()
+            }
+        })
     }
     
     func handleLogout() {

@@ -19,7 +19,7 @@ struct CheckBox: View {
             if isOn {
                 Image(systemName: "checkmark.rectangle.fill")
                     .resizable()
-                    .foregroundStyle(.red)
+                    .foregroundStyle(.accent)
             } else {
                 Image(systemName: "rectangle")
                     .resizable()

@@ -102,7 +102,7 @@ struct LoginView: View {
                         if authManager.tryToLoginNow {
                             ProgressView() // 로그인 중일 때 프로그래스 뷰 표시
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white)) // 프로그래스 뷰 스타일
-                                .frame(maxWidth: .infinity, maxHeight: 10)
+                                .frame(maxWidth: 190, maxHeight: 10)
                                 .padding(.vertical, 18)
                                 .background(Color.green)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -143,23 +143,6 @@ struct LoginView: View {
                     } label: {
                         Image("kakaoLogin")
                     }
-                    .disabled(authManager.tryToLoginNow)
-                    
-                    Button{
-                        Task {
-                            do {
-                                try await authManager.guestLogin()
-//                                goMainView = true
-                                dismiss()
-                            } catch {
-                                print("로그인 실패: \(error.localizedDescription)")
-                            }
-                        }
-                    } label: {
-                        Text("비회원으로 로그인")
-                            .underline()
-                    }
-                    .foregroundStyle(Color.green)
                     .disabled(authManager.tryToLoginNow)
                 }
                 .padding(.top, 40)
