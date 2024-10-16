@@ -74,14 +74,6 @@ struct GoodsDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                //                HStack {
-                //                    Button {
-                //                        dismiss()
-                //                        index = 0
-                //                    } label: {
-                //                        Image(systemName: "house")
-                //                    }
-                //
                 Button {
                     moveToCart = true
                 } label: {
@@ -90,7 +82,7 @@ struct GoodsDetailView: View {
                 .sheet(isPresented: $moveToCart) {
                     CartView()
                 }
-                //                }
+                .foregroundStyle(Color(uiColor: .darkGray))
             }
         }
         .padding()

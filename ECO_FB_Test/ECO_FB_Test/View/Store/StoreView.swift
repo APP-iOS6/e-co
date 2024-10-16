@@ -33,15 +33,7 @@ struct StoreView: View {
     
     var body: some View {
         ScrollView {
-            HStack {
-                Image(systemName: "leaf.fill")
-                    .foregroundStyle(.accent)
-                    .font(.system(size: 20))
-                Text("이코")
-                    .font(.system(size: 20))
-                    .font(.title3)
-                    .fontWeight(.bold)
-            }
+            AppNameView()
             
             LazyVStack(alignment: .leading, pinnedViews: [.sectionHeaders]) {
                 Section(header:
@@ -77,7 +69,7 @@ struct StoreView: View {
                                 } label: {
                                     Image(systemName: "xmark.circle.fill")
                                 }
-                                .foregroundStyle(.black)
+                                .foregroundStyle(Color(uiColor: .darkGray))
                             }
                             .padding(10)
                             .background {
@@ -107,6 +99,8 @@ struct StoreView: View {
                                         goodsStore.categorySelectAction(GoodsCategory.none)
                                     } label: {
                                         Text("ALL")
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(Color(uiColor: .darkGray))
                                     }
                                     .buttonStyle(.bordered)
                                     
@@ -115,6 +109,8 @@ struct StoreView: View {
                                             goodsStore.categorySelectAction(category)
                                         } label: {
                                             Text(category.rawValue)
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(Color(uiColor: .darkGray))
                                         }
                                         .buttonStyle(.bordered)
                                     }
@@ -177,7 +173,6 @@ struct StoreView: View {
                 await getGoods()
             }
         }
-        .padding(.top)
     }
     
     private func getGoods() async {

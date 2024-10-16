@@ -9,139 +9,137 @@ import SwiftUI
 
 struct MyPageView: View {
     @Environment(UserStore.self) private var userStore: UserStore
-    @State private var cartItems: Int = UserStore.shared.userData?.cart.count ?? 0
+    
+    @State private var cartItems: Int = 3
     @State private var orderStatus: String = "처리 중"
-    @State private var showLogoutAlert: Bool = false
-
+    @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
+    @State private var navigateToLogin: Bool = false // 로그인 화면으로 이동 여부
+    @State private var isNeedLogin: Bool = false
+    
     var body: some View {
+        AppNameView()
+        
         VStack {
-            HeaderView()
-            List {
-                if let user = userStore.userData {
-                    userInfoSection(user: user)
-                    accountInfoSection()
-                    myProductsSection()
-                    if user.isAdmin { adminSection() }
-                } else {
-                    loginPromptSection()
+            HStack {
+                NavigationLink {
+                    // 로그인 안돼있을땐 LoginView 띄우기
+                    // 되어있을땐 유저정보 수정 뷰
+                    LoginView()
+                        .environment(AuthManager.shared)
+                } label: {
+                    HStack {
+                        Text(userStore.userData?.name ?? "로그인 해주세요")
+                            .font(.system(size: 20, weight: .semibold))
+                        Image(systemName: "chevron.right")
+                    }
                 }
-              
-                helpSection()
+                .foregroundStyle(.black)
                 
-                if userStore.userData != nil {
-                    logoutSection()
+                Spacer()
+                
+                VStack(alignment: .leading) {
+                    Text("보유 포인트")
+                        .foregroundStyle(.gray)
+                    Text("\(userStore.userData?.pointCount ?? 0)")
                 }
             }
-            .listStyle(.inset)
-            .alert("로그아웃 하시겠습니까?", isPresented: $showLogoutAlert) {
-                logoutAlertActions()
-            } 
+            .padding()
+            
+            Divider()
+                .padding(.horizontal)
+            
+            HStack {
+                NavigationLink {
+                    OrderStatusView()
+                } label: {
+                    VStack {
+                        Image(systemName: "list.bullet.clipboard")
+                            .padding(.bottom, 2)
+                        Text("주문관리")
+                    }
+                }
+                Spacer()
+                NavigationLink {
+                    RecentlyViewedView()
+                } label: {
+                    VStack {
+                        Image(systemName: "doc.text.magnifyingglass")
+                            .padding(.bottom, 2)
+                        Text("최근 본 상품")
+                    }
+                }
+                Spacer()
+                NavigationLink {
+                    CartView()
+                } label: {
+                    VStack {
+                        Image(systemName: "bag")
+                            .padding(.bottom, 2)
+                        Text("장바구니")
+                    }
+                }
+                Spacer()
+                NavigationLink {
+                    InquiriesView()
+                } label: {
+                    VStack {
+                        Image(systemName: "questionmark.circle")
+                            .padding(.bottom, 2)
+                        Text("문의하기")
+                    }
+                }
+            }
+            .foregroundStyle(Color(uiColor: .darkGray))
+            .padding()
+            
+            Divider()
+                .padding(.horizontal)
         }
-    }
-
-    // MARK: - Sections
-
-    @ViewBuilder
-    private func userInfoSection(user: User) -> some View {
-        Section {
-            Text("이름: \(user.name)")
+        
+        List {
+            Section(header:
+                        Text("지원")
                 .font(.headline)
-        }
-    }
-
-    @ViewBuilder
-    private func accountInfoSection() -> some View {
-        Section(header: Text("계정 정보")) {
-            infoRow(title: "포인트 현황:", value: "\(userStore.userData?.pointCount ?? 0)점")
-            NavigationLink("장바구니: \(cartItems)개", destination: CartView())
-            NavigationLink("주문 내역: \(orderStatus)", destination: OrderStatusView())
-        }
-    }
-
-    @ViewBuilder
-    private func myProductsSection() -> some View {
-        Section(header: Text("나의 상품")) {
-            NavigationLink("최근 본 상품", destination: RecentlyViewedView())
-        }
-    }
-
-    @ViewBuilder
-    private func adminSection() -> some View {
-        Section(header: Text("관리자")) {
-            NavigationLink("상품 추가", destination: AddProductView())
-        }
-    }
-
-    @ViewBuilder
-    private func logoutSection() -> some View {
-        Section(header: Text("")) {
-            Button("로그아웃") {
-                showLogoutAlert = true
+                .foregroundColor(.gray)
+            ) {
+                NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
+                NavigationLink("1:1 문의", destination: InquiriesView())
+                NavigationLink("상품 문의", destination: ProductQuestionsView())
+                NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
             }
-            .foregroundColor(.red)
-        }
-    }
-
-    @ViewBuilder
-    private func loginPromptSection() -> some View {
-        Section {
-            if AuthManager.shared.tryToLoginNow {
-                Text("로그인 중...")
-            } else {
-                NavigationLink("로그인 해주세요", destination: LoginView().environment(AuthManager.shared))
-                    .foregroundStyle(.blue)
+            
+            // 로그아웃 섹션: 로그인 상태일 경우만 표시
+            if userStore.userData != nil {
+                Section(header: Text("로그아웃")) {
+                    Button("로그아웃") {
+                        showLogoutAlert = true // 알림 표시
+                    }
+                    .foregroundColor(.red)
+                }
+                .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
+//                    NavigationLink {
+//                        LoginView()
+//                            .environment(AuthManager.shared)
+//                    } label: {
+                        Button("로그아웃", role: .destructive) {
+                            handleLogout()
+                        }
+//                    }
+                    
+                    Button("취소", role: .cancel) { }
+                }, message: {
+                    Text("로그아웃 하시겠습니까?")
+                })
             }
         }
+        .listStyle(.inset)
     }
-
-    @ViewBuilder
-    private func helpSection() -> some View {
-        Section(header: Text("지원")) {
-            NavigationLink("도움이 필요하신가요?", destination: HelpView())
-        }
-    }
-
-    // MARK: - Helper Views
-
-    private func infoRow(title: String, value: String) -> some View {
-        HStack {
-            Text(title)
-            Spacer()
-            Text(value).foregroundColor(.green)
-        }
-    }
-
-    private func logoutAlertActions() -> some View {
-        Group {
-            Button("로그아웃", role: .destructive) {
-                handleLogout()
-            }
-            Button("취소", role: .cancel) { }
-        }
-    }
-
-    private func handleLogout() {
+    
+    func handleLogout() {
         AuthManager.shared.logout()
     }
 }
 
-// MARK: - Header View
-
-struct HeaderView: View {
-    var body: some View {
-        HStack {
-            Image(systemName: "leaf.fill")
-                .foregroundStyle(.accent)
-                .font(.system(size: 20))
-            Text("이코")
-                .font(.title3)
-                .fontWeight(.bold)
-        }
-        .padding(.top)
-    }
-}
-
-// MARK: - Placeholder Views
 
 struct OrderStatusView: View { var body: some View { Text("주문 현황") } }
 struct AddProductView: View { var body: some View { Text("상품 추가") } }

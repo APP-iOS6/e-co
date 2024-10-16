@@ -29,16 +29,7 @@ struct LoginView: View {
     
     var body: some View {
         VStack{
-            HStack {
-                Image(systemName: "leaf.fill")
-                    .foregroundStyle(.accent)
-                    .font(.system(size: 20))
-                Text("이코")
-                    .font(.system(size: 20))
-                    .font(.title3)
-                    .fontWeight(.bold)
-            }
-            .padding(.top)
+            AppNameView()
             
             Spacer()
             Text("Login")
