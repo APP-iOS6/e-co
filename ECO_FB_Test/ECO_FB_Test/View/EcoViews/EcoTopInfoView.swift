@@ -71,7 +71,6 @@ struct EcoTopInfoView: View {
                 
             }
             .frame(maxWidth: .infinity)
-            .padding()
             
             Spacer()
             
@@ -94,7 +93,6 @@ struct EcoTopInfoView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding()
             
             Spacer()
             
@@ -119,7 +117,6 @@ struct EcoTopInfoView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding()
             Spacer()
         }
     }
