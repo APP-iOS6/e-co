@@ -413,6 +413,7 @@ struct GoodsPageView: View {
                     }
                 }
                 .listStyle(.plain)
+                .padding(.top)
             }
         }
     }

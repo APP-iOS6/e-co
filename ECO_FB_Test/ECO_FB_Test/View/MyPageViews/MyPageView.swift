@@ -16,6 +16,7 @@ struct MyPageView: View {
     
     var body: some View {
         AppNameView()
+            .padding(.top)
         
         VStack {
             HStack {
@@ -105,7 +106,7 @@ struct MyPageView: View {
                 NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
                 NavigationLink("FAQ", destination: FAQView())
                 NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
-                
+                NavigationLink("도움말", destination: HealthHelpView())
             }
             
             
