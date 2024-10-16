@@ -214,7 +214,7 @@ struct recommendedItemsView: View {
         HStack {
             Text("이런 상품은 어때요?")
                 .font(.system(size: 18, weight: .semibold))
-            Spacer()
+            Spacer() 
         }
         .padding(.horizontal)
         
@@ -432,3 +432,4 @@ struct GoodsPageView: View {
 #Preview {
     StoreView(selectedTab: .constant(1)).environment(GoodsStore.shared)
 }
+ 
