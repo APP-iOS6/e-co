@@ -80,24 +80,12 @@ struct LoginView: View {
                     Text(message)
                         .foregroundColor(.red) // 빨간색 텍스트
                         .padding(.top, 5)
-                        .font(.footnote)
                 }
             }
             
             VStack{
                 Button {
-                    Task {
-                        do {
-                            try await AuthManager.shared.EmailLogin(withEmail: userEmail, password: userPassword)
-                            print("로그인 성공")
-                            loginErrorMessage = nil
-                            //                                goMainView = true
-                            dismiss()
-                        } catch {
-                            print("로그인 실패: \(error.localizedDescription)")
-                            loginErrorMessage = "이메일 또는 패스워드를 확인해주세요"
-                        }
-                    }
+                    Login(with: .email)
                 } label: {
                     if authManager.tryToLoginNow {
                         ProgressView() // 로그인 중일 때 프로그래스 뷰 표시
@@ -122,11 +110,9 @@ struct LoginView: View {
                 TextDivider(text: "or")
                 //구글 공식 로그인버튼 이미지로 대체
                 Button {
-                    Task {
-                        await AuthManager.shared.login(type: .google)
-                        //                            goMainView = true
-                        dismiss()
-                    }
+
+                    Login(with: .google)
+
                 } label: {
                     Image("googleLogin2")
                     
@@ -135,11 +121,9 @@ struct LoginView: View {
                 
                 //카카오 공식 버튼 이미지로 대체
                 Button {
-                    Task {
-                        await AuthManager.shared.login(type: .kakao)
-                        //                            goMainView = true
-                        dismiss()
-                    }
+
+                    Login(with: .kakao)
+
                 } label: {
                     Image("kakaoLogin")
                 }
@@ -183,7 +167,29 @@ struct LoginView: View {
         //                    .navigationBarBackButtonHidden()
         //            })
     }
-       
+    func Login(with type: LoginType) {
+        Task {
+            if type == .email {
+                
+                do {
+                    try await AuthManager.shared.EmailLogin(withEmail: userEmail, password: userPassword)
+                    print("로그인 성공")
+                    loginErrorMessage = nil
+                    //                                goMainView = true
+                    dismiss()
+                } catch {
+                    print("로그인 실패: \(error.localizedDescription)")
+                    loginErrorMessage = "이메일 또는 패스워드를 확인해주세요"
+                }
+                
+            } else {
+                await AuthManager.shared.login(type: type)
+                dismiss()
+            }
+        }
+    }
+    
+
 }
 
 
