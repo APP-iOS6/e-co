@@ -22,14 +22,14 @@ struct UserTestView: View {
             
             Button("Google Login") {
                 Task {
-                    await AuthManager.shared.login(type: .google)
+                    try await AuthManager.shared.login(type: .google)
                 }
             }
             .buttonStyle(.bordered)
             
             Button("KaKao Login") {
                 Task {
-                    await AuthManager.shared.login(type: .kakao)
+                    try await AuthManager.shared.login(type: .kakao)
                 }
             }
             .buttonStyle(.bordered)

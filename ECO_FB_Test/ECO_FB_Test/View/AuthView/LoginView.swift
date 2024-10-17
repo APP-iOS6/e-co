@@ -77,10 +77,9 @@ struct LoginView: View {
                 Button {
                     Task {
                         do {
-                            try await AuthManager.shared.EmailLogin(withEmail: userEmail, password: userPassword)
+                            try await AuthManager.shared.login(type: .email, parameter: .email(email: userEmail, password: userPassword))
                             print("로그인 성공")
                             loginErrorMessage = nil
-                            //                                goMainView = true
                             dismiss()
                         } catch {
                             print("로그인 실패: \(error.localizedDescription)")
@@ -111,7 +110,7 @@ struct LoginView: View {
                 //구글 공식 로그인버튼 이미지로 대체
                 Button {
                     Task {
-                        await AuthManager.shared.login(type: .google)
+                        try await AuthManager.shared.login(type: .google)
                         dismiss()
                     }
                 } label: {
@@ -123,7 +122,7 @@ struct LoginView: View {
                 //카카오 공식 버튼 이미지로 대체
                 Button {
                     Task {
-                        await AuthManager.shared.login(type: .kakao)
+                        try await AuthManager.shared.login(type: .kakao)
                         dismiss()
                     }
                 } label: {

@@ -15,7 +15,7 @@ final class GoogleLoginManager: LoginControllable {
     
     private init() {}
     
-    func login() async throws {
+    func login(parameter: LoginParam) async throws {
         guard let clientID = FirebaseApp.app()?.options.clientID else { throw LoginError.tokenError(reason: "Client ID missing") }
         
         let config = GIDConfiguration(clientID: clientID)

@@ -153,7 +153,7 @@ struct CreateAccountView: View {
                 Task {
                     //await signUpUser()
                     do {
-                        try await AuthManager.shared.signUp(withEmail: userEmail, password: userPassword, name: userName)
+                        try await AuthManager.shared.signUp(email: userEmail, password: userPassword, name: userName)
                         emailErrorMasage = ""
                         showToast = true
                         print("회원가입함")
