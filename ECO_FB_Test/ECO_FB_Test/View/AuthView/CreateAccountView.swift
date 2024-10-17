@@ -34,6 +34,10 @@ struct CreateAccountView: View {
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         return emailPredicate.evaluate(with: userEmail)
     }
+    private var isEmailContainsUppercase: Bool {
+        return userEmail.rangeOfCharacter(from: .uppercaseLetters) != nil
+    }
+    
     var body: some View {
         
         VStack {
@@ -82,7 +86,15 @@ struct CreateAccountView: View {
                         Text(emailErrorMasage)
                             .font(.caption)
                             .foregroundColor(.red)
-                    } else {
+                    }
+                    else if isEmailContainsUppercase {
+                        Image(systemName: "exclamationmark.triangle.fill").font(.caption2).foregroundColor(.red)
+                        Text("이메일에 대문자가 포함되어 있습니다.")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                    }
+                    
+                    else {
                         Text("")
                             .font(.caption2)
                             .foregroundColor(.clear)
@@ -161,7 +173,7 @@ struct CreateAccountView: View {
                 .foregroundColor(.white)
                 .padding(.top, 40)
             
-            Spacer()   
+            Spacer()
         }
         .padding()
         .onTapGesture {
@@ -171,23 +183,23 @@ struct CreateAccountView: View {
     
     private func signUp() {
         Task {
-                    do {
-                        try await AuthManager.shared.signUp(email: userEmail, password: userPassword, name: userName)
-                        emailErrorMasage = ""
-                        showToast = true
-                        print("회원가입함")
-                        dismiss()
-                        
-                    }   catch {
-                        emailErrorMasage = "이미 사용중인 이메일 입니다."
-                        print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
-                    }
-                }
+            do {
+                try await AuthManager.shared.signUp(email: userEmail, password: userPassword, name: userName)
+                emailErrorMasage = ""
+                showToast = true
+                print("회원가입함")
+                dismiss()
+                
+            }   catch {
+                emailErrorMasage = "이미 사용중인 이메일 입니다."
+                print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
+            }
+        }
     }
     
     //조건에 맞지 않으면 버튼 비활성화, 즉 고로 이메일 중복 일때 제외하고 잘못된방법으로 회원가입 시도하였을때 회원가입 버튼을 비활성화함으로써 회원가입을 마금
     private func checkSignup() -> Bool {
-        if userName.isEmpty || userEmail.isEmpty || userPassword.isEmpty || checkUserPassword.isEmpty || checkUserPassword != userPassword || isEmailForm != true || isPasswordCount {
+        if userName.isEmpty || userEmail.isEmpty || userPassword.isEmpty || checkUserPassword.isEmpty || checkUserPassword != userPassword || isEmailForm != true || isPasswordCount || isEmailContainsUppercase {
             return false
         }
         
@@ -195,6 +207,7 @@ struct CreateAccountView: View {
     }
     
 }
+
 
 extension CreateAccountView {
     private var nameView: some View {
