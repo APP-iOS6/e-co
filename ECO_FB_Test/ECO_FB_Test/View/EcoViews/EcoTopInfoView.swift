@@ -17,14 +17,9 @@ struct EcoTopInfoView: View {
         let co2Reduction = 0.21 * distance
         if co2Reduction > 999 {
             let kgCo2 = co2Reduction / 1000
-            
-            if kgCo2 == floor(kgCo2){
-                return String(format: "%.1f", kgCo2)
-            } else {
-                return String(format: "%.0f", kgCo2)
-            }
+            return String(format: "%.0f", kgCo2)
         }
-        return String(co2Reduction)
+        return String(format: "%.0f" ,co2Reduction)
     }
     
     private var todayDistance: String {
@@ -47,7 +42,7 @@ struct EcoTopInfoView: View {
     }
     
     var body: some View {
-        HStack(alignment: .bottom) {
+        HStack {
             Spacer()
             VStack {
                 Text("CO2 저감")
