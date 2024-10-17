@@ -128,7 +128,9 @@ final class AuthManager {
        
             // 초기값 추가 id = email, loginmethod > email로 설정 포인트 프로필등 초기값
             let user = User(id: email, loginMethod: LoginMethod.email.rawValue, isAdmin: false, name: name, profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
-            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: email, user: user))
+            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: email, user: user)) { _ in
+                
+            }
             
             tryToLoginNow = false
         } catch let error as NSError {
@@ -169,7 +171,9 @@ final class AuthManager {
             } else {
                 // 혹시몰라 추가
                 let user: User = User(id: email, loginMethod: LoginMethod.email.rawValue, isAdmin: false, name: currentUser.displayName ?? "이름 없음", profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
-                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: email, user: user))
+                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: email, user: user)) { _ in
+                    
+                }
             }
             
             // 데이터 갱신

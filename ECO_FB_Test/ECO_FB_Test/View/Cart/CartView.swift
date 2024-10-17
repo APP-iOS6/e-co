@@ -11,6 +11,7 @@ struct CartView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(UserStore.self) private var userStore: UserStore
     @State private var selectedGoods: [Goods] = []
+    @State private var dataUpdateFlow: DataUpdateFlow = .didUpdate
     @State private var totalPrice: Int = 0
     @State private var isSelectedAll: Bool = false
     
@@ -18,29 +19,50 @@ struct CartView: View {
         VStack {
             Spacer()
             
-            if let userData = userStore.userData {
+            if var userData = userStore.userData {
                 HStack {
                     CheckBox(isOn: $isSelectedAll) {
                         
                     }
+                    .frame(width: 20, height: 20)
                     
                     Text("전체선택")
+                    
                     Spacer()
+                    
+                    if !selectedGoods.isEmpty || dataUpdateFlow == .updating {
+                        Button(dataUpdateFlow == .didUpdate ? "선택 상품 삭제" : "삭제중...") {
+                            for goods in selectedGoods {
+                                userData.cart.remove(goods)
+                                selectedGoods.removeAll(where: { $0.id == goods.id })
+                            }
+                            
+                            Task {
+                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: userData.id, user: userData)) { flow in
+                                    dataUpdateFlow = flow
+                                    
+                                    if flow == .didUpdate {
+                                        isSelectedAll = false
+                                    }
+                                }
+                            }
+                        }
+                        .foregroundStyle(.red)
+                        .disabled(dataUpdateFlow == .updating)
+                    }
                 }
                 
-                GeometryReader { geometry in
-                    ScrollView {
-                        LazyVStack {
-                            if userData.arrayCart.count == 0 {
-                                Text("장바구니가 비어있습니다")
-                            } else {
-                                ForEach(userData.arrayCart) { goods in
-                                    CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods) { isOn, goods in
-                                        if isOn {
-                                            selectedGoods.append(goods)
-                                        } else {
-                                            selectedGoods.removeAll(where: { $0.id == goods.id })
-                                        }
+                ScrollView {
+                    VStack {
+                        if userData.arrayCart.count == 0 {
+                            Text("장바구니가 비어있습니다")
+                        } else {
+                            ForEach(userData.arrayCart) { goods in
+                                CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods) { isOn, goods in
+                                    if isOn {
+                                        selectedGoods.append(goods)
+                                    } else {
+                                        selectedGoods.removeAll(where: { $0.id == goods.id })
                                     }
                                 }
                             }
@@ -53,7 +75,6 @@ struct CartView: View {
             
             Spacer()
             
-            
             Button {
                 // TODO: 임시로 구매 완료 알럿 띄우기 or 구매하기 로직 완성
                 dismiss()
@@ -62,7 +83,6 @@ struct CartView: View {
                     .foregroundStyle(.white)
                     .font(.title2)
                     .fontWeight(.bold)
-//                    .frame(width: 250, height: 50)
                     .frame(maxWidth: .infinity, maxHeight: 50)
                     .background {
                         RoundedRectangle(cornerRadius: 5)

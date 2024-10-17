@@ -10,7 +10,6 @@ import NukeUI
 
 struct GoodsDetailView: View {
     @Environment(\.dismiss) private var dismiss
-    @Binding var index: Int
     var goods: Goods
     var thumbnail: URL
     @State var moveToCart: Bool = false
@@ -60,7 +59,9 @@ struct GoodsDetailView: View {
                         if var user = UserStore.shared.userData {
                             Task {
                                 user.cart.insert(goods)
-                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                                    
+                                }
                             }
                         }
                     } label: {
@@ -110,5 +111,5 @@ struct GoodsDetailView: View {
     )
     
     
-    GoodsDetailView(index: .constant(1),goods: sampleGoods, thumbnail: URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
+    GoodsDetailView(goods: sampleGoods, thumbnail: URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
 }

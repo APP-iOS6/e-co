@@ -43,7 +43,9 @@ struct UserTestView: View {
                 goods.append(goodsDummy)
                 
                 Task {
-                    await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: goodsDummy.id, goods: goodsDummy))
+                    await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: goodsDummy.id, goods: goodsDummy)) { _ in
+                        
+                    }
                 }
             }
             
@@ -60,7 +62,9 @@ struct UserTestView: View {
                     }
                     
                     Task {
-                        await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                        await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                            
+                        }
                     }
                 }
                 
