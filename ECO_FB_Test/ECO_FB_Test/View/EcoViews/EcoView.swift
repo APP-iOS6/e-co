@@ -32,7 +32,6 @@ struct EcoView: View {
 
         }
         .padding(.top)
-
         .onChange(of: healthManager.todayStepCount) {
             healthManager.readCurrentStepCount()
             healthManager.readCurrentDistance()
