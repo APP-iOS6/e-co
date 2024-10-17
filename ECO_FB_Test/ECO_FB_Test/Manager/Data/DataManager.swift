@@ -102,9 +102,15 @@ final class DataManager {
         - type: 업데이트 할 대상, 예) 유저라면 .user
         - parameter: 업데이트 할 대상의 정보, 뒤에 Update가 붙은 값들을 써야합니다. 예) 유저라면 .userUpdate(id, user)
      */
-    func updateData(type: DataType, parameter: DataParam) async {
+    func updateData(type: DataType, parameter: DataParam, updateFlowChangeAction: (DataUpdateFlow) -> Void) async {
         do {
+            var dataUpdateFlow: DataUpdateFlow = .updating
+            updateFlowChangeAction(dataUpdateFlow)
+            
             try await dataStores[type.rawValue].updateData(parameter: parameter)
+            
+            dataUpdateFlow = .didUpdate
+            updateFlowChangeAction(dataUpdateFlow)
         } catch {
             print("Error: \(error)")
         }

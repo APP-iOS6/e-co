@@ -45,7 +45,9 @@ final class GoogleLoginManager: LoginControllable {
             if !userExist {
                 let user: User = User(id: id, loginMethod: LoginMethod.google.rawValue, isAdmin: false, name: "Google User", profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
                 // TODO: 최초 로그인 시 이름 받기, 프로필 설정하기(기본 프로필도 하나 정하기)
-                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: id, user: user))
+                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: id, user: user)) { _ in
+                    
+                }
             } else {
                 let loginMethod = await DataManager.shared.getUserLoginMethod(parameter: .userSearch(id: id))
                 

@@ -10,7 +10,6 @@ import NukeUI
 
 struct GoodsDetailView: View {
     @Environment(\.dismiss) private var dismiss
-    @Binding var index: Int
     var goods: Goods
     var thumbnail: URL
     @State var moveToCart: Bool = false
@@ -33,20 +32,40 @@ struct GoodsDetailView: View {
                                     ProgressView()
                                 }
                             }
-                            
-                            VStack(alignment: .leading) {
-                                Text(goods.seller.name)
-                                    .font(.headline)
-                                
-                                Divider()
-                                
-                                Text(goods.category.rawValue)
-                                
+
+                        }
+                        
+                        LazyVStack(alignment: .leading) {
+                            HStack(alignment: .bottom) {
                                 Text(goods.name)
                                     .font(.title)
+                                Spacer()
                                 Text(goods.formattedPrice)
-                                Divider()
-                                
+                                    .font(.title2)
+                            }
+                            .padding(.top)
+                            
+                            Divider()
+                            
+                            Section(header:
+                                        Text("상세정보")
+                                .font(.system(size: 14))
+                                .padding(.vertical, 5)
+                                .foregroundStyle(Color(uiColor: .darkGray))
+                            ) {
+                                Text("분류: \(goods.category.rawValue)")
+                                Text("판매자: \(goods.seller.name)")
+                            }
+                            
+                            Divider()
+                            
+                            Section(header:
+                                        Text("상품설명")
+                                .font(.system(size: 14))
+                                .padding(.vertical, 5)
+                                .foregroundStyle(Color(uiColor: .darkGray))
+                            ) {
+
                                 Text(goods.bodyContent)
                                     .multilineTextAlignment(.leading)
                                     .lineSpacing(7)
@@ -55,14 +74,17 @@ struct GoodsDetailView: View {
                         }
                         .frame(width: GeometryProxy.size.width)
                     }
-                    .scrollIndicators(.hidden)
-                    
-                    HStack {
-                        Button {
-                            if var user = UserStore.shared.userData {
-                                Task {
-                                    user.cart.insert(goods)
-                                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+
+                .scrollIndicators(.hidden)
+                
+                HStack {
+                    Button {
+                        if var user = UserStore.shared.userData {
+                            Task {
+                                user.cart.insert(goods)
+                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                                    
+
                                 }
                             }
                         } label: {
@@ -117,5 +139,5 @@ struct GoodsDetailView: View {
     )
     
     
-    GoodsDetailView(index: .constant(1),goods: sampleGoods, thumbnail: URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
+    GoodsDetailView(goods: sampleGoods, thumbnail: URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
 }

@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 import Nuke
 import NukeUI
+import UIKit
 
 struct StoreView: View {
     static private var isFirstPresent: Bool = true
@@ -117,7 +118,7 @@ struct StoreView: View {
                                 }
                             }
                             .scrollIndicators(.hidden)
-                            .padding()
+                            .padding([.bottom, .horizontal])
                             
                             recommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories, imageURL: imageURLs[.passion] ?? URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
                             
@@ -132,8 +133,6 @@ struct StoreView: View {
                         }
                     }
                 }
-                
-                
             }
         }
         .padding(.top)
@@ -182,28 +181,29 @@ struct recommendedItemsView: View {
     @Binding var index: Int
     var goodsByCategories: [GoodsCategory : [Goods]]
     var imageURL: URL
+    var width = 0
     
     var body: some View {
         HStack {
             Text("이런 상품은 어때요?")
                 .font(.system(size: 18, weight: .semibold))
-            Spacer() 
+            Spacer()
         }
         .padding(.horizontal)
         
         ScrollView(.horizontal) {
-            LazyHStack {
+            LazyHStack(spacing: 0) {
                 ForEach(Array(goodsByCategories.keys), id: \.self) { category in
-                    if let goods = goodsByCategories[category]?.last {
+                    if let goods = goodsByCategories[category]?.randomElement() {
                         NavigationLink {
-                            GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
+                            GoodsDetailView(goods: goods, thumbnail: imageURL)
                         } label: {
                             LazyImage(url: imageURL) { state in
                                 if let image = state.image {
                                     image
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(maxHeight: 80)
+                                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
                                 } else {
                                     ProgressView()
                                 }
@@ -212,10 +212,10 @@ struct recommendedItemsView: View {
                     }
                 }
             }
-            .padding(.horizontal)
         }
         .scrollTargetBehavior(.paging)
         .scrollIndicators(.hidden)
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width*2/3)
     }
 }
 
@@ -255,7 +255,7 @@ struct ItemListView: View {
             ForEach(0..<4) { index in
                 if allGoods.count > index {
                     NavigationLink {
-                        GoodsDetailView(index: $index, goods: allGoods[index], thumbnail: imageURL)
+                        GoodsDetailView(goods: allGoods[index], thumbnail: imageURL)
                     } label: {
                         VStack(alignment: .leading) {
                             LazyImage(url: imageURL) { state in
@@ -278,7 +278,7 @@ struct ItemListView: View {
                                     .font(.system(size: 14, weight: .semibold))
                                 Spacer()
                                 Text("\(allGoods[index].price)원")
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 14, weight: .semibold))
                             }
                             .padding(.bottom)
                             .foregroundStyle(.black)
@@ -393,7 +393,7 @@ struct GoodsPageView: View {
             if let filteredGoods = goodsStore.filteredGoodsByCategories[category] {
                 List(filteredGoods[itemRange]) { goods in
                     NavigationLink {
-                        GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
+                        GoodsDetailView(goods: goods, thumbnail: imageURL)
                     } label: {
                         HStack(spacing: 15) {
                             LazyImage(url: imageURL) { state in
@@ -427,4 +427,4 @@ struct GoodsPageView: View {
 #Preview {
     StoreView(selectedTab: .constant(1)).environment(GoodsStore.shared)
 }
- 
+
