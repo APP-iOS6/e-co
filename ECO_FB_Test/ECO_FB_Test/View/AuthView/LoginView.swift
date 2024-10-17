@@ -101,9 +101,9 @@ struct LoginView: View {
                 TextDivider(text: "or")
                 //구글 공식 로그인버튼 이미지로 대체
                 Button {
-
+                    
                     Login(with: .google)
-
+                    
                 } label: {
                     Image("googleLogin2")
                     
@@ -112,9 +112,9 @@ struct LoginView: View {
                 
                 //카카오 공식 버튼 이미지로 대체
                 Button {
-
+                    
                     Login(with: .kakao)
-
+                    
                 } label: {
                     Image("kakaoLogin")
                 }
@@ -157,7 +157,8 @@ struct LoginView: View {
         }
         
     }
-    func Login(with type: LoginType) {
+    
+    private func Login(with type: LoginType) {
         Task {
             if type == .email {
                 
@@ -179,7 +180,7 @@ struct LoginView: View {
         }
     }
     
-
+    
 }
 
 

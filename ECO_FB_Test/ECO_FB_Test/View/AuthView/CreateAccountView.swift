@@ -150,20 +150,7 @@ struct CreateAccountView: View {
             }.frame(width: 370 , height: 60, alignment: .leading)
             //회원가입 버튼
             Button(action: {
-                Task {
-                    //await signUpUser()
-                    do {
-                        try await AuthManager.shared.signUp(withEmail: userEmail, password: userPassword, name: userName)
-                        emailErrorMasage = ""
-                        showToast = true
-                        print("회원가입함")
-                        dismiss()
-                        
-                    }   catch {
-                        emailErrorMasage = "이미 사용중인 이메일 입니다."
-                        print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
-                    }
-                }
+                signUp()
             }, label: {
                 Text("회원가입").font(.headline)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -184,6 +171,22 @@ struct CreateAccountView: View {
     }
     
     
+    private func signUp() {
+        Task {
+            //await signUpUser()
+            do {
+                try await AuthManager.shared.signUp(withEmail: userEmail, password: userPassword, name: userName)
+                emailErrorMasage = ""
+                showToast = true
+                print("회원가입함")
+                dismiss()
+                
+            }   catch {
+                emailErrorMasage = "이미 사용중인 이메일 입니다."
+                print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
+            }
+        }
+    }
     
     //조건에 맞지 않으면 버튼 비활성화, 즉 고로 이메일 중복 일때 제외하고 잘못된방법으로 회원가입 시도하였을때 회원가입 버튼을 비활성화함으로써 회원가입을 마금
     private func checkSignup() -> Bool {
