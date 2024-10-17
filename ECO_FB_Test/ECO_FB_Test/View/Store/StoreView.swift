@@ -198,11 +198,16 @@ struct recommendedItemsView: View {
                         NavigationLink {
                             GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
                         } label: {
-                            Image(goods.thumbnailImageName)
-                            Image(.ecoBags)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(minHeight: 100)
+                            LazyImage(url: imageURL) { state in
+                                if let image = state.image {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(maxHeight: 80)
+                                } else {
+                                    ProgressView()
+                                }
+                            }
                         }
                     }
                 }
