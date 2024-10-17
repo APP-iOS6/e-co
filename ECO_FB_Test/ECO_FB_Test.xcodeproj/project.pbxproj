@@ -82,6 +82,8 @@
 		FE92D4AF2CBE785B00B08F8E /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = FE92D4AE2CBE785B00B08F8E /* Nuke */; };
 		FE92D4B12CBE785B00B08F8E /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = FE92D4B02CBE785B00B08F8E /* NukeUI */; };
 		FEAC5BFC2CC0E6A2006F6B8D /* DataUpdateFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAC5BFB2CC0E6A2006F6B8D /* DataUpdateFlow.swift */; };
+		FEAC5BFE2CC0EBE6006F6B8D /* EmailLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAC5BFD2CC0EBE6006F6B8D /* EmailLoginManager.swift */; };
+		FEAC5C002CC0EC88006F6B8D /* LoginParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAC5BFF2CC0EC88006F6B8D /* LoginParam.swift */; };
 		FEBEFBA62CB975F400E3D86A /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA52CB975F400E3D86A /* KakaoSDKAuth */; };
 		FEBEFBA82CB975F400E3D86A /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA72CB975F400E3D86A /* KakaoSDKCommon */; };
 		FEBEFBAA2CB975F400E3D86A /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FEBEFBA92CB975F400E3D86A /* KakaoSDKUser */; };
@@ -185,6 +187,8 @@
 		FE6A7B002CB9B043000F5DB6 /* CommonError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonError.swift; sourceTree = "<group>"; };
 		FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginMethod.swift; sourceTree = "<group>"; };
 		FEAC5BFB2CC0E6A2006F6B8D /* DataUpdateFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUpdateFlow.swift; sourceTree = "<group>"; };
+		FEAC5BFD2CC0EBE6006F6B8D /* EmailLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginManager.swift; sourceTree = "<group>"; };
+		FEAC5BFF2CC0EC88006F6B8D /* LoginParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginParam.swift; sourceTree = "<group>"; };
 		FEC6F3752CBDFBE3000E5441 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		FEC6F3772CBE07DE000E5441 /* StorageControllable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageControllable.swift; sourceTree = "<group>"; };
 		FEC6F3802CBE0D13000E5441 /* GoodsStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStorageManager.swift; sourceTree = "<group>"; };
@@ -531,6 +535,7 @@
 			children = (
 				FE6A7AF22CB9ADCF000F5DB6 /* LoginType.swift */,
 				FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */,
+				FEAC5BFF2CC0EC88006F6B8D /* LoginParam.swift */,
 				FE6A7AFE2CB9B01F000F5DB6 /* LoginError.swift */,
 			);
 			path = Login;
@@ -550,6 +555,7 @@
 				FE6A7AFC2CB9AF58000F5DB6 /* AuthManager.swift */,
 				FE6A7AF82CB9AEBF000F5DB6 /* GoogleLoginManager.swift */,
 				FE1847A32CB9686F00BE530C /* KaKaoLoginManager.swift */,
+				FEAC5BFD2CC0EBE6006F6B8D /* EmailLoginManager.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -746,6 +752,7 @@
 				FE5924D92CBE54CD002FC977 /* StorageType.swift in Sources */,
 				502256882CBD038F006F6D5C /* ContentView.swift in Sources */,
 				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
+				FEAC5C002CC0EC88006F6B8D /* LoginParam.swift in Sources */,
 				18DD4AC42CBF8AD7002AC8EA /* HelpView.swift in Sources */,
 				FE40BC082CB9440800786E34 /* UserStore.swift in Sources */,
 				429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */,
@@ -763,6 +770,7 @@
 				4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */,
 				FE5924D52CBE541E002FC977 /* StorageParam.swift in Sources */,
 				FE29E1682CBD4800005E2EFD /* Date+.swift in Sources */,
+				FEAC5BFE2CC0EBE6006F6B8D /* EmailLoginManager.swift in Sources */,
 				FE6A7AF92CB9AEBF000F5DB6 /* GoogleLoginManager.swift in Sources */,
 				FEC6F3762CBDFBE3000E5441 /* StorageManager.swift in Sources */,
 				FE6A7AF32CB9ADCF000F5DB6 /* LoginType.swift in Sources */,

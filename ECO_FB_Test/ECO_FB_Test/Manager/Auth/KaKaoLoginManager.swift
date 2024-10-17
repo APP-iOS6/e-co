@@ -15,7 +15,7 @@ final class KaKaoLoginManager: LoginControllable {
     
     private init() {}
     
-    func login() async throws {
+    func login(parameter: LoginParam) async throws {
         if UserApi.isKakaoTalkLoginAvailable() { // 카카오톡 앱 실행 가능 여부 확인
             do {
                 // 실제 카카오 SDK는 동기로 작동해서 직접 비동기로 변환한 함수 사용

@@ -101,9 +101,7 @@ struct LoginView: View {
                 TextDivider(text: "or")
                 //구글 공식 로그인버튼 이미지로 대체
                 Button {
-                    
                     Login(with: .google)
-                    
                 } label: {
                     Image("googleLogin2")
                     
@@ -111,10 +109,8 @@ struct LoginView: View {
                 .disabled(authManager.tryToLoginNow)
                 
                 //카카오 공식 버튼 이미지로 대체
-                Button {
-                    
+                Button {     
                     Login(with: .kakao)
-                    
                 } label: {
                     Image("kakaoLogin")
                 }
@@ -144,12 +140,10 @@ struct LoginView: View {
                         .foregroundStyle(Color.green)
                     }
                 }.background(Color.white)
-                
             }
             .padding()
             .sheet(isPresented: $showCreateAccountPage) {
                 CreateAccountView(showToast: $showToast)
-                
             }
             .onTapGesture {
                 isfocused = false
@@ -161,26 +155,21 @@ struct LoginView: View {
     private func Login(with type: LoginType) {
         Task {
             if type == .email {
-                
                 do {
-                    try await AuthManager.shared.EmailLogin(withEmail: userEmail, password: userPassword)
+                    try await AuthManager.shared.login(type: .email, parameter: .email(email: userEmail, password: userPassword))
                     print("로그인 성공")
                     loginErrorMessage = nil
-                    //                                goMainView = true
                     dismiss()
                 } catch {
                     print("로그인 실패: \(error.localizedDescription)")
                     loginErrorMessage = "이메일 또는 패스워드를 확인해주세요"
                 }
-                
             } else {
                 await AuthManager.shared.login(type: type)
                 dismiss()
             }
         }
     }
-    
-    
 }
 
 

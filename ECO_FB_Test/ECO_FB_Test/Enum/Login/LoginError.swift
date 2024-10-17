@@ -11,4 +11,5 @@ enum LoginError: Error {
     case tokenError(reason: String)
     case emailError(reason: String)
     case userError(reason: String)
+    case parameterError(reason: String)
 }
