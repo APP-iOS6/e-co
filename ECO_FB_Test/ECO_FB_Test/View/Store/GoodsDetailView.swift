@@ -13,68 +13,97 @@ struct GoodsDetailView: View {
     var goods: Goods
     var thumbnail: URL
     @State var moveToCart: Bool = false
+    @State var isBought: Bool = false
     
     var body: some View {
         GeometryReader { GeometryProxy in
-            VStack {
-                ScrollView {
-                    VStack {
-                        LazyImage(url: thumbnail) { state in
-                            if let image = state.image {
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.bottom)
-                            } else if state.isLoading {
-                                ProgressView()
-                            }
-                        }
-                        
-                        VStack(alignment: .leading) {
-                            Text(goods.seller.name)
-                                .font(.headline)
-                            
-                            Divider()
-                            
-                            Text(goods.category.rawValue)
-                            
-                            Text(goods.name)
-                                .font(.title)
-                            Text(goods.formattedPrice)
-                            Divider()
-                            
-                            Text(goods.bodyContent)
-                                .multilineTextAlignment(.leading)
-                                .lineSpacing(7)
-                                .padding(.bottom, 30)
-                        }
-                    }
-                    .frame(width: GeometryProxy.size.width)
-                }
-                .scrollIndicators(.hidden)
-                
-                HStack {
-                    Button {
-                        if var user = UserStore.shared.userData {
-                            Task {
-                                user.cart.insert(goods)
-                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                                    
+            ZStack {
+                VStack {
+                    ScrollView {
+                        VStack {
+                            LazyImage(url: thumbnail) { state in
+                                if let image = state.image {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.bottom)
+                                } else if state.isLoading {
+                                    ProgressView()
                                 }
                             }
+                            
                         }
-                    } label: {
-                        Text("장바구니 담기")
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
-                            .foregroundStyle(.white)
-                            .font(.headline)
-                            .background(Color.green)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        
+                        LazyVStack(alignment: .leading) {
+                            HStack(alignment: .bottom) {
+                                Text(goods.name)
+                                    .font(.title)
+                                Spacer()
+                                Text(goods.formattedPrice)
+                                    .font(.title2)
+                            }
+                            .padding(.top)
+                            
+                            Divider()
+                            
+                            Section(header:
+                                        Text("상세정보")
+                                .font(.system(size: 14))
+                                .padding(.vertical, 5)
+                                .foregroundStyle(Color(uiColor: .darkGray))
+                            ) {
+                                Text("분류: \(goods.category.rawValue)")
+                                Text("판매자: \(goods.seller.name)")
+                            }
+                            
+                            Divider()
+                            
+                            Section(header:
+                                        Text("상품설명")
+                                .font(.system(size: 14))
+                                .padding(.vertical, 5)
+                                .foregroundStyle(Color(uiColor: .darkGray))
+                            ) {
+                                
+                                Text(goods.bodyContent)
+                                    .multilineTextAlignment(.leading)
+                                    .lineSpacing(7)
+                                    .padding(.bottom, 30)
+                            }
+                        }
+                        .frame(width: GeometryProxy.size.width)
                     }
+                    
+                    .scrollIndicators(.hidden)
+                    
+                    HStack {
+                        Button {
+                            if var user = UserStore.shared.userData {
+                                Task {
+                                    user.cart.insert(goods)
+                                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                                        
+                                        
+                                    }
+                                }
+                            }
+                        } label: {
+                            Text("장바구니 담기")
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                                .foregroundStyle(.white)
+                                .font(.headline)
+                                .background(Color.green)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                    }
+                    .padding(.top, 5)
                 }
-                .padding(.top, 5)
+                VStack {
+                    Spacer()
+                    SignUpToastView(isVisible: $isBought, message: "물품 구매가 완료되었습니다.")
+                }
             }
         }
         .toolbar {
@@ -85,7 +114,7 @@ struct GoodsDetailView: View {
                     Image(systemName: "cart")
                 }
                 .sheet(isPresented: $moveToCart) {
-                    CartView()
+                    CartView(isBought: $isBought)
                 }
                 .foregroundStyle(Color(uiColor: .darkGray))
             }

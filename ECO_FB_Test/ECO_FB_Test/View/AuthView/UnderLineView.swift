@@ -63,7 +63,7 @@ extension UnderlineTextFieldView {
             .foregroundColor(.black)
             .padding(.leading, isTextFieldWithIcon ? 0 : 16)
             .opacity(0.5)
-            .font(.caption2)
+            //.font()
     }
     
     private var underlineView: some View {
