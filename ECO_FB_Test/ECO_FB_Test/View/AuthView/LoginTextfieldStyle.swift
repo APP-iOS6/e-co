@@ -19,7 +19,8 @@ struct TextFieldStyle: ViewModifier {
             .font(.caption2)
             .foregroundColor(.gray)
             .opacity(isFocused ? 1 : 0)
-            .animation(.easeInOut, value: isFocused)
+            .offset(x: isFocused ? 0 : 10, y: isFocused ? 0 : 20)
+              .animation(.easeInOut(duration: 0.3), value: isFocused)
     }
 }
 
@@ -46,4 +47,9 @@ extension View {
     func passwordStyle(paddingTop: CGFloat, isFocused: Bool) -> some View {
         self.modifier(PasswordStyle(paddingTop: paddingTop, isFocused: isFocused))
     }
+}
+
+#Preview {
+    LoginView()
+        .environment(AuthManager.shared)
 }

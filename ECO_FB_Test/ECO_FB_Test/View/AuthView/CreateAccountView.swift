@@ -59,7 +59,7 @@ struct CreateAccountView: View {
             //이메일 영역
             VStack{
                 Text("이메일")
-                    .textFieldStyle(paddingTop: 0, paddingLeading: -165, isFocused: focusedField == .email)
+                    .textFieldStyle(paddingTop: 10, paddingLeading: -165, isFocused: focusedField == .email)
                 HStack(spacing: -20) {
                     Image(systemName: "at")
                         .padding(.trailing, 5)
@@ -75,12 +75,12 @@ struct CreateAccountView: View {
                     if !isEmailForm && !userEmail.isEmpty {
                         Image(systemName: "exclamationmark.triangle.fill").font(.caption2).foregroundColor(.red)
                         Text("이메일 형식으로 입력해주세요!")
-                            .font(.caption2)
+                            .font(.caption)
                             .foregroundColor(.red)
                     } else if !emailErrorMasage.isEmpty {
                         Image(systemName: "exclamationmark.triangle.fill").font(.caption2).foregroundColor(.red)
                         Text(emailErrorMasage)
-                            .font(.caption2)
+                            .font(.caption)
                             .foregroundColor(.red)
                     } else {
                         Text("")
@@ -97,7 +97,7 @@ struct CreateAccountView: View {
             //패스워드 영역
             VStack{
                 Text("패스워드")
-                    .textFieldStyle(paddingTop: 0, paddingLeading: -165, isFocused: focusedField == .password)
+                    .textFieldStyle(paddingTop: 28, paddingLeading: -165, isFocused: focusedField == .password)
                 HStack(spacing: -10) {
                     Image(systemName: "lock")
                     UnderlineTextFieldView(
@@ -111,8 +111,8 @@ struct CreateAccountView: View {
                 HStack{
                     
                     Image(systemName: "exclamationmark.triangle.fill").font(.caption2)
-                    Text("패스워드는 6자리 이상 입력해주세용!")
-                        .font(.caption2)
+                    Text("패스워드는 6자리 이상 입력해주세요!")
+                        .font(.caption)
                     
                     Spacer()
                 }
@@ -124,7 +124,7 @@ struct CreateAccountView: View {
             //패스워드 확인영역
             VStack{
                 Text("패스워드 확인")
-                    .textFieldStyle(paddingTop: 0, paddingLeading: -165, isFocused: focusedField == .checkingPassword)
+                    .textFieldStyle(paddingTop: 28, paddingLeading: -165, isFocused: focusedField == .checkingPassword)
                 HStack(spacing: -10) {
                     Image(systemName: "lock")
                     UnderlineTextFieldView(
@@ -139,7 +139,7 @@ struct CreateAccountView: View {
                     if checkUserPassword != userPassword {
                         Image(systemName: "exclamationmark.triangle.fill").font(.caption2)
                         Text("비밀번호가 서로 다릅니다.")
-                            .font(.caption2)
+                            .font(.caption)
                     }
                     Spacer()
                 }
@@ -150,20 +150,7 @@ struct CreateAccountView: View {
             }.frame(width: 370 , height: 60, alignment: .leading)
             //회원가입 버튼
             Button(action: {
-                Task {
-                    //await signUpUser()
-                    do {
-                        try await AuthManager.shared.signUp(withEmail: userEmail, password: userPassword, name: userName)
-                        emailErrorMasage = ""
-                        showToast = true
-                        print("회원가입함")
-                        dismiss()
-                        
-                    }   catch {
-                        emailErrorMasage = "이미 사용중인 이메일 입니다."
-                        print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
-                    }
-                }
+                signUp()
             }, label: {
                 Text("회원가입").font(.headline)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -184,6 +171,22 @@ struct CreateAccountView: View {
     }
     
     
+    private func signUp() {
+        Task {
+            //await signUpUser()
+            do {
+                try await AuthManager.shared.signUp(withEmail: userEmail, password: userPassword, name: userName)
+                emailErrorMasage = ""
+                showToast = true
+                print("회원가입함")
+                dismiss()
+                
+            }   catch {
+                emailErrorMasage = "이미 사용중인 이메일 입니다."
+                print("회원가입 실패: \(error.localizedDescription)") // 에러 처리
+            }
+        }
+    }
     
     //조건에 맞지 않으면 버튼 비활성화, 즉 고로 이메일 중복 일때 제외하고 잘못된방법으로 회원가입 시도하였을때 회원가입 버튼을 비활성화함으로써 회원가입을 마금
     private func checkSignup() -> Bool {

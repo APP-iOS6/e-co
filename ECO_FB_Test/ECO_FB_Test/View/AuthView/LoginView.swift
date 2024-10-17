@@ -28,8 +28,10 @@ struct LoginView: View {
     @FocusState private var isfocused: Bool // 여기는 키보드 내리는거 위해
     
     var body: some View {
-        VStack{
+        VStack(){
+            Spacer()
             AppNameView()
+                .frame(width: 125 ,alignment: .center)
             
             Spacer()
             Text("Login")
@@ -38,7 +40,7 @@ struct LoginView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
             //이메일영역
-            VStack {
+            VStack(){
                 Text("이메일")
                     .textFieldStyle(paddingTop: 10, paddingLeading: -165, isFocused: focusedField == .email)
                 HStack(spacing: -10){
@@ -68,25 +70,14 @@ struct LoginView: View {
                     Text(message)
                         .foregroundColor(.red) // 빨간색 텍스트
                         .padding(.top, 5)
-                        .font(.footnote)
                 }
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.top, -10)
             
             VStack{
                 Button {
-                    Task {
-                        do {
-                            try await AuthManager.shared.EmailLogin(withEmail: userEmail, password: userPassword)
-                            print("로그인 성공")
-                            loginErrorMessage = nil
-                            //                                goMainView = true
-                            dismiss()
-                        } catch {
-                            print("로그인 실패: \(error.localizedDescription)")
-                            loginErrorMessage = "이메일 또는 패스워드를 확인해주세요"
-                        }
-                    }
+                    Login(with: .email)
                 } label: {
                     if authManager.tryToLoginNow {
                         ProgressView() // 로그인 중일 때 프로그래스 뷰 표시
@@ -110,10 +101,9 @@ struct LoginView: View {
                 TextDivider(text: "or")
                 //구글 공식 로그인버튼 이미지로 대체
                 Button {
-                    Task {
-                        await AuthManager.shared.login(type: .google)
-                        dismiss()
-                    }
+                    
+                    Login(with: .google)
+                    
                 } label: {
                     Image("googleLogin2")
                     
@@ -122,10 +112,9 @@ struct LoginView: View {
                 
                 //카카오 공식 버튼 이미지로 대체
                 Button {
-                    Task {
-                        await AuthManager.shared.login(type: .kakao)
-                        dismiss()
-                    }
+                    
+                    Login(with: .kakao)
+                    
                 } label: {
                     Image("kakaoLogin")
                 }
@@ -166,7 +155,32 @@ struct LoginView: View {
                 isfocused = false
             }
         }
+        
     }
+    
+    private func Login(with type: LoginType) {
+        Task {
+            if type == .email {
+                
+                do {
+                    try await AuthManager.shared.EmailLogin(withEmail: userEmail, password: userPassword)
+                    print("로그인 성공")
+                    loginErrorMessage = nil
+                    //                                goMainView = true
+                    dismiss()
+                } catch {
+                    print("로그인 실패: \(error.localizedDescription)")
+                    loginErrorMessage = "이메일 또는 패스워드를 확인해주세요"
+                }
+                
+            } else {
+                await AuthManager.shared.login(type: type)
+                dismiss()
+            }
+        }
+    }
+    
+    
 }
 
 
