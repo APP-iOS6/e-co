@@ -8,7 +8,7 @@
 import Foundation
 
 enum LoginType: Int {
-    case google
+    case google = 0
     case kakao
     case email
     case none

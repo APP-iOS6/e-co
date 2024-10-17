@@ -8,7 +8,7 @@
 import Foundation
 
 enum DataType: Int {
-    case user
+    case user = 0
     case seller
     case goods
     case paymentInfo
