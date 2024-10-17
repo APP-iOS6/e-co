@@ -11,7 +11,6 @@ import NukeUI
 
 struct GoodsPageView: View {
     var itemRange: Range<Int>
-    var imageURL: URL
     var category: GoodsCategory
     @Binding var index: Int
     @Environment(GoodsStore.self) private var goodsStore: GoodsStore
@@ -21,10 +20,10 @@ struct GoodsPageView: View {
             if let filteredGoods = goodsStore.filteredGoodsByCategories[category] {
                 List(filteredGoods[itemRange]) { goods in
                     NavigationLink {
-                        GoodsDetailView(goods: goods, thumbnail: imageURL)
+                        GoodsDetailView(goods: goods, thumbnail: goods.thumbnailImageURL)
                     } label: {
                         HStack(spacing: 15) {
-                            LazyImage(url: imageURL) { state in
+                            LazyImage(url: goods.thumbnailImageURL	) { state in
                                 if let image = state.image {
                                     image
                                         .resizable()

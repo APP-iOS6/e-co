@@ -38,7 +38,7 @@ struct UserTestView: View {
                 let seller: Seller = Seller(id: "Q6awSoN6OCHcbUDeMxyd", name: "Seller", profileImageName: "It will be replace to id matches seller")
                 let price = Int.random(in: 100...15000)
                 
-                let goodsDummy: Goods = Goods(id: UUID().uuidString, name: "Dummy Goods", category: .passion, thumbnailImageName: "test.png", bodyContent: "it's bag it's bag it's bag it's bag it's bag it's bag it's bag", bodyImageNames: ["test.png", "bag.png", "bag23232.png", "bag_final.png"], price: price, seller: seller)
+                let goodsDummy: Goods = Goods(id: UUID().uuidString, name: "Dummy Goods", category: .passion, thumbnailImageURL: URL(string: "https://png.pngtree.com/png-vector/20190704/ourmid/pngtree-leaf-graphic-icon-design-template-vector-illustration-png-image_1538440.jpg")!, bodyContent: "it's bag it's bag it's bag it's bag it's bag it's bag it's bag", bodyImageNames: ["test.png", "bag.png", "bag23232.png", "bag_final.png"], price: price, seller: seller)
                 
                 goods.append(goodsDummy)
                 
@@ -83,7 +83,7 @@ struct UserTestView: View {
                         LazyVStack(spacing: 10) {
                             ForEach(user.arrayCart) { goods in
                                 GroupBox {
-                                    Text("썸네일: \(goods.thumbnailImageName)")
+                                    Text("썸네일: \(goods.thumbnailImageURL)")
                                     Text("상품이름: \(goods.name)")
                                     Text("가격: \(goods.formattedPrice)")
                                     Text("판매자: \(goods.seller.name)")

@@ -110,7 +110,7 @@ final class GoodsStore: DataControllable {
             try await db.collection("Goods").document(id).setData([
                 "name": goods.name,
                 "category": goods.category.rawValue,
-                "thumbnail": goods.thumbnailImageName,
+                "thumbnail": goods.thumbnailImageURL.absoluteString,
                 "body_content": goods.bodyContent,
                 "body_images": goods.bodyImageNames,
                 "price": goods.price,
@@ -146,7 +146,7 @@ final class GoodsStore: DataControllable {
         if lastGoodsEachCategory.isEmpty {
             return try await getFirstPages(categories: categories, limit: limit)
         } else {
-            return try await getFirstPages(categories: categories, limit: limit)
+            return try await getNextPages(categories: categories, limit: limit)
         }
     }
     
@@ -208,7 +208,7 @@ final class GoodsStore: DataControllable {
     private func getData(id: String, docData: [String: Any]) async throws -> Goods {
         let name = docData["name"] as? String ?? "none"
         let category = try stringToCategoryEnum(docData["category"] as? String ?? "none")
-        let thumbnailImageName = docData["thumbnail"] as? String ?? "none"
+        let thumbnailImageURL = docData["thumbnail"] as? String ?? "none"
         let bodyContent = docData["body_content"] as? String ?? "none"
         let bodyImageNames = docData["body_images"] as? [String] ?? []
         let price = docData["price"] as? Int ?? 0
@@ -222,7 +222,11 @@ final class GoodsStore: DataControllable {
             throw DataError.convertError(reason: "DataResult is not a seller")
         }
         
-        let goods = Goods(id: id, name: name, category: category, thumbnailImageName: thumbnailImageName, bodyContent: bodyContent, bodyImageNames: bodyImageNames, price: price, seller: result)
+        guard let url = URL(string: thumbnailImageURL) else {
+            throw DataError.convertError(reason: "Invalid URL")
+        }
+        
+        let goods = Goods(id: id, name: name, category: category, thumbnailImageURL: url, bodyContent: bodyContent, bodyImageNames: bodyImageNames, price: price, seller: result)
         return goods
     }
     

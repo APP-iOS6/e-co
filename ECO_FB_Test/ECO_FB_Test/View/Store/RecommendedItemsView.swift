@@ -13,7 +13,6 @@ import UIKit
 struct RecommendedItemsView: View {
     @Binding var index: Int
     var goodsByCategories: [GoodsCategory : [Goods]]
-    var imageURL: URL
     var width = 0
     
     var body: some View {
@@ -29,9 +28,9 @@ struct RecommendedItemsView: View {
                 ForEach(Array(goodsByCategories.keys), id: \.self) { category in
                     if let goods = goodsByCategories[category]?.randomElement() {
                         NavigationLink {
-                            GoodsDetailView(goods: goods, thumbnail: imageURL)
+                            GoodsDetailView(goods: goods, thumbnail: goods.thumbnailImageURL)
                         } label: {
-                            LazyImage(url: imageURL) { state in
+                            LazyImage(url: goods.thumbnailImageURL) { state in
                                 if let image = state.image {
                                     image
                                         .resizable()

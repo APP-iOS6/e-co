@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseFirestore
+import NukeUI
 
 struct RecentlyViewedView: View {
     
@@ -22,10 +23,17 @@ struct RecentlyViewedView: View {
                 } else {
                     List(user.recentWatchedArray, id: \.id) { goods in
                         HStack {
-                            Image(goods.thumbnailImageName)
-                                .resizable()
-                                .frame(width: 100, height: 100)
-                                .cornerRadius(8)
+                            LazyImage(url: goods.thumbnailImageURL) { state in
+                                if let image = state.image {
+                                    image
+                                        .resizable()
+                                        .frame(width: 100, height: 100)
+                                        .cornerRadius(8)
+                                } else {
+                                    ProgressView()
+                                }
+                            }
+                            
                             VStack(alignment: .leading) {
                                 Text(goods.name)
                                     .font(.headline)

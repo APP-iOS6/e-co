@@ -45,15 +45,6 @@ struct CartGoodsInfoView: View {
             
             Divider()
         }
-        .onAppear {
-            Task {
-                let result = await StorageManager.shared.fetch(type: .goods, parameter: .goodsThumbnail(goodsID: goods.id))
-                
-                if case .single(let url) = result {
-                    thumbnailURL = url
-                }
-            }
-        }
         .onChange(of: totalSelected) {
             isOn = totalSelected
             selectEvent(isOn, goods)

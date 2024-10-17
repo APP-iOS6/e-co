@@ -14,18 +14,13 @@ final class StorageManager {
         GoodsStorageManager.shared
     ]
     
-    func fetch(type: StorageType, parameter: StorageParam) async -> StorageResult {
+    func upload(type: StorageType, parameter: StorageParam) async throws -> StorageResult{
         do {
-            let result = try await storageManagers[type.rawValue].fetch(parameter: parameter)
+            let result = try await storageManagers[type.rawValue].upload(parameter: parameter)
             return result
         } catch {
             print("Error: \(error)")
+            throw error
         }
-        
-        return StorageResult.error(result: "Can't fetch image from storage")
-    }
-    
-    func upload() async throws {
-        
     }
 }

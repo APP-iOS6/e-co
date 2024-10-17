@@ -11,7 +11,7 @@ struct Goods: Identifiable, Hashable {
     let id: String
     let name: String
     let category: GoodsCategory
-    let thumbnailImageName: String
+    let thumbnailImageURL: URL
     let bodyContent: String
     let bodyImageNames: [String]
     let price: Int
