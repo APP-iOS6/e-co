@@ -68,7 +68,6 @@ struct FAQView: View {
         }
         .navigationTitle("자주 묻는 질문")
         .navigationBarTitleDisplayMode(.inline)  // 네비게이션 타이틀 정렬 설정
-        
     }
 }
 

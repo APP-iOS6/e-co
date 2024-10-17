@@ -29,27 +29,3 @@ extension View {
         self.modifier(TextFieldStyle(paddingTop: paddingTop, paddingLeading: paddingLeading, isFocused: isFocused))
     }
 }
-
-struct PasswordStyle: ViewModifier {
-    var paddingTop: CGFloat
-    var isFocused: Bool
-
-    func body(content: Content) -> some View {
-        content
-            .padding(.top, paddingTop)
-            .font(.caption2)
-            .foregroundColor(.gray)
-            .opacity(isFocused ? 1 : 0)
-    }
-}
-
-extension View {
-    func passwordStyle(paddingTop: CGFloat, isFocused: Bool) -> some View {
-        self.modifier(PasswordStyle(paddingTop: paddingTop, isFocused: isFocused))
-    }
-}
-
-#Preview {
-    LoginView()
-        .environment(AuthManager.shared)
-}

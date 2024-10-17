@@ -165,16 +165,14 @@ struct LoginView: View {
                     loginErrorMessage = "이메일 또는 패스워드를 확인해주세요"
                 }
             } else {
-                await AuthManager.shared.login(type: type)
+                try await AuthManager.shared.login(type: type)
                 dismiss()
             }
         }
     }
 }
 
-
 extension LoginView {
-    
     private var textView: some View {
         TextField("", text: $userEmail)
             .textContentType(.newPassword) // 기존 키체인 제안 방지
@@ -200,27 +198,6 @@ extension LoginView {
                 focusedField = .password
             }
             .focused($isfocused)
-    }
-}
-struct TextDivider: View {
-    let text: String
-    var body: some View {
-        HStack {
-            Divider()
-                .frame(maxWidth: 80, maxHeight: 1)
-                .background(Color.gray)
-            
-            Text(text)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.gray)
-                .padding(.horizontal, 8)
-            
-            Divider()
-                .frame(maxWidth: 80, maxHeight: 1)
-                .background(Color.gray)
-            
-        }
-        .padding(.vertical, 8)
     }
 }
 

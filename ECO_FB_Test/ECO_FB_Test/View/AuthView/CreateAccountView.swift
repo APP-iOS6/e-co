@@ -197,7 +197,6 @@ struct CreateAccountView: View {
 }
 
 extension CreateAccountView {
-    
     private var nameView: some View {
         TextField("", text: $userName)
             .textContentType(.newPassword) // 기존 키체인 제안 방지

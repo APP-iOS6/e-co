@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SafariServices
 
 struct EcoEventsView: View {
     // TODO: 실제 환경 이벤트정보로 변경
@@ -43,7 +42,6 @@ struct EcoEventsView: View {
             }
             .font(.footnote)
             
-            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 20) {
                     ForEach((0..<3), id: \.self) { index in
@@ -69,18 +67,6 @@ struct EcoEventsView: View {
             .padding(.top)
         }
         .padding()
-    }
-}
-
-struct SafariView: UIViewControllerRepresentable {
-    let url: URL
-    
-    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
-        return SFSafariViewController(url: url)
-    }
-    
-    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
-        
     }
 }
 
