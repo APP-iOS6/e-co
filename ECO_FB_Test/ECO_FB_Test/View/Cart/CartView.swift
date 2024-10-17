@@ -13,6 +13,7 @@ struct CartView: View {
     @State private var selectedGoods: [Goods] = []
     @State private var totalPrice: Int = 0
     @State private var isSelectedAll: Bool = false
+    @Binding var isBought: Bool
     
     var body: some View {
         VStack {
@@ -56,6 +57,7 @@ struct CartView: View {
             
             Button {
                 // TODO: 임시로 구매 완료 알럿 띄우기 or 구매하기 로직 완성
+                isBought = true
                 dismiss()
             } label: {
                 Text("주문하기")
@@ -76,7 +78,7 @@ struct CartView: View {
 }
 
 #Preview {
-    CartView()
+    CartView(isBought: .constant(false))
         .environment(UserStore.shared)
         .environment(GoodsStore.shared)
 }

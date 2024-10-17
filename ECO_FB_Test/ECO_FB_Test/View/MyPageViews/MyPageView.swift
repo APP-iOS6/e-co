@@ -13,6 +13,7 @@ struct MyPageView: View {
     @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
     @State private var navigateToLogin: Bool = false // 로그인 화면으로 이동 여부
     @State private var isNeedLogin: Bool = false
+    @State private var isBought: Bool = false
     
     var body: some View {
         AppNameView()
@@ -71,7 +72,7 @@ struct MyPageView: View {
                 }
                 Spacer()
                 NavigationLink {
-                    CartView()
+                    CartView(isBought: $isBought)
                 } label: {
                     VStack {
                         Image(systemName: "bag")
@@ -97,22 +98,25 @@ struct MyPageView: View {
                 .padding(.horizontal)
         }
         
-        List {
-            Section(header:
-                        Text("지원")
-                .font(.headline)
-                .foregroundColor(.gray)
-            ) {
-                NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
-                NavigationLink("FAQ", destination: FAQView())
-                NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
-                NavigationLink("도움말", destination: HealthHelpView())
+        ZStack {
+            List {
+                Section(header:
+                            Text("지원")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+                ) {
+                    NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
+                    NavigationLink("FAQ", destination: FAQView())
+                    NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
+                    NavigationLink("도움말", destination: HealthHelpView())
+                }
             }
-            
-            
-            
+            .listStyle(.inset)
+            VStack {
+                Spacer()
+                SignUpToastView(isVisible: $isBought, message: "물품 구매가 완료되었습니다.")
+            }
         }
-        .listStyle(.inset)
         
     }
 }
@@ -120,21 +124,21 @@ struct MyPageView: View {
 struct UserInformationView: View {
     @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
     @Environment(\.dismiss) var dismiss
-
+    
     var body: some View {
         Text("사용자 정보")
         Button {
             showLogoutAlert = true
         } label: {
             Text("로그아웃")
-            .foregroundColor(.red)
+                .foregroundColor(.red)
         }
         .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
-                Button("로그아웃", role: .destructive) {
-                    AuthManager.shared.logout()
-                    dismiss()
-                }
-
+            Button("로그아웃", role: .destructive) {
+                AuthManager.shared.logout()
+                dismiss()
+            }
+            
             Button("취소", role: .cancel) { }
         }, message: {
             Text("로그아웃 하시겠습니까?")
