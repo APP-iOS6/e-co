@@ -28,8 +28,10 @@ struct LoginView: View {
     @FocusState private var isfocused: Bool // 여기는 키보드 내리는거 위해
     
     var body: some View {
-        VStack{
+        VStack(){
+            Spacer()
             AppNameView()
+                .frame(width: 125 ,alignment: .center)
             
             Spacer()
             Text("Login")
@@ -38,7 +40,7 @@ struct LoginView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
             //이메일영역
-            VStack {
+            VStack(){
                 Text("이메일")
                     .textFieldStyle(paddingTop: 10, paddingLeading: -165, isFocused: focusedField == .email)
                 HStack(spacing: -10){
@@ -70,7 +72,8 @@ struct LoginView: View {
                         .padding(.top, 5)
                 }
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.top, -10)
             
             VStack{
                 Button {
@@ -152,6 +155,7 @@ struct LoginView: View {
                 isfocused = false
             }
         }
+        
     }
     func Login(with type: LoginType) {
         Task {
