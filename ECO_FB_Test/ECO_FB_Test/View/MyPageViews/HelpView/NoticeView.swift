@@ -15,7 +15,11 @@ struct NoticeView: View {
         
         Group {
             if announcementStore.announcementList.isEmpty {
-                Text("공지사항이 없습니다.")
+                //                Text("공지사항이 없습니다.")
+                //                    .font(.subheadline)
+                //                    .foregroundColor(.gray)
+                ProgressView("공지사항을 불러오는 중입니다...")
+                    .progressViewStyle(CircularProgressViewStyle())
                     .font(.subheadline)
                     .foregroundColor(.gray)
             } else {

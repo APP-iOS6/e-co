@@ -32,7 +32,7 @@ struct GoodsDetailView: View {
                                     ProgressView()
                                 }
                             }
-
+                            
                         }
                         
                         LazyVStack(alignment: .leading) {
@@ -65,7 +65,7 @@ struct GoodsDetailView: View {
                                 .padding(.vertical, 5)
                                 .foregroundStyle(Color(uiColor: .darkGray))
                             ) {
-
+                                
                                 Text(goods.bodyContent)
                                     .multilineTextAlignment(.leading)
                                     .lineSpacing(7)
@@ -74,17 +74,18 @@ struct GoodsDetailView: View {
                         }
                         .frame(width: GeometryProxy.size.width)
                     }
-
-                .scrollIndicators(.hidden)
-                
-                HStack {
-                    Button {
-                        if var user = UserStore.shared.userData {
-                            Task {
-                                user.cart.insert(goods)
-                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                                    
-
+                    
+                    .scrollIndicators(.hidden)
+                    
+                    HStack {
+                        Button {
+                            if var user = UserStore.shared.userData {
+                                Task {
+                                    user.cart.insert(goods)
+                                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                                        
+                                        
+                                    }
                                 }
                             }
                         } label: {
