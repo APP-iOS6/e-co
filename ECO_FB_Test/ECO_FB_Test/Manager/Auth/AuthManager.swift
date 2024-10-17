@@ -20,6 +20,7 @@ final class AuthManager {
         KaKaoLoginManager.shared
     ]
     private var cancellable: AnyCancellable? = nil
+    private var currLoginType: LoginType = .none
     private(set) var signUpErrorMessage: String? = nil
     private(set) var emailExistErrorMessage: String? = nil
     private(set) var tryToLoginNow: Bool = false
@@ -43,6 +44,7 @@ final class AuthManager {
             emailExistErrorMessage = nil
             
             tryToLoginNow = false
+            currLoginType = type
         } catch {
             if (error as NSError).code == GIDSignInError.canceled.rawValue {
                 tryToLoginNow = false
@@ -67,9 +69,11 @@ final class AuthManager {
             print("Error: \(error.localizedDescription)")
         }
         
-        UserApi.shared.logout { error in
-            if let error {
-                print("\(error)")
+        if currLoginType == .kakao {
+            UserApi.shared.logout { error in
+                if let error {
+                    print("\(error)")
+                }
             }
         }
     }
@@ -83,6 +87,16 @@ final class AuthManager {
             
             let id = try getUserID()
             _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false)) { _ in
+           
+            }
+            let method = LoginMethod(rawValue: await DataManager.shared.getUserLoginMethod(parameter: .userSearch(id: id)))!
+            
+            currLoginType = if method == .kakao {
+                .kakao
+            } else if method == .google {
+                .google
+            } else {
+                .email
             }
             
             cancellable = Just(false)

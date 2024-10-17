@@ -37,6 +37,7 @@ class HealthKitManager {
             }
         }
     }
+//    private(set) var stepAuthorization: Bool = false
     
     /**
      건강앱 권한요청 함수
@@ -63,9 +64,10 @@ class HealthKitManager {
     func readCurrentStepCount() {
         guard let stepCountType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
             print("stepCount 타입을 가져올 수 없습니다.")
+//            stepAuthorization = false
             return
         }
-        
+//        stepAuthorization = true
         let now = Date()
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: now)
@@ -75,6 +77,7 @@ class HealthKitManager {
             guard let self = self, let result = result, let sum = result.sumQuantity() else {
                 if error != nil {
                     print("걸음수 가져오기 오류: \(error!.localizedDescription)")
+//                    self?.stepAuthorization = false
                 }
                 return
             }

@@ -13,12 +13,13 @@ import SwiftUI
  사이값 : 0 ~ 270
  */
 struct EcoStepsView: View {
-    // TODO: 전달받은 걸음수 데이터 띄우기, 목표 걸음수의 비율에 맞게 그래프 조정하기
     var stepCount: Int
+    @Binding var selectedTab: Int
     private var progress: CGFloat {
         return Double(stepCount) / 10000
     }
     @State private var animatedProgress: CGFloat = 0
+    @Environment(UserStore.self) private var userStore
     
     var body: some View {
         VStack{
@@ -66,6 +67,46 @@ struct EcoStepsView: View {
                     }
                 }
             }
+            
+            if userStore.userData != nil {
+                HStack() {
+                    Text("총 보유 포인트: ")
+                    Text("\(userStore.userData!.pointCount)")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.green)
+                    Text("점")
+                }
+                .padding(.top)
+                
+                Button {
+                    selectedTab = 1
+                } label: {
+                    HStack {
+                        Text("스토어로 이동하기")
+                        Image(systemName: "chevron.right")
+                    }
+                    .fontWeight(.semibold)
+                }
+                
+            } else {
+                if AuthManager.shared.tryToLoginNow {
+                    Text("로그인 중 입니다.")
+                        .font(.footnote)
+                } else {
+                    Text("비회원의 경우 포인트가 적립되지 않습니다.")
+                        .font(.footnote)
+                        .padding(.bottom)
+                    
+                    NavigationLink(destination: LoginView()) {
+                        HStack {
+                            Text("로그인 하기")
+                            Image(systemName: "chevron.right")
+                        }
+                        .fontWeight(.semibold)
+                    }
+                }
+            }
         }
         .onAppear {
             animatedProgress = 0
@@ -83,5 +124,5 @@ struct EcoStepsView: View {
 }
 
 #Preview {
-    EcoStepsView(stepCount: 5000)
+    EcoStepsView(stepCount: 5000, selectedTab: .constant(0))
 }

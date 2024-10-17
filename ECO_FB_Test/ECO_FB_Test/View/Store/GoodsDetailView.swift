@@ -57,8 +57,12 @@ struct GoodsDetailView: View {
                 
                 HStack {
                     Button {
-                        //장바구니 담기 로직 필요
-                        print("\(goods.name) 장바구니 담기 ")
+                        if var user = UserStore.shared.userData {
+                            Task {
+                                user.cart.insert(goods)
+                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                            }
+                        }
                     } label: {
                         Text("장바구니 담기")
                             .frame(maxWidth: .infinity)
@@ -74,14 +78,6 @@ struct GoodsDetailView: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                //                HStack {
-                //                    Button {
-                //                        dismiss()
-                //                        index = 0
-                //                    } label: {
-                //                        Image(systemName: "house")
-                //                    }
-                //
                 Button {
                     moveToCart = true
                 } label: {
@@ -90,7 +86,7 @@ struct GoodsDetailView: View {
                 .sheet(isPresented: $moveToCart) {
                     CartView()
                 }
-                //                }
+                .foregroundStyle(Color(uiColor: .darkGray))
             }
         }
         .padding()

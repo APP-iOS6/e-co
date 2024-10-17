@@ -33,15 +33,7 @@ struct StoreView: View {
     
     var body: some View {
         ScrollView {
-            HStack {
-                Image(systemName: "leaf.fill")
-                    .foregroundStyle(.accent)
-                    .font(.system(size: 20))
-                Text("이코")
-                    .font(.system(size: 20))
-                    .font(.title3)
-                    .fontWeight(.bold)
-            }
+            AppNameView()
             
             LazyVStack(alignment: .leading, pinnedViews: [.sectionHeaders]) {
                 Section(header:
@@ -77,7 +69,7 @@ struct StoreView: View {
                                 } label: {
                                     Image(systemName: "xmark.circle.fill")
                                 }
-                                .foregroundStyle(.black)
+                                .foregroundStyle(Color(uiColor: .darkGray))
                             }
                             .padding(10)
                             .background {
@@ -107,6 +99,8 @@ struct StoreView: View {
                                         goodsStore.categorySelectAction(GoodsCategory.none)
                                     } label: {
                                         Text("ALL")
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(Color(uiColor: .darkGray))
                                     }
                                     .buttonStyle(.bordered)
                                     
@@ -115,6 +109,8 @@ struct StoreView: View {
                                             goodsStore.categorySelectAction(category)
                                         } label: {
                                             Text(category.rawValue)
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(Color(uiColor: .darkGray))
                                         }
                                         .buttonStyle(.bordered)
                                     }
@@ -140,30 +136,8 @@ struct StoreView: View {
                 
             }
         }
+        .padding(.top)
         .scrollIndicators(.hidden)
-        //        .toolbar {
-        //            if selectedTab == 1 {
-        //                ToolbarItem(placement: .topBarTrailing) {
-        //                    Button {
-        //                        isMapVisible.toggle()
-        //                    } label: {
-        //                        Text("오프라인 매장찾기")
-        //                    }
-        //                    .sheet(isPresented: $isMapVisible) {
-        //                        StoreLocationView()
-        //                            .presentationDragIndicator(.visible)
-        //                    }
-        //                }
-        //
-        //                ToolbarItem(placement: .keyboard) {
-        //                    Button {
-        //                        focused = false
-        //                    } label: {
-        //                        Text("return")
-        //                    }
-        //                }
-        //            }
-        //        }
         .onAppear {
             if StoreView.isFirstPresent {
                 Task {
@@ -177,7 +151,6 @@ struct StoreView: View {
                 await getGoods()
             }
         }
-        .padding(.top)
     }
     
     private func getGoods() async {
@@ -225,11 +198,16 @@ struct recommendedItemsView: View {
                         NavigationLink {
                             GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
                         } label: {
-                            Image(goods.thumbnailImageName)
-                            Image(.ecoBags)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(minHeight: 100)
+                            LazyImage(url: imageURL) { state in
+                                if let image = state.image {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(maxHeight: 80)
+                                } else {
+                                    ProgressView()
+                                }
+                            }
                         }
                     }
                 }
@@ -349,13 +327,15 @@ struct allGoodsOfCategoryView: View {
                 }
                 .tabViewStyle(TabBarOnlyTabViewStyle())
                 
-                HStack {
+                HStack(spacing: 25) {
                     ForEach(1 ... numberOfPages, id: \.self) { index in
                         Button("\(index)") {
                             tabSelection = index - 1
                         }
-                        .font(.title3)
-                        .frame(width: 10)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .frame(width: 15)
+                        .padding(.bottom, 20)
                         .minimumScaleFactor(0.1)
                     }
                 }
@@ -438,6 +418,7 @@ struct GoodsPageView: View {
                     }
                 }
                 .listStyle(.plain)
+                .padding(.top)
             }
         }
     }
