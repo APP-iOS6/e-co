@@ -17,12 +17,14 @@ struct CheckBox: View {
             action()
         } label: {
             if isOn {
-                Image(systemName: "checkmark.rectangle.fill")
+                Image(systemName: "checkmark.square.fill")
                     .resizable()
+                    .aspectRatio(contentMode: .fit)
                     .foregroundStyle(.accent)
             } else {
-                Image(systemName: "rectangle")
+                Image(systemName: "square")
                     .resizable()
+                    .aspectRatio(contentMode: .fit)
             }
         }
         .frame(width: 25, height: 25)
