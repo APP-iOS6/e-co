@@ -196,7 +196,7 @@ struct recommendedItemsView: View {
                 ForEach(Array(goodsByCategories.keys), id: \.self) { category in
                     if let goods = goodsByCategories[category]?.last {
                         NavigationLink {
-                            GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
+                            GoodsDetailView(goods: goods, thumbnail: imageURL)
                         } label: {
                             LazyImage(url: imageURL) { state in
                                 if let image = state.image {
@@ -255,7 +255,7 @@ struct ItemListView: View {
             ForEach(0..<4) { index in
                 if allGoods.count > index {
                     NavigationLink {
-                        GoodsDetailView(index: $index, goods: allGoods[index], thumbnail: imageURL)
+                        GoodsDetailView(goods: allGoods[index], thumbnail: imageURL)
                     } label: {
                         VStack(alignment: .leading) {
                             LazyImage(url: imageURL) { state in
@@ -393,7 +393,7 @@ struct GoodsPageView: View {
             if let filteredGoods = goodsStore.filteredGoodsByCategories[category] {
                 List(filteredGoods[itemRange]) { goods in
                     NavigationLink {
-                        GoodsDetailView(index: $index, goods: goods, thumbnail: imageURL)
+                        GoodsDetailView(goods: goods, thumbnail: imageURL)
                     } label: {
                         HStack(spacing: 15) {
                             LazyImage(url: imageURL) { state in
