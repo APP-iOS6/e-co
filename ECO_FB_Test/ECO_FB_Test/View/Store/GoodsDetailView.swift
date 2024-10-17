@@ -31,23 +31,41 @@ struct GoodsDetailView: View {
                             }
                         }
                         
-                        VStack(alignment: .leading) {
-                            Text(goods.seller.name)
-                                .font(.headline)
+                        LazyVStack(alignment: .leading) {
+                            HStack(alignment: .bottom) {
+                                Text(goods.name)
+                                    .font(.title)
+                                Spacer()
+                                Text(goods.formattedPrice)
+                                    .font(.title2)
+                            }
+                            .padding(.top)
                             
                             Divider()
                             
-                            Text(goods.category.rawValue)
+                            Section(header:
+                                        Text("상세정보")
+                                .font(.system(size: 14))
+                                .padding(.vertical, 5)
+                                .foregroundStyle(Color(uiColor: .darkGray))
+                            ) {
+                                Text("분류: \(goods.category.rawValue)")
+                                Text("판매자: \(goods.seller.name)")
+                            }
                             
-                            Text(goods.name)
-                                .font(.title)
-                            Text(goods.formattedPrice)
                             Divider()
                             
-                            Text(goods.bodyContent)
-                                .multilineTextAlignment(.leading)
-                                .lineSpacing(7)
-                                .padding(.bottom, 30)
+                            Section(header:
+                                        Text("상품설명")
+                                .font(.system(size: 14))
+                                .padding(.vertical, 5)
+                                .foregroundStyle(Color(uiColor: .darkGray))
+                            ) {
+                                Text(goods.bodyContent)
+                                    .multilineTextAlignment(.leading)
+                                    .lineSpacing(7)
+                                    .padding(.bottom, 30)
+                            }
                         }
                     }
                     .frame(width: GeometryProxy.size.width)
