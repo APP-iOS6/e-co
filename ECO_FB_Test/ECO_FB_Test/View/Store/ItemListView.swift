@@ -11,7 +11,6 @@ import NukeUI
 
 struct ItemListView: View {
     @Binding var index: Int
-    var imageURL: URL
     var category: GoodsCategory
     var allGoods: [Goods]
     var gridItems: [GridItem] = [
@@ -26,7 +25,7 @@ struct ItemListView: View {
                     .font(.system(size: 20, weight: .semibold))
                 Spacer()
                 
-                NavigationLink(destination: AllGoodsOfCategoryView(index: $index, imageURL: imageURL, category: category, allGoods: allGoods).environment(GoodsStore.shared)) {
+                NavigationLink(destination: AllGoodsOfCategoryView(index: $index, category: category, allGoods: allGoods).environment(GoodsStore.shared)) {
                     HStack {
                         Text("더보기")
                         Image(systemName: "chevron.right")
@@ -45,10 +44,10 @@ struct ItemListView: View {
             ForEach(0..<4) { index in
                 if allGoods.count > index {
                     NavigationLink {
-                        GoodsDetailView(goods: allGoods[index], thumbnail: imageURL)
+                        GoodsDetailView(goods: allGoods[index], thumbnail: allGoods[index].thumbnailImageURL)
                     } label: {
                         VStack(alignment: .leading) {
-                            LazyImage(url: imageURL) { state in
+                            LazyImage(url: allGoods[index].thumbnailImageURL) { state in
                                 if let image = state.image {
                                     image
                                         .resizable()

@@ -8,6 +8,6 @@
 import Foundation
 
 enum StorageType: Int {
-    case goods
+    case goods = 0
     case user
 }

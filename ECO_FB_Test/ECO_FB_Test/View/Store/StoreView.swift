@@ -14,7 +14,6 @@ struct StoreView: View {
     @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @State private var dataFetchFlow: DataFetchFlow = .loading
     @State var searchText: String = ""
-    @State var imageURLs: [GoodsCategory: URL] = [:]
     
     var goodsByCategories: [GoodsCategory : [Goods]] {
         goodsStore.goodsByCategories
@@ -119,11 +118,11 @@ struct StoreView: View {
                             .scrollIndicators(.hidden)
                             .padding([.horizontal, .bottom])
                             
-                            RecommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories, imageURL: imageURLs[.passion] ?? URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
+                            RecommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories)
                             
                             ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
                                 
-                                ItemListView(index: $selectedTab, imageURL: imageURLs[category] ?? URL(string: "https://png.pngtree.com/png-vector/20190704/ourmid/pngtree-leaf-graphic-icon-design-template-vector-illustration-png-image_1538440.jpg")!, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                                ItemListView(index: $selectedTab, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
                                 
                             }
                         }
@@ -152,24 +151,37 @@ struct StoreView: View {
     }
     
     private func getGoods() async {
-        let refill = await StorageManager.shared.fetch(type: .goods, parameter: .goodsThumbnail(goodsID: "0A44DC63-AFCB-4E7B-96A3-8C2E0926564D"))
-        let food = await StorageManager.shared.fetch(type: .goods, parameter: .goodsThumbnail(goodsID: "07AE6761-E5D0-4546-847D-48098E47393E"))
-        let passion = await StorageManager.shared.fetch(type: .goods, parameter: .goodsThumbnail(goodsID: "0C0723FC-2839-47DA-BCA5-F3EC7F2CD471"))
-        
-        if case .single(let url) = refill {
-            imageURLs[.food] = url
-        }
-        
-        if case .single(let url) = food {
-            imageURLs[.refill] = url
-        }
-        
-        if case .single(let url) = passion {
-            imageURLs[.passion] = url
-        }
-        
-        _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [.food, .refill, .passion], limit: 4)) { flow in
+        _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: GoodsCategory.allCases, limit: 4)) { flow in
             dataFetchFlow = flow
+        }
+    }
+    
+    private func setDummy() {
+        let dummyImages: [UIImage] = [
+            UIImage(resource: .GoodsDummyImages.avocado),
+            UIImage(resource: .GoodsDummyImages.bostonBag),
+            UIImage(resource: .GoodsDummyImages.organicBrownRiceCake),
+            UIImage(resource: .GoodsDummyImages.sconeLaptopPouch),
+            UIImage(resource: .GoodsDummyImages.workingBag)
+        ]
+        for (i, category) in GoodsCategory.allCases.enumerated() {
+            if category == .none { continue }
+            
+            for j in 0 ..< 20 {
+                Task {
+                    let id = UUID().uuidString
+                    let price = Int.random(in: 10 ... 99999)
+                    let uploadResult = try await StorageManager.shared.upload(type: .goods, parameter: .uploadGoodsThumbnail(goodsID: id, image: dummyImages[i - 1]))
+                    
+                    if case let .single(url) = uploadResult {
+                        let goods = Goods(id: UUID().uuidString, name: "\(category): \(j)", category: category, thumbnailImageURL: url, bodyContent: "Hi", bodyImageNames: [], price: price, seller: Seller(id: "Q6awSoN6OCHcbUDeMxyd", name: "ImSeller", profileImageName: "test.png"))
+                        
+                        await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: id, goods: goods)) { _ in
+                            
+                        }
+                    }
+                }
+            }
         }
     }
 }

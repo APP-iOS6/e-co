@@ -35,7 +35,7 @@ final class AuthManager {
     /**
      회원가입 메소드
      
-     - parameters
+     - parameters:
         - email: 회원가입 시 사용 할 이메일
         - password: 회원가입 시 사용 할 비밀번호
         - name: 회원가입 시 사용 할 유저의 이름
@@ -52,7 +52,7 @@ final class AuthManager {
     /**
      로그인 메소드
      
-     - parameters
+     - parameters:
         - type: 로그인 제공자, 예) 구글 로그인이라면 .google
         - parameter: 로그인 시 필요한 인자, 이메일 로그인의 경우 필요합니다
     */
