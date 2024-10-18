@@ -31,6 +31,7 @@ struct GoodsPageView: View {
                                         .frame(height: 80)
                                 } else if state.isLoading {
                                     ProgressView()
+                                        .frame(height: 80)
                                 }
                             }
                             

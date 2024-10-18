@@ -46,21 +46,23 @@ struct ItemListView: View {
                     NavigationLink {
                         GoodsDetailView(goods: allGoods[index], thumbnail: allGoods[index].thumbnailImageURL)
                     } label: {
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .center) {
                             LazyImage(url: allGoods[index].thumbnailImageURL) { state in
                                 if let image = state.image {
                                     image
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(minHeight: 80)
-                                } else if state.isLoading {
+                                } else {
                                     ProgressView()
+                                        .frame(minHeight: 80)
                                 }
                                 
                                 if let error = state.error {
                                     Text("Lazy Image Error: \(error)")
                                 }
                             }
+                            .priority(.high)
                             
                             HStack {
                                 Text(allGoods[index].name)
