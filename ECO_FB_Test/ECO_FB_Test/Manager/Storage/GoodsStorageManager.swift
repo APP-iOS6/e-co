@@ -21,6 +21,7 @@ final class GoodsStorageManager: StorageControllable {
                 guard let imageData = image.jpegData(compressionQuality: 0.8) else {
                     throw DataError.fetchError(reason: "Can't convert image to jpeg data")
                 }
+                
                 let imageName = id + "_thumbnail" + ".jpg"
                 let metaData = StorageMetadata()
                 

@@ -9,8 +9,6 @@ import Foundation
 import SwiftUI
 
 enum StorageParam {
-    case loadGoodsThumbnail(goodsID: String)
-    case loadGoodsContent(goodsID: String)
     case uploadGoodsThumbnail(goodsID: String, image: UIImage)
     case uploadGoodsContent(goodsID: String, image: UIImage)
 }

@@ -208,7 +208,7 @@ final class GoodsStore: DataControllable {
     private func getData(id: String, docData: [String: Any]) async throws -> Goods {
         let name = docData["name"] as? String ?? "none"
         let category = try stringToCategoryEnum(docData["category"] as? String ?? "none")
-        let thumbnailImageURL = docData["thumbnail"] as? String ?? "none"
+        let thumbnailImageURLName = docData["thumbnail"] as? String ?? "none"
         let bodyContent = docData["body_content"] as? String ?? "none"
         let bodyImageNames = docData["body_images"] as? [String] ?? []
         let price = docData["price"] as? Int ?? 0
@@ -222,7 +222,7 @@ final class GoodsStore: DataControllable {
             throw DataError.convertError(reason: "DataResult is not a seller")
         }
         
-        guard let url = URL(string: thumbnailImageURL) else {
+        guard let url = URL(string: thumbnailImageURLName) else {
             throw DataError.convertError(reason: "Invalid URL")
         }
         

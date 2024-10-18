@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NukeUI
 
 struct CartGoodsInfoView: View {
     @Binding var totalSelected: Bool
@@ -13,7 +14,6 @@ struct CartGoodsInfoView: View {
     var selectEvent: (Bool, Goods) -> Void
     @State private var isOn: Bool = false
     @State private var isSelected: Bool = false
-    @State private var thumbnailURL: URL? = nil
     
     var body: some View {
         VStack {
@@ -22,12 +22,15 @@ struct CartGoodsInfoView: View {
                     selectEvent(isOn, goods)
                 }
                 
-                Image(systemName: "clipboard.fill")
-                    .frame(width: 80, height: 80)
-                    .background {
-                        Rectangle()
-                            .foregroundStyle(.gray)
+                LazyImage(url: goods.thumbnailImageURL) { state in
+                    if let image = state.image {
+                        image
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                    } else {
+                        ProgressView()
                     }
+                }
                 
                 VStack(alignment: .leading) {
                     Text("\(goods.seller.name)")
@@ -53,7 +56,7 @@ struct CartGoodsInfoView: View {
             isSelected = true
         }
         .navigationDestination(isPresented: $isSelected) {
-            GoodsDetailView(goods: goods, thumbnail: thumbnailURL ?? URL(string: "https://png.pngtree.com/png-vector/20230407/ourlarge/pngtree-leaves-leaves-green-leaves-transparent-png-image_6693859.png")!)
+            GoodsDetailView(goods: goods, thumbnail: goods.thumbnailImageURL)
         }
     }
 }

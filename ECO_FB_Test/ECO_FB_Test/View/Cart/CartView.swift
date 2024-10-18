@@ -9,12 +9,12 @@ import SwiftUI
 
 struct CartView: View {
     @Environment(\.dismiss) var dismiss
+    @Binding var isBought: Bool
     @Environment(UserStore.self) private var userStore: UserStore
     @State private var selectedGoods: [Goods] = []
     @State private var dataUpdateFlow: DataUpdateFlow = .didUpdate
     @State private var totalPrice: Int = 0
     @State private var isSelectedAll: Bool = false
-    @Binding var isBought: Bool
     
     var body: some View {
         VStack {
