@@ -72,7 +72,7 @@ struct UserTestView: View {
                     Group {
                         Text("id: \(user.id)")
                         Text("login method: \(user.loginMethod)")
-                        Text("is admin: \(user.isAdmin)")
+                        Text("is admin: \(user.isSeller)")
                         Text("name: \(user.name)")
                         Text("profile image name: \(user.profileImageName)")
                         Text("point count: \(user.pointCount)")

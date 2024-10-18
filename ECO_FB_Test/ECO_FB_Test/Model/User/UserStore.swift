@@ -83,14 +83,20 @@ final class UserStore: DataControllable {
             goodsIds.append(goods.id)
         }
         
+        var recentWatchedIDs: [String] = []
+        for goods in user.goodsRecentWatched {
+            recentWatchedIDs.append(goods.id)
+        }
+        
         do {
             try await db.collection("User").document(id).setData([
                 "login_method": user.loginMethod,
-                "is_admin": user.isAdmin,
+                "is_seller": user.isSeller,
                 "name": user.name,
                 "profile_image": user.profileImageName,
                 "point": user.pointCount,
-                "cart": goodsIds
+                "cart": goodsIds,
+                "goods_recent_watched": recentWatchedIDs
             ])
         } catch {
             throw error
@@ -151,7 +157,7 @@ final class UserStore: DataControllable {
         
         let id = document.documentID
         let loginMethod = docData["login_method"] as? String ?? "none"
-        let isAdmin = docData["is_admin"] as? Bool ?? false
+        let isSeller = docData["is_seller"] as? Bool ?? false
         let name = docData["name"] as? String ?? "none"
         let profileImageName = docData["profile_image"] as? String ?? "none"
         let pointCount = docData["point"] as? Int ?? 0
@@ -180,7 +186,7 @@ final class UserStore: DataControllable {
             }
         }
         
-        let user = User(id: id, loginMethod: loginMethod, isAdmin: isAdmin, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched)
+        let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched)
         return user
     }
 }

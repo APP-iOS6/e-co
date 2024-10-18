@@ -38,7 +38,7 @@ final class KaKaoLoginManager: LoginControllable {
                 let userExist = await DataManager.shared.checkIfUserExists(parameter: .userSearch(id: id))
                 
                 if !userExist {
-                    let user: User = User(id: id, loginMethod: LoginMethod.kakao.rawValue, isAdmin: false, name: "KaKao User", profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
+                    let user: User = User(id: id, loginMethod: LoginMethod.kakao.rawValue, isSeller: false, name: "KaKao User", profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
                     
                     await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: id, user: user)) { _ in
                         

@@ -10,7 +10,7 @@ import Foundation
 struct User: Identifiable {
     let id: String
     let loginMethod: String
-    let isAdmin: Bool
+    let isSeller: Bool
     let name: String
     let profileImageName: String
     var pointCount: Int

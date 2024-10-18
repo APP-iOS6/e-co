@@ -43,7 +43,7 @@ final class EmailLoginManager: LoginControllable {
         do {
             _ = try await Auth.auth().createUser(withEmail: email, password: password)
        
-            let user = User(id: email, loginMethod: LoginMethod.email.rawValue, isAdmin: false, name: name, profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
+            let user = User(id: email, loginMethod: LoginMethod.email.rawValue, isSeller: false, name: name, profileImageName: "Test.png", pointCount: 0, cart: [], goodsRecentWatched: [])
             await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: email, user: user)) { _ in
                 
             }
