@@ -9,7 +9,6 @@ import Foundation
 
 enum DataType: Int {
     case user = 0
-    case seller
     case goods
     case paymentInfo
     case announcement

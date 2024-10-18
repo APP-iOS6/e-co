@@ -15,7 +15,6 @@ final class DataManager {
     private let _db: Firestore = Firestore.firestore()
     @ObservationIgnored private lazy var dataStores: [DataControllable] = [
         UserStore.shared,
-        SellerStore.shared,
         GoodsStore.shared,
         PaymentInfoStore.shared,
         AnnouncementStore.shared,

@@ -15,13 +15,11 @@ enum DataParam {
     
     // Load(fetch) 작업이 필요하거나 id만 필요한 상황에 사용
     case userLoad(id: String, shouldReturnUser: Bool)
-    case sellerLoad(id: String)
     case goodsLoad(id: String)
     case paymentInfoLoad(id: String)
     
     // Update(기존 데이터 갱신), Add(새로운 데이터 추가) 작업이 필요할 때 사용
     case userUpdate(id: String, user: User)
-    case sellerUpdate(id: String, seller: Seller)
     case goodsUpdate(id: String, goods: Goods)
     case paymentInfoUpdate(id: String, orderInfo: PaymentInfo)
     case announcementUpdate(id: String, announcement: Announcement)

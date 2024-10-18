@@ -214,11 +214,11 @@ final class GoodsStore: DataControllable {
         let price = docData["price"] as? Int ?? 0
         
         let sellerID = docData["seller_id"] as? String ?? "none"
-        let seller = await DataManager.shared.fetchData(type: .seller, parameter: .sellerLoad(id: sellerID)) { _ in
+        let seller = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: sellerID, shouldReturnUser: true)) { _ in
             
         }
         
-        guard case let .seller(result) = seller else {
+        guard case let .user(result) = seller else {
             throw DataError.convertError(reason: "DataResult is not a seller")
         }
         
