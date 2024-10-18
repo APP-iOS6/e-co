@@ -163,26 +163,30 @@ final class UserStore: DataControllable {
         let pointCount = docData["point"] as? Int ?? 0
         
         var cart: Set<Goods> = []
-        let cartGoodsIDs = docData["cart"] as? [String] ?? []
-        for goodsId in cartGoodsIDs {
-            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
-                
-            }
-            
-            if case let .goods(result) = goodsResult {
-                cart.insert(result)
-            }
-        }
-        
         var goodsRecentWatched: Set<Goods> = []
-        let recentGoodsIDs = docData["goods_recent_watched"] as? [String] ?? []
-        for goodsId in recentGoodsIDs {
-            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
+        
+        if !isSeller {
+            let cartGoodsIDs = docData["cart"] as? [String] ?? []
+            for goodsId in cartGoodsIDs {
+                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
+                    
+                }
                 
+                if case let .goods(result) = goodsResult {
+                    cart.insert(result)
+                }
             }
             
-            if case let .goods(result) = goodsResult {
-                goodsRecentWatched.insert(result)
+            
+            let recentGoodsIDs = docData["goods_recent_watched"] as? [String] ?? []
+            for goodsId in recentGoodsIDs {
+                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
+                    
+                }
+                
+                if case let .goods(result) = goodsResult {
+                    goodsRecentWatched.insert(result)
+                }
             }
         }
         
