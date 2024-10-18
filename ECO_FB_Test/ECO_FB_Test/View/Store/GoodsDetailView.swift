@@ -36,27 +36,61 @@ struct GoodsDetailView: View {
                         }
                         
                         LazyVStack(alignment: .leading) {
-                            HStack(alignment: .bottom) {
-                                Text(goods.name)
-                                    .font(.title)
-                                Spacer()
-                                Text(goods.formattedPrice)
-                                    .font(.title2)
+                            HStack(alignment: .center) {
+                                // 앱 로고 자리
+                                Image(systemName: "text.aligncenter")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                    .clipShape(Circle())
+                                Text("\(goods.seller.name)")
+                                    .fontWeight(.semibold)
                             }
-                            .padding(.top)
                             
                             Divider()
                             
-                            Section(header:
-                                        Text("상세정보")
-                                .font(.system(size: 14))
-                                .padding(.vertical, 5)
-                                .foregroundStyle(Color(uiColor: .darkGray))
-                            ) {
-                                Text("분류: \(goods.category.rawValue)")
-                                Text("판매자: \(goods.seller.name)")
+                            HStack {
+                                Text("카테고리")
+                                Image(systemName: "chevron.right")
+                                Text("\(goods.category.rawValue)")
+                                Spacer()
                             }
+                            .font(.system(size: 14))
+                            .padding(.vertical, 5)
+                            .foregroundStyle(Color(uiColor: .darkGray))
                             
+                            HStack(alignment: .center) {
+                                Text(goods.name)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                
+                                Spacer()
+                                
+                                Button {
+                                    
+                                } label: {
+                                    Image(systemName: "heart")
+                                }
+                                .foregroundStyle(Color(uiColor: .darkGray))
+                                .font(.title2)
+                            }
+                            .padding(.bottom, 5)
+                            
+                            HStack {
+                                Text(goods.formattedPrice)
+                                    .font(.title2)
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Button {
+                                    
+                                } label: {
+                                    Text("리뷰보기")
+                                        .underline()
+                                }
+                                .foregroundStyle(Color(uiColor: .darkGray))
+                            }
                             Divider()
                             
                             Section(header:
@@ -124,7 +158,6 @@ struct GoodsDetailView: View {
 }
 
 #Preview {
-    
     let sampleGoods = Goods(
         id: "1",
         name: "멋진 에코백",

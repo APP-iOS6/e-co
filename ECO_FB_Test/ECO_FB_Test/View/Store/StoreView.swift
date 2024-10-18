@@ -76,9 +76,11 @@ struct StoreView: View {
                             .padding(.horizontal)
                         }
                     }
-                    .padding(.bottom)
+                    
                 }
+                    .padding(.bottom, 10)
                     .background(Rectangle().foregroundColor(.white))
+                    
                 ) {
                     if dataFetchFlow == .loading {
                         HStack {
@@ -114,7 +116,7 @@ struct StoreView: View {
                                 }
                             }
                             .scrollIndicators(.hidden)
-                            .padding([.bottom, .horizontal])
+                            .padding([.horizontal, .bottom])
                             
                             RecommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories)
                             
