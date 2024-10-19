@@ -10,16 +10,26 @@ import CryptoSwift
 
 final class EncryptManager {
     static let shared: EncryptManager = EncryptManager()
+    private var aes: AES? = nil
     private let key: String = "2b8v524k81fn9ahtg9x0q136dw377yzr"
     private let iv: String = "grq53nxxns5u8kdr"
     
-    private init() {}
+    private init() {
+        do {
+            aes = try getAESObject()
+        } catch {
+            print("Error detected while initializing AES! \(error)")
+        }
+    }
     
     func encrypt(_ data: String) throws -> String {
         guard !data.isEmpty else { return "" }
+        guard let aes else {
+            throw EncryptError.initializeError(result: "AES Object not initialized")
+        }
         
         do {
-            let result = try getAESObject().encrypt(data.bytes).toBase64()
+            let result = try aes.encrypt(data.bytes).toBase64()
             return result
         } catch {
             print("Error detected while encrypting! \(error)")
@@ -31,9 +41,12 @@ final class EncryptManager {
         let data = Data(base64Encoded: encodedData)
         
         guard let data else { return "" }
+        guard let aes else {
+            throw EncryptError.initializeError(result: "AES Object not initialized")
+        }
         
         do {
-            let decoded = try getAESObject().decrypt(data.bytes)
+            let decoded = try aes.decrypt(data.bytes)
             let result = String(bytes: decoded, encoding: .utf8) ?? ""
             
             return result
