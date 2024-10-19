@@ -98,8 +98,8 @@ struct StoreView: View {
                                         goodsStore.categorySelectAction(GoodsCategory.none)
                                     } label: {
                                         Text("ALL")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(Color(uiColor: .darkGray))
+                                            .fontWeight(selectedCategory == GoodsCategory.none ? .semibold : .regular)
+                                            .foregroundStyle(selectedCategory == GoodsCategory.none ? Color.black : Color(uiColor: .darkGray))
                                     }
                                     .buttonStyle(.bordered)
                                     
@@ -108,8 +108,8 @@ struct StoreView: View {
                                             goodsStore.categorySelectAction(category)
                                         } label: {
                                             Text(category.rawValue)
-                                                .fontWeight(.semibold)
-                                                .foregroundStyle(Color(uiColor: .darkGray))
+                                                .fontWeight(selectedCategory == category ? .semibold : .regular)
+                                                .foregroundStyle(selectedCategory == category ? Color.black : Color(uiColor: .darkGray))
                                         }
                                         .buttonStyle(.bordered)
                                     }
