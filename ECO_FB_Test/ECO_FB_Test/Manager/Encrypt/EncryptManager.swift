@@ -22,6 +22,12 @@ final class EncryptManager {
         }
     }
     
+    /**
+     암호화 하는 메소드
+     
+     - parameters:
+        - data: 암호화를 할 문자열
+     */
     func encrypt(_ data: String) throws -> String {
         guard !data.isEmpty else { return "" }
         guard let aes else {
@@ -37,6 +43,12 @@ final class EncryptManager {
         }
     }
     
+    /**
+     복호화 하는 메소드
+     
+     - parameters:
+        - encodedData: 복호화를 할 암호화된 문자열
+     */
     func decode(_ encodedData: String) throws -> String {
         let data = Data(base64Encoded: encodedData)
         
