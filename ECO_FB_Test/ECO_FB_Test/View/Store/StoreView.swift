@@ -173,8 +173,8 @@ struct StoreView: View {
                     let price = Int.random(in: 10 ... 99999)
                     let uploadResult = try await StorageManager.shared.upload(type: .goods, parameter: .uploadGoodsThumbnail(goodsID: id, image: dummyImages[i - 1]))
                     
-                    if case let .single(url) = uploadResult {
-                        let goods = Goods(id: UUID().uuidString, name: "\(category): \(j)", category: category, thumbnailImageURL: url, bodyContent: "Hi", bodyImageNames: [], price: price, seller: Seller(id: "Q6awSoN6OCHcbUDeMxyd", name: "ImSeller", profileImageName: "test.png"))
+                    if case let .single(url) = uploadResult, let user = UserStore.shared.userData {
+                        let goods = Goods(id: UUID().uuidString, name: "\(category): \(j)", category: category, thumbnailImageURL: url, bodyContent: "Hi", bodyImageNames: [], price: price, seller: user)
                         
                         await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: id, goods: goods)) { _ in
                             

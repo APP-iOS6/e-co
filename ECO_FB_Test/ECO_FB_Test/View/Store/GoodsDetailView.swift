@@ -169,7 +169,7 @@ struct GoodsDetailView: View {
 """,
         bodyImageNames: [],
         price: 15000,
-        seller: Seller(id: "seller1", name: "(주) 멋사 ", profileImageName: "dd")
+        seller: UserStore.shared.userData ?? User(id: UUID().uuidString, loginMethod: LoginMethod.google.rawValue, isSeller: true, name: "Lucy", profileImageName: "Hi.png", pointCount: 0, cart: [], goodsRecentWatched: [])
     )
     
     
