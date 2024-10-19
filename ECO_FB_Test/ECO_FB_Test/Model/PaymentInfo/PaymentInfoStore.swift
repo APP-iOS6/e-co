@@ -51,7 +51,7 @@ final class PaymentInfoStore: DataControllable {
             
             let id = snapshot.documentID
             
-            let paymentInfo = getData(id: id, docData: docData)
+            let paymentInfo = try await getData(id: id, docData: docData)
             return DataResult.paymentInfo(result: paymentInfo)
         } catch {
             throw error
@@ -68,10 +68,9 @@ final class PaymentInfoStore: DataControllable {
             
             for document in snapshots.documents {
                 let docData = document.data()
-                
                 let id = document.documentID
                 
-                let paymentInfo = getData(id: id, docData: docData)
+                let paymentInfo = try await getData(id: id, docData: docData)
                 paymentList.append(paymentInfo)
             }
             
@@ -81,12 +80,46 @@ final class PaymentInfoStore: DataControllable {
         }
     }
     
-    private func getData(id: String, docData: [String: Any]) -> PaymentInfo {
+    private func getData(id: String, docData: [String: Any]) async throws -> PaymentInfo {
         let userID = docData["user_id"] as? String ?? "none"
-        let address = docData["address"] as? String ?? "none"
-        let payment = docData["payment_method"] as? [String] ?? []
+        let recipientName = docData["recipient_name"] as? String ?? "none"
+        let phoneNumber = docData["phone_number"] as? String ?? "none"
         
-        let paymentInfo = PaymentInfo(id: id, userID: userID, address: address, paymentMethod: payment)
+        let paymentMethodString = docData["payment_method_name"] as? String ?? "none"
+        let paymentMethodName = stringToPaymentMethod(paymentMethodString)
+        var paymentMethod: CardInfo? = nil
+        
+        if paymentMethodName == .card {
+            let paymentMethodID = docData["payment_method_id"] as? String ?? "none"
+            let cardInfoResult = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: paymentMethodID)) { _ in
+                
+            }
+            
+            guard case .cardInfo(let result) = cardInfoResult else {
+                throw DataError.fetchError(reason: "Can't get card info")
+            }
+            
+            paymentMethod = result
+        }
+        
+        let address = docData["address"] as? String ?? "none"
+        
+        let paymentInfo = PaymentInfo(id: id, userID: userID, recipientName: recipientName, phoneNumber: phoneNumber, paymentMethodName: paymentMethodName, paymentMethod: paymentMethod, address: address)
         return paymentInfo
+    }
+    
+    private func stringToPaymentMethod(_ method: String) -> PaymentMethod {
+        var paymentMethod: PaymentMethod = .none
+        
+        switch method {
+        case PaymentMethod.card.rawValue:
+            paymentMethod = .card
+        case PaymentMethod.bank.rawValue:
+            paymentMethod = .bank
+        default:
+            paymentMethod = .point
+        }
+        
+        return paymentMethod
     }
 }

@@ -75,7 +75,7 @@ final class UserStore: DataControllable {
     
     func updateData(parameter: DataParam) async throws {
         guard case let .userUpdate(id, user) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a user update")
+            throw DataError.updateError(reason: "The DataParam is not a user update")
         }
         
         var goodsIds: [String] = []

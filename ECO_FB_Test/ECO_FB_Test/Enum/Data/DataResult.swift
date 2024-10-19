@@ -12,5 +12,6 @@ enum DataResult {
     case user(result: User)
     case goods(result: Goods)
     case paymentInfo(result: PaymentInfo)
+    case cardInfo(result: CardInfo)
     case error(reason: String)
 }

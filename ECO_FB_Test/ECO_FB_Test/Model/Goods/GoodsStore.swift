@@ -103,7 +103,7 @@ final class GoodsStore: DataControllable {
     
     func updateData(parameter: DataParam) async throws {
         guard case let .goodsUpdate(id, goods) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a goods update")
+            throw DataError.updateError(reason: "The DataParam is not a goods update")
         }
         
         do {
