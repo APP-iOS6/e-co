@@ -9,5 +9,6 @@ import Foundation
 
 enum DataError: Error {
     case fetchError(reason: String)
+    case updateError(reason: String)
     case convertError(reason: String)
 }

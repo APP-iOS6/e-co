@@ -38,14 +38,16 @@ final class EncryptManager {
             
             return result
         } catch {
-            print("Error detected while encrypting! \(error)")
+            print("Error detected while decoding! \(error)")
             throw error
         }
     }
     
     private func getAESObject() throws -> AES {
         do {
-            let aes = try AES(key: key, iv: iv, padding: .pkcs7)
+            let keyArray: Array<UInt8> = Array(key.utf8)
+            let ivArray: Array<UInt8> = Array(iv.utf8)
+            let aes = try AES(key: keyArray, blockMode: CBC(iv: ivArray), padding: .pkcs7)
             return aes
         } catch {
             print("Can't get aes object")

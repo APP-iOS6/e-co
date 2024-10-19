@@ -41,7 +41,7 @@ final class AnnouncementStore: DataControllable {
     
     func updateData(parameter: DataParam) async throws {
         guard case let .announcementUpdate(id, announcement) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a announcement update")
+            throw DataError.updateError(reason: "The DataParam is not a announcement update")
         }
         
         do {

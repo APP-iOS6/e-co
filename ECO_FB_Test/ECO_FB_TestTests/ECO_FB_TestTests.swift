@@ -10,22 +10,36 @@ import XCTest
 
 final class ECO_FB_TestTests: XCTestCase {
     
-    func testPaymentInfoFetch() async throws {
-        let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
+//    func testPaymentInfoFetch() async throws {
+//        let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
+//            
+//        }
+//        
+//        guard case DataResult.paymentInfo(let paymentInfo) = result else {
+//            throw DataError.fetchError(reason: "Can't get paymentInfo")
+//        }
+//        
+//        let expect = PaymentInfo(id: "Ki12J9HmdyzwcO2TsMlS", userID: "idntno0505@gmail.com", recipientName: "홍재민", phoneNumber: "010-1234-5060", paymentMethod: .card, paymentMethodID: "0woTQSLvsGuqbKNZvtkc", address: "home")
+//        
+//        XCTAssertEqual(paymentInfo, expect)
+//    }
+    
+    func testCardInfoFetch() async throws {
+        let result = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: "0woTQSLvsGuqbKNZvtkc")) { _ in
             
         }
         
-        guard case DataResult.paymentInfo(let paymentInfo) = result else {
-            throw DataError.fetchError(reason: "Can't get paymentInfo")
+        guard case DataResult.cardInfo(let cardInfo) = result else {
+            throw DataError.fetchError(reason: "Can't get cardInfo")
         }
         
-        let expect = PaymentInfo(id: "Ki12J9HmdyzwcO2TsMlS", userID: "idntno0505@gmail.com", recipientName: "홍재민", phoneNumber: "010-1234-5060", paymentMethod: .card, paymentMethodID: "0woTQSLvsGuqbKNZvtkc", address: "home")
+        let expect = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
         
-        XCTAssertEqual(paymentInfo, expect)
+        XCTAssertEqual(cardInfo, expect)
     }
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
     }
 
     override func tearDownWithError() throws {
