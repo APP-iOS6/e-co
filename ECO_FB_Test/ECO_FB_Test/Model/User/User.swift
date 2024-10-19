@@ -12,7 +12,7 @@ struct User: Identifiable, Hashable {
     let loginMethod: String
     let isSeller: Bool
     let name: String
-    let profileImageName: String
+    let profileImageURL: URL
     var pointCount: Int
     var cart: Set<Goods>
     var goodsRecentWatched: Set<Goods>

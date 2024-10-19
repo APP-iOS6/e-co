@@ -93,7 +93,7 @@ final class UserStore: DataControllable {
                 "login_method": user.loginMethod,
                 "is_seller": user.isSeller,
                 "name": user.name,
-                "profile_image": user.profileImageName,
+                "profile_image": user.profileImageURL.absoluteString,
                 "point": user.pointCount,
                 "cart": goodsIds,
                 "goods_recent_watched": recentWatchedIDs
@@ -159,7 +159,12 @@ final class UserStore: DataControllable {
         let loginMethod = docData["login_method"] as? String ?? "none"
         let isSeller = docData["is_seller"] as? Bool ?? false
         let name = docData["name"] as? String ?? "none"
-        let profileImageName = docData["profile_image"] as? String ?? "none"
+        
+        let profileImageURLString = docData["profile_image"] as? String ?? "none"
+        guard let url = URL(string: profileImageURLString) else {
+            throw DataError.convertError(reason: "The profile image URL is invalid")
+        }
+        
         let pointCount = docData["point"] as? Int ?? 0
         
         var cart: Set<Goods> = []
@@ -190,7 +195,7 @@ final class UserStore: DataControllable {
             }
         }
         
-        let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched)
+        let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageURL: url, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched)
         return user
     }
 }
