@@ -104,7 +104,7 @@ final class PaymentInfoStore: DataControllable {
         
         let address = docData["address"] as? String ?? "none"
         
-        let paymentInfo = PaymentInfo(id: id, userID: userID, recipientName: recipientName, phoneNumber: phoneNumber, paymentMethodName: paymentMethodName, paymentMethod: paymentMethod, address: address)
+        let paymentInfo = PaymentInfo(id: id, userID: userID, recipientName: recipientName, phoneNumber: phoneNumber, paymentMethod: paymentMethodName, paymentMethodInfo: paymentMethod, address: address)
         return paymentInfo
     }
     
