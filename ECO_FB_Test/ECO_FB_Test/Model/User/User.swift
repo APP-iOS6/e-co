@@ -14,15 +14,13 @@ struct User: Identifiable, Hashable {
     let name: String
     let profileImageURL: URL
     var pointCount: Int
-    var cart: Set<Goods>
+    var cart: Set<CartElement>
     var goodsRecentWatched: Set<Goods>
     var goodsFavorited: Set<Goods>
     
-    var arrayCart: [Goods] {
+    var arrayCart: [CartElement] {
         let sortOrder: [KeyPathComparator] = [
-            KeyPathComparator(\Goods.name),
-            KeyPathComparator(\Goods.price),
-            KeyPathComparator(\Goods.id)
+            KeyPathComparator(\CartElement.goods.name)
         ]
         
         return cart.map(\.self).sorted(using: sortOrder)
@@ -46,5 +44,19 @@ struct User: Identifiable, Hashable {
         ]
         
         return goodsFavorited.map(\.self).sorted(using: sortOrder)
+    }
+    
+    /**
+     장바구니에 이미 있는 물건의 개수를 변경하는 메소드
+     
+     - parameters:
+        - cartElement: 변경할 물건
+        - count: 추가할 개수
+     */
+    mutating func updateCartGoodsCount(_ cartElement: CartElement, count: Int) {
+        if var removeResult = cart.remove(cartElement) {
+            removeResult.goodsCount += count
+            cart.insert(removeResult)
+        }
     }
 }

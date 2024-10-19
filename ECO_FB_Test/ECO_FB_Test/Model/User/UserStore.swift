@@ -78,7 +78,15 @@ final class UserStore: DataControllable {
             throw DataError.updateError(reason: "The DataParam is not a user update")
         }
         
-        let goodsCartIDs: [String] = getGoodsIDArray(goodsSet: user.cart)
+        var goodsCartIDs: [String] = []
+        for element in user.cart {
+            let goodsID = element.goods.id
+            let goodsCount = element.goodsCount
+            let cartInfo: String = goodsID + "_" + String(goodsCount)
+            
+            goodsCartIDs.append(cartInfo)
+        }
+        
         let recentWatchedIDs: [String] = getGoodsIDArray(goodsSet: user.goodsRecentWatched)
         let goodsFavoritedIDs: [String] = getGoodsIDArray(goodsSet: user.goodsFavorited)
         
@@ -162,21 +170,39 @@ final class UserStore: DataControllable {
         
         let pointCount = docData["point"] as? Int ?? 0
         
-        var cart: Set<Goods> = []
+        var cart: Set<CartElement> = []
         var goodsRecentWatched: Set<Goods> = []
         var goodsFavorited: Set<Goods> = []
         
         if !isSeller {
-            cart = await getGoodsSet(field: "cart", docData: docData)
-            goodsRecentWatched = await getGoodsSet(field: "goods_recent_watched", docData: docData)
-            goodsFavorited = await getGoodsSet(field: "goods_favorited", docData: docData)
+            let cartData = docData["cart"] as? [String] ?? []
+            for data in cartData {
+                let splitResult = data.components(separatedBy: "_")
+                let goodsID = splitResult[0]
+                let goodsCount = splitResult[1]
+                
+                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID)) { _ in
+                    
+                }
+                
+                guard case let .goods(result) = goodsResult else {
+                    throw DataError.fetchError(reason: "Can't get goods data")
+                }
+
+                
+                let cartElement = CartElement(id: UUID().uuidString, goods: result, goodsCount: Int(goodsCount)!)
+                cart.insert(cartElement)
+            }
+            
+            goodsRecentWatched = try await getGoodsSet(field: "goods_recent_watched", docData: docData)
+            goodsFavorited = try await getGoodsSet(field: "goods_favorited", docData: docData)
         }
         
         let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageURL: url, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched, goodsFavorited: goodsFavorited)
         return user
     }
     
-    private func getGoodsSet(field: String, docData: [String: Any]) async -> Set<Goods> {
+    private func getGoodsSet(field: String, docData: [String: Any]) async throws -> Set<Goods> {
         var resultSet: Set<Goods> = []
         let goodsIDs = docData[field] as? [String] ?? []
         
@@ -185,9 +211,11 @@ final class UserStore: DataControllable {
                 
             }
             
-            if case let .goods(result) = goodsResult {
-                resultSet.insert(result)
+            guard case let .goods(result) = goodsResult else {
+                throw DataError.fetchError(reason: "Can't get goods data")
             }
+            
+            resultSet.insert(result)
         }
         
         return resultSet
