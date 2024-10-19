@@ -20,9 +20,12 @@ struct DeliveryInfo: View {
             VStack(alignment: .leading, spacing: vSpacing) {
                 Text("받는 사람")
                 Text("받는 주소")
-                Spacer()
+                // 피커일때 top alignment 안맞음
+                if !isComplete {
+                    Spacer()
+                }
                 Text("배송요청사항")
-                    .padding(.bottom, 6.5)
+                    .padding(.bottom, isComplete ? 0 : 6.5)
             }
             .foregroundStyle(Color(uiColor: .darkGray))
             .fontWeight(.bold)
