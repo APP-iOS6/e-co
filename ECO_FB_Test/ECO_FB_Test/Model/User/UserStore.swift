@@ -78,15 +78,9 @@ final class UserStore: DataControllable {
             throw DataError.updateError(reason: "The DataParam is not a user update")
         }
         
-        var goodsIds: [String] = []
-        for goods in user.cart {
-            goodsIds.append(goods.id)
-        }
-        
-        var recentWatchedIDs: [String] = []
-        for goods in user.goodsRecentWatched {
-            recentWatchedIDs.append(goods.id)
-        }
+        let goodsCartIDs: [String] = getGoodsIDArray(goodsSet: user.cart)
+        let recentWatchedIDs: [String] = getGoodsIDArray(goodsSet: user.goodsRecentWatched)
+        let goodsFavoritedIDs: [String] = getGoodsIDArray(goodsSet: user.goodsFavorited)
         
         do {
             try await db.collection("User").document(id).setData([
@@ -95,8 +89,9 @@ final class UserStore: DataControllable {
                 "name": user.name,
                 "profile_image": user.profileImageURL.absoluteString,
                 "point": user.pointCount,
-                "cart": goodsIds,
-                "goods_recent_watched": recentWatchedIDs
+                "cart": goodsCartIDs,
+                "goods_recent_watched": recentWatchedIDs,
+                "goods_favorited": goodsFavoritedIDs
             ])
         } catch {
             throw error
@@ -169,33 +164,41 @@ final class UserStore: DataControllable {
         
         var cart: Set<Goods> = []
         var goodsRecentWatched: Set<Goods> = []
+        var goodsFavorited: Set<Goods> = []
         
         if !isSeller {
-            let cartGoodsIDs = docData["cart"] as? [String] ?? []
-            for goodsId in cartGoodsIDs {
-                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
-                    
-                }
+            cart = await getGoodsSet(field: "cart", docData: docData)
+            goodsRecentWatched = await getGoodsSet(field: "goods_recent_watched", docData: docData)
+            goodsFavorited = await getGoodsSet(field: "goods_favorited", docData: docData)
+        }
+        
+        let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageURL: url, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched, goodsFavorited: goodsFavorited)
+        return user
+    }
+    
+    private func getGoodsSet(field: String, docData: [String: Any]) async -> Set<Goods> {
+        var resultSet: Set<Goods> = []
+        let goodsIDs = docData[field] as? [String] ?? []
+        
+        for goodsID in goodsIDs {
+            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID)) { _ in
                 
-                if case let .goods(result) = goodsResult {
-                    cart.insert(result)
-                }
             }
             
-            
-            let recentGoodsIDs = docData["goods_recent_watched"] as? [String] ?? []
-            for goodsId in recentGoodsIDs {
-                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
-                    
-                }
-                
-                if case let .goods(result) = goodsResult {
-                    goodsRecentWatched.insert(result)
-                }
+            if case let .goods(result) = goodsResult {
+                resultSet.insert(result)
             }
         }
         
-        let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageURL: url, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched)
-        return user
+        return resultSet
+    }
+    
+    private func getGoodsIDArray(goodsSet: Set<Goods>) -> [String] {
+        var goodsIDs: [String] = []
+        for goods in goodsSet {
+            goodsIDs.append(goods.id)
+        }
+        
+        return goodsIDs
     }
 }

@@ -16,6 +16,7 @@ struct User: Identifiable, Hashable {
     var pointCount: Int
     var cart: Set<Goods>
     var goodsRecentWatched: Set<Goods>
+    var goodsFavorited: Set<Goods>
     
     var arrayCart: [Goods] {
         let sortOrder: [KeyPathComparator] = [
@@ -35,5 +36,15 @@ struct User: Identifiable, Hashable {
         ]
         
         return goodsRecentWatched.map(\.self).sorted(using: sortOrder)
+    }
+    
+    var goodsFavoritedArray: [Goods] {
+        let sortOrder: [KeyPathComparator] = [
+            KeyPathComparator(\Goods.name),
+            KeyPathComparator(\Goods.price),
+            KeyPathComparator(\Goods.id)
+        ]
+        
+        return goodsFavorited.map(\.self).sorted(using: sortOrder)
     }
 }

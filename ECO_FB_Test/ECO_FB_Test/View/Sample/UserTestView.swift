@@ -35,7 +35,7 @@ struct UserTestView: View {
             .buttonStyle(.bordered)
             
             Button("상품 더미 추가") {
-                let seller: User = User(id: UUID().uuidString, loginMethod: LoginMethod.google.rawValue, isSeller: true, name: "hi", profileImageURL: URL(string: "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef")!, pointCount: 0, cart: [], goodsRecentWatched: [])
+                let seller: User = User(id: UUID().uuidString, loginMethod: LoginMethod.google.rawValue, isSeller: true, name: "hi", profileImageURL: URL(string: "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef")!, pointCount: 0, cart: [], goodsRecentWatched: [], goodsFavorited: [])
                 let price = Int.random(in: 100...15000)
                 
                 let goodsDummy: Goods = Goods(id: UUID().uuidString, name: "Dummy Goods", category: .passion, thumbnailImageURL: URL(string: "https://png.pngtree.com/png-vector/20190704/ourmid/pngtree-leaf-graphic-icon-design-template-vector-illustration-png-image_1538440.jpg")!, bodyContent: "it's bag it's bag it's bag it's bag it's bag it's bag it's bag", bodyImageNames: ["test.png", "bag.png", "bag23232.png", "bag_final.png"], price: price, seller: seller)
