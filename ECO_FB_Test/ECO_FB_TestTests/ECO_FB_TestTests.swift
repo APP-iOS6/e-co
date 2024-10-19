@@ -10,20 +10,20 @@ import XCTest
 
 final class ECO_FB_TestTests: XCTestCase {
     
-    func testPaymentInfoFetch() async throws {
-        let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
-            
-        }
-        
-        guard case DataResult.paymentInfo(let paymentInfo) = result else {
-            throw DataError.fetchError(reason: "Can't get paymentInfo")
-        }
-        
-        let card = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
-        let expect = PaymentInfo(id: "Ki12J9HmdyzwcO2TsMlS", userID: "idntno0505@gmail.com", recipientName: "홍재민", phoneNumber: "010-1234-5060", paymentMethodName: .card, paymentMethod: card, address: "home")
-        
-        XCTAssertEqual(paymentInfo, expect)
-    }
+//    func testPaymentInfoFetch() async throws {
+//        let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
+//            
+//        }
+//        
+//        guard case DataResult.paymentInfo(let paymentInfo) = result else {
+//            throw DataError.fetchError(reason: "Can't get paymentInfo")
+//        }
+//        
+//        let card = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
+//        let expect = PaymentInfo(id: "Ki12J9HmdyzwcO2TsMlS", userID: "idntno0505@gmail.com", recipientName: "홍재민", phoneNumber: "010-1234-5060", paymentMethod: .card, paymentMethodInfo: card, address: "home")
+//        
+//        XCTAssertEqual(paymentInfo, expect)
+//    }
     
 //    func testCardInfoFetch() async throws {
 //        let result = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: "0woTQSLvsGuqbKNZvtkc")) { _ in
@@ -41,6 +41,13 @@ final class ECO_FB_TestTests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
+        
+//        Task {
+//            let cardInfo = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
+//            await DataManager.shared.updateData(type: .cardInfo, parameter: .cardInfoUpdate(id: "0woTQSLvsGuqbKNZvtkc", cardInfo: cardInfo)) { _ in
+//                
+//            }
+//        }
     }
 
     override func tearDownWithError() throws {

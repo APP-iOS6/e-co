@@ -11,8 +11,8 @@ import CryptoSwift
 final class EncryptManager {
     static let shared: EncryptManager = EncryptManager()
     private var aes: AES? = nil
-    private let key: String = "2b8v524k81fn9ahtg9x0q136dw377yzr"
-    private let iv: String = "grq53nxxns5u8kdr"
+    private let key: String = Bundle.main.infoDictionary?["EncryptKey"] as! String
+    private let iv: String = Bundle.main.infoDictionary?["IVKey"] as! String
     
     private init() {
         do {

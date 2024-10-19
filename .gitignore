@@ -97,3 +97,6 @@ iOSInjectionProject/
 
 # 프로젝트의 모든 경로에서 Kakao.xcconfig 파일을 포함하지 않도록 함
 **/Kakao.xcconfig
+
+# 프로젝트의 모든 경로에서 모든 .xcconfig 파일을 포함하지 않도록 함
+**/*.xcconfig

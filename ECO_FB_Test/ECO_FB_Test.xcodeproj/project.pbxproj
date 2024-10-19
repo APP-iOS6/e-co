@@ -15,7 +15,7 @@
 		4223D7352CBCB49900F94D1B /* EcoStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7342CBCB49900F94D1B /* EcoStepsView.swift */; };
 		42807F022CBE2B69007A83D5 /* MoreEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42807F012CBE2B69007A83D5 /* MoreEventsView.swift */; };
 		429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429157B02CBD0EFD0085828F /* HealthKitManager.swift */; };
-		502256862CBD0301006F6D5C /* Kakao.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 502256852CBD0301006F6D5C /* Kakao.xcconfig */; };
+		502256862CBD0301006F6D5C /* SecretKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 502256852CBD0301006F6D5C /* SecretKeys.xcconfig */; };
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
 		504B6E892CBFE9630069BC1D /* FAQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504B6E882CBFE9630069BC1D /* FAQView.swift */; };
 		50CF07902CC00FFB00C720A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */; };
@@ -134,7 +134,7 @@
 		42807F012CBE2B69007A83D5 /* MoreEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreEventsView.swift; sourceTree = "<group>"; };
 		429157AA2CBD0E4A0085828F /* ECO_FB_Test.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ECO_FB_Test.entitlements; sourceTree = "<group>"; };
 		429157B02CBD0EFD0085828F /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
-		502256852CBD0301006F6D5C /* Kakao.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Kakao.xcconfig; sourceTree = "<group>"; };
+		502256852CBD0301006F6D5C /* SecretKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SecretKeys.xcconfig; sourceTree = "<group>"; };
 		502256872CBD038F006F6D5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		504B6E882CBFE9630069BC1D /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
 		50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -416,7 +416,7 @@
 				FE40BBF32CB9405F00786E34 /* View */,
 				FE40BBF42CB9405F00786E34 /* Assets.xcassets */,
 				50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */,
-				502256852CBD0301006F6D5C /* Kakao.xcconfig */,
+				502256852CBD0301006F6D5C /* SecretKeys.xcconfig */,
 			);
 			path = ECO_FB_Test;
 			sourceTree = "<group>";
@@ -775,7 +775,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE40BBFA2CB9405F00786E34 /* Assets.xcassets in Resources */,
-				502256862CBD0301006F6D5C /* Kakao.xcconfig in Resources */,
+				502256862CBD0301006F6D5C /* SecretKeys.xcconfig in Resources */,
 				50CF07902CC00FFB00C720A7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -919,7 +919,7 @@
 /* Begin XCBuildConfiguration section */
 		FE40BBDE2CB93E4200786E34 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 502256852CBD0301006F6D5C /* Kakao.xcconfig */;
+			baseConfigurationReference = 502256852CBD0301006F6D5C /* SecretKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -983,7 +983,7 @@
 		};
 		FE40BBDF2CB93E4200786E34 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 502256852CBD0301006F6D5C /* Kakao.xcconfig */;
+			baseConfigurationReference = 502256852CBD0301006F6D5C /* SecretKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
