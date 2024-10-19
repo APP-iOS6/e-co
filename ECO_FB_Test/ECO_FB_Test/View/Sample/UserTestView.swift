@@ -58,7 +58,8 @@ struct UserTestView: View {
             if var user = userStore.userData {
                 Button("현재까지 생성된 상품 더미 장바구니에 담기") {
                     for goods in goods {
-                        user.cart.insert(goods)
+                        let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
+                        user.cart.insert(cartElement)
                     }
                     
                     Task {
@@ -81,15 +82,15 @@ struct UserTestView: View {
                     
                     ScrollView {
                         LazyVStack(spacing: 10) {
-                            ForEach(user.arrayCart) { goods in
+                            ForEach(user.arrayCart) { element in
                                 GroupBox {
-                                    Text("썸네일: \(goods.thumbnailImageURL)")
-                                    Text("상품이름: \(goods.name)")
-                                    Text("가격: \(goods.formattedPrice)")
-                                    Text("판매자: \(goods.seller.name)")
-                                    Text("카테고리: \(goods.category)")
-                                    Text("본문: \(goods.bodyContent)")
-                                    Text("본문사진: \(goods.bodyImageNames)")
+                                    Text("썸네일: \(element.goods.thumbnailImageURL)")
+                                    Text("상품이름: \(element.goods.name)")
+                                    Text("가격: \(element.goods.formattedPrice)")
+                                    Text("판매자: \(element.goods.seller.name)")
+                                    Text("카테고리: \(element.goods.category)")
+                                    Text("본문: \(element.goods.bodyContent)")
+                                    Text("본문사진: \(element.goods.bodyImageNames)")
                                 }
                             }
                         }

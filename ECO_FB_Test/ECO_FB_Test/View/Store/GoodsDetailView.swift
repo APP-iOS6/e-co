@@ -115,7 +115,8 @@ struct GoodsDetailView: View {
                         Button {
                             if var user = UserStore.shared.userData {
                                 Task {
-                                    user.cart.insert(goods)
+                                    let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
+                                    user.cart.insert(cartElement)
                                     await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
                                         
                                         
