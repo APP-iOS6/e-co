@@ -89,12 +89,13 @@ struct MyPageView: View {
                 }
                 Spacer()
                 NavigationLink {
-                    InquiriesView()
+                    // TODO: 유저 데이터 연결하기
+                    LikeView(category: GoodsCategory.none, allGoods: [])
                 } label: {
                     VStack {
-                        Image(systemName: "questionmark.circle")
+                        Image(systemName: "heart")
                             .padding(.bottom, 2)
-                        Text("문의하기")
+                        Text("찜목록")
                     }
                 }
             }
@@ -113,6 +114,7 @@ struct MyPageView: View {
                     .foregroundColor(.gray)
                 ) {
                     NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
+                    NavigationLink("문의하기", destination: InquiriesView())
                     NavigationLink("FAQ", destination: FAQView())
                     NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
                     NavigationLink("도움말", destination: HealthHelpView())
