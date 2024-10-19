@@ -188,7 +188,6 @@ final class UserStore: DataControllable {
                 guard case let .goods(result) = goodsResult else {
                     throw DataError.fetchError(reason: "Can't get goods data")
                 }
-
                 
                 let cartElement = CartElement(id: UUID().uuidString, goods: result, goodsCount: Int(goodsCount)!)
                 cart.insert(cartElement)
