@@ -471,8 +471,8 @@
 				FE40BC0B2CB9452F00786E34 /* User */,
 				FE6A7ADC2CB99C6D000F5DB6 /* Goods */,
 				FE29E15C2CBD312A005E2EFD /* PaymentInfo */,
-				FE29E1612CBD4115005E2EFD /* Announcement */,
 				FE6EC1A02CC39C6600EC9874 /* CardInfo */,
+				FE29E1612CBD4115005E2EFD /* Announcement */,
 			);
 			path = Model;
 			sourceTree = "<group>";

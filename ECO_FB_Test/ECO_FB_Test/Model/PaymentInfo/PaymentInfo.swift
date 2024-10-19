@@ -12,7 +12,7 @@ struct PaymentInfo: Identifiable, Equatable {
     let userID: String
     let recipientName: String
     let phoneNumber: String
-    let paymentMethod: PaymentMethod
-    let paymentMethodID: String
+    let paymentMethodName: PaymentMethod
+    let paymentMethod: CardInfo?
     let address: String
 }
