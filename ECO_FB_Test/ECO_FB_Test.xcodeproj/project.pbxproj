@@ -39,6 +39,12 @@
 		6EA5AC842CC011060001DD74 /* AppNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA5AC832CC011060001DD74 /* AppNameView.swift */; };
 		6EAA499A2CBCA9C30014A5C6 /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA49992CBCA9B60014A5C6 /* StoreView.swift */; };
 		6EAA4A9B2CBD29E90014A5C6 /* StoreLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */; };
+		6EBBB37C2CC26BC4008EB202 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB37B2CC26BC4008EB202 /* OrderView.swift */; };
+		6EBBB37E2CC27E2F008EB202 /* DeliveryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB37D2CC27E2F008EB202 /* DeliveryInfo.swift */; };
+		6EBBB3802CC28AD4008EB202 /* PointInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB37F2CC28AD4008EB202 /* PointInfoView.swift */; };
+		6EBBB3822CC296C9008EB202 /* ChooseMethodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB3812CC296C9008EB202 /* ChooseMethodView.swift */; };
+		6EBBB3842CC2A3B0008EB202 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB3832CC2A3B0008EB202 /* ProductListView.swift */; };
+		6EBBB38E2CC2C9E3008EB202 /* PriceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB38D2CC2C9E3008EB202 /* PriceInfoView.swift */; };
 		F6367EA42CBF9E8300F04B90 /* SignUpToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6367EA32CBF9E8300F04B90 /* SignUpToastView.swift */; };
 		F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */; };
 		F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E2F2CBCE5CA00F67671 /* LoginView.swift */; };
@@ -153,6 +159,12 @@
 		6EA5AC832CC011060001DD74 /* AppNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNameView.swift; sourceTree = "<group>"; };
 		6EAA49992CBCA9B60014A5C6 /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
 		6EAA4A9A2CBD29E90014A5C6 /* StoreLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreLocationView.swift; sourceTree = "<group>"; };
+		6EBBB37B2CC26BC4008EB202 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
+		6EBBB37D2CC27E2F008EB202 /* DeliveryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryInfo.swift; sourceTree = "<group>"; };
+		6EBBB37F2CC28AD4008EB202 /* PointInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointInfoView.swift; sourceTree = "<group>"; };
+		6EBBB3812CC296C9008EB202 /* ChooseMethodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseMethodView.swift; sourceTree = "<group>"; };
+		6EBBB3832CC2A3B0008EB202 /* ProductListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListView.swift; sourceTree = "<group>"; };
+		6EBBB38D2CC2C9E3008EB202 /* PriceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceInfoView.swift; sourceTree = "<group>"; };
 		F6367EA32CBF9E8300F04B90 /* SignUpToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpToastView.swift; sourceTree = "<group>"; };
 		F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailView.swift; sourceTree = "<group>"; };
 		F6386E2F2CBCE5CA00F67671 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -394,6 +406,12 @@
 				5022568A2CBD04FD006F6D5C /* AuthView */,
 				502256872CBD038F006F6D5C /* ContentView.swift */,
 				6EA5AC832CC011060001DD74 /* AppNameView.swift */,
+				6EBBB37B2CC26BC4008EB202 /* OrderView.swift */,
+				6EBBB38D2CC2C9E3008EB202 /* PriceInfoView.swift */,
+				6EBBB3832CC2A3B0008EB202 /* ProductListView.swift */,
+				6EBBB3812CC296C9008EB202 /* ChooseMethodView.swift */,
+				6EBBB37F2CC28AD4008EB202 /* PointInfoView.swift */,
+				6EBBB37D2CC27E2F008EB202 /* DeliveryInfo.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -792,6 +810,8 @@
 				6E76160A2CC0FB69009FAC72 /* PasswordStyle.swift in Sources */,
 				FE6A7AF32CB9ADCF000F5DB6 /* LoginType.swift in Sources */,
 				4223D72F2CBCAA3D00F94D1B /* EcoView.swift in Sources */,
+				6EBBB37E2CC27E2F008EB202 /* DeliveryInfo.swift in Sources */,
+				6EBBB38E2CC2C9E3008EB202 /* PriceInfoView.swift in Sources */,
 				FE6A7AE72CB9A434000F5DB6 /* DataResult.swift in Sources */,
 				FE40BBF82CB9405F00786E34 /* UserTestView.swift in Sources */,
 				FE6A7AE52CB9A2D8000F5DB6 /* SellerStore.swift in Sources */,
@@ -811,6 +831,7 @@
 				6EAA4A9B2CBD29E90014A5C6 /* StoreLocationView.swift in Sources */,
 				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
 				F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */,
+				6EBBB37C2CC26BC4008EB202 /* OrderView.swift in Sources */,
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
@@ -825,12 +846,15 @@
 				50D4680C2CBE5DBD00757BAD /* PrivacyPolicyView.swift in Sources */,
 				50D4680D2CBE5DBD00757BAD /* ProductQuestionsView.swift in Sources */,
 				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
+				6EBBB3822CC296C9008EB202 /* ChooseMethodView.swift in Sources */,
 				6E7616082CC0FB44009FAC72 /* TextDivider.swift in Sources */,
 				FE6A7AE12CB99D5B000F5DB6 /* Seller.swift in Sources */,
 				6EA5AC842CC011060001DD74 /* AppNameView.swift in Sources */,
 				FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */,
 				FEC6F3962CBE28EC000E5441 /* ZeroWasteShopStore.swift in Sources */,
 				6E7615F22CC0F67C009FAC72 /* AllGoodsOfCategoryView.swift in Sources */,
+				6EBBB3842CC2A3B0008EB202 /* ProductListView.swift in Sources */,
+				6EBBB3802CC28AD4008EB202 /* PointInfoView.swift in Sources */,
 				F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */,
 				6E7615F42CC0F6C2009FAC72 /* GoodsPageView.swift in Sources */,
 				F6386E342CBCEBFF00F67671 /* LoginTextfieldStyle.swift in Sources */,
