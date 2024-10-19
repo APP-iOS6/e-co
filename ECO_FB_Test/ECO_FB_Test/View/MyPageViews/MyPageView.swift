@@ -15,6 +15,13 @@ struct MyPageView: View {
     @State private var isNeedLogin: Bool = false
     @State private var isBought: Bool = false
     
+    // TODO: 파이어 스토어 데이터 연결하기
+    @State private var isCredit: Bool = true
+    @State private var isZeroWaste: Bool = true // 친환경 앱이기 때문에 친환경 포장방식을 기본값으로 했습니다.
+    @State private var usingPoint: Int = 0
+    @State private var productsPrice: Int = 16000
+    @State private var requestMessage = "문앞에 놔주세요"
+    
     var body: some View {
         AppNameView()
             .padding(.top)
@@ -52,7 +59,7 @@ struct MyPageView: View {
             
             HStack {
                 NavigationLink {
-                    OrderStatusView()
+                    OrderStatusView(isCredit: $isCredit, isZeroWaste: $isZeroWaste, usingPoint: usingPoint, productsPrice: productsPrice, requestMessage: $requestMessage)
                 } label: {
                     VStack {
                         Image(systemName: "list.bullet.clipboard")
