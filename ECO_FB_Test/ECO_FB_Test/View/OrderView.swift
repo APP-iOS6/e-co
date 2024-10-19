@@ -54,7 +54,7 @@ struct OrderView: View {
                                 
                                 Divider()
                                 
-                                ProductListView(goodsList: [], usingPoint: usingPoint)
+                                ProductListView(goodsList: goodsList, usingPoint: usingPoint)
                                 
                                 Divider()
                                 
