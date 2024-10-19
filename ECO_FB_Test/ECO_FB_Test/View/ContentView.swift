@@ -22,7 +22,7 @@ struct ContentView: View {
                 }
                 
                 Tab(value: 1) {
-                    StoreView(selectedTab: $selection)
+                    StoreView()
                 } label: {
                     Image(systemName: "bag.fill")
                     Text("Store")
