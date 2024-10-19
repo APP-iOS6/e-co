@@ -9,9 +9,9 @@ import Foundation
 
 struct CardInfo: Identifiable, Equatable {
     let id: String
-    var cvc: String
-    var ownerName: String
-    var cardNumber: String
-    var cardPassword: String
-    var expirationDate: Date
+    let cvc: String
+    let ownerName: String
+    let cardNumber: String
+    let cardPassword: String
+    let expirationDate: Date
 }
