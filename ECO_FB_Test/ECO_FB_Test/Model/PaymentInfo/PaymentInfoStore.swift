@@ -68,7 +68,6 @@ final class PaymentInfoStore: DataControllable {
             
             for document in snapshots.documents {
                 let docData = document.data()
-                
                 let id = document.documentID
                 
                 let paymentInfo = getData(id: id, docData: docData)
@@ -83,10 +82,31 @@ final class PaymentInfoStore: DataControllable {
     
     private func getData(id: String, docData: [String: Any]) -> PaymentInfo {
         let userID = docData["user_id"] as? String ?? "none"
-        let address = docData["address"] as? String ?? "none"
-        let payment = docData["payment_method"] as? [String] ?? []
+        let recipientName = docData["recipient_name"] as? String ?? "none"
+        let phoneNumber = docData["phone_number"] as? String ?? "none"
         
-        let paymentInfo = PaymentInfo(id: id, userID: userID, address: address, paymentMethod: payment)
+        let paymentMethodString = docData["payment_method_name"] as? String ?? "none"
+        let paymentMethod = stringToPaymentMethod(paymentMethodString)
+        let paymentMethodID = docData["payment_method_id"] as? String ?? "none"
+        
+        let address = docData["address"] as? String ?? "none"
+        
+        let paymentInfo = PaymentInfo(id: id, userID: userID, recipientName: recipientName, phoneNumber: phoneNumber, paymentMethod: paymentMethod, paymentMethodID: paymentMethodID, address: address)
         return paymentInfo
+    }
+    
+    private func stringToPaymentMethod(_ method: String) -> PaymentMethod {
+        var paymentMethod: PaymentMethod = .none
+        
+        switch method {
+        case PaymentMethod.card.rawValue:
+            paymentMethod = .card
+        case PaymentMethod.bank.rawValue:
+            paymentMethod = .bank
+        default:
+            paymentMethod = .point
+        }
+        
+        return paymentMethod
     }
 }

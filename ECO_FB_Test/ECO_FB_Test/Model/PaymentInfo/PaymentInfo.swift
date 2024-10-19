@@ -7,9 +7,12 @@
 
 import Foundation
 
-struct PaymentInfo: Identifiable {
+struct PaymentInfo: Identifiable, Equatable {
     let id: String
     let userID: String
+    let recipientName: String
+    let phoneNumber: String
+    let paymentMethod: PaymentMethod
+    let paymentMethodID: String
     let address: String
-    let paymentMethod: [String]
 }
