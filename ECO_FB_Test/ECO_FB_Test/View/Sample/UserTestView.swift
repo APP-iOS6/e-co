@@ -35,7 +35,7 @@ struct UserTestView: View {
             .buttonStyle(.bordered)
             
             Button("상품 더미 추가") {
-                let seller: Seller = Seller(id: "Q6awSoN6OCHcbUDeMxyd", name: "Seller", profileImageName: "It will be replace to id matches seller")
+                let seller: User = User(id: UUID().uuidString, loginMethod: LoginMethod.google.rawValue, isSeller: true, name: "hi", profileImageName: "hi.png", pointCount: 0, cart: [], goodsRecentWatched: [])
                 let price = Int.random(in: 100...15000)
                 
                 let goodsDummy: Goods = Goods(id: UUID().uuidString, name: "Dummy Goods", category: .passion, thumbnailImageURL: URL(string: "https://png.pngtree.com/png-vector/20190704/ourmid/pngtree-leaf-graphic-icon-design-template-vector-illustration-png-image_1538440.jpg")!, bodyContent: "it's bag it's bag it's bag it's bag it's bag it's bag it's bag", bodyImageNames: ["test.png", "bag.png", "bag23232.png", "bag_final.png"], price: price, seller: seller)
