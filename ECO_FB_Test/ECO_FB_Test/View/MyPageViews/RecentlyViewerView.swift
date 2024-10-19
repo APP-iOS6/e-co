@@ -16,12 +16,12 @@ struct RecentlyViewedView: View {
     var body: some View {
         NavigationView{
             if let user = userStore.userData {
-                if user.recentWatchedArray.isEmpty {
+                if user.arrayRecentWatched.isEmpty {
                     Text("최근 본 상품이 없습니다.")
                         .font(.headline)
                         .padding()
                 } else {
-                    List(user.recentWatchedArray, id: \.id) { goods in
+                    List(user.arrayRecentWatched, id: \.id) { goods in
                         HStack {
                             LazyImage(url: goods.thumbnailImageURL) { state in
                                 if let image = state.image {
