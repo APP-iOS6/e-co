@@ -73,6 +73,12 @@ final class ECO_FB_TestTests: XCTestCase {
         }
     }
     
+    func testOneToOneInquiryDelete() async {
+        await DataManager.shared.deleteData(type: .oneToOneInquiry, parameter: .oneToOneInquiryDelete(id: "D974FBD5-F5E5-42AA-88A3-093162D8D8F9")) { _ in
+            
+        }
+    }
+    
     override func setUpWithError() throws {
         try super.setUpWithError()
         

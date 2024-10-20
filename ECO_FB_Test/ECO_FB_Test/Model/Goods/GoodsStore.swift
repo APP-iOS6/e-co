@@ -121,7 +121,7 @@ final class GoodsStore: DataControllable {
         }
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
         
     }
     

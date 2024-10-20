@@ -104,6 +104,7 @@
 		FEC6F3962CBE28EC000E5441 /* ZeroWasteShopStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3952CBE28EC000E5441 /* ZeroWasteShopStore.swift */; };
 		FED0CF1E2CC4EAEE0097DEFC /* OneToOneInquiry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0CF1D2CC4EAEE0097DEFC /* OneToOneInquiry.swift */; };
 		FED0CF202CC4EB7D0097DEFC /* OneToOneInquiryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0CF1F2CC4EB7D0097DEFC /* OneToOneInquiryStore.swift */; };
+		FED0CF222CC50E360097DEFC /* DataDeleteFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0CF212CC50E360097DEFC /* DataDeleteFlow.swift */; };
 		FEDA91102CBC9AF600D75552 /* GoodsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */; };
 		FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA91192CBCABD300D75552 /* CartView.swift */; };
 		FEE49B612CBAC8CE00895CC4 /* DataFetchFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */; };
@@ -217,6 +218,7 @@
 		FEC6F3952CBE28EC000E5441 /* ZeroWasteShopStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeroWasteShopStore.swift; sourceTree = "<group>"; };
 		FED0CF1D2CC4EAEE0097DEFC /* OneToOneInquiry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneToOneInquiry.swift; sourceTree = "<group>"; };
 		FED0CF1F2CC4EB7D0097DEFC /* OneToOneInquiryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneToOneInquiryStore.swift; sourceTree = "<group>"; };
+		FED0CF212CC50E360097DEFC /* DataDeleteFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDeleteFlow.swift; sourceTree = "<group>"; };
 		FEDA910F2CBC9AF600D75552 /* GoodsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsCategory.swift; sourceTree = "<group>"; };
 		FEDA91192CBCABD300D75552 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetchFlow.swift; sourceTree = "<group>"; };
@@ -545,6 +547,7 @@
 				FE40BC0E2CB94B0F00786E34 /* DataError.swift */,
 				FEE49B602CBAC8CE00895CC4 /* DataFetchFlow.swift */,
 				FEAC5BFB2CC0E6A2006F6B8D /* DataUpdateFlow.swift */,
+				FED0CF212CC50E360097DEFC /* DataDeleteFlow.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -859,6 +862,7 @@
 				FE40BC052CB9436F00786E34 /* DataType.swift in Sources */,
 				FE42060F2CBCE75B0004941B /* CheckBox.swift in Sources */,
 				FE40BC022CB9432C00786E34 /* DataManager.swift in Sources */,
+				FED0CF222CC50E360097DEFC /* DataDeleteFlow.swift in Sources */,
 				FED0CF202CC4EB7D0097DEFC /* OneToOneInquiryStore.swift in Sources */,
 				FE6A7AFF2CB9B01F000F5DB6 /* LoginError.swift in Sources */,
 				FEAC5BFC2CC0E6A2006F6B8D /* DataUpdateFlow.swift in Sources */,

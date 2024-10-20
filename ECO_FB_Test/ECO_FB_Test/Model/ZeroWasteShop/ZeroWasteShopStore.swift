@@ -58,6 +58,6 @@ final class ZeroWasteShopStore: DataControllable {
     func updateData(parameter: DataParam) async throws {
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
     }
 }

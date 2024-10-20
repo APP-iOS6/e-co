@@ -27,6 +27,8 @@ enum DataParam {
     case announcementUpdate(id: String, announcement: Announcement)
     case oneToOneInquiryUpdate(id: String, inquiry: OneToOneInquiry)
     
+    case oneToOneInquiryDelete(id: String)
+    
     // 모든 데이터를 불러올 때 사용
     /**
      물건을 모두 불러올 때 사용, 결과값은 GoodsStore의 goodsList에 저장됩니다.

@@ -49,8 +49,16 @@ final class OneToOneInquiryStore: DataControllable {
         }
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
+        guard case .oneToOneInquiryDelete(let id) = parameter else {
+            throw DataError.deleteError(reason: "The DataParam is not a oneToOneInquiry delete")
+        }
         
+        do {
+            try await db.collection("OneToOneInquiry").document(id).delete()
+        } catch {
+            throw error
+        }
     }
     
     private func getFirstPage(id: String, limit: Int) async throws -> DataResult {

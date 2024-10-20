@@ -117,7 +117,17 @@ final class DataManager {
         }
     }
     
-    func deleteData() {
-        
+    func deleteData(type: DataType, parameter: DataParam, deleteFlowChangeAction: (DataDeleteFlow) -> Void) async {
+        do {
+            var dataDeleteFlow: DataDeleteFlow = .deleting
+            deleteFlowChangeAction(dataDeleteFlow)
+            
+            try await dataStores[type.rawValue].deleteData(parameter: parameter)
+            
+            dataDeleteFlow = .deleted
+            deleteFlowChangeAction(dataDeleteFlow)
+        } catch {
+            print("Error: \(error)")
+        }
     }
 }

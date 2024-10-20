@@ -106,7 +106,7 @@ final class UserStore: DataControllable {
         }
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
         
     }
     

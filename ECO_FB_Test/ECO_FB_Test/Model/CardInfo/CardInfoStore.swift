@@ -69,7 +69,7 @@ final class CardInfoStore: DataControllable {
         }
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
         
     }
 }
