@@ -11,6 +11,7 @@ import FirebaseFirestore
 final class CardInfoStore: DataControllable {
     static let shared: CardInfoStore = CardInfoStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "CardInfo"
     
     private init() {}
     
@@ -20,7 +21,7 @@ final class CardInfoStore: DataControllable {
         }
 
         do {
-            let snapshot = try await db.collection("CardInfo").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             guard let docData = snapshot.data() else {
                 throw DataError.fetchError(reason: "Can't get document data")
@@ -57,7 +58,7 @@ final class CardInfoStore: DataControllable {
         let expirationDateString = cardInfo.expirationDate.getFormattedString("yy-MM")
         
         do {
-            try await db.collection("CardInfo").document(id).setData([
+            try await db.collection(collectionName).document(id).setData([
                 "cvc": cardInfo.cvc,
                 "owner": cardInfo.ownerName,
                 "number": encodedCardNumber,

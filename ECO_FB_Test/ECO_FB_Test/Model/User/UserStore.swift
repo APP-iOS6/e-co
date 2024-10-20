@@ -13,6 +13,7 @@ import FirebaseFirestore
 final class UserStore: DataControllable {
     static let shared: UserStore = UserStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "User"
     private(set) var userData: User? = nil
     
     private init() {}
@@ -23,7 +24,7 @@ final class UserStore: DataControllable {
         }
         
         do {
-            let snapshot = try await db.collection("User").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             return snapshot.exists
         } catch {
@@ -37,7 +38,7 @@ final class UserStore: DataControllable {
         }
 
         do {
-            let snapshot = try await db.collection("User").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             guard let docData = snapshot.data() else {
                 throw DataError.fetchError(reason: "The Document Data is nil")
@@ -91,7 +92,7 @@ final class UserStore: DataControllable {
         let goodsFavoritedIDs: [String] = getGoodsIDArray(goodsSet: user.goodsFavorited)
         
         do {
-            try await db.collection("User").document(id).setData([
+            try await db.collection(collectionName).document(id).setData([
                 "login_method": user.loginMethod,
                 "is_seller": user.isSeller,
                 "name": user.name,
@@ -112,7 +113,7 @@ final class UserStore: DataControllable {
     
     private func getUserWithReturn(id: String) async throws -> DataResult {
         do {
-            let snapshot = try await db.collection("User").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             let user = try await getData(document: snapshot)
             return DataResult.user(result: user)
@@ -124,7 +125,7 @@ final class UserStore: DataControllable {
     private func getUserWithNoReturn(id: String) async throws -> DataResult {
         do {
             _ = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<DataResult, Error>) in
-                _ = db.collection("User").document(id).addSnapshotListener { [weak self] snapshot, error in
+                _ = db.collection(collectionName).document(id).addSnapshotListener { [weak self] snapshot, error in
                     if let error {
                         continuation.resume(throwing: error)
                     }
