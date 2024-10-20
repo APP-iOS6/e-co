@@ -19,6 +19,7 @@ struct SellerHomeView: View {
     var body: some View {
         VStack{
             GeometryReader{ proxy in
+                // 상단 앱 타이틀
                 VStack(alignment: .center){
                     HStack {
                         Image(systemName: "leaf.fill")
@@ -31,6 +32,7 @@ struct SellerHomeView: View {
                 .font(.largeTitle)
                 .frame(width: proxy.size.width, height: proxy.size.height * (3/7))
                 
+                // 하단 네비게이션 버튼 뷰
                 SellerBottomView()
             }
         }
@@ -103,8 +105,8 @@ struct ProductSubmitView: View {
     @State private var goodsContent: String = ""
     @State private var goodsPrice: String = ""
     //    @State private var goodsImage: Image? = nil   // 판매자는 사진 업로드 하는 방식...?
-    private var isEmptyAllFields: Bool {
-        selectedCategory == nil && goodsName.isEmpty && goodsContent.isEmpty && goodsPrice.isEmpty
+    private var isEmptyAnyFields: Bool {    //
+        selectedCategory == nil || goodsName.isEmpty || goodsContent.isEmpty || goodsPrice.isEmpty
     }
     
     var body: some View {
@@ -123,7 +125,7 @@ struct ProductSubmitView: View {
                             } label: {
                                 Text(category.rawValue)
                                     .fontWeight(.semibold)
-                                    .foregroundStyle(Color(uiColor: .darkGray))
+                                    .foregroundStyle(selectedCategory == category ? .accent : Color(uiColor: .darkGray))
                             }
                             .buttonStyle(.bordered)
                         }
@@ -177,11 +179,11 @@ struct ProductSubmitView: View {
                         .padding()
                         .background {
                             Capsule(style: .continuous)
-                                .fill(isEmptyAllFields ? Color(UIColor.placeholderText) : .accent)
+                                .fill(isEmptyAnyFields ? Color(UIColor.placeholderText) : .accent)
                                 .frame(maxWidth: .infinity)
                         }
                 }
-                .disabled(isEmptyAllFields)
+                .disabled(isEmptyAnyFields)
             }
             .padding()
         }
