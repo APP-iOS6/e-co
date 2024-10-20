@@ -17,7 +17,7 @@ final class OneToOneInquiryStore: DataControllable {
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         guard case let .oneToOneInquiryAll(sellerID, limit) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a oneToOneInquiryAll")
+            throw DataError.fetchError(reason: "The DataParam is not a oneToOneInquiry all")
         }
         
         var result = DataResult.none
@@ -31,7 +31,22 @@ final class OneToOneInquiryStore: DataControllable {
     }
     
     func updateData(parameter: DataParam) async throws {
+        guard case .oneToOneInquiryUpdate(let id, let inquiry) = parameter else {
+            throw DataError.updateError(reason: "The DataParam is not a oneToOneInquiry update")
+        }
         
+        do {
+            try await db.collection("OneToOneInquiry").document(id).setData([
+                "creation_date": inquiry.creationDate.getFormattedString("yyyy-MM-dd-HH-mm"),
+                "user_id": inquiry.user.id,
+                "seller_id": inquiry.seller.id,
+                "title": inquiry.title,
+                "question": inquiry.question,
+                "answer": inquiry.answer
+            ])
+        } catch {
+            throw error
+        }
     }
     
     func deleteData() {

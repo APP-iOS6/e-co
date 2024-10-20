@@ -25,6 +25,7 @@ enum DataParam {
     case paymentInfoUpdate(id: String, orderInfo: PaymentInfo)
     case cardInfoUpdate(id: String, cardInfo: CardInfo)
     case announcementUpdate(id: String, announcement: Announcement)
+    case oneToOneInquiryUpdate(id: String, inquiry: OneToOneInquiry)
     
     // 모든 데이터를 불러올 때 사용
     /**

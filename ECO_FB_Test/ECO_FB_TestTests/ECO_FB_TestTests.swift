@@ -39,7 +39,7 @@ final class ECO_FB_TestTests: XCTestCase {
 //        XCTAssertEqual(cardInfo, expect)
 //    }
 
-    func testOneToOneInquiry() async throws {
+    func testOneToOneInquiryFetch() async throws {
         _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAll(sellerID: "seller@seller.com", limit: 20)) { _ in
             
         }
@@ -48,6 +48,29 @@ final class ECO_FB_TestTests: XCTestCase {
         let expect = await OneToOneInquiryStore.shared.oneToOneInquiries[0]
         
         XCTAssertEqual(result, expect)
+    }
+    
+    func testOneToOneInquiryUpdate() async throws {
+        let id = UUID().uuidString
+        let user = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
+            
+        }
+        let seller = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "seller@seller.com", shouldReturnUser: true)) { _ in
+            
+        }
+        
+        guard case .user(let user) = user else {
+            throw DataError.convertError(reason: "Can't get user")
+        }
+        
+        guard case .user(let seller) = seller else {
+            throw DataError.convertError(reason: "Can't get user")
+        }
+        
+        let inquiry = OneToOneInquiry(id: id, creationDate: .now, user: user, seller: seller, title: "테스트요", question: "질문이요", answer: "정답이요")
+        await DataManager.shared.updateData(type: .oneToOneInquiry, parameter: .oneToOneInquiryUpdate(id: UUID().uuidString, inquiry: inquiry)) { _ in
+            
+        }
     }
     
     override func setUpWithError() throws {
