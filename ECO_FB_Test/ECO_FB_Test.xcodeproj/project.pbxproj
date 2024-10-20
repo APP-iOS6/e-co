@@ -48,6 +48,8 @@
 		6EBBB3AE2CC3902D008EB202 /* OrderDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB3AD2CC3902D008EB202 /* OrderDetailView.swift */; };
 		6EBBB3B02CC39365008EB202 /* OrderCompletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB3AF2CC39358008EB202 /* OrderCompletView.swift */; };
 		6EBBB3B22CC3A188008EB202 /* LikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB3B12CC3A188008EB202 /* LikeView.swift */; };
+		6EBBB3CC2CC3E065008EB202 /* ReviewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB3CB2CC3E065008EB202 /* ReviewListView.swift */; };
+		6EBBB3D42CC3E80E008EB202 /* starView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EBBB3D32CC3E80E008EB202 /* starView.swift */; };
 		F6367EA42CBF9E8300F04B90 /* SignUpToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6367EA32CBF9E8300F04B90 /* SignUpToastView.swift */; };
 		F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */; };
 		F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6386E2F2CBCE5CA00F67671 /* LoginView.swift */; };
@@ -169,6 +171,8 @@
 		6EBBB3AD2CC3902D008EB202 /* OrderDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailView.swift; sourceTree = "<group>"; };
 		6EBBB3AF2CC39358008EB202 /* OrderCompletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCompletView.swift; sourceTree = "<group>"; };
 		6EBBB3B12CC3A188008EB202 /* LikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeView.swift; sourceTree = "<group>"; };
+		6EBBB3CB2CC3E065008EB202 /* ReviewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewListView.swift; sourceTree = "<group>"; };
+		6EBBB3D32CC3E80E008EB202 /* starView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = starView.swift; sourceTree = "<group>"; };
 		F6367EA32CBF9E8300F04B90 /* SignUpToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpToastView.swift; sourceTree = "<group>"; };
 		F6386E002CBCAB9900F67671 /* GoodsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailView.swift; sourceTree = "<group>"; };
 		F6386E2F2CBCE5CA00F67671 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -413,6 +417,8 @@
 				6EBBB3AD2CC3902D008EB202 /* OrderDetailView.swift */,
 				6EBBB3AF2CC39358008EB202 /* OrderCompletView.swift */,
 				6EBBB38D2CC2C9E3008EB202 /* PriceInfoView.swift */,
+				6EBBB3CB2CC3E065008EB202 /* ReviewListView.swift */,
+				6EBBB3D32CC3E80E008EB202 /* starView.swift */,
 				6EBBB3832CC2A3B0008EB202 /* ProductListView.swift */,
 				6EBBB3812CC296C9008EB202 /* ChooseMethodView.swift */,
 				6EBBB37F2CC28AD4008EB202 /* PointInfoView.swift */,
@@ -791,6 +797,7 @@
 				FE6A7AE32CB9A121000F5DB6 /* GoodsStore.swift in Sources */,
 				6E7616042CC0FADD009FAC72 /* HealthHelpView.swift in Sources */,
 				6E7615FA2CC0F7BB009FAC72 /* AddProductView.swift in Sources */,
+				6EBBB3CC2CC3E065008EB202 /* ReviewListView.swift in Sources */,
 				FE29E15E2CBD3162005E2EFD /* PaymentInfo.swift in Sources */,
 				FE1847A42CB9686F00BE530C /* KaKaoLoginManager.swift in Sources */,
 				FE29E1652CBD42DD005E2EFD /* AnnouncementStore.swift in Sources */,
@@ -828,6 +835,7 @@
 				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
 				F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */,
 				6EBBB37C2CC26BC4008EB202 /* OrderView.swift in Sources */,
+				6EBBB3D42CC3E80E008EB202 /* starView.swift in Sources */,
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
