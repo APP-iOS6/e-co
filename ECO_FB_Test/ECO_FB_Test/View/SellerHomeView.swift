@@ -37,7 +37,7 @@ struct SellerHomeView: View {
     }
 }
 
-#Preview {
+#Preview("판매자 홈") {
     NavigationStack{
         SellerHomeView()
     }
@@ -95,8 +95,118 @@ struct SellerBottomView: View {
 
 // 상품 등록 뷰
 struct ProductSubmitView: View {
+    private var goodsCategories = GoodsCategory.allCases.filter{ $0.rawValue != "none" }.sorted { a, b in
+        a.rawValue > b.rawValue
+    }
+    @State private var selectedCategory: GoodsCategory? = nil
+    @State private var goodsName: String = ""
+    @State private var goodsContent: String = ""
+    @State private var goodsPrice: String = ""
+    //    @State private var goodsImage: Image? = nil   // 판매자는 사진 업로드 하는 방식...?
+    private var isEmptyAllFields: Bool {
+        selectedCategory == nil && goodsName.isEmpty && goodsContent.isEmpty && goodsPrice.isEmpty
+    }
+    
     var body: some View {
-        Text("상품 등록 뷰")
+        AppNameView()
+        ScrollView(.vertical){
+            VStack(alignment: .leading){
+                SellerCapsuleTitleView(title: "상품 등록")
+                    .padding(.bottom)
+                Text("카테고리 선택")
+                    .bold()
+                ScrollView(.horizontal) {   // storeView의 스크롤뷰를 재활용 했습니다.
+                    HStack {
+                        ForEach(goodsCategories, id: \.self) { category in
+                            Button {
+                                selectedCategory = category
+                            } label: {
+                                Text(category.rawValue)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(Color(uiColor: .darkGray))
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                }
+                .scrollIndicators(.hidden)
+                .padding(.bottom)
+                
+                VStack(alignment: .leading){
+                    Text("상품이름")
+                        .bold()
+                    TextField("등록하려는 상품 이름을 입력해주세요.", text: $goodsName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.bottom)
+                    Text("상품가격")
+                        .bold()
+                    HStack{
+                        TextField("등록하려는 상품 가격을 입력해주세요.", text: $goodsPrice)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        Text("원")
+                            .bold()
+                    }
+                    .padding(.bottom)
+                    Text("상품설명")
+                        .bold()
+                    TextEditor(text: $goodsContent)
+                        .frame(height: 150)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color(UIColor.systemGray6), lineWidth: 2)
+                        }
+                }
+                
+                Text("상품사진")
+                    .bold()
+                    .padding(.top)
+                Rectangle()
+                    .fill(Color(UIColor.placeholderText))
+                    .frame(height: 200)
+                    .padding(.bottom)
+                
+                Button {
+                    print("상품 등록 하기")
+                    // TODO: 서버에 판매자 상품을 등록하는 로직
+                } label: {
+                    Text("등록 하기")
+                        .foregroundStyle(.white)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background {
+                            Capsule(style: .continuous)
+                                .fill(isEmptyAllFields ? Color(UIColor.placeholderText) : .accent)
+                                .frame(maxWidth: .infinity)
+                        }
+                }
+                .disabled(isEmptyAllFields)
+            }
+            .padding()
+        }
+    }
+}
+
+struct SellerCapsuleTitleView: View {
+    var title: String
+    var body: some View {
+        Text("\(title)")
+            .foregroundStyle(.white)
+            .font(.title3)
+            .fontWeight(.bold)
+            .padding()
+            .background {
+                Capsule()
+                    .foregroundStyle(.accent)
+                    .shadow(radius: 5)
+            }
+    }
+}
+
+#Preview("상품등록") {
+    NavigationStack{
+        ProductSubmitView()
     }
 }
 
