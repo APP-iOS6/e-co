@@ -17,7 +17,7 @@ final class GoodsStore: DataControllable {
     private(set) var selectedCategory: GoodsCategory = GoodsCategory.none
     private(set) var goodsByCategories: [GoodsCategory: [Goods]] = [:]
     private(set) var filteredGoodsByCategories: [GoodsCategory: [Goods]] = [:]
-    private var lastGoodsEachCategory: [GoodsCategory: QueryDocumentSnapshot] = [:]
+    private var lastDocumentEachCategory: [GoodsCategory: QueryDocumentSnapshot] = [:]
     
     private init() {
         Task {
@@ -143,14 +143,14 @@ final class GoodsStore: DataControllable {
     }
     
     private func getGoodsAll(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
-        if lastGoodsEachCategory.isEmpty {
-            return try await getFirstPages(categories: categories, limit: limit)
+        if lastDocumentEachCategory.isEmpty {
+            return try await getFirstPage(categories: categories, limit: limit)
         } else {
-            return try await getNextPages(categories: categories, limit: limit)
+            return try await getNextPage(categories: categories, limit: limit)
         }
     }
     
-    private func getFirstPages(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
+    private func getFirstPage(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
         do {
             for category in categories {
                 let snapshots = try await db.collection("Goods")
@@ -167,7 +167,7 @@ final class GoodsStore: DataControllable {
                     goodsList.append(goods)
                 }
                 
-                lastGoodsEachCategory[category] = snapshots.documents.last
+                lastDocumentEachCategory[category] = snapshots.documents.last
             }
             
             return DataResult.none
@@ -176,10 +176,10 @@ final class GoodsStore: DataControllable {
         }
     }
     
-    private func getNextPages(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
+    private func getNextPage(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
         do {
             for category in categories {
-                guard let last = lastGoodsEachCategory[category] else { continue }
+                guard let last = lastDocumentEachCategory[category] else { continue }
                 
                 let snapshots = try await db.collection("Goods")
                     .whereField("category", isEqualTo: "\(category.rawValue)")
@@ -196,7 +196,7 @@ final class GoodsStore: DataControllable {
                     goodsList.append(goods)
                 }
                 
-                lastGoodsEachCategory[category] = snapshots.documents.last
+                lastDocumentEachCategory[category] = snapshots.documents.last
             }
             
             return DataResult.none

@@ -39,6 +39,17 @@ final class ECO_FB_TestTests: XCTestCase {
 //        XCTAssertEqual(cardInfo, expect)
 //    }
 
+    func testOneToOneInquiry() async throws {
+        _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAll(sellerID: "seller@seller.com", limit: 20)) { _ in
+            
+        }
+        
+        let result = await OneToOneInquiryStore.shared.oneToOneInquiries[0]
+        let expect = await OneToOneInquiryStore.shared.oneToOneInquiries[0]
+        
+        XCTAssertEqual(result, expect)
+    }
+    
     override func setUpWithError() throws {
         try super.setUpWithError()
         

@@ -28,7 +28,7 @@ final class AnnouncementStore: DataControllable {
             var result = DataResult.none
             if isFirstFetch {
                 isFirstFetch = false
-                result = try await initPage()
+                result = try await getFirstPage()
             } else {
                 result = try await getNextPage()
             }
@@ -59,7 +59,7 @@ final class AnnouncementStore: DataControllable {
         
     }
     
-    private func initPage() async throws -> DataResult {
+    private func getFirstPage() async throws -> DataResult {
         do {
             let snapshots = try await db.collection("Announcement")
                                       .order(by: "creation_date")
@@ -71,7 +71,7 @@ final class AnnouncementStore: DataControllable {
                 announcementList.append(announcement)
             }
             
-            self.lastDocument = snapshots.documents.last
+            lastDocument = snapshots.documents.last
             return DataResult.none
         } catch {
             throw error

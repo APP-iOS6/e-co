@@ -40,6 +40,10 @@ enum DataParam {
      */
     case announcementAll
     /**
+     1대1 문의내역을 불러올 때 사용, limit을 설정해 불러올 데이터의 수를 제한 할 수 있습니다.
+     */
+    case oneToOneInquiryAll(sellerID: String, limit: Int)
+    /**
      친환경 가게 정보를 모두 불러올 때 사용, 결과값은 ZeroWasteShopStore의 zeroWasteShopList에 저장됩니다.
      */
     case zeroWasteShopLoadAll

@@ -19,6 +19,7 @@ final class DataManager {
         PaymentInfoStore.shared,
         CardInfoStore.shared,
         AnnouncementStore.shared,
+        OneToOneInquiryStore.shared,
         ZeroWasteShopStore.shared
     ]
     
