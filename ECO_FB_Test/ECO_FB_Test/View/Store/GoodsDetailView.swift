@@ -15,6 +15,7 @@ struct GoodsDetailView: View {
     @State var moveToCart: Bool = false
     @State var isBought: Bool = false
     @State var isLike: Bool = false
+    @State var isShowReview: Bool = false
     
     var body: some View {
         GeometryReader { GeometryProxy in
@@ -89,12 +90,15 @@ struct GoodsDetailView: View {
                                 Spacer()
                                 
                                 Button {
-                                    
+                                    isShowReview.toggle()
                                 } label: {
                                     Text("리뷰보기")
                                         .underline()
                                 }
                                 .foregroundStyle(Color(uiColor: .darkGray))
+                            }
+                            .sheet(isPresented: $isShowReview) {
+                                ReviewListView()
                             }
                             Divider()
                             
