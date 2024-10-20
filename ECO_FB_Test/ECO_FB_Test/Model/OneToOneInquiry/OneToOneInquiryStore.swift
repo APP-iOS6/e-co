@@ -12,6 +12,7 @@ import FirebaseFirestore
 final class OneToOneInquiryStore: DataControllable {
     static let shared: OneToOneInquiryStore = OneToOneInquiryStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "OneToOneInquiry"
     private var lastDocument: QueryDocumentSnapshot? = nil
     private(set) var oneToOneInquiries: [OneToOneInquiry] = []
     
@@ -36,7 +37,7 @@ final class OneToOneInquiryStore: DataControllable {
         }
         
         do {
-            try await db.collection("OneToOneInquiry").document(id).setData([
+            try await db.collection(collectionName).document(id).setData([
                 "creation_date": inquiry.creationDate.getFormattedString("yyyy-MM-dd-HH-mm"),
                 "user_id": inquiry.user.id,
                 "seller_id": inquiry.seller.id,
@@ -55,7 +56,7 @@ final class OneToOneInquiryStore: DataControllable {
         }
         
         do {
-            try await db.collection("OneToOneInquiry").document(id).delete()
+            try await db.collection(collectionName).document(id).delete()
         } catch {
             throw error
         }
@@ -63,7 +64,7 @@ final class OneToOneInquiryStore: DataControllable {
     
     private func getFirstPage(id: String, limit: Int) async throws -> DataResult {
         do {
-            let snapshots = try await db.collection("OneToOneInquiry")
+            let snapshots = try await db.collection(collectionName)
                                       .whereField("seller_id", isEqualTo: id)
                                       .order(by: "creation_date")
                                       .limit(to: limit)
@@ -85,7 +86,7 @@ final class OneToOneInquiryStore: DataControllable {
         guard let lastDocument else { return DataResult.none }
         
         do {
-            let snapshots = try await db.collection("OneToOneInquiry")
+            let snapshots = try await db.collection(collectionName)
                                       .whereField("seller_id", isEqualTo: id)
                                       .order(by: "creation_date")
                                       .start(afterDocument: lastDocument)

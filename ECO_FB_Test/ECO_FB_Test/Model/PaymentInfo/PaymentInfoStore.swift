@@ -12,6 +12,7 @@ import FirebaseFirestore
 final class PaymentInfoStore: DataControllable {
     static let shared: PaymentInfoStore = PaymentInfoStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "PaymentInfo"
     private(set) var paymentList: [PaymentInfo] = []
     
     private init() {}
@@ -43,7 +44,7 @@ final class PaymentInfoStore: DataControllable {
     
     private func getPaymentInfoByID(_ id: String) async throws -> DataResult {
         do {
-            let snapshot = try await db.collection("PaymentInfo").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             guard let docData = snapshot.data() else {
                 throw DataError.fetchError(reason: "The Document Data is nil")
@@ -62,7 +63,7 @@ final class PaymentInfoStore: DataControllable {
         paymentList.removeAll()
         
         do {
-            let snapshots = try await db.collection("PaymentInfo")
+            let snapshots = try await db.collection(collectionName)
                             .whereField("user_id", isEqualTo: userID)
                             .getDocuments()
             

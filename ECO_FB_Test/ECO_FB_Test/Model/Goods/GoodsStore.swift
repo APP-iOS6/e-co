@@ -12,6 +12,7 @@ import FirebaseFirestore
 final class GoodsStore: DataControllable {
     static let shared: GoodsStore = GoodsStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "Goods"
     private(set) var dataCount: Int = 0
     private(set) var goodsList: [Goods] = []
     private(set) var selectedCategory: GoodsCategory = GoodsCategory.none
@@ -21,7 +22,7 @@ final class GoodsStore: DataControllable {
     
     private init() {
         Task {
-            dataCount = try await db.collection("Goods").getDocuments().count
+            dataCount = try await db.collection(collectionName).getDocuments().count
         }
     }
     
@@ -107,7 +108,7 @@ final class GoodsStore: DataControllable {
         }
         
         do {
-            try await db.collection("Goods").document(id).setData([
+            try await db.collection(collectionName).document(id).setData([
                 "name": goods.name,
                 "category": goods.category.rawValue,
                 "thumbnail": goods.thumbnailImageURL.absoluteString,
@@ -127,7 +128,7 @@ final class GoodsStore: DataControllable {
     
     private func getGoodsByID(_ id: String) async throws -> DataResult {
         do {
-            let snapshot = try await db.collection("Goods").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             guard let docData = snapshot.data() else {
                 throw DataError.fetchError(reason: "The Document Data is nil")
@@ -153,7 +154,7 @@ final class GoodsStore: DataControllable {
     private func getFirstPage(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
         do {
             for category in categories {
-                let snapshots = try await db.collection("Goods")
+                let snapshots = try await db.collection(collectionName)
                     .whereField("category", isEqualTo: "\(category.rawValue)")
                     .order(by: FieldPath.documentID())
                     .limit(to: limit)
@@ -181,7 +182,7 @@ final class GoodsStore: DataControllable {
             for category in categories {
                 guard let last = lastDocumentEachCategory[category] else { continue }
                 
-                let snapshots = try await db.collection("Goods")
+                let snapshots = try await db.collection(collectionName)
                     .whereField("category", isEqualTo: "\(category.rawValue)")
                     .order(by: FieldPath.documentID())
                     .start(afterDocument: last)
@@ -245,6 +246,5 @@ final class GoodsStore: DataControllable {
         default:
             throw DataError.convertError(reason: "Can't find matched string")
         }
-        
     }
 }
