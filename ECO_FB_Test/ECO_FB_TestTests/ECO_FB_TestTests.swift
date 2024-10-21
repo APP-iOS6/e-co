@@ -9,9 +9,85 @@ import XCTest
 @testable import ECO_FB_Test
 
 final class ECO_FB_TestTests: XCTestCase {
+    
+//    func testPaymentInfoFetch() async throws {
+//        let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
+//            
+//        }
+//        
+//        guard case DataResult.paymentInfo(let paymentInfo) = result else {
+//            throw DataError.fetchError(reason: "Can't get paymentInfo")
+//        }
+//        
+//        let card = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
+//        let expect = PaymentInfo(id: "Ki12J9HmdyzwcO2TsMlS", userID: "idntno0505@gmail.com", recipientName: "홍재민", phoneNumber: "010-1234-5060", paymentMethod: .card, paymentMethodInfo: card, address: "home")
+//        
+//        XCTAssertEqual(paymentInfo, expect)
+//    }
+    
+//    func testCardInfoFetch() async throws {
+//        let result = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: "0woTQSLvsGuqbKNZvtkc")) { _ in
+//            
+//        }
+//        
+//        guard case DataResult.cardInfo(let cardInfo) = result else {
+//            throw DataError.fetchError(reason: "Can't get cardInfo")
+//        }
+//        
+//        let expect = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
+//        
+//        XCTAssertEqual(cardInfo, expect)
+//    }
 
+    func testOneToOneInquiryFetch() async throws {
+        _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAll(sellerID: "seller@seller.com", limit: 20)) { _ in
+            
+        }
+        
+        let result = await OneToOneInquiryStore.shared.oneToOneInquiries[0]
+        let expect = await OneToOneInquiryStore.shared.oneToOneInquiries[0]
+        
+        XCTAssertEqual(result, expect)
+    }
+    
+    func testOneToOneInquiryUpdate() async throws {
+        let id = UUID().uuidString
+        let user = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
+            
+        }
+        let seller = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "seller@seller.com", shouldReturnUser: true)) { _ in
+            
+        }
+        
+        guard case .user(let user) = user else {
+            throw DataError.convertError(reason: "Can't get user")
+        }
+        
+        guard case .user(let seller) = seller else {
+            throw DataError.convertError(reason: "Can't get user")
+        }
+        
+        let inquiry = OneToOneInquiry(id: id, creationDate: .now, user: user, seller: seller, title: "테스트요", question: "질문이요", answer: "정답이요")
+        await DataManager.shared.updateData(type: .oneToOneInquiry, parameter: .oneToOneInquiryUpdate(id: UUID().uuidString, inquiry: inquiry)) { _ in
+            
+        }
+    }
+    
+    func testOneToOneInquiryDelete() async {
+        await DataManager.shared.deleteData(type: .oneToOneInquiry, parameter: .oneToOneInquiryDelete(id: "D974FBD5-F5E5-42AA-88A3-093162D8D8F9")) { _ in
+            
+        }
+    }
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
+        
+//        Task {
+//            let cardInfo = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
+//            await DataManager.shared.updateData(type: .cardInfo, parameter: .cardInfoUpdate(id: "0woTQSLvsGuqbKNZvtkc", cardInfo: cardInfo)) { _ in
+//                
+//            }
+//        }
     }
 
     override func tearDownWithError() throws {

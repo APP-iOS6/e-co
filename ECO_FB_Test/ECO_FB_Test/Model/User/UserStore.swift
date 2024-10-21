@@ -13,6 +13,7 @@ import FirebaseFirestore
 final class UserStore: DataControllable {
     static let shared: UserStore = UserStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "User"
     private(set) var userData: User? = nil
     
     private init() {}
@@ -23,7 +24,7 @@ final class UserStore: DataControllable {
         }
         
         do {
-            let snapshot = try await db.collection("User").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             return snapshot.exists
         } catch {
@@ -37,7 +38,7 @@ final class UserStore: DataControllable {
         }
 
         do {
-            let snapshot = try await db.collection("User").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             guard let docData = snapshot.data() else {
                 throw DataError.fetchError(reason: "The Document Data is nil")
@@ -75,41 +76,44 @@ final class UserStore: DataControllable {
     
     func updateData(parameter: DataParam) async throws {
         guard case let .userUpdate(id, user) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a user update")
+            throw DataError.updateError(reason: "The DataParam is not a user update")
         }
         
-        var goodsIds: [String] = []
-        for goods in user.cart {
-            goodsIds.append(goods.id)
+        var goodsCartIDs: [String] = []
+        for element in user.cart {
+            let goodsID = element.goods.id
+            let goodsCount = element.goodsCount
+            let cartInfo: String = goodsID + "_" + String(goodsCount)
+            
+            goodsCartIDs.append(cartInfo)
         }
         
-        var recentWatchedIDs: [String] = []
-        for goods in user.goodsRecentWatched {
-            recentWatchedIDs.append(goods.id)
-        }
+        let recentWatchedIDs: [String] = getGoodsIDArray(goodsSet: user.goodsRecentWatched)
+        let goodsFavoritedIDs: [String] = getGoodsIDArray(goodsSet: user.goodsFavorited)
         
         do {
-            try await db.collection("User").document(id).setData([
+            try await db.collection(collectionName).document(id).setData([
                 "login_method": user.loginMethod,
                 "is_seller": user.isSeller,
                 "name": user.name,
-                "profile_image": user.profileImageName,
+                "profile_image": user.profileImageURL.absoluteString,
                 "point": user.pointCount,
-                "cart": goodsIds,
-                "goods_recent_watched": recentWatchedIDs
+                "cart": goodsCartIDs,
+                "goods_recent_watched": recentWatchedIDs,
+                "goods_favorited": goodsFavoritedIDs
             ])
         } catch {
             throw error
         }
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
         
     }
     
     private func getUserWithReturn(id: String) async throws -> DataResult {
         do {
-            let snapshot = try await db.collection("User").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             let user = try await getData(document: snapshot)
             return DataResult.user(result: user)
@@ -121,7 +125,7 @@ final class UserStore: DataControllable {
     private func getUserWithNoReturn(id: String) async throws -> DataResult {
         do {
             _ = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<DataResult, Error>) in
-                _ = db.collection("User").document(id).addSnapshotListener { [weak self] snapshot, error in
+                _ = db.collection(collectionName).document(id).addSnapshotListener { [weak self] snapshot, error in
                     if let error {
                         continuation.resume(throwing: error)
                     }
@@ -159,38 +163,70 @@ final class UserStore: DataControllable {
         let loginMethod = docData["login_method"] as? String ?? "none"
         let isSeller = docData["is_seller"] as? Bool ?? false
         let name = docData["name"] as? String ?? "none"
-        let profileImageName = docData["profile_image"] as? String ?? "none"
-        let pointCount = docData["point"] as? Int ?? 0
         
-        var cart: Set<Goods> = []
-        var goodsRecentWatched: Set<Goods> = []
-        
-        if !isSeller {
-            let cartGoodsIDs = docData["cart"] as? [String] ?? []
-            for goodsId in cartGoodsIDs {
-                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
-                    
-                }
-                
-                if case let .goods(result) = goodsResult {
-                    cart.insert(result)
-                }
-            }
-            
-            
-            let recentGoodsIDs = docData["goods_recent_watched"] as? [String] ?? []
-            for goodsId in recentGoodsIDs {
-                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsId)) { _ in
-                    
-                }
-                
-                if case let .goods(result) = goodsResult {
-                    goodsRecentWatched.insert(result)
-                }
-            }
+        let profileImageURLString = docData["profile_image"] as? String ?? "none"
+        guard let url = URL(string: profileImageURLString) else {
+            throw DataError.convertError(reason: "The profile image URL is invalid")
         }
         
-        let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageName: profileImageName, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched)
+        let pointCount = docData["point"] as? Int ?? 0
+        
+        var cart: Set<CartElement> = []
+        var goodsRecentWatched: Set<Goods> = []
+        var goodsFavorited: Set<Goods> = []
+        
+        if !isSeller {
+            let cartData = docData["cart"] as? [String] ?? []
+            for data in cartData {
+                let splitResult = data.components(separatedBy: "_")
+                let goodsID = splitResult[0]
+                let goodsCount = splitResult[1]
+                
+                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID)) { _ in
+                    
+                }
+                
+                guard case let .goods(result) = goodsResult else {
+                    throw DataError.fetchError(reason: "Can't get goods data")
+                }
+                
+                let cartElement = CartElement(id: UUID().uuidString, goods: result, goodsCount: Int(goodsCount)!)
+                cart.insert(cartElement)
+            }
+            
+            goodsRecentWatched = try await getGoodsSet(field: "goods_recent_watched", docData: docData)
+            goodsFavorited = try await getGoodsSet(field: "goods_favorited", docData: docData)
+        }
+        
+        let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageURL: url, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched, goodsFavorited: goodsFavorited)
         return user
+    }
+    
+    private func getGoodsSet(field: String, docData: [String: Any]) async throws -> Set<Goods> {
+        var resultSet: Set<Goods> = []
+        let goodsIDs = docData[field] as? [String] ?? []
+        
+        for goodsID in goodsIDs {
+            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID)) { _ in
+                
+            }
+            
+            guard case let .goods(result) = goodsResult else {
+                throw DataError.fetchError(reason: "Can't get goods data")
+            }
+            
+            resultSet.insert(result)
+        }
+        
+        return resultSet
+    }
+    
+    private func getGoodsIDArray(goodsSet: Set<Goods>) -> [String] {
+        var goodsIDs: [String] = []
+        for goods in goodsSet {
+            goodsIDs.append(goods.id)
+        }
+        
+        return goodsIDs
     }
 }

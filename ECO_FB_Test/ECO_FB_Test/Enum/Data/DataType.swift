@@ -11,6 +11,8 @@ enum DataType: Int {
     case user = 0
     case goods
     case paymentInfo
+    case cardInfo
     case announcement
+    case oneToOneInquiry
     case zeroWasteShop
 }

@@ -12,6 +12,7 @@ import FirebaseFirestore
 final class AnnouncementStore: DataControllable {
     static let shared: AnnouncementStore = AnnouncementStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "Announcement"
     private let limitSize: Int = 20
     private var isFirstFetch: Bool = true
     private var lastDocument: DocumentSnapshot? = nil
@@ -28,7 +29,7 @@ final class AnnouncementStore: DataControllable {
             var result = DataResult.none
             if isFirstFetch {
                 isFirstFetch = false
-                result = try await initPage()
+                result = try await getFirstPage()
             } else {
                 result = try await getNextPage()
             }
@@ -41,11 +42,11 @@ final class AnnouncementStore: DataControllable {
     
     func updateData(parameter: DataParam) async throws {
         guard case let .announcementUpdate(id, announcement) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a announcement update")
+            throw DataError.updateError(reason: "The DataParam is not a announcement update")
         }
         
         do {
-            try await db.collection("Announcement").document(id).setData([
+            try await db.collection(collectionName).document(id).setData([
                 "admin_id": announcement.admin.id,
                 "content": announcement.content,
                 "creation_date": announcement.creationDate.getFormattedString("yyyy-MM-dd-HH-mm")
@@ -55,13 +56,13 @@ final class AnnouncementStore: DataControllable {
         }
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
         
     }
     
-    private func initPage() async throws -> DataResult {
+    private func getFirstPage() async throws -> DataResult {
         do {
-            let snapshots = try await db.collection("Announcement")
+            let snapshots = try await db.collection(collectionName)
                                       .order(by: "creation_date")
                                       .limit(to: limitSize)
                                       .getDocuments()
@@ -71,7 +72,7 @@ final class AnnouncementStore: DataControllable {
                 announcementList.append(announcement)
             }
             
-            self.lastDocument = snapshots.documents.last
+            lastDocument = snapshots.documents.last
             return DataResult.none
         } catch {
             throw error
@@ -82,7 +83,7 @@ final class AnnouncementStore: DataControllable {
         guard let lastDocument else { return DataResult.none }
         
         do {
-            let snapshots = try await db.collection("Announcement")
+            let snapshots = try await db.collection(collectionName)
                                       .order(by: "creation_date")
                                       .start(afterDocument: lastDocument)
                                       .limit(to: limitSize)

@@ -10,16 +10,20 @@ import NukeUI
 
 struct CartGoodsInfoView: View {
     @Binding var totalSelected: Bool
-    var goods: Goods
-    var selectEvent: (Bool, Goods) -> Void
+    var cartElement: CartElement
+    var selectEvent: (Bool, CartElement) -> Void
     @State private var isOn: Bool = false
     @State private var isSelected: Bool = false
+    
+    private var goods: Goods {
+        cartElement.goods
+    }
     
     var body: some View {
         VStack {
             HStack(alignment: .center) {
                 CheckBox(isOn: $isOn) {
-                    selectEvent(isOn, goods)
+                    selectEvent(isOn, cartElement)
                 }
                 
                 LazyImage(url: goods.thumbnailImageURL) { state in
@@ -50,7 +54,7 @@ struct CartGoodsInfoView: View {
         }
         .onChange(of: totalSelected) {
             isOn = totalSelected
-            selectEvent(isOn, goods)
+            selectEvent(isOn, cartElement)
         }
         .onTapGesture {
             isSelected = true

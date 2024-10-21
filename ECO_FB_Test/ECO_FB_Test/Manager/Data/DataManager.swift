@@ -17,7 +17,9 @@ final class DataManager {
         UserStore.shared,
         GoodsStore.shared,
         PaymentInfoStore.shared,
+        CardInfoStore.shared,
         AnnouncementStore.shared,
+        OneToOneInquiryStore.shared,
         ZeroWasteShopStore.shared
     ]
     
@@ -28,7 +30,7 @@ final class DataManager {
     /**
      유저 존재 여부 확인 메소드
      
-     - parameter parameter: 에러가 날 수 있으니 꼭 .userLoad(id)를 넣어야 합니다.
+     - parameter parameter: 에러가 날 수 있으니 꼭 .userSearch(id)를 넣어야 합니다.
      - Returns: 유저가 존재한다면 true, 존재하지 않는다면 false
      */
     func checkIfUserExists(parameter: DataParam) async -> Bool {
@@ -46,7 +48,7 @@ final class DataManager {
     /**
      유저의 로그인 방법 조회 메소드
      
-     - parameter parameter: 에러가 날 수 있으니 꼭 .userLoad(id)를 넣어야 합니다.
+     - parameter parameter: 에러가 날 수 있으니 꼭 .userSearch(id)를 넣어야 합니다.
      - Returns: 문자열 형식의 유저의 로그인 방법, 알 수 없다면 none
      */
     func getUserLoginMethod(parameter: DataParam) async -> String {
@@ -115,7 +117,17 @@ final class DataManager {
         }
     }
     
-    func deleteData() {
-        
+    func deleteData(type: DataType, parameter: DataParam, deleteFlowChangeAction: (DataDeleteFlow) -> Void) async {
+        do {
+            var dataDeleteFlow: DataDeleteFlow = .deleting
+            deleteFlowChangeAction(dataDeleteFlow)
+            
+            try await dataStores[type.rawValue].deleteData(parameter: parameter)
+            
+            dataDeleteFlow = .deleted
+            deleteFlowChangeAction(dataDeleteFlow)
+        } catch {
+            print("Error: \(error)")
+        }
     }
 }
