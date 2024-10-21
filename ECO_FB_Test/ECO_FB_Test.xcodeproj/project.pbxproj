@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18475D4D2CC5F44E004A5214 /* AddressListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18475D4C2CC5F447004A5214 /* AddressListView.swift */; };
 		186DD6B02CBE61E00024F705 /* RecentlyViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186DD6AF2CBE61CC0024F705 /* RecentlyViewerView.swift */; };
 		18DD4AC42CBF8AD7002AC8EA /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD4AC32CBF8ACD002AC8EA /* HelpView.swift */; };
 		4220E3392CC507A200381B51 /* SellerHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220E3382CC507A200381B51 /* SellerHomeView.swift */; };
@@ -145,6 +146,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18475D4C2CC5F447004A5214 /* AddressListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListView.swift; sourceTree = "<group>"; };
 		186DD6AF2CBE61CC0024F705 /* RecentlyViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyViewerView.swift; sourceTree = "<group>"; };
 		18DD4AC32CBF8ACD002AC8EA /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		4220E3382CC507A200381B51 /* SellerHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerHomeView.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 			children = (
 				50D468042CBE5DBD00757BAD /* MyPageView.swift */,
 				6E7615F92CC0F7BB009FAC72 /* AddProductView.swift */,
+				18475D4C2CC5F447004A5214 /* AddressListView.swift */,
 				6E7615F72CC0F7AA009FAC72 /* OrderStatusView.swift */,
 				6E7615F52CC0F757009FAC72 /* UserInformationView.swift */,
 				186DD6AF2CBE61CC0024F705 /* RecentlyViewerView.swift */,
@@ -935,6 +938,7 @@
 				FE6EC1A62CC3AFE500EC9874 /* EncryptError.swift in Sources */,
 				6E7615F62CC0F757009FAC72 /* UserInformationView.swift in Sources */,
 				6EBBB3AE2CC3902D008EB202 /* OrderDetailView.swift in Sources */,
+				18475D4D2CC5F44E004A5214 /* AddressListView.swift in Sources */,
 				6EAA4A9B2CBD29E90014A5C6 /* StoreLocationView.swift in Sources */,
 				FE6A7AF72CB9AE44000F5DB6 /* LoginControllable.swift in Sources */,
 				F6386E322CBCE89400F67671 /* UnderLineView.swift in Sources */,

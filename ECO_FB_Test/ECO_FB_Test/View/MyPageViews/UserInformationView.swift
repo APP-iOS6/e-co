@@ -137,3 +137,7 @@ struct UserInformationView: View {
         .padding()
     }
 }
+
+#Preview {
+    UserInformationView()
+}
