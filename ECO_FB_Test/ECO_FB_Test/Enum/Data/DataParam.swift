@@ -8,6 +8,7 @@
 import Foundation
 
 enum DataParam {
+    case none
     /**
      유저 조회가 필요할 때 사용
      */

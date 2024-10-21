@@ -105,7 +105,9 @@ struct EditUserInfoView: View {
                 Button("탈퇴 하기", role: .destructive) {
                     Task{
                         // User컬렉션의 user삭제
-                        try await UserStore.shared.deleteUserData()
+                        await DataManager.shared.deleteData(type: .user, parameter: .none) { _ in
+                            
+                        }
                         // Autentication의 계정 삭제
                         try AuthManager.shared.deleteUser()
                         AuthManager.shared.logout()
