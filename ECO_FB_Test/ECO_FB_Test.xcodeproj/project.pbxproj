@@ -14,6 +14,7 @@
 		4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */; };
 		4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */; };
 		4223D7352CBCB49900F94D1B /* EcoStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7342CBCB49900F94D1B /* EcoStepsView.swift */; };
+		4228E9D72CC5E8C600D290AD /* SecretKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4228E9D62CC5E8C600D290AD /* SecretKeys.xcconfig */; };
 		42807F022CBE2B69007A83D5 /* MoreEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42807F012CBE2B69007A83D5 /* MoreEventsView.swift */; };
 		429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429157B02CBD0EFD0085828F /* HealthKitManager.swift */; };
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
@@ -29,7 +30,6 @@
 		50D4680B2CBE5DBD00757BAD /* NoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468052CBE5DBD00757BAD /* NoticeView.swift */; };
 		50D4680C2CBE5DBD00757BAD /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468062CBE5DBD00757BAD /* PrivacyPolicyView.swift */; };
 		50D4680D2CBE5DBD00757BAD /* ProductQuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468072CBE5DBD00757BAD /* ProductQuestionsView.swift */; };
-		50D8C9652CC5D4A40003F3C5 /* SecretKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50D8C9642CC5D4A40003F3C5 /* SecretKeys.xcconfig */; };
 		6E7615EE2CC0F625009FAC72 /* RecommendedItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7615ED2CC0F625009FAC72 /* RecommendedItemsView.swift */; };
 		6E7615F02CC0F654009FAC72 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7615EF2CC0F654009FAC72 /* ItemListView.swift */; };
 		6E7615F22CC0F67C009FAC72 /* AllGoodsOfCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7615F12CC0F67C009FAC72 /* AllGoodsOfCategoryView.swift */; };
@@ -152,6 +152,7 @@
 		4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoTopInfoView.swift; sourceTree = "<group>"; };
 		4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoEventsView.swift; sourceTree = "<group>"; };
 		4223D7342CBCB49900F94D1B /* EcoStepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoStepsView.swift; sourceTree = "<group>"; };
+		4228E9D62CC5E8C600D290AD /* SecretKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SecretKeys.xcconfig; sourceTree = "<group>"; };
 		42807F012CBE2B69007A83D5 /* MoreEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreEventsView.swift; sourceTree = "<group>"; };
 		429157AA2CBD0E4A0085828F /* ECO_FB_Test.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ECO_FB_Test.entitlements; sourceTree = "<group>"; };
 		429157B02CBD0EFD0085828F /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
@@ -168,7 +169,6 @@
 		50D468052CBE5DBD00757BAD /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
 		50D468062CBE5DBD00757BAD /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		50D468072CBE5DBD00757BAD /* ProductQuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductQuestionsView.swift; sourceTree = "<group>"; };
-		50D8C9642CC5D4A40003F3C5 /* SecretKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SecretKeys.xcconfig; sourceTree = "<group>"; };
 		6E7615ED2CC0F625009FAC72 /* RecommendedItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedItemsView.swift; sourceTree = "<group>"; };
 		6E7615EF2CC0F654009FAC72 /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
 		6E7615F12CC0F67C009FAC72 /* AllGoodsOfCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGoodsOfCategoryView.swift; sourceTree = "<group>"; };
@@ -481,7 +481,7 @@
 				FE40BBF32CB9405F00786E34 /* View */,
 				FE40BBF42CB9405F00786E34 /* Assets.xcassets */,
 				50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */,
-				50D8C9642CC5D4A40003F3C5 /* SecretKeys.xcconfig */,
+				4228E9D62CC5E8C600D290AD /* SecretKeys.xcconfig */,
 			);
 			path = ECO_FB_Test;
 			sourceTree = "<group>";
@@ -851,7 +851,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE40BBFA2CB9405F00786E34 /* Assets.xcassets in Resources */,
-				50D8C9652CC5D4A40003F3C5 /* SecretKeys.xcconfig in Resources */,
+				4228E9D72CC5E8C600D290AD /* SecretKeys.xcconfig in Resources */,
 				50CF07902CC00FFB00C720A7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
