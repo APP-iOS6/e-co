@@ -148,7 +148,7 @@ struct UserInformationView: View {
     }
 
     private func reauthenticateAndProceed() {
-        EmailLoginManager.shared.reauthenticateUser(password: passwordInput) { result in
+        AuthManager.shared.reauthenticateUser(password: passwordInput) { result in
             switch result {
             case .success:
                 showEditView = true

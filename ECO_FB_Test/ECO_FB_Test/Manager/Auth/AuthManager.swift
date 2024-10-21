@@ -49,6 +49,23 @@ final class AuthManager {
         }
     }
     
+    func reauthenticateUser(password: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let user = UserStore.shared.userData else {
+            return
+        }
+        
+        if user.loginMethod == LoginMethod.email.rawValue {
+            EmailLoginManager.shared.reauthenticateUser(password: password, completion: completion)
+        } else {
+            if isUserLoggedIn {
+                completion(.success(()))
+            } else {
+                let error = LoginError.userError(reason: "User not exist")
+                completion(.failure(error))
+            }
+        }
+    }
+    
     /**
      로그인 메소드
      
