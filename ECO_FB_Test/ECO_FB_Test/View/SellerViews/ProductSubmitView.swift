@@ -9,18 +9,19 @@
 import SwiftUI
 
 struct ProductSubmitView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss) var dismiss
+    @Binding var isUploaded: Bool
     
-    private var goodsCategories = GoodsCategory.allCases.filter{ $0.rawValue != "none" }.sorted { a, b in
+    var goodsCategories = GoodsCategory.allCases.filter{ $0.rawValue != "none" }.sorted { a, b in
         a.rawValue > b.rawValue
     }
-    @State private var selectedCategory: GoodsCategory? = nil
-    @State private var goodsName: String = ""
-    @State private var goodsContent: String = ""
-    @State private var goodsPrice: String = ""
-    @State private var goodsImage: Image? = nil
-    @State private var selectedUIImage: UIImage? = nil
-    @State private var showImagePicker: Bool = false
+    @State var selectedCategory: GoodsCategory? = nil
+    @State var goodsName: String = ""
+    @State var goodsContent: String = ""
+    @State var goodsPrice: String = ""
+    @State var goodsImage: Image? = nil
+    @State var selectedUIImage: UIImage? = nil
+    @State var showImagePicker: Bool = false
     
     private var isEmptyAnyFields: Bool {    //
         selectedCategory == nil || goodsName.isEmpty || goodsContent.isEmpty || goodsPrice.isEmpty || goodsImage == nil
@@ -126,6 +127,7 @@ struct ProductSubmitView: View {
                         }
                     }
                     print("등록 완료")
+                    isUploaded.toggle()
                     dismiss()
                 } label: {
                     Text("등록 하기")
@@ -144,6 +146,7 @@ struct ProductSubmitView: View {
             }
             .padding()
         }
+        .scrollIndicators(.hidden)
     }
     
     private func loadImage() {

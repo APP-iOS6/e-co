@@ -9,49 +9,57 @@
 import SwiftUI
 
 struct SellerBottomView: View {
+    @State var isUploaded: Bool = false
+    
     var body: some View {
-        VStack {
-            NavigationLink(destination: ProductSubmitView()) {
-                ZStack{
-                    Rectangle()
-                        .fill(.accent)
-                        .cornerRadius(20)
-                    Text("상품 등록")
-                        .foregroundStyle(.white)
-                        .font(.title)
-                        .fontWeight(.bold)
+        ZStack{
+            VStack{
+                NavigationLink(destination: ProductSubmitView(isUploaded: $isUploaded)) {
+                    ZStack{
+                        Rectangle()
+                            .fill(.accent)
+                            .cornerRadius(20)
+                        Text("상품 등록")
+                            .foregroundStyle(.white)
+                            .font(.title)
+                            .fontWeight(.bold)
+                    }
                 }
-            }
-            .frame(maxHeight: 90)
-            .padding()
-            
-            NavigationLink(destination: OrderManageView()) {
-                ZStack{
-                    Rectangle()
-                        .fill(.accent)
-                        .cornerRadius(20)
-                    Text("주문 관리")
-                        .foregroundStyle(.white)
-                        .font(.title)
-                        .fontWeight(.bold)
+                .frame(maxHeight: 90)
+                .padding()
+                
+                NavigationLink(destination: OrderManageView()) {
+                    ZStack{
+                        Rectangle()
+                            .fill(.accent)
+                            .cornerRadius(20)
+                        Text("주문 관리")
+                            .foregroundStyle(.white)
+                            .font(.title)
+                            .fontWeight(.bold)
+                    }
                 }
-            }
-            .frame(maxHeight: 90)
-            .padding()
-            
-            NavigationLink(destination: HelpManageView()) {
-                ZStack{
-                    Rectangle()
-                        .fill(.accent)
-                        .cornerRadius(20)
-                    Text("문의 관리")
-                        .foregroundStyle(.white)
-                        .font(.title)
-                        .fontWeight(.bold)
+                .frame(maxHeight: 90)
+                .padding()
+                
+                NavigationLink(destination: HelpManageView()) {
+                    ZStack{
+                        Rectangle()
+                            .fill(.accent)
+                            .cornerRadius(20)
+                        Text("문의 관리")
+                            .foregroundStyle(.white)
+                            .font(.title)
+                            .fontWeight(.bold)
+                    }
                 }
+                .frame(maxHeight: 90)
+                .padding()
             }
-            .frame(maxHeight: 90)
-            .padding()
+            VStack{
+                Spacer()
+                SignUpToastView(isVisible: $isUploaded, message: "상품 등록이 완료되었습니다.")
+            }
         }
     }
 }
