@@ -141,4 +141,18 @@ final class AuthManager {
         
         return email
     }
+    
+    /**
+     현재 유저의 계정을 삭제하는 메소드
+     */
+    func deleteUser() throws {
+        guard let user = Auth.auth().currentUser else { throw LoginError.userError(reason: "You Don't Login!") }
+        user.delete { error in  // authentication에서 유저 삭제
+            if error != nil {
+                print("회원삭제 에러발생")
+            } else {
+                print("회원삭제 성공")
+            }
+        }
+    }
 }

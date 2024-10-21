@@ -146,6 +146,7 @@ struct ProductSubmitView: View {
             }
             .padding()
         }
+        .scrollIndicators(.hidden)
     }
     
     private func loadImage() {
