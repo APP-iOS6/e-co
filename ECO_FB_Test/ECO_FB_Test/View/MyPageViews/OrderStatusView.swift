@@ -65,6 +65,10 @@ struct OrderStatusView: View {
 struct OrderRowView: View {
     let cartElement: CartElement
 
+    // 알림창 표시 여부를 관리하는 @State 변수
+    @State private var showExchangeAlert = false
+    @State private var showShippingAlert = false
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -86,25 +90,28 @@ struct OrderRowView: View {
                 }
                 
                 Spacer()
-                
-                Text("")
             }
 
             HStack {
                 Button("교환, 반품 신청") {
-                    print("교환/반품 신청")
+                    showExchangeAlert = true // 교환/반품 신청 알림 표시
                 }
                 .buttonStyle(.bordered)
                 .foregroundColor(.black)
+                .alert("판매자에게 문의해주세요.\nMy-지원-문의하기-1:1문의", isPresented: $showExchangeAlert) {
+                    Button("확인", role: .cancel) { }
+                }
 
                 Spacer()
 
                 Button("배송 조회") {
-                    print("배송 조회")
+                    showShippingAlert = true // 배송 조회 알림 표시
                 }
                 .buttonStyle(.borderedProminent)
                 .foregroundColor(.white)
-
+                .alert("현재 판매자가 주문을 확인하고 있습니다.\n곧 배송이 시작될 예정입니다.\n감사합니다.", isPresented: $showShippingAlert) {
+                    Button("확인", role: .cancel) { }
+                }
             }
 
             Button("구매 후기 쓰기") {
