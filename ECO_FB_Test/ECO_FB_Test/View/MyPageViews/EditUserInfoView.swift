@@ -17,6 +17,7 @@ struct EditUserInfoView: View {
     // 상태 관리를 위한 변수들
     @State private var passwordTooShort: Bool = false
     @State private var passwordMismatch: Bool = false
+    @State private var showLogoutAlert: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -89,7 +90,7 @@ struct EditUserInfoView: View {
                 .font(.headline)
             
             Button(action: {
-                // 회원탈퇴 로직 추가 예정
+                showLogoutAlert = true
             }) {
                 Text("회원탈퇴")
                     .frame(maxWidth: .infinity)
@@ -99,6 +100,15 @@ struct EditUserInfoView: View {
                     .cornerRadius(10)
             }
             .padding(.top, 10)
+            .alert("회원탈퇴", isPresented: $showLogoutAlert) {
+                Button("회원탈퇴", role: .destructive) {
+                    AuthManager.shared.logout()
+                    dismiss() // 뷰를 닫아 이전 화면으로 돌아갑니다.
+                }
+                Button("취소", role: .cancel) { }
+            } message: {
+                Text("정말 회원탈퇴 하시겠습니까?\n저장된 데이터는 복구할 수 없습니다.")
+            }
             
             Spacer()
         }
