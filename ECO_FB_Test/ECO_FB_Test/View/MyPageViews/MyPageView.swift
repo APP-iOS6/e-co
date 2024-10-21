@@ -79,7 +79,7 @@ struct MyPageView: View {
                 }
                 Spacer()
                 NavigationLink {
-                    CartView(isBought: $isBought)
+                    CartView()
                 } label: {
                     VStack {
                         Image(systemName: "bag")

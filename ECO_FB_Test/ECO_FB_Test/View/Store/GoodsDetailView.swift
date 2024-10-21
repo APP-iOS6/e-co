@@ -158,7 +158,7 @@ struct GoodsDetailView: View {
                     Image(systemName: "cart")
                 }
                 .sheet(isPresented: $moveToCart) {
-                    CartView(isBought: $isBought)
+                    CartView()
                 }
                 .foregroundStyle(Color(uiColor: .darkGray))
             }
