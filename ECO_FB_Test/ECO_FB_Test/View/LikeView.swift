@@ -62,7 +62,7 @@ struct LikeView: View {
                                                     Image(systemName: isLike ? "heart.fill" : "heart")
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fit)
-                                                        .frame(width: 20, height: 20)
+                                                        .frame(width: 25, height: 25)
                                                         .foregroundStyle(isLike ? .pink : .white)
                                                         .shadow(color: .black, radius: 1)
                                                 }
