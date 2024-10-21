@@ -84,7 +84,9 @@ struct OrderView: View {
                     if progress > 0 {
                         ProgressView()
                     }
-                    
+                }
+                VStack{
+                    Spacer()
                     SignUpToastView(isVisible: $isShowToast, message: "결제가 완료되었습니다")
                         .padding(.horizontal)
                 }

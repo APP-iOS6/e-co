@@ -116,8 +116,10 @@ struct GoodsDetailView: View {
                     }
                     .scrollIndicators(.hidden)
                     
-                    SignUpToastView(isVisible: $isShowToast, message: "장바구니에 추가되었습니다")
+                    
                 }
+                Spacer()
+                SignUpToastView(isVisible: $isShowToast, message: "장바구니에 추가되었습니다")
             }
             
             HStack {
@@ -127,9 +129,9 @@ struct GoodsDetailView: View {
                             let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
                             user.cart.insert(cartElement)
                             await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                                isShowToast.toggle()
                             }
                         }
+                        isShowToast.toggle()
                     }
                 } label: {
                     Text("장바구니 담기")
