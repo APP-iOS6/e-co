@@ -9,11 +9,15 @@ import SwiftUI
 import NukeUI
 
 struct UserInformationView: View {
-    @State private var showLogoutAlert: Bool = false
+
     @State private var showReauthAlert: Bool = false
     @State private var showEditView: Bool = false
     @State private var passwordInput: String = ""
     @State private var showToast: Bool = false // 토스트 표시 여부
+
+    @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
+    @State private var showDeleteAlert:Bool = false  // 회원탈퇴 알림 표시 여부
+
     @Environment(\.dismiss) var dismiss
     @Environment(UserStore.self) private var userStore: UserStore
 
@@ -195,6 +199,32 @@ struct UserInformationView: View {
                 .foregroundStyle(.black)
             }
             .bold()
+        }
+        .padding()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showDeleteAlert.toggle()
+                } label : {
+                    Text("회원 탈퇴")
+                        .foregroundStyle(.red)
+                }
+                .alert("회원 탈퇴", isPresented: $showDeleteAlert, actions: {
+                    Button("탈퇴 하기", role: .destructive) {
+                        Task{
+                            // User컬렉션의 user삭제
+                            try await UserStore.shared.deleteUserData()
+                            // Autentication의 계정 삭제
+                            try AuthManager.shared.deleteUser()
+                            AuthManager.shared.logout()
+                        }
+                        dismiss()
+                    }
+                    Button("취소", role: .cancel) { }
+                }, message: {
+                    Text("정말 계정을 탈퇴하시겠습니까?")
+                })
+            }
         }
     }
 }

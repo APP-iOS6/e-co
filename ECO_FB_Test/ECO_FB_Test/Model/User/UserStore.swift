@@ -229,4 +229,12 @@ final class UserStore: DataControllable {
         
         return goodsIDs
     }
+    
+    func deleteUserData() async throws {
+        do{
+            try await db.collection(collectionName).document(userData!.id).delete()
+        }catch {
+            throw error
+        }
+    }
 }
