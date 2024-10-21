@@ -11,8 +11,10 @@ import CoreLocation
 import Observation
 
 struct StoreLocationView: View {
+    @State var mapCameraPosition: MapCameraPosition = .camera(.init(centerCoordinate: LocationManager.shared.coordinate ?? CLLocationCoordinate2D(latitude: 37.5642135, longitude: 127.0016985), distance: 0))
     var coordinate = LocationManager.shared.coordinate
     var shopList = ZeroWasteShopStore.shared.zeroWasteShopList
+    
     var body: some View {
         GeometryReader { GeometryProxy in
             VStack {
@@ -23,8 +25,8 @@ struct StoreLocationView: View {
                         Spacer()
                     }
                     .padding(.vertical)
-                    
-                    Map {
+       
+                    Map(position: $mapCameraPosition) {
                         if let coordinate = coordinate {
                             Marker(coordinate: coordinate) {
                                 Text("내 위치")
@@ -42,11 +44,15 @@ struct StoreLocationView: View {
                 .frame(width: GeometryProxy.size.width, height: GeometryProxy.size.height/3*2)
                 
                 List(shopList) { shop in
-                    HStack {
-                        Text(shop.name)
-                            .fontWeight(.semibold)
-                        Spacer()
-                        Text(shop.phoneNumber)
+                    Button {
+                        mapCameraPosition = .camera(.init(centerCoordinate: shop.position, distance: 0))
+                    } label: {
+                        HStack {
+                            Text(shop.name)
+                                .fontWeight(.semibold)
+                            Spacer()
+                            Text(shop.phoneNumber)
+                        }
                     }
                 }
                 .frame(width: GeometryProxy.size.width, height: GeometryProxy.size.height/5*4)

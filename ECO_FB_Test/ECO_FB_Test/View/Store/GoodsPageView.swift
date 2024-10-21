@@ -12,7 +12,6 @@ import NukeUI
 struct GoodsPageView: View {
     var itemRange: Range<Int>
     var category: GoodsCategory
-    @Binding var index: Int
     @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     
     var body: some View {

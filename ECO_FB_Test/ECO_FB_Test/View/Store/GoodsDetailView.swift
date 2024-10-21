@@ -14,6 +14,8 @@ struct GoodsDetailView: View {
     var thumbnail: URL
     @State var moveToCart: Bool = false
     @State var isBought: Bool = false
+    @State var isLike: Bool = false
+    @State var isShowReview: Bool = false
     
     var body: some View {
         GeometryReader { GeometryProxy in
@@ -37,7 +39,7 @@ struct GoodsDetailView: View {
                         
                         LazyVStack(alignment: .leading) {
                             HStack(alignment: .center) {
-                                // 앱 로고 자리
+                                // TODO: 해당 thumbnail image로 변경하기
                                 Image(systemName: "text.aligncenter")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -67,11 +69,15 @@ struct GoodsDetailView: View {
                                 Spacer()
                                 
                                 Button {
-                                    
+                                    // TODO: 좋아요 정보 저장 로직 구현
+                                    isLike.toggle()
                                 } label: {
-                                    Image(systemName: "heart")
+                                    Image(systemName: isLike ? "heart.fill" : "heart")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 20)
                                 }
-                                .foregroundStyle(Color(uiColor: .darkGray))
+                                .foregroundStyle(isLike ? .pink : Color(uiColor: .darkGray))
                                 .font(.title2)
                             }
                             .padding(.bottom, 5)
@@ -84,12 +90,15 @@ struct GoodsDetailView: View {
                                 Spacer()
                                 
                                 Button {
-                                    
+                                    isShowReview.toggle()
                                 } label: {
                                     Text("리뷰보기")
                                         .underline()
                                 }
                                 .foregroundStyle(Color(uiColor: .darkGray))
+                            }
+                            .sheet(isPresented: $isShowReview) {
+                                ReviewListView()
                             }
                             Divider()
                             

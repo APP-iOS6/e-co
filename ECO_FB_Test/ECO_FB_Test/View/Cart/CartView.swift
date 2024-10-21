@@ -76,10 +76,11 @@ struct CartView: View {
             
             Spacer()
             
-            Button {
+            NavigationLink {
                 // TODO: 임시로 구매 완료 알럿 띄우기 or 구매하기 로직 완성
-                isBought = true
-                dismiss()
+//                isBought = true
+//                dismiss()
+                OrderView()
             } label: {
                 Text("주문하기")
                     .foregroundStyle(.white)

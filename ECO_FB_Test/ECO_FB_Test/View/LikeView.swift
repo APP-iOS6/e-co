@@ -1,48 +1,45 @@
 //
-//  ItemListView.swift
+//  LikeView.swift
 //  ECO_FB_Test
 //
-//  Created by 이소영 on 10/17/24.
+//  Created by 이소영 on 10/19/24.
 //
 
 import SwiftUI
 import Nuke
 import NukeUI
 
-struct ItemListView: View {
+struct LikeView: View {
     var category: GoodsCategory
     var allGoods: [Goods]
     var gridItems: [GridItem] = [
         GridItem(),
         GridItem()
     ]
-    @State var isLike: Bool = false
+    @State var isLike: Bool = true
     
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Text(category.rawValue)
-                    .font(.system(size: 20, weight: .semibold))
-                Spacer()
-                
-                NavigationLink(destination: AllGoodsOfCategoryView(category: category, allGoods: allGoods).environment(GoodsStore.shared)) {
-                    HStack {
-                        Text("더보기")
-                        Image(systemName: "chevron.right")
-                    }
-                    .foregroundStyle(.black)
+        ScrollView {
+            VStack(alignment: .leading) {
+                HStack {
+                    Image(systemName: "heart.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(.pink)
+                        .shadow(color: .black, radius: 1)
+                    Text("좋아요한 상품")
+                        .font(.system(size: 20, weight: .semibold))
+                    Spacer()
                 }
-                .bold()
+                .font(.footnote)
+                .padding(.top)
+                Divider()
             }
-            .font(.footnote)
-            .padding(.top)
-            Divider()
-        }
-        .padding(.horizontal)
-        
-        LazyVGrid(columns: gridItems) {
-            ForEach(0..<4) { index in
-                if allGoods.count > index {
+            .padding(.horizontal)
+            
+            LazyVGrid(columns: gridItems) {
+                ForEach(0..<Int(allGoods.count)) { index in
                     NavigationLink {
                         GoodsDetailView(goods: allGoods[index], thumbnail: allGoods[index].thumbnailImageURL)
                     } label: {
@@ -97,10 +94,11 @@ struct ItemListView: View {
                         .padding(5)
                     }
                 }
+                .padding(.bottom)
             }
-            .padding(.bottom)
+            .padding(.horizontal, 10)
         }
-        .padding(.horizontal, 10)
+        .scrollIndicators(.hidden)
     }
 }
 
@@ -119,5 +117,5 @@ struct ItemListView: View {
         seller: UserStore.shared.userData ?? User(id: UUID().uuidString, loginMethod: LoginMethod.google.rawValue, isSeller: true, name: "Lucy", profileImageName: "Hi.png", pointCount: 0, cart: [], goodsRecentWatched: [])
     )
     
-    ItemListView(category: GoodsCategory.none, allGoods: [sampleGoods, sampleGoods, sampleGoods])
+    LikeView(category: GoodsCategory.none, allGoods: [sampleGoods, sampleGoods, sampleGoods])
 }
