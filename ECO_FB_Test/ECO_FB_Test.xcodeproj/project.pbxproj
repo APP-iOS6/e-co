@@ -18,6 +18,11 @@
 		429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429157B02CBD0EFD0085828F /* HealthKitManager.swift */; };
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
 		504B6E892CBFE9630069BC1D /* FAQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504B6E882CBFE9630069BC1D /* FAQView.swift */; };
+		50C707AB2CC5DF95001CAEB5 /* SellerBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C707AA2CC5DF95001CAEB5 /* SellerBottomView.swift */; };
+		50C707AD2CC5DFA3001CAEB5 /* ProductSubmitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C707AC2CC5DFA3001CAEB5 /* ProductSubmitView.swift */; };
+		50C707AF2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C707AE2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift */; };
+		50C707B12CC5DFC5001CAEB5 /* OrderManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C707B02CC5DFC5001CAEB5 /* OrderManageView.swift */; };
+		50C707B32CC5DFD1001CAEB5 /* HelpManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C707B22CC5DFD1001CAEB5 /* HelpManageView.swift */; };
 		50CF07902CC00FFB00C720A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */; };
 		50D468092CBE5DBD00757BAD /* InquiriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468032CBE5DBD00757BAD /* InquiriesView.swift */; };
 		50D4680A2CBE5DBD00757BAD /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468042CBE5DBD00757BAD /* MyPageView.swift */; };
@@ -152,6 +157,11 @@
 		429157B02CBD0EFD0085828F /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		502256872CBD038F006F6D5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		504B6E882CBFE9630069BC1D /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
+		50C707AA2CC5DF95001CAEB5 /* SellerBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerBottomView.swift; sourceTree = "<group>"; };
+		50C707AC2CC5DFA3001CAEB5 /* ProductSubmitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSubmitView.swift; sourceTree = "<group>"; };
+		50C707AE2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerCapsuleTitleView.swift; sourceTree = "<group>"; };
+		50C707B02CC5DFC5001CAEB5 /* OrderManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderManageView.swift; sourceTree = "<group>"; };
+		50C707B22CC5DFD1001CAEB5 /* HelpManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpManageView.swift; sourceTree = "<group>"; };
 		50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		50D468032CBE5DBD00757BAD /* InquiriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiriesView.swift; sourceTree = "<group>"; };
 		50D468042CBE5DBD00757BAD /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
@@ -343,6 +353,19 @@
 			path = AuthView;
 			sourceTree = "<group>";
 		};
+		50C707B52CC5DFF9001CAEB5 /* SellerViews */ = {
+			isa = PBXGroup;
+			children = (
+				4220E3382CC507A200381B51 /* SellerHomeView.swift */,
+				50C707B22CC5DFD1001CAEB5 /* HelpManageView.swift */,
+				50C707B02CC5DFC5001CAEB5 /* OrderManageView.swift */,
+				50C707AE2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift */,
+				50C707AC2CC5DFA3001CAEB5 /* ProductSubmitView.swift */,
+				50C707AA2CC5DF95001CAEB5 /* SellerBottomView.swift */,
+			);
+			path = SellerViews;
+			sourceTree = "<group>";
+		};
 		50D468022CBE5B3B00757BAD /* Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,7 +442,7 @@
 		FE40BBF32CB9405F00786E34 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4220E3382CC507A200381B51 /* SellerHomeView.swift */,
+				50C707B52CC5DFF9001CAEB5 /* SellerViews */,
 				50D468022CBE5B3B00757BAD /* Store */,
 				50D468082CBE5DBD00757BAD /* MyPageViews */,
 				FE42060D2CBCE7480004941B /* Custom */,
@@ -880,9 +903,12 @@
 				FE6A7B012CB9B043000F5DB6 /* CommonError.swift in Sources */,
 				6E7615F82CC0F7AA009FAC72 /* OrderStatusView.swift in Sources */,
 				4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */,
+				50C707B12CC5DFC5001CAEB5 /* OrderManageView.swift in Sources */,
+				50C707AB2CC5DF95001CAEB5 /* SellerBottomView.swift in Sources */,
 				FE5924D52CBE541E002FC977 /* StorageParam.swift in Sources */,
 				FE29E1682CBD4800005E2EFD /* Date+.swift in Sources */,
 				FEAC5BFE2CC0EBE6006F6B8D /* EmailLoginManager.swift in Sources */,
+				50C707B32CC5DFD1001CAEB5 /* HelpManageView.swift in Sources */,
 				FE6A7AF92CB9AEBF000F5DB6 /* GoogleLoginManager.swift in Sources */,
 				FEC6F3762CBDFBE3000E5441 /* StorageManager.swift in Sources */,
 				6E76160A2CC0FB69009FAC72 /* PasswordStyle.swift in Sources */,
@@ -917,6 +943,7 @@
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
+				50C707AF2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift in Sources */,
 				FE6EC1902CC383D400EC9874 /* PaymentMethod.swift in Sources */,
 				FE42060C2CBCE2B20004941B /* CartGoodsInfoView.swift in Sources */,
 				FE672B6A2CC3ED6400A18232 /* CartElement.swift in Sources */,
@@ -943,6 +970,7 @@
 				6EBBB3802CC28AD4008EB202 /* PointInfoView.swift in Sources */,
 				F6386E012CBCAB9900F67671 /* GoodsDetailView.swift in Sources */,
 				6E7615F42CC0F6C2009FAC72 /* GoodsPageView.swift in Sources */,
+				50C707AD2CC5DFA3001CAEB5 /* ProductSubmitView.swift in Sources */,
 				F6386E342CBCEBFF00F67671 /* LoginTextfieldStyle.swift in Sources */,
 				42807F022CBE2B69007A83D5 /* MoreEventsView.swift in Sources */,
 				F6367EA42CBF9E8300F04B90 /* SignUpToastView.swift in Sources */,
