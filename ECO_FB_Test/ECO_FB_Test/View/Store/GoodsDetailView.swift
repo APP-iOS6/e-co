@@ -9,6 +9,7 @@ import SwiftUI
 import NukeUI
 
 struct GoodsDetailView: View {
+    @Environment(UserStore.self) private var userStore: UserStore
     @Environment(\.dismiss) private var dismiss
     var goods: Goods
     var thumbnail: URL
@@ -67,8 +68,15 @@ struct GoodsDetailView: View {
                                 Spacer()
                                 
                                 Button {
-                                    // TODO: 좋아요 정보 저장 로직 구현
-                                    isLike.toggle()
+                                    if var user = UserStore.shared.userData {
+                                        Task {
+                                            user.goodsFavorited.insert(goods)
+                                            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                                            }
+                                            
+                                            isLike.toggle()
+                                        }
+                                    }
                                 } label: {
                                     Image(systemName: isLike ? "heart.fill" : "heart")
                                         .resizable()
@@ -156,6 +164,11 @@ struct GoodsDetailView: View {
             }
         }
         .padding()
+        .onAppear {
+            if let user = userStore.userData {
+                isLike = user.goodsFavorited.contains(goods)
+            }
+        }
     }
 }
 
@@ -176,4 +189,5 @@ struct GoodsDetailView: View {
     
     
     GoodsDetailView(goods: sampleGoods, thumbnail: URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
+        .environment(UserStore.shared)
 }
