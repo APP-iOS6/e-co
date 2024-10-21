@@ -18,6 +18,7 @@ struct EditUserInfoView: View {
     @State private var passwordTooShort: Bool = false
     @State private var passwordMismatch: Bool = false
     @State private var showLogoutAlert: Bool = false
+    @State private var showDeleteAlert:Bool = false  // 회원탈퇴 알림 표시 여부
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -90,7 +91,7 @@ struct EditUserInfoView: View {
                 .font(.headline)
             
             Button(action: {
-                showLogoutAlert = true
+                showDeleteAlert.toggle()
             }) {
                 Text("회원탈퇴")
                     .frame(maxWidth: .infinity)
@@ -100,15 +101,21 @@ struct EditUserInfoView: View {
                     .cornerRadius(10)
             }
             .padding(.top, 10)
-            .alert("회원탈퇴", isPresented: $showLogoutAlert) {
-                Button("회원탈퇴", role: .destructive) {
-                    AuthManager.shared.logout()
-                    dismiss() // 뷰를 닫아 이전 화면으로 돌아갑니다.
+            .alert("회원 탈퇴", isPresented: $showDeleteAlert, actions: {
+                Button("탈퇴 하기", role: .destructive) {
+                    Task{
+                        // User컬렉션의 user삭제
+                        try await UserStore.shared.deleteUserData()
+                        // Autentication의 계정 삭제
+                        try AuthManager.shared.deleteUser()
+                        AuthManager.shared.logout()
+                    }
+                    dismiss()
                 }
                 Button("취소", role: .cancel) { }
-            } message: {
-                Text("정말 회원탈퇴 하시겠습니까?\n저장된 데이터는 복구할 수 없습니다.")
-            }
+            }, message: {
+                Text("정말 계정을 탈퇴하시겠습니까?\n저장된 데이터는 복구할 수 없습니다.")
+            })
             
             Spacer()
         }
