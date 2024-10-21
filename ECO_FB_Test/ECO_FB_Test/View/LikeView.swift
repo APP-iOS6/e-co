@@ -102,6 +102,7 @@ struct LikeView: View {
     }
 }
 
+/*
 #Preview {
     let sampleGoods = Goods(
         id: "1",
@@ -119,3 +120,4 @@ struct LikeView: View {
     
     LikeView(category: GoodsCategory.none, allGoods: [sampleGoods, sampleGoods, sampleGoods])
 }
+*/

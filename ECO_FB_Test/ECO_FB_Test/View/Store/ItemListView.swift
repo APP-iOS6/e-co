@@ -103,7 +103,7 @@ struct ItemListView: View {
         .padding(.horizontal, 10)
     }
 }
-
+/*
 #Preview {
     let sampleGoods = Goods(
         id: "1",
@@ -121,3 +121,4 @@ struct ItemListView: View {
     
     ItemListView(category: GoodsCategory.none, allGoods: [sampleGoods, sampleGoods, sampleGoods])
 }
+*/

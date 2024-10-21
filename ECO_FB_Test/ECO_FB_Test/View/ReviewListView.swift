@@ -19,7 +19,71 @@ struct Review: Identifiable {
 }
 
 struct ReviewListView: View {
-    private var reviewList: [Review] = [Review(user: User(id: "", loginMethod: "", isSeller: false, name: "김민수", profileImageName: "", pointCount: 0, cart: [], goodsRecentWatched: []), starRank: 4,  bodyContent: "좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요", bodyImageNames: ["square.fill","square.fill","square.fill","square.fill","square.fill","square.fill","square.fill","square.fill"], date: Date.now), Review(user: User(id: "", loginMethod: "", isSeller: false, name: "김철수", profileImageName: "", pointCount: 0, cart: [], goodsRecentWatched: []), starRank: 1, bodyContent: "구려요", bodyImageNames: [], date: Date.now), Review(user: User(id: "", loginMethod: "", isSeller: false, name: "김김", profileImageName: "", pointCount: 0, cart: [], goodsRecentWatched: []), starRank: 3,  bodyContent: "싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요", bodyImageNames: ["square.fill"], date: Date.now)]
+    private var reviewList: [Review] = [
+        Review(
+            user: User(
+                id: "",
+                loginMethod: "",
+                isSeller: false,
+                name: "김민수",
+                profileImageURL: URL(string:
+                    "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef"
+                )!,
+                pointCount: 0,
+                cart: [],
+                goodsRecentWatched: [], goodsFavorited: []
+            ),
+            starRank: 4,
+            bodyContent: "좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요",
+            bodyImageNames: [
+                "square.fill",
+                "square.fill",
+                "square.fill",
+                "square.fill",
+                "square.fill",
+                "square.fill",
+                "square.fill",
+                "square.fill"
+            ],
+            date: Date.now
+        ),
+        Review(
+            user: User(
+                id: "",
+                loginMethod: "",
+                isSeller: false,
+                name: "김민수2",
+                profileImageURL: URL(string:
+                    "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef"
+                )!,
+                pointCount: 0,
+                cart: [],
+                goodsRecentWatched: [], goodsFavorited: []
+            ),
+            starRank: 1,
+            bodyContent: "구려요",
+            bodyImageNames: [],
+            date: Date.now
+        ),
+        Review(
+            user: User(
+                id: "",
+                loginMethod: "",
+                isSeller: false,
+                name: "김민수3",
+                profileImageURL: URL(string: 
+                    "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef"
+                )!,
+                pointCount: 0,
+                cart: [],
+                goodsRecentWatched: [], goodsFavorited: []
+            ),
+            starRank: 3,
+            bodyContent: "싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요",
+            bodyImageNames: ["square.fill"],
+            date: Date.now
+        )
+    ]
     @State private var showAll: Bool = false
     @State private var clickedReview: UUID?
     
