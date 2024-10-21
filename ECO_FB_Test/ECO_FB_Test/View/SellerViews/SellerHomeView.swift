@@ -9,21 +9,14 @@ import SwiftUI
 
 struct SellerHomeView: View {
     var body: some View {
-        VStack{
-            GeometryReader{ proxy in
-                // 상단 앱 타이틀
-                VStack(alignment: .center){
-                    HStack {
-                        Image(systemName: "leaf.fill")
-                            .foregroundStyle(.accent)
-                        
-                        Text("이코")
-                            .fontWeight(.bold)
-                    }
-                }
-                .font(.largeTitle)
-                .frame(width: proxy.size.width, height: proxy.size.height * (3/7))
-                
+        ZStack{
+            // 상단 앱 타이틀
+            VStack{
+                AppNameView()
+                Spacer()
+            }
+            
+            VStack{
                 // 하단 네비게이션 버튼 뷰
                 SellerBottomView()
             }
