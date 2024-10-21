@@ -110,7 +110,6 @@ struct EditUserInfoView: View {
                         }
                         // Autentication의 계정 삭제
                         try AuthManager.shared.deleteUser()
-                        AuthManager.shared.logout()
                     }
                     dismiss()
                 }

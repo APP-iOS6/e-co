@@ -114,6 +114,7 @@ final class UserStore: DataControllable {
         
         do {
             try await db.collection(collectionName).document(user.id).delete()
+            setLogout()
         } catch {
             throw error
         }

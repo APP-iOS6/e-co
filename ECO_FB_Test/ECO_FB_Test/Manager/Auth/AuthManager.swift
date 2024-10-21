@@ -123,9 +123,9 @@ final class AuthManager {
     func deleteUser() throws {
         guard let user = Auth.auth().currentUser else { throw LoginError.userError(reason: "You Don't Login!") }
         
-        user.delete { error in  // authentication에서 유저 삭제
+        user.delete { error in
             if error != nil {
-                print("회원삭제 에러발생")
+                print("회원삭제 에러발생: \(String(describing: error))")
             } else {
                 print("회원삭제 성공")
             }
