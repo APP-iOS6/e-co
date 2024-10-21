@@ -11,29 +11,7 @@ import NukeUI
 struct UserInformationView: View {
     @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
     @Environment(\.dismiss) var dismiss
-//    
-//    var body: some View {
-//        Text("사용자 정보")
-//        Button {
-//            showLogoutAlert = true
-//        } label: {
-//            Text("로그아웃")
-//                .foregroundColor(.red)
-//        }
-//        .alert("로그아웃", isPresented: $showLogoutAlert, actions: {
-//            Button("로그아웃", role: .destructive) {
-//                AuthManager.shared.logout()
-//                dismiss()
-//            }
-//            
-//            Button("취소", role: .cancel) { }
-//        }, message: {
-//            Text("로그아웃 하시겠습니까?")
-//        })
-//    }
-//}
-//
-//struct PracView: View {
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center, spacing: 10) {
