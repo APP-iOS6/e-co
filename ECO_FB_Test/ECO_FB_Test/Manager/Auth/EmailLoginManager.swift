@@ -51,4 +51,22 @@ final class EmailLoginManager: LoginControllable {
             throw error
         }
     }
+    
+    /// **비밀번호 재인증 함수**
+        func reauthenticateUser(password: String, completion: @escaping (Result<Void, Error>) -> Void) {
+            guard let user = Auth.auth().currentUser, let email = user.email else {
+                completion(.failure(NSError(domain: "UserError", code: -1, userInfo: [NSLocalizedDescriptionKey: "사용자 정보를 가져올 수 없습니다."])))
+                return
+            }
+
+            let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+            
+            user.reauthenticate(with: credential) { _, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        }
 }
