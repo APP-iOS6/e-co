@@ -115,7 +115,8 @@ struct GoodsDetailView: View {
                         Button {
                             if var user = UserStore.shared.userData {
                                 Task {
-                                    user.cart.insert(goods)
+                                    let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
+                                    user.cart.insert(cartElement)
                                     await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
                                         
                                         
@@ -169,7 +170,7 @@ struct GoodsDetailView: View {
 """,
         bodyImageNames: [],
         price: 15000,
-        seller: Seller(id: "seller1", name: "(주) 멋사 ", profileImageName: "dd")
+        seller: UserStore.shared.userData ?? User(id: UUID().uuidString, loginMethod: LoginMethod.google.rawValue, isSeller: true, name: "Lucy", profileImageURL: URL(string: "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef")!, pointCount: 0, cart: [], goodsRecentWatched: [], goodsFavorited: [])
     )
     
     

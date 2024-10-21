@@ -12,6 +12,7 @@ import FirebaseFirestore
 final class PaymentInfoStore: DataControllable {
     static let shared: PaymentInfoStore = PaymentInfoStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "PaymentInfo"
     private(set) var paymentList: [PaymentInfo] = []
     
     private init() {}
@@ -37,13 +38,13 @@ final class PaymentInfoStore: DataControllable {
         
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
         
     }
     
     private func getPaymentInfoByID(_ id: String) async throws -> DataResult {
         do {
-            let snapshot = try await db.collection("PaymentInfo").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             guard let docData = snapshot.data() else {
                 throw DataError.fetchError(reason: "The Document Data is nil")
@@ -51,7 +52,7 @@ final class PaymentInfoStore: DataControllable {
             
             let id = snapshot.documentID
             
-            let paymentInfo = getData(id: id, docData: docData)
+            let paymentInfo = try await getData(id: id, docData: docData)
             return DataResult.paymentInfo(result: paymentInfo)
         } catch {
             throw error
@@ -62,16 +63,15 @@ final class PaymentInfoStore: DataControllable {
         paymentList.removeAll()
         
         do {
-            let snapshots = try await db.collection("PaymentInfo")
+            let snapshots = try await db.collection(collectionName)
                             .whereField("user_id", isEqualTo: userID)
                             .getDocuments()
             
             for document in snapshots.documents {
                 let docData = document.data()
-                
                 let id = document.documentID
                 
-                let paymentInfo = getData(id: id, docData: docData)
+                let paymentInfo = try await getData(id: id, docData: docData)
                 paymentList.append(paymentInfo)
             }
             
@@ -81,12 +81,46 @@ final class PaymentInfoStore: DataControllable {
         }
     }
     
-    private func getData(id: String, docData: [String: Any]) -> PaymentInfo {
+    private func getData(id: String, docData: [String: Any]) async throws -> PaymentInfo {
         let userID = docData["user_id"] as? String ?? "none"
-        let address = docData["address"] as? String ?? "none"
-        let payment = docData["payment_method"] as? [String] ?? []
+        let recipientName = docData["recipient_name"] as? String ?? "none"
+        let phoneNumber = docData["phone_number"] as? String ?? "none"
         
-        let paymentInfo = PaymentInfo(id: id, userID: userID, address: address, paymentMethod: payment)
+        let paymentMethodString = docData["payment_method_name"] as? String ?? "none"
+        let paymentMethodName = stringToPaymentMethod(paymentMethodString)
+        var paymentMethod: CardInfo? = nil
+        
+        if paymentMethodName == .card {
+            let paymentMethodID = docData["payment_method_id"] as? String ?? "none"
+            let cardInfoResult = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: paymentMethodID)) { _ in
+                
+            }
+            
+            guard case .cardInfo(let result) = cardInfoResult else {
+                throw DataError.fetchError(reason: "Can't get card info")
+            }
+            
+            paymentMethod = result
+        }
+        
+        let address = docData["address"] as? String ?? "none"
+        
+        let paymentInfo = PaymentInfo(id: id, userID: userID, recipientName: recipientName, phoneNumber: phoneNumber, paymentMethod: paymentMethodName, paymentMethodInfo: paymentMethod, address: address)
         return paymentInfo
+    }
+    
+    private func stringToPaymentMethod(_ method: String) -> PaymentMethod {
+        var paymentMethod: PaymentMethod = .none
+        
+        switch method {
+        case PaymentMethod.card.rawValue:
+            paymentMethod = .card
+        case PaymentMethod.bank.rawValue:
+            paymentMethod = .bank
+        default:
+            paymentMethod = .point
+        }
+        
+        return paymentMethod
     }
 }

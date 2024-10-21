@@ -13,6 +13,7 @@ import FirebaseFirestore
 final class ZeroWasteShopStore: DataControllable {
     static let shared: ZeroWasteShopStore = ZeroWasteShopStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "ZeroWasteStore"
     private(set) var zeroWasteShopList: [ZeroWasteShop] = []
     
     private init() {
@@ -31,7 +32,7 @@ final class ZeroWasteShopStore: DataControllable {
         zeroWasteShopList.removeAll()
         
         do {
-            let snapshot = try await db.collection("ZeroWasteStore").getDocuments()
+            let snapshot = try await db.collection(collectionName).getDocuments()
             
             for document in snapshot.documents {
                 let docData = document.data()
@@ -56,8 +57,10 @@ final class ZeroWasteShopStore: DataControllable {
     }
     
     func updateData(parameter: DataParam) async throws {
+        
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
+        
     }
 }

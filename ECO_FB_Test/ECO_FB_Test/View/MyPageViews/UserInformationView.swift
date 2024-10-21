@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NukeUI
 
 struct UserInformationView: View {
     @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
