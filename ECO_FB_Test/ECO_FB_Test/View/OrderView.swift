@@ -20,7 +20,7 @@ struct OrderView: View {
         isZeroWaste ? productsPrice - usingPoint : productsPrice + deliveryPrice - usingPoint
     }
     @State private var requestMessage = "문앞에 놔주세요"
-    @State private var isShowToast: Bool = false
+    @State private var isShowToast: Bool = true
     @State private var isShowAlert: Bool = false
     @State private var isComplete: Bool = false // true: 주문완료, false: 주문하기
     private var goodsList: [Goods] = []
@@ -29,65 +29,65 @@ struct OrderView: View {
     var body: some View {
         VStack {
             ZStack {
-                ScrollView {
-                    LazyVStack(alignment: .center, pinnedViews: [.sectionHeaders]) {
-                        Text(isComplete ? "주문완료" : "주문하기")
-                            .font(.title2)
-                            .bold()
-                        
-                        Divider()
-                        
-                        DeliveryInfo(name: "김민수", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호       ", isComplete: isComplete, requestMessage: $requestMessage)
-                        
-                        Divider()
-                        
-                        if !isComplete {
-                            Section(header:
-                                        PointInfoView(usingPoint: $usingPoint, point: 2000)
-                                .padding(.bottom, 10)
-                                .background(Rectangle().foregroundColor(.white))
-                            ) {
-                                Divider()
-                                
-                                // 결제 방법 선택 부분
-                                ChooseMethodView(isCredit: $isCredit, isZeroWaste: $isZeroWaste, isPaymentView: true)
-                                
-                                Divider()
-                                
-                                ProductListView(goodsList: goodsList, usingPoint: usingPoint)
-                                
-                                Divider()
-                                
-                                // 포장 방법 선택 부분
-                                ChooseMethodView(isCredit: $isCredit, isZeroWaste: $isZeroWaste, isPaymentView: false)
-                                
-                                Divider()
+                VStack {
+                    ScrollView {
+                        LazyVStack(alignment: .center, pinnedViews: [.sectionHeaders]) {
+                            Text(isComplete ? "주문완료" : "주문하기")
+                                .font(.title2)
+                                .bold()
+                            
+                            Divider()
+                            
+                            DeliveryInfo(name: "김민수", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호       ", isComplete: isComplete, requestMessage: $requestMessage)
+                            
+                            Divider()
+                            
+                            if !isComplete {
+                                Section(header:
+                                            PointInfoView(usingPoint: $usingPoint, point: 2000)
+                                    .padding(.bottom, 10)
+                                    .background(Rectangle().foregroundColor(.white))
+                                ) {
+                                    Divider()
+                                    
+                                    // 결제 방법 선택 부분
+                                    ChooseMethodView(isCredit: $isCredit, isZeroWaste: $isZeroWaste, isPaymentView: true)
+                                    
+                                    Divider()
+                                    
+                                    ProductListView(goodsList: goodsList, usingPoint: usingPoint)
+                                    
+                                    Divider()
+                                    
+                                    // 포장 방법 선택 부분
+                                    ChooseMethodView(isCredit: $isCredit, isZeroWaste: $isZeroWaste, isPaymentView: false)
+                                    
+                                    Divider()
+                                }
                             }
+                            PriceInfoView(productsPrice: productsPrice, deliveryPrice: deliveryPrice, usingPoint: usingPoint, isZeroWaste: isZeroWaste)
+                            
+                            Divider()
+                            
+                            HStack {
+                                Text("총 결제 금액")
+                                Spacer()
+                                Text("\(totalPrice)원")
+                            }
+                            .bold()
+                            .padding(.vertical)
                         }
-                        PriceInfoView(productsPrice: productsPrice, deliveryPrice: deliveryPrice, usingPoint: usingPoint, isZeroWaste: isZeroWaste)
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("총 결제 금액")
-                            Spacer()
-                            Text("\(totalPrice)원")
-                        }
-                        .bold()
-                        .padding(.vertical)
                     }
+                    .padding([.horizontal, .top])
+                    .scrollIndicators(.hidden)
+                    
+                    if progress > 0 {
+                        ProgressView()
+                    }
+                    
+                    SignUpToastView(isVisible: $isShowToast, message: "결제가 완료되었습니다")
+                        .padding(.horizontal)
                 }
-                .padding([.horizontal, .top])
-                .scrollIndicators(.hidden)
-                
-                if progress > 0 {
-                    ProgressView()
-                }
-            }
-            
-            if isShowToast {
-                Spacer()
-                SignUpToastView(isVisible: $isShowToast, message: "결제가 완료되었습니다.")
             }
             
             Button {
@@ -111,7 +111,7 @@ struct OrderView: View {
             }
             .alert("결제를 완료 하시겠습니까?", isPresented: $isShowAlert, actions: {
                 Button(role: .cancel) {
-                    
+                    // 장바구니 비우기
                 } label: {
                     Text("취소")
                 }

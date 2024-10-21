@@ -12,13 +12,12 @@ struct GoodsDetailView: View {
     @Environment(\.dismiss) private var dismiss
     var goods: Goods
     var thumbnail: URL
-    @State var moveToCart: Bool = false
-    @State var isBought: Bool = false
     @State var isLike: Bool = false
     @State var isShowReview: Bool = false
+    @State var isShowToast = false
     
     var body: some View {
-        GeometryReader { GeometryProxy in
+        VStack {
             ZStack {
                 VStack {
                     ScrollView {
@@ -34,7 +33,6 @@ struct GoodsDetailView: View {
                                     ProgressView()
                                 }
                             }
-                            
                         }
                         
                         LazyVStack(alignment: .leading) {
@@ -115,50 +113,42 @@ struct GoodsDetailView: View {
                                     .padding(.bottom, 30)
                             }
                         }
-                        .frame(width: GeometryProxy.size.width)
                     }
-                    
                     .scrollIndicators(.hidden)
                     
-                    HStack {
-                        Button {
-                            if var user = UserStore.shared.userData {
-                                Task {
-                                    let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
-                                    user.cart.insert(cartElement)
-                                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                                        
-                                        
-                                    }
-                                }
-                            }
-                        } label: {
-                            Text("장바구니 담기")
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 10)
-                                .foregroundStyle(.white)
-                                .font(.headline)
-                                .background(Color.green)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                        }
-                    }
-                    .padding(.top, 5)
-                }
-                VStack {
-                    Spacer()
-                    SignUpToastView(isVisible: $isBought, message: "물품 구매가 완료되었습니다.")
+                    SignUpToastView(isVisible: $isShowToast, message: "장바구니에 추가되었습니다")
                 }
             }
+            
+            HStack {
+                Button {
+                    if var user = UserStore.shared.userData {
+                        Task {
+                            let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
+                            user.cart.insert(cartElement)
+                            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                                isShowToast.toggle()
+                            }
+                        }
+                    }
+                } label: {
+                    Text("장바구니 담기")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .foregroundStyle(.white)
+                        .font(.headline)
+                        .background(Color.green)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+            .padding(.top, 5)
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    moveToCart = true
+                NavigationLink {
+                    CartView()
                 } label: {
                     Image(systemName: "cart")
-                }
-                .sheet(isPresented: $moveToCart) {
-                    CartView(isBought: $isBought)
                 }
                 .foregroundStyle(Color(uiColor: .darkGray))
             }

@@ -100,6 +100,7 @@ struct ReviewListView: View {
                         .bold()
                     starView(starRank: Int(totalRank()))
                 }
+                .padding(.top)
                 
                 ForEach(reviewList) { review in
                     // TODO: 사진 클릭하면 해당사진 크게 보여주기
