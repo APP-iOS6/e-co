@@ -32,9 +32,9 @@ struct PriceInfoView: View {
             VStack(alignment: .trailing, spacing: vSpacing) {
                 Text("\(productsPrice)원")
                 Text("\(deliveryPrice)원")
-                Text("-\(isZeroWaste ? deliveryPrice : 0)원")
+                isZeroWaste ? Text("-\(deliveryPrice)원") : Text("0원")
                     .fontWeight(.semibold)
-                Text("-\(usingPoint)")
+                usingPoint != 0 ? Text("-\(usingPoint)") : Text("\(usingPoint)")
                     .fontWeight(.semibold)
             }
             .padding(.vertical)

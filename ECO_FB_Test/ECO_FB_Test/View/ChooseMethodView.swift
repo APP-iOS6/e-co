@@ -24,7 +24,14 @@ struct ChooseMethodView: View {
             Text(isPaymentView ? "결제방법" : "포장방법")
                 .foregroundStyle(Color(uiColor: .darkGray))
                 .fontWeight(.bold)
-                .padding(.vertical)
+                .padding(.top)
+                .padding(.bottom, 5)
+            
+            if !isPaymentView {
+                Text("친환경 포장 이용시 배송비를 할인해드립니다")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(.gray)
+            }
             
             HStack(spacing: 30) {
                 Button {
