@@ -59,7 +59,7 @@ struct MyPageView: View {
             
             HStack {
                 NavigationLink {
-                    OrderStatusView(isCredit: $isCredit, isZeroWaste: $isZeroWaste, usingPoint: usingPoint, productsPrice: productsPrice, requestMessage: $requestMessage)
+                    OrderStatusView()
                 } label: {
                     VStack {
                         Image(systemName: "list.bullet.clipboard")
