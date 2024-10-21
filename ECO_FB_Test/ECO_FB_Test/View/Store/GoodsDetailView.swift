@@ -70,10 +70,13 @@ struct GoodsDetailView: View {
                                 Button {
                                     if var user = UserStore.shared.userData {
                                         Task {
-                                            user.goodsFavorited.insert(goods)
+                                            if isLike {
+                                                user.goodsFavorited.remove(goods)
+                                            } else {
+                                                user.goodsFavorited.insert(goods)
+                                            }
                                             await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
                                             }
-                                            
                                             isLike.toggle()
                                         }
                                     }
