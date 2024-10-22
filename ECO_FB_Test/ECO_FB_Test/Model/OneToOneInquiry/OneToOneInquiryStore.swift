@@ -167,7 +167,7 @@ final class OneToOneInquiryStore: DataControllable{
                    "question": inquiry.question,
                    "answer": inquiry.answer
                ])
-               oneToOneInquiries.append(inquiry)
+               oneToOneInquiryList.append(inquiry)
            } catch {
                throw error
            }
@@ -185,6 +185,6 @@ final class OneToOneInquiryStore: DataControllable{
       }
     
     func removeAll() {
-           oneToOneInquiries.removeAll()
+        oneToOneInquiryList.removeAll()
        }
 }

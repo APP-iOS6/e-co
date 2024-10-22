@@ -6,75 +6,76 @@
 //
 
 import SwiftUI
-//이제 셀러계정으로 로그인 했을때, 셀러계정과 문의의 셀러 id 가 같은 문의들만 가져오기
+
 struct UserInquiryHistoryView: View {
     @Environment(UserStore.self) private var userStore: UserStore
     @Environment(OneToOneInquiryStore.self) private var inquiryStore: OneToOneInquiryStore
-    //프로그레스뷰 만들예정
+    
     @State private var isLoading = true
     @State private var errorMessage: String?
     
     var body: some View {
         NavigationView {
-            List(inquiryStore.oneToOneInquiries) { inquiry in
-                NavigationLink(destination: UserInquiryHistoryDetailView(inquiry: inquiry)) {
-                    HStack {
-                        Circle()
-                            .fill(Color.accentColor)
-                            .frame(width: 30, height: 30)
-                            .overlay(
-                                Text("Q")
-                                    .foregroundColor(.white)
-                            )
-                        VStack(alignment: .leading) {
-                            
-                            Text(inquiry.title)
-                                .font(.headline)
-                            if inquiry.answer.isEmpty {
-                                Text("답변 대기중")
-                                    .font(.caption)
-                                    .foregroundStyle(.red)
-                            } else {
-                                Text("답변 완료")
-                                    .font(.caption)
+            ZStack {
+                if isLoading {
+                    ProgressView("로딩 중...")
+                        .progressViewStyle(CircularProgressViewStyle(tint: .accentColor))
+                        .scaleEffect(1.5, anchor: .center)
+                } else {
+                    List(inquiryStore.oneToOneInquiryList) { inquiry in
+                        NavigationLink(destination: UserInquiryHistoryDetailView(inquiry: inquiry)) {
+                            HStack {
+                                Circle()
+                                    .fill(Color.accentColor)
+                                    .frame(width: 30, height: 30)
+                                    .overlay(
+                                        Text("Q")
+                                            .foregroundColor(.white)
+                                    )
+                                VStack(alignment: .leading) {
+                                    Text(inquiry.title)
+                                        .font(.headline)
+                                    
+                                    if inquiry.answer.isEmpty {
+                                        Text("답변 대기중")
+                                            .font(.caption)
+                                            .foregroundStyle(.red)
+                                    } else {
+                                        Text("답변 완료")
+                                            .font(.caption)
+                                    }
+                                }
+                                .padding()
                             }
-                            
                         }
-                        .padding()
+                    }
+                    .navigationTitle("내 문의 내역")
+                    .onDisappear {
+                        inquiryStore.removeAll()
                     }
                 }
-            }.navigationTitle("내 문의 내역")
-                .task {
-                    loadInquiries()
-                    print("로드 성공 ")
-                }
-                .onDisappear {
-                    inquiryStore.removeAll()
-                }
-            
+            }
+            .task {
+                await loadInquiries()
+                print("로드 성공")
+            }
         }
     }
     
-    private func loadInquiries() {
-        Task {
-            do {
-                guard let user = userStore.userData else {
-                    print("유저 정보가 없습니다.")
-                    return
-                    isLoading = false
-                }
-                
-          
-//           _ = try await inquiryStore.fetchData(parameter: .oneToOneInquiryAll(sellerID: user.id, limit: 30))
-//
-//                _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryUpdate(id: user.id, inquiry: <#T##OneToOneInquiry#>)) { _ in
-//                        
-//                    }
-                isLoading = false
-            } catch {
-                errorMessage = "Failed to load inquiries: \(error.localizedDescription)"
-                isLoading = false // 로딩 상태 종료
+    private func loadInquiries() async {
+        do {
+            guard let user = userStore.userData else {
+                print("유저 정보가 없습니다.")
+                return
             }
+            _ = await DataManager.shared.fetchData(
+                type: .oneToOneInquiry,
+                parameter: .oneToOneInquiryAllWithUser(userID: user.id, limit: 10)
+            ) { _ in }
+            isLoading = false
+        } catch {
+            errorMessage = "데이터를 불러오는데 실패했습니다."
+            isLoading = false
         }
     }
 }
@@ -82,4 +83,3 @@ struct UserInquiryHistoryView: View {
 #Preview {
     UserInquiryHistoryView()
 }
-

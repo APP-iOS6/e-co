@@ -23,6 +23,7 @@ struct SellerInquiryDetailView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("셀러:")
                 Text(inquiry.seller.name)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 Text("질문:")
                 // .font(.headline)
                 Text(inquiry.question)
