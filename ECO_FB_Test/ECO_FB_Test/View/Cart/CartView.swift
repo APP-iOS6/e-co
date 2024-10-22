@@ -23,7 +23,6 @@ struct CartView: View {
                     CheckBox(isOn: $isSelectedAll) {
                         
                     }
-                    .frame(width: 20, height: 20)
                     
                     Text("전체선택")
                     
