@@ -72,8 +72,7 @@ struct CartGoodsInfoView: View {
             if var user = userStore.userData {
                 Task {
                     user.updateCartGoodsCount(cartElement, count: count)
-                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                    }
+                    _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                 }
             }
         }

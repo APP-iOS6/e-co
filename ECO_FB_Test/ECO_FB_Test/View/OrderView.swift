@@ -31,9 +31,12 @@ struct OrderView: View {
         }
     }
     @State private var progress: Int = 0
-    @State private var dataUpdateFlow: DataUpdateFlow = .none
+    
+    private var dataUpdateFlow: DataFlow {
+        DataManager.shared.getDataFlow(of: .paymentInfo)
+    }
     private var isDidUpdate: Bool {
-        dataUpdateFlow == .didUpdate ? true : false
+        dataUpdateFlow == .didLoad ? true : false
     }
     
     var body: some View {
@@ -134,9 +137,7 @@ struct OrderView: View {
                         progress = 1
                         // TODO: 결제정보 파이어 스토어에 보내기, 장바구니 비우기
                         Task {
-                            await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: user.id, paymentInfo: PaymentInfo(id: UUID().uuidString, userID: user.id, deliveryRequest: requestMessage, paymentMethod: isCredit ? .card : .bank, addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: user.name, phoneNumber: "010-0000-0000", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호")]))) { flow in
-                                dataUpdateFlow = flow
-                            }
+                           _ = try await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: user.id, paymentInfo: PaymentInfo(id: UUID().uuidString, userID: user.id, deliveryRequest: requestMessage, paymentMethod: isCredit ? .card : .bank, addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: user.name, phoneNumber: "010-0000-0000", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호")])))
                         }
                     } label: {
                         Text("결제하기")
@@ -149,9 +150,7 @@ struct OrderView: View {
         .onAppear {
             Task {
                 if let user = userStore.userData {
-                    let _ = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoAll(userID: user.id)) { flow in
-                        
-                    }
+                    _ = try await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoAll(userID: user.id))
                     
                     getProducsPrice()
                 }
