@@ -36,7 +36,7 @@ struct PointInfoView: View {
                     .multilineTextAlignment(.trailing)
                 if notice.count > 0 {
                     Text(notice)
-                        .font(.system(size: 12))
+                        .font(.system(size: 14))
                         .foregroundStyle(.red)
                 }
             }

@@ -18,8 +18,10 @@ final class DataManager {
         GoodsStore.shared,
         PaymentInfoStore.shared,
         CardInfoStore.shared,
+        AddressInfoStore.shared,
         AnnouncementStore.shared,
         OneToOneInquiryStore.shared,
+        ReviewStore.shared,
         ZeroWasteShopStore.shared
     ]
     
@@ -61,6 +63,17 @@ final class DataManager {
         }
         
         return "none"
+    }
+    
+    func getAllSellers() async -> [User] {
+        do {
+            let sellers = try await UserStore.shared.getAllSellers()
+            return sellers
+        } catch {
+            print("Error: \(error)")
+        }
+        
+        return []
     }
     
     /**
@@ -117,6 +130,15 @@ final class DataManager {
         }
     }
     
+    /**
+     데이터를 삭제하는 메소드
+     
+     몇몇 데이터들은 parameter가 필요없습니다. 만약 삭제하려는 대상에 대해 Delete가 붙은 값이 없다면 none을 써주시면 됩니다.
+     
+     - parameters:
+        - type: 삭제할 대상, 예) 유저라면 .user
+        - parameter: 삭제할 대상의 정보, 뒤에 Delete가 붙은 값들을 써야합니다. 예) 상품이라면 .goodsDelete()
+     */
     func deleteData(type: DataType, parameter: DataParam, deleteFlowChangeAction: (DataDeleteFlow) -> Void) async {
         do {
             var dataDeleteFlow: DataDeleteFlow = .deleting

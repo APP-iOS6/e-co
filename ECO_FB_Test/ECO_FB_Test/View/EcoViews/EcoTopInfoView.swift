@@ -48,7 +48,7 @@ struct EcoTopInfoView: View {
                 Text("CO2 저감")
                 HStack {
                     Text("\(co2Reduction)")
-                        .font(.title)
+                        .font(.system(size: 24))
                         .fontWeight(.bold)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
@@ -74,7 +74,7 @@ struct EcoTopInfoView: View {
                 
                 HStack {
                     Text("\(healthManager.getTodayStepPoint())")
-                        .font(.title)
+                        .font(.system(size: 24))
                         .fontWeight(.bold)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
@@ -94,7 +94,7 @@ struct EcoTopInfoView: View {
                 Text("이동 거리")
                 HStack {
                     Text("\(todayDistance)")
-                        .font(.title)
+                        .font(.system(size: 24))
                         .fontWeight(.bold)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)

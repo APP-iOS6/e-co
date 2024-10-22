@@ -125,7 +125,7 @@ struct LoginView: View {
             ZStack{
                 HStack(alignment: .bottom) {
                     if showToast == true {
-                        SignUpToastView(isVisible: $showToast, message: "회원가입에 성공하셨습니다.")
+                        SignUpToastView(isVisible: $showToast, message: "회원가입에 성공하셨습니다")
                             .frame(height: 30)
                     } else {
                         
