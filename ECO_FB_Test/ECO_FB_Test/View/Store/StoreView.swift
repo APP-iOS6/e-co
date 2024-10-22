@@ -29,10 +29,6 @@ struct StoreView: View {
     @State var isMapVisible: Bool = false
     @FocusState var focused: Bool
     @State var isShowToast = false
-    @State private var dataUpdateFlow: DataUpdateFlow = .none
-    private var isUpdating: Bool {
-        dataUpdateFlow == .updating ? true : false
-    }
     @Environment(UserStore.self) private var userStore: UserStore
     
     var body: some View {
@@ -121,7 +117,7 @@ struct StoreView: View {
                             
                             ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
                                 
-                                ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [], dataUpdateFlow: $dataUpdateFlow, isNeedLogin: $isShowToast)
+                                ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [], isNeedLogin: $isShowToast)
                             }
                         }
                         .onTapGesture {
@@ -137,7 +133,7 @@ struct StoreView: View {
             SignUpToastView(isVisible: $isShowToast, message: "로그인이 필요합니다")
                 .padding()
             
-            if isUpdating || dataFetchFlow == .loading {
+            if dataFetchFlow == .loading {
                 ProgressView()
             }
         }
@@ -154,7 +150,7 @@ struct StoreView: View {
                 await getGoods()
             }
         }
-        .disabled(isUpdating || dataFetchFlow == .loading)
+        .disabled(dataFetchFlow == .loading)
     }
     
     private func getGoods() async {
