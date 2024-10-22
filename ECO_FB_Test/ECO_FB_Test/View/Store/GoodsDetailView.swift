@@ -166,7 +166,14 @@ struct GoodsDetailView: View {
         }
         .padding()
         .onAppear {
-            userStore.saveToRecentlyViewed(goods: goods)  // UserStore에 저장 로직 호출
+            Task {
+                if var user = userStore.userData {
+                    user.goodsRecentWatched.insert(goods)
+                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                        
+                    }
+                }
+            }
         }
     }
 }

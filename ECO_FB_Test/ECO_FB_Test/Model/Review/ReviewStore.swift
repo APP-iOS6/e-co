@@ -131,21 +131,5 @@ final class ReviewStore: DataControllable {
         return review
     }
     
-    // Firestore에 리뷰 저장하기
-    func addReview(for goodsID: String, review: Review) async throws {
-        do {
-            try await db.collection(collectionName).document(review.id).setData([
-                "id": review.id,
-                "user_id": review.user.id,
-                "title": review.title,
-                "body_content": review.content,
-                "body_images": review.contentImages.map { $0.absoluteString },
-                "star_count": review.starCount,
-                "creation_date": review.creationDate.formatted(.iso8601),
-                "goods_id": goodsID
-            ])
-        } catch {
-            throw DataError.updateError(reason: "리뷰 저장 실패: \(error.localizedDescription)")
-        }
-    }
+    
 }

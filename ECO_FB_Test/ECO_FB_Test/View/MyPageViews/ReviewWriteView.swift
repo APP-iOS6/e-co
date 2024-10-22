@@ -78,6 +78,7 @@ struct ReviewWriteView: View {
             creationDate: Date()
         )
 
+        /*
         // ReviewStore 싱글톤 인스턴스 사용
         Task {
             do {
@@ -88,5 +89,6 @@ struct ReviewWriteView: View {
                 print("리뷰 저장 중 오류 발생: \(error.localizedDescription)")
             }
         }
+         */
     }
 }
