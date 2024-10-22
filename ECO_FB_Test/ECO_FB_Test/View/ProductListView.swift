@@ -7,28 +7,39 @@
 
 
 import SwiftUI
+import NukeUI
 
 struct ProductListView: View {
-    var goodsList: [Goods]
+    var cart: [CartElement]
     var usingPoint: Int
     
     var body: some View {
         VStack(alignment: .leading) {
-            ForEach(0..<4) { _ in
-//            ForEach(goodsList, id: \.self) { goods in
+            ForEach(cart) { element in
                 HStack {
-                    Image(.ecoBags)
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                        .aspectRatio(contentMode: .fit)
+                    LazyImage(url: element.goods.thumbnailImageURL) { state in
+                        if let image = state.image {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 90, height: 90)
+                        } else {
+                            ProgressView()
+                                .frame(minHeight: 80)
+                        }
+                        
+                        if let error = state.error {
+                            Text("Lazy Image Error: \(error)")
+                        }
+                    }
+                    .priority(.high)
                     
                     Spacer()
                     
-                    // TODO: 지금은 수량 저장 못하게 되어있음
                     VStack(alignment: .trailing, spacing: 5) {
-                        Text("에코백") // goods.name
-                        Text("2개")
-                        Text("2,000 x 2") //\(goods.price)
+                        Text(element.goods.name)
+                        Text("\(element.goodsCount)")
+                        Text("\(element.goods.price) x \(element.goodsCount)")
                     }
                 }
                 .bold()

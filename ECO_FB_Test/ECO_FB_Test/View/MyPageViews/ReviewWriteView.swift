@@ -165,6 +165,7 @@ struct ReviewWriteView: View {
 
     // 리뷰 저장 로직
     private func saveReview() {
+
         guard let user = UserStore.shared.userData else {
             print("유저 정보가 없습니다.")
             return

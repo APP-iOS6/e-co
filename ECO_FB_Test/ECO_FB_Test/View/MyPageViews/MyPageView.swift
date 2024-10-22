@@ -22,6 +22,7 @@ struct MyPageView: View {
     @State private var requestMessage = "문앞에 놔주세요"
     @State private var favoritedGoods: [Goods] = []
     
+
     var body: some View {
         AppNameView()
             .padding(.top)
@@ -105,17 +106,23 @@ struct MyPageView: View {
                 .padding(.horizontal)
         }
         
-        List {
-            Section(header:
-                        Text("지원")
-                .font(.headline)
-                .foregroundColor(.gray)
-            ) {
-                NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
-                NavigationLink("문의하기", destination: InquiriesView())
-                NavigationLink("FAQ", destination: FAQView())
-                NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
-                NavigationLink("도움말", destination: HealthHelpView())
+
+        ZStack {
+            List {
+                Section(header:
+                            Text("지원")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+                ) {
+                    NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
+                    NavigationLink("문의하기", destination: UserInquiryView())
+                    NavigationLink("나의문의내역", destination: UserInquiryHistoryView())
+                    NavigationLink("FAQ", destination: FAQView())
+                    NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
+                    NavigationLink("도움말", destination: HealthHelpView())
+                    NavigationLink("임시 셀러뷰", destination: SellerInquiryView())
+                }
+
             }
         }
         .listStyle(.inset)
@@ -128,9 +135,9 @@ struct MyPageView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        MyPageView()
-            .environment(UserStore.shared)
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        MyPageView(inquiry: OneToOneInquiry)
+//            .environment(UserStore.shared)
+//    }
+//}

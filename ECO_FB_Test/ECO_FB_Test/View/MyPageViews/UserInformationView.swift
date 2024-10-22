@@ -17,8 +17,6 @@ struct UserInformationView: View {
 
     @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
 
-    @State private var isShowingAddressList: Bool = false // 배송지 수정화면 표시 여부
-
     @Environment(\.dismiss) var dismiss
     @Environment(UserStore.self) private var userStore: UserStore
 
@@ -34,14 +32,6 @@ struct UserInformationView: View {
                 Text("사용자 정보를 불러오는 중입니다...")
                     .font(.headline)
                     .padding()
-
-                    .background(Color(uiColor: .lightGray), in: Circle())
-                    .foregroundStyle(.white)
-                
-                Text("김민수")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-              
                 Spacer()
             }
  
@@ -107,29 +97,6 @@ struct UserInformationView: View {
             .font(.system(size: 17))
             .foregroundStyle(Color(uiColor: .darkGray))
             .padding(.vertical)
-
-            
-            Divider()
-            
-            HStack {
-                Text("배송지정보")
-                    .font(.system(size: 14))
-                    .padding(.vertical, 5)
-                    .foregroundStyle(Color(uiColor: .darkGray))
-                
-                Spacer()
-                
-                Button {
-                    isShowingAddressList = true
-                } label: {
-                    HStack {
-                        Text("배송지 수정")
-                        Image(systemName: "chevron.right")
-                    }
-                    .foregroundStyle(.black)
-                }
-                .bold()
-
         }
     }
 
@@ -137,7 +104,6 @@ struct UserInformationView: View {
         VStack(alignment: .leading) {
             sectionHeader(title: "배송지정보", buttonTitle: "배송지 수정") {
                 // 배송지 수정 로직 추가 예정
-
             }
 
             HStack {
@@ -234,15 +200,6 @@ struct UserInformationView: View {
             .bold()
         }
         .padding()
-
-        .sheet(isPresented: $isShowingAddressList) {
-            AddressListView()
-        }
-
+        
     }
 }
-
-#Preview {
-    UserInformationView()
-}
- 
