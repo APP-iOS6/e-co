@@ -73,7 +73,7 @@ struct EcoTopInfoView: View {
                 Text("포인트")
                 
                 HStack {
-                    Text("\(healthManager.getTodayStepPoint())")
+                    Text("\(healthManager.todayPoint)")
                         .font(.system(size: 24))
                         .fontWeight(.bold)
                         .lineLimit(1)

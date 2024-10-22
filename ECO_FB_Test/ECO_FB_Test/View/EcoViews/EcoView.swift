@@ -38,37 +38,43 @@ struct EcoView: View {
         }
         .padding(.top)
         .onChange(of: healthManager.todayStepCount) {
-            healthManager.readCurrentStepCount()
-            healthManager.readCurrentDistance()
-            Task {
-                if var user = userStore.userData {  // 유저데이터가 존재하고 (로그인)
-                    if healthManager.isChangedTodayStepCount { // 오늘의 걸음수가 변경되었다면
-                        user.pointCount += healthManager.getStepPoint() // 방금 증가한 걸음수에 대한 포인트를 더함
-                        await dataManager.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                            
-                        }
-                    }
-                }
-            }
+            print("onChange step")
+            healthManager.loadData()
+            updateUserPoints()
         }
         .onChange(of: scene, {
-            healthManager.readCurrentStepCount()
-            healthManager.readCurrentDistance()
-            Task {
-                if var user = userStore.userData {  // 유저데이터가 존재하고 (로그인)
-                    if healthManager.isChangedTodayStepCount { // 오늘의 걸음수가 변경되었다면
-                        user.pointCount += healthManager.getStepPoint() // 방금 증가한 걸음수에 대한 포인트를 더함
-                        await dataManager.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                            
+            print("onChange scene")
+            healthManager.loadData()
+//            updateUserPoints()
+        })
+        .onAppear {
+            print("onAppear")
+            print("오늘 적립한 총 포인트: \(healthManager.earnedPointsToday)")
+            healthManager.requestAuthorization()
+        }
+    }
+    
+    private func updateUserPoints() {
+        Task {
+            if var user = userStore.userData {  // 유저데이터가 존재하고 (로그인)
+                if healthManager.isChangedTodayStepCount {  // 오늘의 걸음수가 변경되었다면
+                    let points = healthManager.totalPoints  // 획득한 총 포인트를 가져오고
+                    let earnedPointsToday = healthManager.earnedPointsToday // 오늘 총 적립한 포인트를 가져오고
+                    if earnedPointsToday < 150 {    // 오늘 적립한 포인트가 150점 미만일 때
+                        user.pointCount += points   // user에 포인트를 증가시킨 후
+                        await dataManager.updateData(   // 업데이트
+                            type: .user,
+                            parameter: .userUpdate(id: user.id, user: user)
+                        ) { _ in
+                            print("유저 포인트를 \(points)만큼 증가시켰습니다.")
                         }
+                        healthManager.earnedPointsToday += points
+                        healthManager.totalPoints = 0   // 적립한 포인트를 0으로 초기화
+                    } else {
+                        print("이미 오늘 150포인트를 적립했습니다.")
                     }
                 }
             }
-        })
-        .onAppear {
-            healthManager.requestAuthorization()
-            healthManager.readCurrentStepCount()
-            healthManager.readCurrentDistance()
         }
     }
 }
