@@ -23,7 +23,11 @@ struct UserInquiryHistoryDetailView: View {
                 Text(inquiry.creationDate, style: .date)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            
+            HStack {
+                Text("셀러:")
+                Text(inquiry.seller.name)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
            
             Text("질문:")
                 .frame(maxWidth: .infinity, alignment: .leading)

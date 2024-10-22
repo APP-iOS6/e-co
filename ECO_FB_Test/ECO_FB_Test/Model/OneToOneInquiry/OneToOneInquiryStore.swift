@@ -140,6 +140,9 @@ final class OneToOneInquiryStore: DataControllable{
         return oneToOneInquiry
     }
     
+    //재민님 기존 메소드 제외 새로 만든 메소드들(기존 메소드는 건들지 않았습니다)
+    
+    //질문 보내기
     func saveInquiry(inquiry: OneToOneInquiry) async throws {
            do {
                let _ = try await db.collection(collectionName).document(inquiry.id).setData([
@@ -155,26 +158,19 @@ final class OneToOneInquiryStore: DataControllable{
                throw error
            }
        }
-    
-       private func fetchUser(id: String) async throws -> User {
-           // 유저 데이터를 가져오는 메서드
-           let result = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: true)) { _ in }
-           guard case let .user(user) = result else {
-               throw DataError.convertError(reason: "Failed to fetch user with id: \(id)")
-           }
-           return user
-       }
-    
    
-    //답변
+    //답변 업데이트
     func updateInquiryAnswer(inquiryID: String, answer: String) async throws {
           let inquiryRef = db.collection(collectionName).document(inquiryID)
         
-          // Firestore에서 답변 업데이트
+          // Firestore 답변 업데이트
           try await inquiryRef.updateData([
               "answer": answer,
             //  "creation_date":Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")// 시간찍기
           ])
       }
-       
+    
+    func removeAll() {
+           oneToOneInquiries.removeAll()
+       }
 }

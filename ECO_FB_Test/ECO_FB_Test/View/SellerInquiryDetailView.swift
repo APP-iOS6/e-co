@@ -21,6 +21,8 @@ struct SellerInquiryDetailView: View {
                 Text(inquiry.title)
                 //.font(.title3)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                Text("셀러:")
+                Text(inquiry.seller.name)
                 Text("질문:")
                 // .font(.headline)
                 Text(inquiry.question)
@@ -31,7 +33,7 @@ struct SellerInquiryDetailView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("답변:")
             }
-       
+            
             
             if inquiry.answer.isEmpty {
                 TextEditor(text: $answer)
@@ -61,7 +63,7 @@ struct SellerInquiryDetailView: View {
                     .padding(.bottom)
                     .padding(.top, -40)
             }
-             //가능하면 답변 수정도 추가
+            
             Spacer()
         }
         .padding()
@@ -69,29 +71,24 @@ struct SellerInquiryDetailView: View {
     }
     
     private func submitAnswer() {
-       //답변 업데이트 될 로직 이 와야할곳
+        //답변 업데이트 될 로직 이 와야할곳
         guard !answer.isEmpty else {
-                // 비어있는 답변일 경우 경고 처리
-                print("답변이 비어 있습니다.")
-                return
+            print("답변이 비어 있습니다.")
+            return
+        }
+        Task {
+            do {
+                let inquiryID = inquiry.id // 업데이트할 문의의 ID
+                try await inquiryStore.updateInquiryAnswer(inquiryID: inquiryID, answer: answer)
+                print("답변이 성공적으로 업데이트되었습니다.")
+                answer = ""
+            } catch {
+                
+                print("업데이트문서 ID: \(inquiry.id)")
+                print("답변 업데이트 실패: \(error.localizedDescription)")
             }
-
-            // 데이터를 업데이트할 로직
-            Task {
-                do {
-                    // Firestore 업데이트 예시
-                    let inquiryID = inquiry.id // 업데이트할 문의의 ID
-                    try await inquiryStore.updateInquiryAnswer(inquiryID: inquiryID, answer: answer)
-                    print("답변이 성공적으로 업데이트되었습니다.")
-                    
-                    // UI 업데이트 (예: 답변 필드 초기화)
-                    answer = ""
-                } catch {
-                    print("업데이트하려는 문서 ID: \(inquiry.id)")
-                    print("답변 업데이트 실패: \(error.localizedDescription)")
-                }
-            }
-       
+        }
+        
     }
 }
 

@@ -10,6 +10,7 @@ import SwiftUI
 struct SellerInquiryView: View {
     @Environment(UserStore.self) private var userStore: UserStore
     @Environment(OneToOneInquiryStore.self) private var inquiryStore: OneToOneInquiryStore
+    //프로그레스뷰 만들예정
     @State private var isLoading = true
     @State private var errorMessage: String?
     var body: some View {
@@ -44,11 +45,12 @@ struct SellerInquiryView: View {
                 
             }
             .navigationTitle("현재 들어온 문의 내역")
-            .onAppear {
+            .task {
                 loadInquiries()
             }
-            .refreshable {
-                loadInquiries()
+            .onDisappear {
+                inquiryStore.removeAll()
+                
             }
         }
     }
