@@ -10,6 +10,7 @@ import Foundation
 struct PaymentInfo: Identifiable, Equatable {
     let id: String
     let userID: String
+    var deliveryRequest: String
     var paymentMethod: PaymentMethod
     var paymentMethodInfo: CardInfo?
     var addressInfos: [AddressInfo]

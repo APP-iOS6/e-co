@@ -62,6 +62,7 @@ final class PaymentInfoStore: DataControllable {
             
             try await db.collection(collectionName).document(id).setData([
                 "user_id": paymentInfo.userID,
+                "delivery_request": paymentInfo.deliveryRequest,
                 "payment_method_name": paymentInfo.paymentMethod.rawValue,
                 "payment_method_id": paymentMethodInfoID,
                 "address_info_ids": addressInfoIDs
@@ -117,8 +118,7 @@ final class PaymentInfoStore: DataControllable {
     private func getData(id: String, docData: [String: Any]) async throws -> PaymentInfo {
         let userID = docData["user_id"] as? String ?? "none"
         
-        let paymentMethodString = docData["payment_method_name"] as? String ?? "none"
-        let paymentMethodName = stringToPaymentMethod(paymentMethodString)
+        let deliveryRequest = docData["delivery_request"] as? String ?? "none"
         
         let addressInfoIDs = docData["address_info_ids"] as? [String] ?? []
         var addressInfos: [AddressInfo] = []
@@ -134,7 +134,10 @@ final class PaymentInfoStore: DataControllable {
             addressInfos.append(result)
         }
         
+        let paymentMethodString = docData["payment_method_name"] as? String ?? "none"
+        let paymentMethodName = stringToPaymentMethod(paymentMethodString)
         var paymentMethod: CardInfo? = nil
+        
         if paymentMethodName == .card {
             let paymentMethodID = docData["payment_method_id"] as? String ?? "none"
             let cardInfoResult = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: paymentMethodID)) { _ in
@@ -148,7 +151,7 @@ final class PaymentInfoStore: DataControllable {
             paymentMethod = result
         }
 
-        let paymentInfo = PaymentInfo(id: id, userID: userID, paymentMethod: paymentMethodName, paymentMethodInfo: paymentMethod, addressInfos: addressInfos)
+        let paymentInfo = PaymentInfo(id: id, userID: userID, deliveryRequest: deliveryRequest, paymentMethod: paymentMethodName, paymentMethodInfo: paymentMethod, addressInfos: addressInfos)
         return paymentInfo
     }
     
