@@ -12,7 +12,6 @@ import NukeUI
 struct AllGoodsOfCategoryView: View {
     static private var loadedCategories: [GoodsCategory] = []
     @Environment(GoodsStore.self) private var goodsStore: GoodsStore
-    @Binding var index: Int
     var category: GoodsCategory
     var allGoods: [Goods]
     var gridItems: [GridItem] = [
@@ -35,7 +34,7 @@ struct AllGoodsOfCategoryView: View {
                 TabView(selection: $tabSelection) {
                     ForEach(0 ..< numberOfPages, id: \.self) { index in
                         Tab(value: index) {
-                            GoodsPageView(itemRange: getItemCountForPage(index), category: category, index: self.$index)
+                            GoodsPageView(itemRange: getItemCountForPage(index), category: category)
                                 .environment(goodsStore)
                         }
                     }

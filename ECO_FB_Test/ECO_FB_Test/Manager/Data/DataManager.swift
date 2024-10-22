@@ -18,9 +18,11 @@ final class DataManager {
         GoodsStore.shared,
         PaymentInfoStore.shared,
         CardInfoStore.shared,
+        AddressInfoStore.shared,
         OrderDetailStore.shared,
         AnnouncementStore.shared,
         OneToOneInquiryStore.shared,
+        ReviewStore.shared,
         ZeroWasteShopStore.shared
     ]
     
@@ -119,11 +121,13 @@ final class DataManager {
     }
     
     /**
-     데이터를 DB에서 지우는 메소드
+     데이터를 삭제하는 메소드
+     
+     몇몇 데이터들은 parameter가 필요없습니다. 만약 삭제하려는 대상에 대해 Delete가 붙은 값이 없다면 none을 써주시면 됩니다.
      
      - parameters:
-        - type: 지울 대상, 예) 유저라면 .user
-        - parameter: 지울 데이터의 정보, 뒤에 Delete가 붙은 값들을 써야합니다. 예) 유저라면 .userDelete()
+        - type: 삭제할 대상, 예) 유저라면 .user
+        - parameter: 삭제할 대상의 정보, 뒤에 Delete가 붙은 값들을 써야합니다. 예) 상품이라면 .goodsDelete()
      */
     func deleteData(type: DataType, parameter: DataParam, deleteFlowChangeAction: (DataDeleteFlow) -> Void) async {
         do {

@@ -32,6 +32,21 @@ final class ECO_FB_TestTests: XCTestCase {
 //        
 //        XCTAssertEqual(paymentInfo, expect)
 //    }
+
+    func testReviewUpdate() async throws {
+        let userResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
+            
+        }
+        guard case .user(let user) = userResult else {
+            throw DataError.fetchError(reason: "cant get user")
+        }
+        
+        let id = UUID().uuidString
+        let review = Review(id: id, user: user, goodsID: "0360EFB2-29CD-4830-A571-7B44EEB09392", title: "test", content: "teste라고 써봅니다", contentImages: [], starCount: 1, creationDate: .now)
+        await DataManager.shared.updateData(type: .review, parameter: .reviewUpdate(id: id, review: review)) { _ in
+            
+        }
+    }
     
 //    func testCardInfoFetch() async throws {
 //        let result = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: "0woTQSLvsGuqbKNZvtkc")) { _ in
@@ -47,6 +62,24 @@ final class ECO_FB_TestTests: XCTestCase {
 //        XCTAssertEqual(cardInfo, expect)
 //    }
 
+    func testPaymentInfoAdd() async throws {
+        let id = UUID().uuidString
+        let paymentInfo = PaymentInfo(id: id, userID: "idntno0505@gmail.com", deliveryRequest: "오지마", paymentMethod: .bank, addressInfos: [AddressInfo(id: "25DE3FCA-80CE-40D0-840E-F7B6188F6BD6", recipientName: "홍재민", phoneNumber: "010-4534-2323", address: "구월3동")])
+        
+        await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: id, paymentInfo: paymentInfo)) { _ in
+            
+        }
+    }
+    
+    func testPaymentInfoUpdate() async throws {
+        let id = "Ki12J9HmdyzwcO2TsMlS"
+        let paymentInfo = PaymentInfo(id: id, userID: "idntno0505@gmail.com", deliveryRequest: "??", paymentMethod: .bank, paymentMethodInfo: CardInfo(id: UUID().uuidString, cvc: "326", ownerName: "홍재민", cardNumber: "2315 2321 9898 2030", cardPassword: "1235", expirationDate: Date().getFormattedDate(dateString: "30-12", "yy-MM")), addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: "홍재민", phoneNumber: "010-4534-2323", address: "구월3동"), AddressInfo(id: "RTG5zronTdUlpuBT1MxE", recipientName: "홍재민", phoneNumber: "010-2321-9899", address: "my")])
+        
+        await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: id, paymentInfo: paymentInfo)) { _ in
+            
+        }
+    }
+    
     func testOneToOneInquiryFetch() async throws {
         _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAll(sellerID: "seller@seller.com", limit: 20)) { _ in
             

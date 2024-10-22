@@ -16,20 +16,25 @@ struct EcoView: View {
     @Environment(\.scenePhase) var scene
     
     var body: some View {
-        VStack {
-            AppNameView()
-            
-            // 상단 Info Area
-            EcoTopInfoView(healthManager: healthManager)
-                .padding(.top, 20)
-            
-            // 중앙 걸음수 Area
-            EcoStepsView(stepCount: healthManager.todayStepCount, selectedTab: $selectedTab)
-                
+        GeometryReader{ geometry in
+            ScrollView(.vertical){
+                VStack {
+                    AppNameView()
+                    
+                    // 상단 Info Area
+                    EcoTopInfoView(healthManager: healthManager)
+                        .padding(.top, 20)
+                        .padding(.bottom, 40)
+                    
+                    // 중앙 걸음수 Area
+                    EcoStepsView(stepCount: healthManager.todayStepCount, selectedTab: $selectedTab)
+                        .frame(height: geometry.size.height/2)
+                    
+                    // 하단 친환경 행사 Area
+                    EcoEventsView()
 
-            // 하단 친환경 행사 Area
-            EcoEventsView()
-
+                }
+            }
         }
         .padding(.top)
         .onChange(of: healthManager.todayStepCount) {
