@@ -10,7 +10,6 @@ import Combine
 
 struct StoreView: View {
     static private var isFirstPresent: Bool = true
-    @Binding var selectedTab: Int
     @Environment(GoodsStore.self) private var goodsStore: GoodsStore
     @State private var dataFetchFlow: DataFetchFlow = .loading
     @State var searchText: String = ""
@@ -98,8 +97,8 @@ struct StoreView: View {
                                         goodsStore.categorySelectAction(GoodsCategory.none)
                                     } label: {
                                         Text("ALL")
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(Color(uiColor: .darkGray))
+                                            .fontWeight(selectedCategory == GoodsCategory.none ? .semibold : .regular)
+                                            .foregroundStyle(selectedCategory == GoodsCategory.none ? Color.black : Color(uiColor: .darkGray))
                                     }
                                     .buttonStyle(.bordered)
                                     
@@ -108,8 +107,8 @@ struct StoreView: View {
                                             goodsStore.categorySelectAction(category)
                                         } label: {
                                             Text(category.rawValue)
-                                                .fontWeight(.semibold)
-                                                .foregroundStyle(Color(uiColor: .darkGray))
+                                                .fontWeight(selectedCategory == category ? .semibold : .regular)
+                                                .foregroundStyle(selectedCategory == category ? Color.black : Color(uiColor: .darkGray))
                                         }
                                         .buttonStyle(.bordered)
                                     }
@@ -118,11 +117,11 @@ struct StoreView: View {
                             .scrollIndicators(.hidden)
                             .padding([.horizontal, .bottom])
                             
-                            RecommendedItemsView(index: $selectedTab, goodsByCategories: goodsByCategories)
+                            RecommendedItemsView(goodsByCategories: goodsByCategories)
                             
                             ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
                                 
-                                ItemListView(index: $selectedTab, category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                                ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [])
                                 
                             }
                         }
@@ -173,8 +172,8 @@ struct StoreView: View {
                     let price = Int.random(in: 10 ... 99999)
                     let uploadResult = try await StorageManager.shared.upload(type: .goods, parameter: .uploadGoodsThumbnail(goodsID: id, image: dummyImages[i - 1]))
                     
-                    if case let .single(url) = uploadResult {
-                        let goods = Goods(id: UUID().uuidString, name: "\(category): \(j)", category: category, thumbnailImageURL: url, bodyContent: "Hi", bodyImageNames: [], price: price, seller: Seller(id: "Q6awSoN6OCHcbUDeMxyd", name: "ImSeller", profileImageName: "test.png"))
+                    if case let .single(url) = uploadResult, let user = UserStore.shared.userData {
+                        let goods = Goods(id: UUID().uuidString, name: "\(category): \(j)", category: category, thumbnailImageURL: url, bodyContent: "Hi", bodyImageNames: [], price: price, seller: user)
                         
                         await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: id, goods: goods)) { _ in
                             
@@ -187,6 +186,6 @@ struct StoreView: View {
 }
 
 #Preview {
-    StoreView(selectedTab: .constant(1)).environment(GoodsStore.shared)
+    StoreView().environment(GoodsStore.shared)
 }
 

@@ -12,16 +12,17 @@ import FirebaseFirestore
 final class GoodsStore: DataControllable {
     static let shared: GoodsStore = GoodsStore()
     private let db: Firestore = DataManager.shared.db
+    private let collectionName: String = "Goods"
     private(set) var dataCount: Int = 0
     private(set) var goodsList: [Goods] = []
     private(set) var selectedCategory: GoodsCategory = GoodsCategory.none
     private(set) var goodsByCategories: [GoodsCategory: [Goods]] = [:]
     private(set) var filteredGoodsByCategories: [GoodsCategory: [Goods]] = [:]
-    private var lastGoodsEachCategory: [GoodsCategory: QueryDocumentSnapshot] = [:]
+    private var lastDocumentEachCategory: [GoodsCategory: QueryDocumentSnapshot] = [:]
     
     private init() {
         Task {
-            dataCount = try await db.collection("Goods").getDocuments().count
+            dataCount = try await db.collection(collectionName).getDocuments().count
         }
     }
     
@@ -103,11 +104,11 @@ final class GoodsStore: DataControllable {
     
     func updateData(parameter: DataParam) async throws {
         guard case let .goodsUpdate(id, goods) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not a goods update")
+            throw DataError.updateError(reason: "The DataParam is not a goods update")
         }
         
         do {
-            try await db.collection("Goods").document(id).setData([
+            try await db.collection(collectionName).document(id).setData([
                 "name": goods.name,
                 "category": goods.category.rawValue,
                 "thumbnail": goods.thumbnailImageURL.absoluteString,
@@ -121,13 +122,13 @@ final class GoodsStore: DataControllable {
         }
     }
     
-    func deleteData() {
+    func deleteData(parameter: DataParam) async throws {
         
     }
     
     private func getGoodsByID(_ id: String) async throws -> DataResult {
         do {
-            let snapshot = try await db.collection("Goods").document(id).getDocument()
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
             guard let docData = snapshot.data() else {
                 throw DataError.fetchError(reason: "The Document Data is nil")
@@ -143,17 +144,17 @@ final class GoodsStore: DataControllable {
     }
     
     private func getGoodsAll(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
-        if lastGoodsEachCategory.isEmpty {
-            return try await getFirstPages(categories: categories, limit: limit)
+        if lastDocumentEachCategory.isEmpty {
+            return try await getFirstPage(categories: categories, limit: limit)
         } else {
-            return try await getNextPages(categories: categories, limit: limit)
+            return try await getNextPage(categories: categories, limit: limit)
         }
     }
     
-    private func getFirstPages(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
+    private func getFirstPage(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
         do {
             for category in categories {
-                let snapshots = try await db.collection("Goods")
+                let snapshots = try await db.collection(collectionName)
                     .whereField("category", isEqualTo: "\(category.rawValue)")
                     .order(by: FieldPath.documentID())
                     .limit(to: limit)
@@ -167,7 +168,7 @@ final class GoodsStore: DataControllable {
                     goodsList.append(goods)
                 }
                 
-                lastGoodsEachCategory[category] = snapshots.documents.last
+                lastDocumentEachCategory[category] = snapshots.documents.last
             }
             
             return DataResult.none
@@ -176,12 +177,12 @@ final class GoodsStore: DataControllable {
         }
     }
     
-    private func getNextPages(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
+    private func getNextPage(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
         do {
             for category in categories {
-                guard let last = lastGoodsEachCategory[category] else { continue }
+                guard let last = lastDocumentEachCategory[category] else { continue }
                 
-                let snapshots = try await db.collection("Goods")
+                let snapshots = try await db.collection(collectionName)
                     .whereField("category", isEqualTo: "\(category.rawValue)")
                     .order(by: FieldPath.documentID())
                     .start(afterDocument: last)
@@ -196,7 +197,7 @@ final class GoodsStore: DataControllable {
                     goodsList.append(goods)
                 }
                 
-                lastGoodsEachCategory[category] = snapshots.documents.last
+                lastDocumentEachCategory[category] = snapshots.documents.last
             }
             
             return DataResult.none
@@ -214,11 +215,11 @@ final class GoodsStore: DataControllable {
         let price = docData["price"] as? Int ?? 0
         
         let sellerID = docData["seller_id"] as? String ?? "none"
-        let seller = await DataManager.shared.fetchData(type: .seller, parameter: .sellerLoad(id: sellerID)) { _ in
+        let seller = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: sellerID, shouldReturnUser: true)) { _ in
             
         }
         
-        guard case let .seller(result) = seller else {
+        guard case let .user(result) = seller else {
             throw DataError.convertError(reason: "DataResult is not a seller")
         }
         
@@ -245,6 +246,5 @@ final class GoodsStore: DataControllable {
         default:
             throw DataError.convertError(reason: "Can't find matched string")
         }
-        
     }
 }

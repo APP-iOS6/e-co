@@ -15,10 +15,12 @@ final class DataManager {
     private let _db: Firestore = Firestore.firestore()
     @ObservationIgnored private lazy var dataStores: [DataControllable] = [
         UserStore.shared,
-        SellerStore.shared,
         GoodsStore.shared,
         PaymentInfoStore.shared,
+        CardInfoStore.shared,
         AnnouncementStore.shared,
+        OneToOneInquiryStore.shared,
+        ReviewStore.shared,
         ZeroWasteShopStore.shared
     ]
     
@@ -29,7 +31,7 @@ final class DataManager {
     /**
      유저 존재 여부 확인 메소드
      
-     - parameter parameter: 에러가 날 수 있으니 꼭 .userLoad(id)를 넣어야 합니다.
+     - parameter parameter: 에러가 날 수 있으니 꼭 .userSearch(id)를 넣어야 합니다.
      - Returns: 유저가 존재한다면 true, 존재하지 않는다면 false
      */
     func checkIfUserExists(parameter: DataParam) async -> Bool {
@@ -47,7 +49,7 @@ final class DataManager {
     /**
      유저의 로그인 방법 조회 메소드
      
-     - parameter parameter: 에러가 날 수 있으니 꼭 .userLoad(id)를 넣어야 합니다.
+     - parameter parameter: 에러가 날 수 있으니 꼭 .userSearch(id)를 넣어야 합니다.
      - Returns: 문자열 형식의 유저의 로그인 방법, 알 수 없다면 none
      */
     func getUserLoginMethod(parameter: DataParam) async -> String {
@@ -116,7 +118,26 @@ final class DataManager {
         }
     }
     
-    func deleteData() {
-        
+    /**
+     데이터를 삭제하는 메소드
+     
+     몇몇 데이터들은 parameter가 필요없습니다. 만약 삭제하려는 대상에 대해 Delete가 붙은 값이 없다면 none을 써주시면 됩니다.
+     
+     - parameters:
+        - type: 삭제할 대상, 예) 유저라면 .user
+        - parameter: 삭제할 대상의 정보, 뒤에 Delete가 붙은 값들을 써야합니다. 예) 상품이라면 .goodsDelete()
+     */
+    func deleteData(type: DataType, parameter: DataParam, deleteFlowChangeAction: (DataDeleteFlow) -> Void) async {
+        do {
+            var dataDeleteFlow: DataDeleteFlow = .deleting
+            deleteFlowChangeAction(dataDeleteFlow)
+            
+            try await dataStores[type.rawValue].deleteData(parameter: parameter)
+            
+            dataDeleteFlow = .deleted
+            deleteFlowChangeAction(dataDeleteFlow)
+        } catch {
+            print("Error: \(error)")
+        }
     }
 }

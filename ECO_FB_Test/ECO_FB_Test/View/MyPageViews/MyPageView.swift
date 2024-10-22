@@ -15,6 +15,13 @@ struct MyPageView: View {
     @State private var isNeedLogin: Bool = false
     @State private var isBought: Bool = false
     
+    // TODO: 파이어 스토어 데이터 연결하기
+    @State private var isCredit: Bool = true
+    @State private var isZeroWaste: Bool = true // 친환경 앱이기 때문에 친환경 포장방식을 기본값으로 했습니다.
+    @State private var usingPoint: Int = 0
+    @State private var productsPrice: Int = 16000
+    @State private var requestMessage = "문앞에 놔주세요"
+    
     var body: some View {
         AppNameView()
             .padding(.top)
@@ -52,7 +59,7 @@ struct MyPageView: View {
             
             HStack {
                 NavigationLink {
-                    OrderStatusView()
+                    OrderStatusView(isCredit: $isCredit, isZeroWaste: $isZeroWaste, usingPoint: usingPoint, productsPrice: productsPrice, requestMessage: $requestMessage)
                 } label: {
                     VStack {
                         Image(systemName: "list.bullet.clipboard")
@@ -72,7 +79,7 @@ struct MyPageView: View {
                 }
                 Spacer()
                 NavigationLink {
-                    CartView(isBought: $isBought)
+                    CartView()
                 } label: {
                     VStack {
                         Image(systemName: "bag")
@@ -82,12 +89,13 @@ struct MyPageView: View {
                 }
                 Spacer()
                 NavigationLink {
-                    InquiriesView()
+                    // TODO: 유저 데이터 연결하기
+                    LikeView(category: GoodsCategory.none, allGoods: [])
                 } label: {
                     VStack {
-                        Image(systemName: "questionmark.circle")
+                        Image(systemName: "heart")
                             .padding(.bottom, 2)
-                        Text("문의하기")
+                        Text("찜목록")
                     }
                 }
             }
@@ -106,6 +114,7 @@ struct MyPageView: View {
                     .foregroundColor(.gray)
                 ) {
                     NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
+                    NavigationLink("문의하기", destination: InquiriesView())
                     NavigationLink("FAQ", destination: FAQView())
                     NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
                     NavigationLink("도움말", destination: HealthHelpView())

@@ -11,7 +11,6 @@ import NukeUI
 import UIKit
 
 struct RecommendedItemsView: View {
-    @Binding var index: Int
     var goodsByCategories: [GoodsCategory : [Goods]]
 
     var width = 0

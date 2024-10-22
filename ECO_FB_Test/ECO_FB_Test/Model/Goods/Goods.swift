@@ -15,7 +15,7 @@ struct Goods: Identifiable, Hashable {
     let bodyContent: String
     let bodyImageNames: [String]
     let price: Int
-    let seller: Seller
+    let seller: User
     
     var formattedPrice: String {
         return "₩\(price.formatted())"

@@ -14,6 +14,8 @@ struct GoodsDetailView: View {
     var thumbnail: URL
     @State var moveToCart: Bool = false
     @State var isBought: Bool = false
+    @State var isLike: Bool = false
+    @State var isShowReview: Bool = false
     
     var body: some View {
         GeometryReader { GeometryProxy in
@@ -37,7 +39,7 @@ struct GoodsDetailView: View {
                         
                         LazyVStack(alignment: .leading) {
                             HStack(alignment: .center) {
-                                // 앱 로고 자리
+                                // TODO: 해당 thumbnail image로 변경하기
                                 Image(systemName: "text.aligncenter")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -67,11 +69,15 @@ struct GoodsDetailView: View {
                                 Spacer()
                                 
                                 Button {
-                                    
+                                    // TODO: 좋아요 정보 저장 로직 구현
+                                    isLike.toggle()
                                 } label: {
-                                    Image(systemName: "heart")
+                                    Image(systemName: isLike ? "heart.fill" : "heart")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25)
                                 }
-                                .foregroundStyle(Color(uiColor: .darkGray))
+                                .foregroundStyle(isLike ? .pink : Color(uiColor: .darkGray))
                                 .font(.title2)
                             }
                             .padding(.bottom, 5)
@@ -84,12 +90,15 @@ struct GoodsDetailView: View {
                                 Spacer()
                                 
                                 Button {
-                                    
+                                    isShowReview.toggle()
                                 } label: {
                                     Text("리뷰보기")
                                         .underline()
                                 }
                                 .foregroundStyle(Color(uiColor: .darkGray))
+                            }
+                            .sheet(isPresented: $isShowReview) {
+                                ReviewListView()
                             }
                             Divider()
                             
@@ -115,7 +124,8 @@ struct GoodsDetailView: View {
                         Button {
                             if var user = UserStore.shared.userData {
                                 Task {
-                                    user.cart.insert(goods)
+                                    let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
+                                    user.cart.insert(cartElement)
                                     await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
                                         
                                         
@@ -148,7 +158,7 @@ struct GoodsDetailView: View {
                     Image(systemName: "cart")
                 }
                 .sheet(isPresented: $moveToCart) {
-                    CartView(isBought: $isBought)
+                    CartView()
                 }
                 .foregroundStyle(Color(uiColor: .darkGray))
             }
@@ -169,7 +179,7 @@ struct GoodsDetailView: View {
 """,
         bodyImageNames: [],
         price: 15000,
-        seller: Seller(id: "seller1", name: "(주) 멋사 ", profileImageName: "dd")
+        seller: UserStore.shared.userData ?? User(id: UUID().uuidString, loginMethod: LoginMethod.google.rawValue, isSeller: true, name: "Lucy", profileImageURL: URL(string: "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef")!, pointCount: 0, cart: [], goodsRecentWatched: [], goodsFavorited: [])
     )
     
     

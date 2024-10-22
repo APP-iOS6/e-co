@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct CartView: View {
-    @Environment(\.dismiss) var dismiss
-    @Binding var isBought: Bool
     @Environment(UserStore.self) private var userStore: UserStore
-    @State private var selectedGoods: [Goods] = []
+    @State private var selectedGoods: [CartElement] = []
     @State private var dataUpdateFlow: DataUpdateFlow = .didUpdate
     @State private var totalPrice: Int = 0
     @State private var isSelectedAll: Bool = false
@@ -58,12 +56,12 @@ struct CartView: View {
                         if userData.arrayCart.count == 0 {
                             Text("장바구니가 비어있습니다")
                         } else {
-                            ForEach(userData.arrayCart) { goods in
-                                CartGoodsInfoView(totalSelected: $isSelectedAll, goods: goods) { isOn, goods in
+                            ForEach(userData.arrayCart) { element in
+                                CartGoodsInfoView(totalSelected: $isSelectedAll, cartElement: element) { isOn, element in
                                     if isOn {
-                                        selectedGoods.append(goods)
+                                        selectedGoods.append(element)
                                     } else {
-                                        selectedGoods.removeAll(where: { $0.id == goods.id })
+                                        selectedGoods.removeAll(where: { $0.id == element.id })
                                     }
                                 }
                             }
@@ -76,10 +74,8 @@ struct CartView: View {
             
             Spacer()
             
-            Button {
-                // TODO: 임시로 구매 완료 알럿 띄우기 or 구매하기 로직 완성
-                isBought = true
-                dismiss()
+            NavigationLink {
+                OrderView()
             } label: {
                 Text("주문하기")
                     .foregroundStyle(.white)
@@ -98,7 +94,7 @@ struct CartView: View {
 }
 
 #Preview {
-    CartView(isBought: .constant(false))
+    CartView()
         .environment(UserStore.shared)
         .environment(GoodsStore.shared)
 }

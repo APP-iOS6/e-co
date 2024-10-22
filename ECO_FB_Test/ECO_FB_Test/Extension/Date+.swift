@@ -16,7 +16,8 @@ extension Date {
     func getFormattedString(_ format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
-        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        dateFormatter.timeZone = TimeZone(identifier: "KST")
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         
         return dateFormatter.string(from: self)
     }
@@ -30,7 +31,8 @@ extension Date {
     func getFormattedDate(dateString: String, _ format: String) -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
-        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        dateFormatter.timeZone = TimeZone(identifier: "KST")
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         
         return dateFormatter.date(from: dateString)!
     }

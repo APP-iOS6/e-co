@@ -31,8 +31,12 @@
 			</array>
 		</dict>
 	</array>
+	<key>EncryptKey</key>
+	<string>$(EncryptKey)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>IVKey</key>
+	<string>$(IVKey)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaolink</string>
