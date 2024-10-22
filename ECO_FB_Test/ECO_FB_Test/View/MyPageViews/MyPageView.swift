@@ -129,6 +129,7 @@ struct MyPageView: View {
         .onAppear {
             if let user = userStore.userData {
                 favoritedGoods = Array(user.goodsFavorited)
+
             }
         }
     }

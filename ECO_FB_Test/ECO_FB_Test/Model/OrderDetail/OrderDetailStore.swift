@@ -20,7 +20,8 @@ final class OrderDetailStore: DataControllable {
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         guard case let .orderDetailAll(userID, limit) = parameter else {
-            throw DataError.fetchError(reason: "The DataParam is not order detail all")
+            throw DataError.fetchError(reason: "The DataParam is not a order detail all")
+
         }
         
         var result: DataResult = .none
@@ -34,11 +35,50 @@ final class OrderDetailStore: DataControllable {
     }
     
     func updateData(parameter: DataParam) async throws {
+        guard case let .orderDetailUpdate(id, orderDetail) = parameter else {
+            throw DataError.updateError(reason: "The DataParam is not a order detail update")
+        }
         
+        let orderDate = orderDetail.orderDate.getFormattedString("yyyy-MM-dd-HH-mm")
+
+        do {
+            try await db.collection(collectionName).document(id).setData([
+                "user_id": orderDetail.userID,
+                "payment_info_id": orderDetail.paymentInfo.id,
+                "order_date": orderDate
+            ])
+            
+            for orderedGoodsInfo in orderDetail.orderedGoodsInfos {
+                var goodsIDs: [String] = []
+                for goodsInfo in orderedGoodsInfo.goodsList {
+                    let goodsID = goodsInfo.goods.id
+                    let count = goodsInfo.count
+                    
+                    goodsIDs.append("\(goodsID)_\(count)")
+                }
+                
+                try await db.collection(collectionName).document(id)
+                          .collection(subCollectionName).document(orderedGoodsInfo.id)
+                          .setData([
+                            "delivery_status": orderedGoodsInfo.deliveryStatus.rawValue,
+                            "goods_with_count": goodsIDs
+                          ])
+            }
+        } catch {
+            throw error
+        }
     }
     
     func deleteData(parameter: DataParam) async throws {
-        
+        guard case .orderDetailDelete(let id) = parameter else {
+            throw DataError.deleteError(reason: "The DataParam is not an order detail delete")
+        }
+
+        do {
+            try await db.collection(collectionName).document(id).delete()
+        } catch {
+            throw error
+        }
     }
     
     private func getFirstPage(userID: String, limit: Int) async throws -> DataResult {
