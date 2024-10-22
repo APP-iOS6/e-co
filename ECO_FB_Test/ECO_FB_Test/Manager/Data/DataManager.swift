@@ -111,8 +111,6 @@ final class DataManager {
                 dataFlow: flow,
                 parameter: parameter,
                 action: { [weak self] type, parameter in
-                    flow?.wrappedValue = .loading
-                    
                     guard let self = self else {
                         throw  DataError.fetchError(reason: "Can't fetch data! because self is nil")
                     }
@@ -126,7 +124,6 @@ final class DataManager {
                     }
                 },
                 completion: { result in
-                    flow?.wrappedValue = .didLoad
                     continuation.resume(with: result)
                 }
             )
