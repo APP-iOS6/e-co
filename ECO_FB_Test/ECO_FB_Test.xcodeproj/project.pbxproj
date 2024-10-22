@@ -109,6 +109,8 @@
 		FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */; };
 		FE92D4AF2CBE785B00B08F8E /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = FE92D4AE2CBE785B00B08F8E /* Nuke */; };
 		FE92D4B12CBE785B00B08F8E /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = FE92D4B02CBE785B00B08F8E /* NukeUI */; };
+		FE940BD42CC7322A0040554E /* AddressInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE940BD32CC7322A0040554E /* AddressInfo.swift */; };
+		FE940BD62CC732A30040554E /* AddressInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE940BD52CC732A30040554E /* AddressInfoStore.swift */; };
 		FEAC5BFC2CC0E6A2006F6B8D /* DataUpdateFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAC5BFB2CC0E6A2006F6B8D /* DataUpdateFlow.swift */; };
 		FEAC5BFE2CC0EBE6006F6B8D /* EmailLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAC5BFD2CC0EBE6006F6B8D /* EmailLoginManager.swift */; };
 		FEAC5C002CC0EC88006F6B8D /* LoginParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAC5BFF2CC0EC88006F6B8D /* LoginParam.swift */; };
@@ -246,6 +248,8 @@
 		FE6EC1A32CC39E5A00EC9874 /* CardInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfoStore.swift; sourceTree = "<group>"; };
 		FE6EC1A52CC3AFE500EC9874 /* EncryptError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptError.swift; sourceTree = "<group>"; };
 		FE92AC9F2CBBC2A50000FE50 /* LoginMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginMethod.swift; sourceTree = "<group>"; };
+		FE940BD32CC7322A0040554E /* AddressInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfo.swift; sourceTree = "<group>"; };
+		FE940BD52CC732A30040554E /* AddressInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInfoStore.swift; sourceTree = "<group>"; };
 		FEAC5BFB2CC0E6A2006F6B8D /* DataUpdateFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataUpdateFlow.swift; sourceTree = "<group>"; };
 		FEAC5BFD2CC0EBE6006F6B8D /* EmailLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginManager.swift; sourceTree = "<group>"; };
 		FEAC5BFF2CC0EC88006F6B8D /* LoginParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginParam.swift; sourceTree = "<group>"; };
@@ -542,6 +546,7 @@
 				FE40BC0B2CB9452F00786E34 /* User */,
 				FE6A7ADC2CB99C6D000F5DB6 /* Goods */,
 				FE29E15C2CBD312A005E2EFD /* PaymentInfo */,
+				FE940BD22CC732070040554E /* AddressInfo */,
 				FE6EC1A02CC39C6600EC9874 /* CardInfo */,
 				FECCE04D2CC6919D00BA1693 /* Review */,
 				FE29E1612CBD4115005E2EFD /* Announcement */,
@@ -688,6 +693,15 @@
 				FE6EC1A52CC3AFE500EC9874 /* EncryptError.swift */,
 			);
 			path = Encrypt;
+			sourceTree = "<group>";
+		};
+		FE940BD22CC732070040554E /* AddressInfo */ = {
+			isa = PBXGroup;
+			children = (
+				FE940BD52CC732A30040554E /* AddressInfoStore.swift */,
+				FE940BD32CC7322A0040554E /* AddressInfo.swift */,
+			);
+			path = AddressInfo;
 			sourceTree = "<group>";
 		};
 		FEC6F3742CBDFBD1000E5441 /* Storage */ = {
@@ -898,6 +912,7 @@
 				F6386E302CBCE5CA00F67671 /* LoginView.swift in Sources */,
 				FE5924D92CBE54CD002FC977 /* StorageType.swift in Sources */,
 				502256882CBD038F006F6D5C /* ContentView.swift in Sources */,
+				FE940BD62CC732A30040554E /* AddressInfoStore.swift in Sources */,
 				FE92ACA02CBBC2A50000FE50 /* LoginMethod.swift in Sources */,
 				FEAC5C002CC0EC88006F6B8D /* LoginParam.swift in Sources */,
 				18DD4AC42CBF8AD7002AC8EA /* HelpView.swift in Sources */,
@@ -997,6 +1012,7 @@
 				6EAA499A2CBCA9C30014A5C6 /* StoreView.swift in Sources */,
 				FEC6F3812CBE0D13000E5441 /* GoodsStorageManager.swift in Sources */,
 				FED0CF1E2CC4EAEE0097DEFC /* OneToOneInquiry.swift in Sources */,
+				FE940BD42CC7322A0040554E /* AddressInfo.swift in Sources */,
 				FEC6F3942CBE2714000E5441 /* ZeroWasteShop.swift in Sources */,
 				FE5924D72CBE543C002FC977 /* StorageResult.swift in Sources */,
 				FE40BC0D2CB947D300786E34 /* DataParam.swift in Sources */,

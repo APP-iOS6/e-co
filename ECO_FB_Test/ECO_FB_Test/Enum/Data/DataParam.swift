@@ -20,6 +20,7 @@ enum DataParam {
     case goodsLoad(id: String)
     case paymentInfoLoad(id: String)
     case cardInfoLoad(id: String)
+    case addressInfoLoad(id: String)
     
     // Update(기존 데이터 갱신), Add(새로운 데이터 추가) 작업이 필요할 때 사용
     case userUpdate(id: String, user: User)

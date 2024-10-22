@@ -83,13 +83,25 @@ final class PaymentInfoStore: DataControllable {
     
     private func getData(id: String, docData: [String: Any]) async throws -> PaymentInfo {
         let userID = docData["user_id"] as? String ?? "none"
-        let recipientName = docData["recipient_name"] as? String ?? "none"
-        let phoneNumber = docData["phone_number"] as? String ?? "none"
         
         let paymentMethodString = docData["payment_method_name"] as? String ?? "none"
         let paymentMethodName = stringToPaymentMethod(paymentMethodString)
-        var paymentMethod: CardInfo? = nil
         
+        let addressInfoIDs = docData["address_info_ids"] as? [String] ?? []
+        var addressInfos: [AddressInfo] = []
+        for addressInfoID in addressInfoIDs {
+            let addressInfoResult = await DataManager.shared.fetchData(type: .addressInfo, parameter: .addressInfoLoad(id: addressInfoID)) { _ in
+                
+            }
+            
+            guard case let .addressInfo(result) = addressInfoResult else {
+                throw DataError.fetchError(reason: "Can't get address info")
+            }
+            
+            addressInfos.append(result)
+        }
+        
+        var paymentMethod: CardInfo? = nil
         if paymentMethodName == .card {
             let paymentMethodID = docData["payment_method_id"] as? String ?? "none"
             let cardInfoResult = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: paymentMethodID)) { _ in
@@ -102,10 +114,8 @@ final class PaymentInfoStore: DataControllable {
             
             paymentMethod = result
         }
-        
-        let address = docData["address"] as? String ?? "none"
-        
-        let paymentInfo = PaymentInfo(id: id, userID: userID, recipientName: recipientName, phoneNumber: phoneNumber, paymentMethod: paymentMethodName, paymentMethodInfo: paymentMethod, address: address)
+
+        let paymentInfo = PaymentInfo(id: id, userID: userID, paymentMethod: paymentMethodName, paymentMethodInfo: paymentMethod, addressInfos: addressInfos)
         return paymentInfo
     }
     
