@@ -10,6 +10,7 @@ import NukeUI
 
 struct UserInformationView: View {
     @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
+    @State private var isShowingAddressList: Bool = false // 배송지 수정화면 표시 여부
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -22,7 +23,7 @@ struct UserInformationView: View {
                     .padding()
                     .background(Color(uiColor: .lightGray), in: Circle())
                     .foregroundStyle(.white)
-                    
+                
                 Text("김민수")
                     .font(.title2)
                     .fontWeight(.semibold)
@@ -82,7 +83,7 @@ struct UserInformationView: View {
                 Spacer()
                 
                 Button {
-                    
+                    isShowingAddressList = true
                 } label: {
                     HStack {
                         Text("배송지 수정")
@@ -135,9 +136,13 @@ struct UserInformationView: View {
             }
         }
         .padding()
+        .sheet(isPresented: $isShowingAddressList) {
+            AddressListView()
+        }
     }
 }
 
 #Preview {
     UserInformationView()
 }
+ 

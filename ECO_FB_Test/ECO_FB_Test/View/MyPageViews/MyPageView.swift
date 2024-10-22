@@ -121,6 +121,7 @@ struct MyPageView: View {
                 }
             }
             .listStyle(.inset)
+            
             VStack {
                 Spacer()
                 SignUpToastView(isVisible: $isBought, message: "물품 구매가 완료되었습니다.")
