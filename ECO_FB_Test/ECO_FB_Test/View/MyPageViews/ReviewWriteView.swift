@@ -67,7 +67,9 @@ struct ReviewWriteView: View {
     }
 
     private func saveReview() {
+        
         // 새로운 리뷰 생성
+        /*
         let newReview = Review(
             id: UUID().uuidString,
             user: UserStore.shared.userData!, // 현재 로그인한 유저 정보
@@ -77,6 +79,7 @@ struct ReviewWriteView: View {
             starCount: starRank,
             creationDate: Date()
         )
+         */
 
         /*
         // ReviewStore 싱글톤 인스턴스 사용
