@@ -140,9 +140,7 @@ final class AuthManager {
             tryToLoginNow = true
             
             let id = try getUserID()
-            _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false)) { _ in
-           
-            }
+            _ = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false))
             let method = LoginMethod(rawValue: await DataManager.shared.getUserLoginMethod(parameter: .userSearch(id: id)))!
             
             currLoginType = if method == .kakao {

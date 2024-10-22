@@ -39,7 +39,7 @@ final class AddressInfoStore: DataControllable {
         }
     }
     
-    func updateData(parameter: DataParam) async throws {
+    func updateData(parameter: DataParam) async throws -> DataResult {
         guard case .addressInfoUpdate(let id, let addressInfo) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a address info update")
         }
@@ -53,9 +53,11 @@ final class AddressInfoStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
+    func deleteData(parameter: DataParam) async throws -> DataResult {
         guard case .addressInfoDelete(let id) = parameter else {
             throw DataError.deleteError(reason: "The DataParam is not a address info delete")
         }
@@ -65,5 +67,7 @@ final class AddressInfoStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.delete(isSuccess: true)
     }
 }

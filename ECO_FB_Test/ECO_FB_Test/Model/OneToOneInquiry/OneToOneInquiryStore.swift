@@ -33,7 +33,7 @@ final class OneToOneInquiryStore: DataControllable {
         return result
     }
     
-    func updateData(parameter: DataParam) async throws {
+    func updateData(parameter: DataParam) async throws -> DataResult {
         guard case .oneToOneInquiryUpdate(let id, let inquiry) = parameter else {
             throw DataError.updateError(reason: "The DataParam is not a oneToOneInquiry update")
         }
@@ -50,9 +50,11 @@ final class OneToOneInquiryStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
+    func deleteData(parameter: DataParam) async throws -> DataResult {
         guard case .oneToOneInquiryDelete(let id) = parameter else {
             throw DataError.deleteError(reason: "The DataParam is not a oneToOneInquiry delete")
         }
@@ -62,6 +64,8 @@ final class OneToOneInquiryStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.delete(isSuccess: true)
     }
     
     private func getFirstPage(id: String, limit: Int) async throws -> DataResult {
@@ -108,37 +112,37 @@ final class OneToOneInquiryStore: DataControllable {
     }
     
     private func getDate(document: QueryDocumentSnapshot) async throws -> OneToOneInquiry {
-        let docData = document.data()
-        
-        let id = document.documentID
-        
-        let creationDateString = docData["creation_date"] as? String ?? "none"
-        let creationDate = Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")
-        
-        let userID = docData["user_id"] as? String ?? "none"
-        let userResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: userID, shouldReturnUser: true)) { _ in
+        do {
+            let docData = document.data()
             
-        }
-
-        let sellerID = docData["seller_id"] as? String ?? "none"
-        let sellerResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: sellerID, shouldReturnUser: true)) { _ in
+            let id = document.documentID
             
+            let creationDateString = docData["creation_date"] as? String ?? "none"
+            let creationDate = Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")
+            
+            let userID = docData["user_id"] as? String ?? "none"
+            let userResult = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: userID, shouldReturnUser: true))
+            
+            let sellerID = docData["seller_id"] as? String ?? "none"
+            let sellerResult = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: sellerID, shouldReturnUser: true))
+            
+            let title = docData["title"] as? String ?? "none"
+            let question = docData["question"] as? String ?? "none"
+            let answer = docData["answer"] as? String ?? "none"
+            
+            guard case let .user(user) = userResult else {
+                throw DataError.convertError(reason: "Can't get user date from .user(result)")
+            }
+            
+            guard case let .user(seller) = sellerResult else {
+                throw DataError.convertError(reason: "Can't get seller date from .user(result)")
+            }
+            
+            let oneToOneInquiry = OneToOneInquiry(id: id, creationDate: creationDate, user: user, seller: seller, title: title, question: question, answer: answer)
+            
+            return oneToOneInquiry
+        } catch {
+            throw error
         }
-
-        let title = docData["title"] as? String ?? "none"
-        let question = docData["question"] as? String ?? "none"
-        let answer = docData["answer"] as? String ?? "none"
-        
-        guard case let .user(user) = userResult else {
-            throw DataError.convertError(reason: "Can't get user date from .user(result)")
-        }
-        
-        guard case let .user(seller) = sellerResult else {
-            throw DataError.convertError(reason: "Can't get seller date from .user(result)")
-        }
-        
-        let oneToOneInquiry = OneToOneInquiry(id: id, creationDate: creationDate, user: user, seller: seller, title: title, question: question, answer: answer)
-        
-        return oneToOneInquiry
     }
 }

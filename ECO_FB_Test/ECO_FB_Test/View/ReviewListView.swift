@@ -79,9 +79,7 @@ struct ReviewListView: View {
         .onAppear {
             Task {
                 // limit 다시 설정해야함. 조금만 불러왔다가 일정량 스크롤 하거나 하면 밑에 메서드 다시 호출해 다시 데이터 더 불러오는 형식
-                let result = await DataManager.shared.fetchData(type: .review, parameter: .reviewAll(goodsID: goods.id, limit: 1000, result: reviewList)) { _ in
-                    
-                }
+                let result = try await DataManager.shared.fetchData(type: .review, parameter: .reviewAll(goodsID: goods.id, limit: 1000, result: reviewList))
                 
                 if case .review(let result) = result {
                     reviewList = result

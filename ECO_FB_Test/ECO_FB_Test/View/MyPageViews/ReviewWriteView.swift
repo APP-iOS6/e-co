@@ -186,12 +186,10 @@ struct ReviewWriteView: View {
                     creationDate: Date()
                 )
 
-                await DataManager.shared.updateData(
+                _ = try await DataManager.shared.updateData(
                     type: .review,
                     parameter: .reviewUpdate(id: newReview.id, review: newReview)
-                ) { updateFlow in
-                    print("Update Flow: \(updateFlow)")
-                }
+                )
 
                 print("리뷰가 성공적으로 저장되었습니다.")
                 dismiss()

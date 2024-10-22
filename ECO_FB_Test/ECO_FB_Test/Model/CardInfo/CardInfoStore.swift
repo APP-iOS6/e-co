@@ -48,7 +48,7 @@ final class CardInfoStore: DataControllable {
         }
     }
     
-    func updateData(parameter: DataParam) async throws {
+    func updateData(parameter: DataParam) async throws -> DataResult {
         guard case .cardInfoUpdate(let id, let cardInfo) = parameter else {
             throw DataError.updateError(reason: "The DataParam is not a card info update")
         }
@@ -68,9 +68,11 @@ final class CardInfoStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
-        
+    func deleteData(parameter: DataParam) async throws -> DataResult {
+        return DataResult.delete(isSuccess: true)
     }
 }

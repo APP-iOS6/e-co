@@ -33,7 +33,7 @@ final class OrderDetailStore: DataControllable {
         return result
     }
     
-    func updateData(parameter: DataParam) async throws {
+    func updateData(parameter: DataParam) async throws -> DataResult {
         guard case let .orderDetailUpdate(id, orderDetail) = parameter else {
             throw DataError.updateError(reason: "The DataParam is not a order detail update")
         }
@@ -66,9 +66,11 @@ final class OrderDetailStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
+    func deleteData(parameter: DataParam) async throws -> DataResult {
         guard case .orderDetailDelete(let id) = parameter else {
             throw DataError.deleteError(reason: "The DataParam is not an order detail delete")
         }
@@ -78,6 +80,8 @@ final class OrderDetailStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.delete(isSuccess: true)
     }
     
     private func getFirstPage(userID: String, limit: Int) async throws -> DataResult {
@@ -131,9 +135,7 @@ final class OrderDetailStore: DataControllable {
             let userID = docData["user_id"] as? String ?? "none"
             
             let paymentInfoID = docData["payment_info_id"] as? String ?? "none"
-            let paymentInfoResult = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: paymentInfoID)) { _ in
-                
-            }
+            let paymentInfoResult = try await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: paymentInfoID))
             
             let orderDateString = docData["order_date"] as? String ?? "none"
             let orderDate = Date().getFormattedDate(dateString: orderDateString, "yyyy-MM-dd-HH-mm")
@@ -158,35 +160,37 @@ final class OrderDetailStore: DataControllable {
     }
     
     private func getOrderedGoodsInfo(document: QueryDocumentSnapshot) async throws -> OrderedGoodsInfo {
-        let docData = document.data()
-        
-        let id = document.documentID
-        
-        let deliveryStatusString = docData["delivery_status"] as? String ?? "none"
-        let deliveryStatus = stringToDeliveryStatus(deliveryStatusString)
-        
-        let orderedGoodsWithCount = docData["goods_with_count"] as? [String] ?? []
-        var orderedGoodsList: [OrderedGoods] = []
-        
-        for orderedGoods in orderedGoodsWithCount {
-            let splitResult = orderedGoods.components(separatedBy: "_")
-            let goodsID = splitResult[0]
-            let count = Int(splitResult[1])!
+        do {
+            let docData = document.data()
             
-            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID)) { _ in
+            let id = document.documentID
+            
+            let deliveryStatusString = docData["delivery_status"] as? String ?? "none"
+            let deliveryStatus = stringToDeliveryStatus(deliveryStatusString)
+            
+            let orderedGoodsWithCount = docData["goods_with_count"] as? [String] ?? []
+            var orderedGoodsList: [OrderedGoods] = []
+            
+            for orderedGoods in orderedGoodsWithCount {
+                let splitResult = orderedGoods.components(separatedBy: "_")
+                let goodsID = splitResult[0]
+                let count = Int(splitResult[1])!
                 
+                let goodsResult = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID))
+                
+                guard case let .goods(goods) = goodsResult else {
+                    throw DataError.fetchError(reason: "Can't get goods data")
+                }
+                
+                let orderedGoods = OrderedGoods(id: UUID().uuidString, goods: goods, count: count)
+                orderedGoodsList.append(orderedGoods)
             }
             
-            guard case let .goods(goods) = goodsResult else {
-                throw DataError.fetchError(reason: "Can't get goods data")
-            }
-
-            let orderedGoods = OrderedGoods(id: UUID().uuidString, goods: goods, count: count)
-            orderedGoodsList.append(orderedGoods)
+            let orderedGoodsInfo = OrderedGoodsInfo(id: id, deliveryStatus: deliveryStatus, goodsList: orderedGoodsList)
+            return orderedGoodsInfo
+        } catch {
+            throw error
         }
-        
-        let orderedGoodsInfo = OrderedGoodsInfo(id: id, deliveryStatus: deliveryStatus, goodsList: orderedGoodsList)
-        return orderedGoodsInfo
     }
     
     private func stringToDeliveryStatus(_ deliveryStatus: String) -> DeliveryStatus {

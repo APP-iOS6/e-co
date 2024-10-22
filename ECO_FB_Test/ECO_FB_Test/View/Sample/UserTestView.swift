@@ -43,9 +43,7 @@ struct UserTestView: View {
                 goods.append(goodsDummy)
                 
                 Task {
-                    await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: goodsDummy.id, goods: goodsDummy)) { _ in
-                        
-                    }
+                    _ = try await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: goodsDummy.id, goods: goodsDummy))
                 }
             }
             
@@ -61,11 +59,8 @@ struct UserTestView: View {
                         let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
                         user.cart.insert(cartElement)
                     }
-                    
                     Task {
-                        await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                            
-                        }
+                        _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                     }
                 }
                 
@@ -98,9 +93,7 @@ struct UserTestView: View {
                     .font(.title2)
                     .refreshable {
                         Task {
-                            await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: user.id, shouldReturnUser: false)) { flow in
-                                dataFetchFlow = flow
-                            }
+                            _ = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: user.id, shouldReturnUser: false))
                         }
                     }
                 }

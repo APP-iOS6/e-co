@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DataType: Int {
+enum DataType: Int, CaseIterable {
     case user = 0
     case goods
     case paymentInfo
