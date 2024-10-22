@@ -32,6 +32,7 @@ enum DataParam {
     case oneToOneInquiryUpdate(id: String, inquiry: OneToOneInquiry)
     
     case oneToOneInquiryDelete(id: String)
+    case addressInfoDelete(id: String)
     
     // 모든 데이터를 불러올 때 사용
     /**

@@ -56,6 +56,14 @@ final class AddressInfoStore: DataControllable {
     }
     
     func deleteData(parameter: DataParam) async throws {
-        
+        guard case .addressInfoDelete(let id) = parameter else {
+            throw DataError.deleteError(reason: "The DataParam is not a address info delete")
+        }
+
+        do {
+            try await db.collection(collectionName).document(id).delete()
+        } catch {
+            throw error
+        }
     }
 }

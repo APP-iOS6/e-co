@@ -43,6 +43,14 @@ final class PaymentInfoStore: DataControllable {
             var addressInfoIDs: [String] = []
             var paymentMethodInfoID: String = "none"
             
+            for originAddressInfo in paymentInfo.originAddressInfos {
+                if !paymentInfo.addressInfos.contains(where: { $0.id == originAddressInfo.id }) {
+                    await DataManager.shared.deleteData(type: .addressInfo, parameter: .addressInfoDelete(id: originAddressInfo.id)) { _ in
+                        
+                    }
+                }
+            }
+            
             for addressInfo in paymentInfo.addressInfos {
                 let addressInfoID = addressInfo.id
                 await DataManager.shared.updateData(type: .addressInfo, parameter: .addressInfoUpdate(id: addressInfoID, addressInfo: addressInfo)) { _ in
