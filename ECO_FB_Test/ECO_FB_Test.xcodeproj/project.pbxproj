@@ -120,6 +120,8 @@
 		FEC6F3812CBE0D13000E5441 /* GoodsStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3802CBE0D13000E5441 /* GoodsStorageManager.swift */; };
 		FEC6F3942CBE2714000E5441 /* ZeroWasteShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3932CBE2714000E5441 /* ZeroWasteShop.swift */; };
 		FEC6F3962CBE28EC000E5441 /* ZeroWasteShopStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3952CBE28EC000E5441 /* ZeroWasteShopStore.swift */; };
+		FECCE04F2CC691BB00BA1693 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECCE04E2CC691BB00BA1693 /* Review.swift */; };
+		FECCE0512CC692DA00BA1693 /* ReviewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECCE0502CC692DA00BA1693 /* ReviewStore.swift */; };
 		FED0CF1E2CC4EAEE0097DEFC /* OneToOneInquiry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0CF1D2CC4EAEE0097DEFC /* OneToOneInquiry.swift */; };
 		FED0CF202CC4EB7D0097DEFC /* OneToOneInquiryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0CF1F2CC4EB7D0097DEFC /* OneToOneInquiryStore.swift */; };
 		FED0CF222CC50E360097DEFC /* DataDeleteFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0CF212CC50E360097DEFC /* DataDeleteFlow.swift */; };
@@ -252,6 +254,8 @@
 		FEC6F3802CBE0D13000E5441 /* GoodsStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStorageManager.swift; sourceTree = "<group>"; };
 		FEC6F3932CBE2714000E5441 /* ZeroWasteShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeroWasteShop.swift; sourceTree = "<group>"; };
 		FEC6F3952CBE28EC000E5441 /* ZeroWasteShopStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeroWasteShopStore.swift; sourceTree = "<group>"; };
+		FECCE04E2CC691BB00BA1693 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		FECCE0502CC692DA00BA1693 /* ReviewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStore.swift; sourceTree = "<group>"; };
 		FED0CF1D2CC4EAEE0097DEFC /* OneToOneInquiry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneToOneInquiry.swift; sourceTree = "<group>"; };
 		FED0CF1F2CC4EB7D0097DEFC /* OneToOneInquiryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneToOneInquiryStore.swift; sourceTree = "<group>"; };
 		FED0CF212CC50E360097DEFC /* DataDeleteFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDeleteFlow.swift; sourceTree = "<group>"; };
@@ -539,6 +543,7 @@
 				FE6A7ADC2CB99C6D000F5DB6 /* Goods */,
 				FE29E15C2CBD312A005E2EFD /* PaymentInfo */,
 				FE6EC1A02CC39C6600EC9874 /* CardInfo */,
+				FECCE04D2CC6919D00BA1693 /* Review */,
 				FE29E1612CBD4115005E2EFD /* Announcement */,
 				FED0CF1C2CC4EA9B0097DEFC /* OneToOneInquiry */,
 			);
@@ -701,6 +706,15 @@
 				FEC6F3932CBE2714000E5441 /* ZeroWasteShop.swift */,
 			);
 			path = ZeroWasteShop;
+			sourceTree = "<group>";
+		};
+		FECCE04D2CC6919D00BA1693 /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				FECCE0502CC692DA00BA1693 /* ReviewStore.swift */,
+				FECCE04E2CC691BB00BA1693 /* Review.swift */,
+			);
+			path = Review;
 			sourceTree = "<group>";
 		};
 		FED0CF1C2CC4EA9B0097DEFC /* OneToOneInquiry */ = {
@@ -905,6 +919,7 @@
 				FE6EC1932CC38DF600EC9874 /* EncryptManager.swift in Sources */,
 				FE6A7B012CB9B043000F5DB6 /* CommonError.swift in Sources */,
 				6E7615F82CC0F7AA009FAC72 /* OrderStatusView.swift in Sources */,
+				FECCE0512CC692DA00BA1693 /* ReviewStore.swift in Sources */,
 				4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */,
 				50C707B12CC5DFC5001CAEB5 /* OrderManageView.swift in Sources */,
 				50C707AB2CC5DF95001CAEB5 /* SellerBottomView.swift in Sources */,
@@ -945,6 +960,7 @@
 				6EBBB3D42CC3E80E008EB202 /* starView.swift in Sources */,
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
+				FECCE04F2CC691BB00BA1693 /* Review.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
 				50C707AF2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift in Sources */,
 				FE6EC1902CC383D400EC9874 /* PaymentMethod.swift in Sources */,

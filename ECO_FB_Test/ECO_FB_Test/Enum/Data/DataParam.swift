@@ -6,6 +6,7 @@
 // 
 
 import Foundation
+import FirebaseFirestore
 
 enum DataParam {
     case none
@@ -47,6 +48,12 @@ enum DataParam {
      1대1 문의내역을 불러올 때 사용, limit을 설정해 불러올 데이터의 수를 제한 할 수 있습니다.
      */
     case oneToOneInquiryAll(sellerID: String, limit: Int)
+    /**
+     리뷰를 불러올 때 사용, limit을 설정해 불러올 데이터의 수를 제한 할 수 있습니다. result에 데이터를 받을 배열을 넣으면 해당 배열에 데이터를 담아 보내줍니다.
+     
+     제한된 수의 데이터를 불러오기 때문에 불러온 데이터를 모두 보여주고 난 후에는 다시 처음 데이터를 불러왔을때와 똑같은 방법으로 그 이후의 데이터를 불러와야 합니다.
+     */
+    case reviewAll(goodsID: String, limit: Int, result: [Review])
     /**
      친환경 가게 정보를 모두 불러올 때 사용, 결과값은 ZeroWasteShopStore의 zeroWasteShopList에 저장됩니다.
      */

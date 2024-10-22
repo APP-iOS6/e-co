@@ -6,86 +6,12 @@
 //
 
 import SwiftUI
-
-// TODO: Review Model 적용하기
-// 임시 리뷰 모델
-struct Review: Identifiable {
-    let id: UUID = UUID()
-    let user: User
-    let starRank: Int
-    let bodyContent: String
-    let bodyImageNames: [String]
-    let date: Date
-}
+import NukeUI
 
 struct ReviewListView: View {
-    private var reviewList: [Review] = [
-        Review(
-            user: User(
-                id: "",
-                loginMethod: "",
-                isSeller: false,
-                name: "김민수",
-                profileImageURL: URL(string:
-                    "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef"
-                )!,
-                pointCount: 0,
-                cart: [],
-                goodsRecentWatched: [], goodsFavorited: []
-            ),
-            starRank: 4,
-            bodyContent: "좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요좋아요",
-            bodyImageNames: [
-                "square.fill",
-                "square.fill",
-                "square.fill",
-                "square.fill",
-                "square.fill",
-                "square.fill",
-                "square.fill",
-                "square.fill"
-            ],
-            date: Date.now
-        ),
-        Review(
-            user: User(
-                id: "",
-                loginMethod: "",
-                isSeller: false,
-                name: "김민수2",
-                profileImageURL: URL(string:
-                    "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef"
-                )!,
-                pointCount: 0,
-                cart: [],
-                goodsRecentWatched: [], goodsFavorited: []
-            ),
-            starRank: 1,
-            bodyContent: "구려요",
-            bodyImageNames: [],
-            date: Date.now
-        ),
-        Review(
-            user: User(
-                id: "",
-                loginMethod: "",
-                isSeller: false,
-                name: "김민수3",
-                profileImageURL: URL(string: 
-                    "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef"
-                )!,
-                pointCount: 0,
-                cart: [],
-                goodsRecentWatched: [], goodsFavorited: []
-            ),
-            starRank: 3,
-            bodyContent: "싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요싫어요",
-            bodyImageNames: ["square.fill"],
-            date: Date.now
-        )
-    ]
+    @State private var reviewList: [Review] = []
     @State private var showAll: Bool = false
-    @State private var clickedReview: UUID?
+    @State private var clickedReview: String?
     
     var body: some View {
         NavigationStack {
@@ -101,35 +27,41 @@ struct ReviewListView: View {
                     starView(starRank: Int(totalRank()))
                 }
                 
-                ForEach(reviewList) { review in
+                ForEach($reviewList, id: \.id) { review in
                     // TODO: 사진 클릭하면 해당사진 크게 보여주기
                     VStack(alignment: .leading, spacing: 15) {
                         HStack {
-                            Text(review.user.name)
+                            Text("\(review.user.wrappedValue.name)")
                                 .font(.system(size: 18, weight: .bold))
                             
                             Spacer()
-                            starView(starRank: review.starRank)
+                            starView(starRank: review.starCount.wrappedValue)
                         }
                         
                         ScrollView(.horizontal) {
                             HStack(spacing: 10) {
-                                ForEach(review.bodyImageNames, id: \.self) { imageName in
-                                    Image(systemName: imageName)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 40, height: 40)
+                                ForEach(review.contentImages, id: \.self) { imageURL in
+                                    LazyImage(url: imageURL.wrappedValue) { state in
+                                        if let image = state.image {
+                                            image
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 40, height: 40)
+                                        } else {
+                                            ProgressView()
+                                        }
+                                    }
                                 }
                             }
                         }
                         .scrollIndicators(.hidden)
                         
-                        Text(review.bodyContent)
+                        Text(review.content.wrappedValue)
                             .lineLimit(showAll && clickedReview == review.id ? nil : 3)
                         
                         HStack {
                             Spacer()
-                            Text(review.date.formatted(.dateTime))
+                            Text(review.wrappedValue.formattedCreationDate)
                                 .font(.system(size: 12, weight: .light))
                                 .foregroundStyle(Color(uiColor: .darkGray))
                         }
@@ -142,11 +74,24 @@ struct ReviewListView: View {
             }
             .listStyle(.plain)
         }
-        
+        .onAppear {
+            Task {
+                // limit 다시 설정해야함. 조금만 불러왔다가 일정량 스크롤 하거나 하면 밑에 메서드 다시 호출해 다시 데이터 더 불러오는 형식
+                let result = await DataManager.shared.fetchData(type: .review, parameter: .reviewAll(goodsID: "31B144B7-4998-4239-B071-E1A9958CC6F7", limit: 1000, result: reviewList)) { _ in
+                    
+                }
+                
+                if case .review(let result) = result {
+                    reviewList = result
+                }
+            }
+        }
     }
     
     private func totalRank() -> Double {
-        Double(reviewList.reduce(0) { $0 + $1.starRank }) / Double(reviewList.count)
+        guard !reviewList.isEmpty else { return 0 }
+        
+        return Double(reviewList.reduce(0) { $0 + $1.starCount }) / Double(reviewList.count)
     }
 }
 
