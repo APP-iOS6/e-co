@@ -50,6 +50,11 @@ final class ZeroWasteShopStore: DataControllable {
             
             return DataResult.none
         } catch {
+            if error is DataError {
+                print("Error In ZeroWasteShop Store: \(error)")
+                return DataResult.none
+            }
+            
             throw error
         }
     }

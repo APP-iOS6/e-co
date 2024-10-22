@@ -98,6 +98,11 @@ final class GoodsStore: DataControllable {
             
             return result
         } catch {
+            if error is DataError {
+                print("Error In Goods Store: \(error)")
+                return DataResult.none
+            }
+            
             throw error
         }
     }

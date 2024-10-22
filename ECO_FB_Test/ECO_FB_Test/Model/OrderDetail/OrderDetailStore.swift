@@ -21,17 +21,25 @@ final class OrderDetailStore: DataControllable {
     func fetchData(parameter: DataParam) async throws -> DataResult {
         guard case let .orderDetailAll(userID, limit) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a order detail all")
-
         }
         
-        var result: DataResult = .none
-        if lastDocument == nil {
-            result = try await getFirstPage(userID: userID, limit: limit)
-        } else {
-            result = try await getNextPage(userID: userID, limit: limit)
+        do {
+            var result: DataResult = .none
+            if lastDocument == nil {
+                result = try await getFirstPage(userID: userID, limit: limit)
+            } else {
+                result = try await getNextPage(userID: userID, limit: limit)
+            }
+            
+            return result
+        } catch {
+            if error is DataError {
+                print("Error In OrderDetail Store: \(error)")
+                return DataResult.none
+            }
+            
+            throw error
         }
-        
-        return result
     }
     
     func updateData(parameter: DataParam) async throws -> DataResult {

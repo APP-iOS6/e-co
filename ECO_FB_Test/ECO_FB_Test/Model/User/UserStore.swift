@@ -89,6 +89,11 @@ final class UserStore: DataControllable {
             
             return result
         } catch {
+            if error is DataError {
+                print("Error In UserStore: \(error)")
+                return DataResult.none
+            }
+            
             throw error
         }
     }
@@ -217,12 +222,10 @@ final class UserStore: DataControllable {
                     
                     let goodsResult = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID))
                     
-                    guard case let .goods(result) = goodsResult else {
-                        throw DataError.fetchError(reason: "Can't get goods data")
+                    if case let .goods(result) = goodsResult {
+                        let cartElement = CartElement(id: UUID().uuidString, goods: result, goodsCount: Int(goodsCount)!)
+                        cart.insert(cartElement)
                     }
-                    
-                    let cartElement = CartElement(id: UUID().uuidString, goods: result, goodsCount: Int(goodsCount)!)
-                    cart.insert(cartElement)
                 }
                 
                 goodsRecentWatched = try await getGoodsSet(field: "goods_recent_watched", docData: docData)
@@ -244,11 +247,9 @@ final class UserStore: DataControllable {
             for goodsID in goodsIDs {
                 let goodsResult = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID))
                 
-                guard case let .goods(result) = goodsResult else {
-                    throw DataError.fetchError(reason: "Can't get goods data")
+                if case let .goods(result) = goodsResult {
+                    resultSet.insert(result)
                 }
-                
-                resultSet.insert(result)
             }
             
             return resultSet
@@ -265,7 +266,4 @@ final class UserStore: DataControllable {
         
         return goodsIDs
     }
-
-
-    
 }

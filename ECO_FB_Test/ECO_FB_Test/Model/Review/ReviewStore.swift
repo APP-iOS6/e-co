@@ -22,15 +22,24 @@ final class ReviewStore: DataControllable {
             throw DataError.fetchError(reason: "The DataParam is not a review all")
         }
         
-        var dataResult: DataResult = .review(result: result)
-        
-        if result.isEmpty {
-            dataResult = try await getFirstPage(id: goodsID, limit: limit, result: result)
-        } else {
-            dataResult = try await getNextPage(id: goodsID, limit: limit, result: result)
+        do {
+            var dataResult: DataResult = .review(result: result)
+            
+            if result.isEmpty {
+                dataResult = try await getFirstPage(id: goodsID, limit: limit, result: result)
+            } else {
+                dataResult = try await getNextPage(id: goodsID, limit: limit, result: result)
+            }
+            
+            return dataResult
+        } catch {
+            if error is DataError {
+                print("Error In Review Store: \(error)")
+                return DataResult.none
+            }
+            
+            throw error
         }
-        
-        return dataResult
     }
     
     func updateData(parameter: DataParam) async throws -> DataResult {
