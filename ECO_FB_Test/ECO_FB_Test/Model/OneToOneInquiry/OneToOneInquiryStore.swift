@@ -19,15 +19,27 @@ final class OneToOneInquiryStore: DataControllable {
     private init() {}
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
-        guard case let .oneToOneInquiryAll(sellerID, limit) = parameter else {
+        var queryFieldName: String = ""
+        var id: String = ""
+        var fetchLimit: Int = 0
+        
+        if case let .oneToOneInquiryAllWithSeller(sellerID, limit) = parameter {
+            queryFieldName = "seller_id"
+            id = sellerID
+            fetchLimit = limit
+        } else if case let .oneToOneInquiryAllWithUser(userID, limit) = parameter {
+            queryFieldName = "user_id"
+            id = userID
+            fetchLimit = limit
+        } else {
             throw DataError.fetchError(reason: "The DataParam is not a oneToOneInquiry all")
         }
         
         var result = DataResult.none
         if oneToOneInquiryList.isEmpty {
-            result = try await getFirstPage(id: sellerID, limit: limit)
+            result = try await getFirstPage(queryFieldName: queryFieldName, id: id, limit: fetchLimit)
         } else {
-            result = try await getNextPage(id: sellerID, limit: limit)
+            result = try await getNextPage(queryFieldName: queryFieldName, id: id, limit: fetchLimit)
         }
         
         return result
@@ -64,16 +76,16 @@ final class OneToOneInquiryStore: DataControllable {
         }
     }
     
-    private func getFirstPage(id: String, limit: Int) async throws -> DataResult {
+    private func getFirstPage(queryFieldName: String, id: String, limit: Int) async throws -> DataResult {
         do {
             let snapshots = try await db.collection(collectionName)
-                                      .whereField("seller_id", isEqualTo: id)
+                                      .whereField(queryFieldName, isEqualTo: id)
                                       .order(by: "creation_date")
                                       .limit(to: limit)
                                       .getDocuments()
             
             for document in snapshots.documents {
-                let oneToOneInquiry = try await getDate(document: document)
+                let oneToOneInquiry = try await getData(document: document)
                 oneToOneInquiryList.append(oneToOneInquiry)
             }
             lastDocument = snapshots.documents.last
@@ -84,19 +96,19 @@ final class OneToOneInquiryStore: DataControllable {
         }
     }
     
-    private func getNextPage(id: String, limit: Int) async throws -> DataResult {
+    private func getNextPage(queryFieldName: String, id: String, limit: Int) async throws -> DataResult {
         guard let lastDocument else { return DataResult.none }
         
         do {
             let snapshots = try await db.collection(collectionName)
-                                      .whereField("seller_id", isEqualTo: id)
+                                      .whereField(queryFieldName, isEqualTo: id)
                                       .order(by: "creation_date")
                                       .start(afterDocument: lastDocument)
                                       .limit(to: limit)
                                       .getDocuments()
             
             for document in snapshots.documents {
-                let oneToOneInquiry = try await getDate(document: document)
+                let oneToOneInquiry = try await getData(document: document)
                 oneToOneInquiryList.append(oneToOneInquiry)
             }
             self.lastDocument = snapshots.documents.last
@@ -107,7 +119,7 @@ final class OneToOneInquiryStore: DataControllable {
         }
     }
     
-    private func getDate(document: QueryDocumentSnapshot) async throws -> OneToOneInquiry {
+    private func getData(document: QueryDocumentSnapshot) async throws -> OneToOneInquiry {
         let docData = document.data()
         
         let id = document.documentID
