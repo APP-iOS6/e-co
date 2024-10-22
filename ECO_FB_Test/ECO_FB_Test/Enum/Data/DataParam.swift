@@ -30,6 +30,7 @@ enum DataParam {
     case announcementUpdate(id: String, announcement: Announcement)
     case oneToOneInquiryUpdate(id: String, inquiry: OneToOneInquiry)
     
+    case reviewDelete(id: String)
     case oneToOneInquiryDelete(id: String)
     
     // 모든 데이터를 불러올 때 사용

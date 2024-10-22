@@ -38,11 +38,12 @@ final class ReviewStore: DataControllable {
             throw DataError.fetchError(reason: "The DataParam is not a review update")
         }
 
+        let creationDateString = review.creationDate.getFormattedString("yyyy-MM-dd-HH-mm")
         var contentImageURLStrings: [String] = []
+        
         for contentImageURL in review.contentImages {
             contentImageURLStrings.append(contentImageURL.absoluteString)
         }
-        let creationDateString = review.creationDate.getFormattedString("yyyy-MM-dd-HH-mm")
         
         do {
             try await db.collection(collectionName).document(id).setData([
@@ -58,7 +59,15 @@ final class ReviewStore: DataControllable {
     }
     
     func deleteData(parameter: DataParam) async throws {
-        
+        guard case .reviewDelete(let id) = parameter else {
+            throw DataError.deleteError(reason: "The DataParam is not a review delete")
+        }
+
+        do {
+            try await db.collection(collectionName).document(id).delete()
+        } catch {
+            throw error
+        }
     }
     
     private func getFirstPage(id: String, limit: Int, result: [Review]) async throws -> DataResult {
