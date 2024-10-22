@@ -20,7 +20,7 @@ struct OrderView: View {
         isZeroWaste ? productsPrice - usingPoint : productsPrice + deliveryPrice - usingPoint
     }
     @State private var requestMessage = "문앞에 놔주세요"
-    @State private var isShowToast: Bool = true
+    @State private var isShowToast: Bool = false
     @State private var isShowAlert: Bool = false
     @State private var isComplete: Bool = false // true: 주문완료, false: 주문하기
     private var goodsList: [Goods] = []
@@ -80,15 +80,15 @@ struct OrderView: View {
                     }
                     .padding([.horizontal, .top])
                     .scrollIndicators(.hidden)
-                    
-                    if progress > 0 {
-                        ProgressView()
-                    }
                 }
                 VStack{
                     Spacer()
                     SignUpToastView(isVisible: $isShowToast, message: "결제가 완료되었습니다")
                         .padding(.horizontal)
+                }
+                
+                if progress > 0 {
+                    ProgressView()
                 }
             }
             
