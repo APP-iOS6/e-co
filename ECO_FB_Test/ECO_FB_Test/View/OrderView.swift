@@ -14,7 +14,7 @@ struct OrderView: View {
     @State private var isCredit: Bool = true
     @State private var isZeroWaste: Bool = true // 친환경 앱이기 때문에 친환경 포장방식을 기본값으로 했습니다.
     @State private var usingPoint: Int = 0
-    @State private var productsPrice: Int = 16000
+    @State private var productsPrice: Int = 0
     @State private var deliveryPrice: Int = 3000
     private var totalPrice: Int {
         isZeroWaste ? productsPrice - usingPoint : productsPrice + deliveryPrice - usingPoint
@@ -29,12 +29,13 @@ struct OrderView: View {
         DataManager.shared.getDataFlow(of: .paymentInfo)
     }
     private var isDidUpdate: Bool {
-        dataUpdateFlow == .didLoad ? true : false
+        dataUpdateFlow == .didLoad
     }
+    @State  private var isUpdateOfPaymentFlow = false
     
     var body: some View {
         VStack {
-            if let user = userStore.userData {
+            if var user = userStore.userData {
                 ZStack {
                     VStack {
                         ScrollView {
@@ -128,9 +129,14 @@ struct OrderView: View {
                     
                     Button(role: .destructive) {
                         progress = 1
-                        // TODO: 결제정보 파이어 스토어에 보내기, 장바구니 비우기
+                        
                         Task {
-                           _ = try await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: user.id, paymentInfo: PaymentInfo(id: UUID().uuidString, userID: user.id, deliveryRequest: requestMessage, paymentMethod: isCredit ? .card : .bank, addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: user.name, phoneNumber: "010-0000-0000", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호")])))
+                            isUpdateOfPaymentFlow = true
+                            
+                            _ = try await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: user.id, paymentInfo: PaymentInfo(id: UUID().uuidString, userID: user.id, deliveryRequest: requestMessage, paymentMethod: isCredit ? .card : .bank, addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: user.name, phoneNumber: "010-0000-0000", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호")])))
+                            
+                            user.cart.removeAll()
+                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                         }
                     } label: {
                         Text("결제하기")
@@ -143,22 +149,26 @@ struct OrderView: View {
         .onAppear {
             Task {
                 if let user = userStore.userData {
-                    _ = try await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoAll(userID: user.id))
+                    isUpdateOfPaymentFlow = false
                     
-                    getProducsPrice()
+                    _ = try await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoAll(userID: user.id))
                 }
             }
         }
         .onChange(of: isDidUpdate) { oldValue, newValue in
-            if newValue {
+            if newValue && isUpdateOfPaymentFlow {
                 isComplete = true
                 isShowToast = true
                 progress = 0
+            } else if newValue && !isUpdateOfPaymentFlow {
+                getProducsPrice()
             }
         }
     }
     
     private func getProducsPrice() {
+        productsPrice = 0 // 중복 호출 되는 경우 방지
+        
         if let user = userStore.userData {
             for element in user.arrayCart {
                 productsPrice = productsPrice + (element.goods.price * element.goodsCount)
