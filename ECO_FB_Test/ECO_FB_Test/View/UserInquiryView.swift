@@ -86,10 +86,10 @@ struct UserInquiryView: View {
                 )
 
                 Task {
-                    await DataManager.shared.updateData(
+                    _ = try await DataManager.shared.updateData(
                         type: .oneToOneInquiry,
                         parameter: .oneToOneInquiryUpdate(id: user.id, inquiry: newInquiry)
-                    ) { _ in }
+                    )
                     
                     isSubmitted = true
                     title = ""

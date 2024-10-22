@@ -78,12 +78,11 @@ struct EcoView: View {
                     let earnedPointsToday = healthManager.earnedPointsToday // 오늘 총 적립한 포인트를 가져오고
                     if earnedPointsToday < 150 {    // 오늘 적립한 포인트가 150점 미만일 때
                         user.pointCount += points   // user에 포인트를 증가시킨 후
-                        await dataManager.updateData(   // 업데이트
+                        _ = try await dataManager.updateData(   // 업데이트
                             type: .user,
                             parameter: .userUpdate(id: user.id, user: user)
-                        ) { _ in
-                            print("유저 포인트를 \(points)만큼 증가시켰습니다.")
-                        }
+                        )
+                        print("유저 포인트를 \(points)만큼 증가시켰습니다.")
                         healthManager.earnedPointsToday += points
                         healthManager.totalPoints = 0   // 적립한 포인트를 0으로 초기화
                     } else {

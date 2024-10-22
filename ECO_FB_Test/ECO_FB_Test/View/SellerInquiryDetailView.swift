@@ -42,7 +42,6 @@ struct SellerInquiryDetailView: View {
                     .border(Color.gray, width: 1)
                     .padding(.top, -40)
                 Button(action: {
-                    
                     submitAnswer()
                 }) {
                     Text("답변 제출")
@@ -80,11 +79,12 @@ struct SellerInquiryDetailView: View {
         Task {
             do {
                 let inquiryID = inquiry.id // 업데이트할 문의의 ID
-                try await inquiryStore.updateInquiryAnswer(inquiryID: inquiryID, answer: answer)
+                var inquiry = inquiry
+                inquiry.answer = answer
+                _ = try await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryUpdate(id: inquiryID, inquiry: inquiry))
                 print("답변이 성공적으로 업데이트되었습니다.")
                 answer = ""
             } catch {
-                
                 print("업데이트문서 ID: \(inquiry.id)")
                 print("답변 업데이트 실패: \(error.localizedDescription)")
             }

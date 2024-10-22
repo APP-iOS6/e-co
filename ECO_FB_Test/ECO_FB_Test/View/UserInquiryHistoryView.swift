@@ -50,9 +50,6 @@ struct UserInquiryHistoryView: View {
                         }
                     }
                     .navigationTitle("내 문의 내역")
-                    .onDisappear {
-                        inquiryStore.removeAll()
-                    }
                 }
             }
             .task {
@@ -68,10 +65,10 @@ struct UserInquiryHistoryView: View {
                 print("유저 정보가 없습니다.")
                 return
             }
-            _ = await DataManager.shared.fetchData(
+            _ = try await DataManager.shared.fetchData(
                 type: .oneToOneInquiry,
                 parameter: .oneToOneInquiryAllWithUser(userID: user.id, limit: 10)
-            ) { _ in }
+            )
             isLoading = false
         } catch {
             errorMessage = "데이터를 불러오는데 실패했습니다."

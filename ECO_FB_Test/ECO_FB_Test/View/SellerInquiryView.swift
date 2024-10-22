@@ -46,9 +46,6 @@ struct SellerInquiryView: View {
                     }
                     .navigationTitle("현재 들어온 문의 내역")
                     .navigationBarTitleDisplayMode(.inline)
-                    .onDisappear {
-                        inquiryStore.removeAll()
-                    }
                 } else {
                     // 로딩 중일 때 프로그레스뷰 표시
                     ProgressView("로딩 중...")
@@ -71,10 +68,10 @@ struct SellerInquiryView: View {
                 return
             }
             isLoading = true  // 로딩 시작
-            _ = await DataManager.shared.fetchData(
+            _ = try await DataManager.shared.fetchData(
                 type: .oneToOneInquiry,
                 parameter: .oneToOneInquiryAllWithSeller(sellerID: user.id, limit: 10)
-            ) { _ in }
+            )
             print("불렀나?")
             isLoading = false  // 로딩 종료
         } catch {

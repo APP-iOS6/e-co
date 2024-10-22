@@ -3,7 +3,7 @@
 //  ECO_FB_Test
 //
 //  Created by Jaemin Hong on 10/20/24.
-// 
+//
 
 import Foundation
 import FirebaseFirestore
@@ -34,6 +34,8 @@ final class OneToOneInquiryStore: DataControllable{
         } else {
             throw DataError.fetchError(reason: "The DataParam is not a oneToOneInquiry all")
         }
+        
+        oneToOneInquiryList.removeAll()
         
         var result = DataResult.none
         if oneToOneInquiryList.isEmpty {
@@ -111,7 +113,7 @@ final class OneToOneInquiryStore: DataControllable{
                                       .limit(to: limit)
                                       .getDocuments()
             
-            for document in snapshots.documents {
+                for document in snapshots.documents {
                 let oneToOneInquiry = try await getData(document: document)
                 oneToOneInquiryList.append(oneToOneInquiry)
             }
@@ -124,15 +126,9 @@ final class OneToOneInquiryStore: DataControllable{
     }
     
     private func getData(document: QueryDocumentSnapshot) async throws -> OneToOneInquiry {
-        let docData = document.data()
-        
-        let id = document.documentID
-        
-        let creationDateString = docData["creation_date"] as? String ?? "none"
-        let creationDate = Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")
-        
-        let userID = docData["user_id"] as? String ?? "none"
-        let userResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: userID, shouldReturnUser: true)) { _ in
+        do {
+            let docData = document.data()
+            
             let id = document.documentID
             
             let creationDateString = docData["creation_date"] as? String ?? "none"
@@ -163,38 +159,4 @@ final class OneToOneInquiryStore: DataControllable{
             throw error
         }
     }
-    
-    //재민님 기존 메소드 제외 새로 만든 메소드들(기존 메소드는 건들지 않았습니다)
-    
-    //질문 보내기
-    func saveInquiry(inquiry: OneToOneInquiry) async throws {
-           do {
-               let _ = try await db.collection(collectionName).document(inquiry.id).setData([
-                   "creation_date": inquiry.creationDate.getFormattedString("yyyy-MM-dd-HH-mm"),
-                   "user_id": inquiry.user.id,
-                   "seller_id": inquiry.seller.id,
-                   "title": inquiry.title,
-                   "question": inquiry.question,
-                   "answer": inquiry.answer
-               ])
-               oneToOneInquiryList.append(inquiry)
-           } catch {
-               throw error
-           }
-       }
-   
-    //답변 업데이트
-    func updateInquiryAnswer(inquiryID: String, answer: String) async throws {
-          let inquiryRef = db.collection(collectionName).document(inquiryID)
-        
-          // Firestore 답변 업데이트
-          try await inquiryRef.updateData([
-              "answer": answer,
-            //  "creation_date":Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")// 시간찍기
-          ])
-      }
-    
-    func removeAll() {
-        oneToOneInquiryList.removeAll()
-       }
 }
