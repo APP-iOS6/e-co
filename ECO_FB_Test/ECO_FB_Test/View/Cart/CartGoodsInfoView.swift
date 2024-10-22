@@ -59,8 +59,5 @@ struct CartGoodsInfoView: View {
         .onTapGesture {
             isSelected = true
         }
-        .navigationDestination(isPresented: $isSelected) {
-            GoodsDetailView(goods: goods, thumbnail: goods.thumbnailImageURL)
-        }
     }
 }

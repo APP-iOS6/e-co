@@ -3,7 +3,7 @@
 //  ECO_FB_Test
 //
 //  Created by Jaemin Hong on 10/11/24.
-// 
+//
 
 import Foundation
 import Combine
@@ -36,7 +36,7 @@ final class UserStore: DataControllable {
         guard case let .userSearch(id) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a user search")
         }
-
+        
         do {
             let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
@@ -67,7 +67,7 @@ final class UserStore: DataControllable {
             } else {
                 result = try await getUserWithNoReturn(id: id)
             }
-
+            
             return result
         } catch {
             throw error
@@ -108,7 +108,16 @@ final class UserStore: DataControllable {
     }
     
     func deleteData(parameter: DataParam) async throws {
+        guard let user = userData else {
+            throw DataError.deleteError(reason: "User doesn't exist")
+        }
         
+        do {
+            try await db.collection(collectionName).document(user.id).delete()
+            setLogout()
+        } catch {
+            throw error
+        }
     }
     
     private func getUserWithReturn(id: String) async throws -> DataResult {

@@ -42,6 +42,7 @@ struct OrderManageView: View {
                 }
             }
             .padding(.horizontal)
+            .scrollIndicators(.hidden)
             
             Button {
                 print("배송 알림 전송했습니다.")

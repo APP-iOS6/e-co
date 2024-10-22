@@ -49,6 +49,23 @@ final class AuthManager {
         }
     }
     
+    func reauthenticateUser(password: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let user = UserStore.shared.userData else {
+            return
+        }
+        
+        if user.loginMethod == LoginMethod.email.rawValue {
+            EmailLoginManager.shared.reauthenticateUser(password: password, completion: completion)
+        } else {
+            if isUserLoggedIn {
+                completion(.success(()))
+            } else {
+                let error = LoginError.userError(reason: "User not exist")
+                completion(.failure(error))
+            }
+        }
+    }
+    
     /**
      로그인 메소드
      
@@ -96,6 +113,21 @@ final class AuthManager {
                 if let error {
                     print("\(error)")
                 }
+            }
+        }
+    }
+    
+    /**
+     현재 유저의 계정을 삭제하는 메소드
+     */
+    func deleteUser() throws {
+        guard let user = Auth.auth().currentUser else { throw LoginError.userError(reason: "You Don't Login!") }
+        
+        user.delete { error in
+            if error != nil {
+                print("회원삭제 에러발생: \(String(describing: error))")
+            } else {
+                print("회원삭제 성공")
             }
         }
     }

@@ -26,114 +26,129 @@ struct StoreView: View {
     
     @State var isMapVisible: Bool = false
     @FocusState var focused: Bool
+    @State var isShowToast = false
+    @State private var dataUpdateFlow: DataUpdateFlow = .none
+    private var isUpdating: Bool {
+        dataUpdateFlow == .updating ? true : false
+    }
+    @Environment(UserStore.self) private var userStore: UserStore
     
     var body: some View {
-        ScrollView {
-            AppNameView()
-            
-            LazyVStack(alignment: .leading, pinnedViews: [.sectionHeaders]) {
-                Section(header:
-                            VStack {
-                    HStack {
-                        Spacer()
-                        
-                        Button {
-                            isMapVisible.toggle()
-                        } label: {
-                            Text("오프라인 매장찾기")
-                        }
-                        .sheet(isPresented: $isMapVisible) {
-                            StoreLocationView()
-                                .presentationDragIndicator(.visible)
-                        }
-                        .padding(.horizontal)
-                    }
-                    
-                    HStack {
-                        VStack {
-                            HStack {
-                                TextField("친환경 제품을 찾아보세요", text: $searchText)
-                                    .onChange(of: searchText) { oldValue, newValue in
-                                        goodsStore.searchAction(newValue)
-                                    }
-                                    .keyboardType(.default)
-                                    .focused($focused)
-                                
-                                Button {
-                                    searchText = ""
-                                    focused = false
-                                } label: {
-                                    Image(systemName: "xmark.circle.fill")
-                                }
-                                .foregroundStyle(Color(uiColor: .darkGray))
-                            }
-                            .padding(10)
-                            .background {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(.gray, lineWidth: 1)
-                            }
-                            .padding(.horizontal)
-                        }
-                    }
-                    
-                }
-                    .padding(.bottom, 10)
-                    .background(Rectangle().foregroundColor(.white))
-                    
-                ) {
-                    if dataFetchFlow == .loading {
+        ZStack {
+            ScrollView {
+                AppNameView()
+                
+                LazyVStack(alignment: .leading, pinnedViews: [.sectionHeaders]) {
+                    Section(header:
+                                VStack {
                         HStack {
                             Spacer()
                             
-                            ProgressView()
-                            
-                            Spacer()
+                            Button {
+                                isMapVisible.toggle()
+                            } label: {
+                                Text("오프라인 매장찾기")
+                            }
+                            .sheet(isPresented: $isMapVisible) {
+                                StoreLocationView()
+                                    .presentationDragIndicator(.visible)
+                            }
+                            .padding(.horizontal)
                         }
-                    } else {
-                        VStack {
-                            ScrollView(.horizontal) {
+                        
+                        HStack {
+                            VStack {
                                 HStack {
-                                    Button {
-                                        goodsStore.categorySelectAction(GoodsCategory.none)
-                                    } label: {
-                                        Text("ALL")
-                                            .fontWeight(selectedCategory == GoodsCategory.none ? .semibold : .regular)
-                                            .foregroundStyle(selectedCategory == GoodsCategory.none ? Color.black : Color(uiColor: .darkGray))
-                                    }
-                                    .buttonStyle(.bordered)
+                                    TextField("친환경 제품을 찾아보세요", text: $searchText)
+                                        .onChange(of: searchText) { oldValue, newValue in
+                                            goodsStore.searchAction(newValue)
+                                        }
+                                        .keyboardType(.default)
+                                        .focused($focused)
                                     
-                                    ForEach(Array(goodsByCategories.keys), id: \.self) { category in
+                                    Button {
+                                        searchText = ""
+                                        focused = false
+                                    } label: {
+                                        Image(systemName: "xmark.circle.fill")
+                                    }
+                                    .foregroundStyle(Color(uiColor: .darkGray))
+                                }
+                                .padding(10)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(.gray, lineWidth: 1)
+                                }
+                                .padding(.horizontal)
+                            }
+                        }
+                        
+                    }
+                        .padding(.bottom, 10)
+                        .background(Rectangle().foregroundColor(.white))
+                            
+                    ) {
+                        if dataFetchFlow == .loading {
+                            HStack {
+                                Spacer()
+                                
+                                ProgressView()
+                                
+                                Spacer()
+                            }
+                        } else {
+                            VStack {
+                                ScrollView(.horizontal) {
+                                    HStack {
                                         Button {
-                                            goodsStore.categorySelectAction(category)
+                                            goodsStore.categorySelectAction(GoodsCategory.none)
                                         } label: {
-                                            Text(category.rawValue)
-                                                .fontWeight(selectedCategory == category ? .semibold : .regular)
-                                                .foregroundStyle(selectedCategory == category ? Color.black : Color(uiColor: .darkGray))
+                                            Text("ALL")
+                                                .fontWeight(selectedCategory == GoodsCategory.none ? .semibold : .regular)
+                                                .foregroundStyle(selectedCategory == GoodsCategory.none ? Color.black : Color(uiColor: .darkGray))
                                         }
                                         .buttonStyle(.bordered)
+                                        
+                                        ForEach(Array(goodsByCategories.keys), id: \.self) { category in
+                                            Button {
+                                                goodsStore.categorySelectAction(category)
+                                            } label: {
+                                                Text(category.rawValue)
+                                                    .fontWeight(selectedCategory == category ? .semibold : .regular)
+                                                    .foregroundStyle(selectedCategory == category ? Color.black : Color(uiColor: .darkGray))
+                                            }
+                                            .buttonStyle(.bordered)
+                                        }
                                     }
                                 }
-                            }
-                            .scrollIndicators(.hidden)
-                            .padding([.horizontal, .bottom])
-                            
-                            RecommendedItemsView(goodsByCategories: goodsByCategories)
-                            
-                            ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+                                .scrollIndicators(.hidden)
+                                .padding([.horizontal, .bottom])
                                 
-                                ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [])
+                                RecommendedItemsView(goodsByCategories: goodsByCategories)
                                 
+                                ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+                                    
+                                    ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [], dataUpdateFlow: $dataUpdateFlow, isNeedLogin: $isShowToast)
+                                }
                             }
-                        }
-                        .onTapGesture {
-                            focused = false
+                            .onTapGesture {
+                                focused = false
+                            }
                         }
                     }
                 }
             }
+            .padding(.top)
+            .scrollIndicators(.hidden)
+            
+            Spacer()
+            SignUpToastView(isVisible: $isShowToast, message: "로그인이 필요합니다")
+                .padding()
+            
+            if isUpdating || dataFetchFlow == .loading {
+                ProgressView()
+            }
         }
-        .padding(.top)
-        .scrollIndicators(.hidden)
         .onAppear {
             if StoreView.isFirstPresent {
                 Task {
@@ -147,6 +162,7 @@ struct StoreView: View {
                 await getGoods()
             }
         }
+        .disabled(isUpdating || dataFetchFlow == .loading)
     }
     
     private func getGoods() async {
