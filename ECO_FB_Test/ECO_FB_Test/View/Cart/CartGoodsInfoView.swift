@@ -9,6 +9,7 @@ import SwiftUI
 import NukeUI
 
 struct CartGoodsInfoView: View {
+    @Environment(UserStore.self) private var userStore: UserStore
     @Binding var totalSelected: Bool
     var cartElement: CartElement
     var selectEvent: (Bool, CartElement) -> Void
@@ -19,9 +20,11 @@ struct CartGoodsInfoView: View {
         cartElement.goods
     }
     
+    @State private var count = 1
+    
     var body: some View {
         VStack {
-            HStack(alignment: .center) {
+            HStack {
                 CheckBox(isOn: $isOn) {
                     selectEvent(isOn, cartElement)
                 }
@@ -30,26 +33,29 @@ struct CartGoodsInfoView: View {
                     if let image = state.image {
                         image
                             .resizable()
-                            .frame(width: 80, height: 80)
+                            .frame(width: 100, height: 100)
                     } else {
                         ProgressView()
                     }
                 }
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .trailing) {
                     Text("\(goods.seller.name)")
                         .font(.footnote)
                     Text("\(goods.name)")
                         .font(.title2)
                         .fontWeight(.bold)
+                    
+                    Text("\(goods.formattedPrice)")
+                        .font(.headline)
+                    Stepper(value: $count, in: 1...10, step: 1) {
+                        Text("총 \(count)개")
+                    }
+                    .onTapGesture {
+                        
+                    }
                 }
-                
-                Spacer()
-                
-                Text("\(goods.formattedPrice)")
-                    .font(.headline)
             }
-            
             Divider()
         }
         .onChange(of: totalSelected) {
@@ -58,6 +64,18 @@ struct CartGoodsInfoView: View {
         }
         .onTapGesture {
             isSelected = true
+        }
+        .onAppear {
+            count = cartElement.goodsCount
+        }
+        .onChange(of: count) { oldValue, newValue in
+            if var user = userStore.userData {
+                Task {
+                    user.updateCartGoodsCount(cartElement, count: count)
+                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                    }
+                }
+            }
         }
     }
 }
