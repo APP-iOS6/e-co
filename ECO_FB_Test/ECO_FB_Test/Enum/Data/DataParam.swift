@@ -24,6 +24,7 @@ enum DataParam {
     // Update(기존 데이터 갱신), Add(새로운 데이터 추가) 작업이 필요할 때 사용
     case userUpdate(id: String, user: User)
     case goodsUpdate(id: String, goods: Goods)
+    case reviewUpdate(id: String, review: Review)
     case paymentInfoUpdate(id: String, orderInfo: PaymentInfo)
     case cardInfoUpdate(id: String, cardInfo: CardInfo)
     case announcementUpdate(id: String, announcement: Announcement)
