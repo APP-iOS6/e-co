@@ -229,31 +229,6 @@ final class UserStore: DataControllable {
         
         return goodsIDs
     }
-    
-    //is seller = true 즉 셀러 정보 가져오는 함수 
-     func fetchSellers() async throws -> [User] {
-        do {
-            let snapshot = try await db.collection(collectionName)
-                .whereField("is_seller", isEqualTo: true)
-                .getDocuments()
-
-            var sellers: [User] = []
-            for document in snapshot.documents {
-                do {
-                    print("fetchSellers 호출 전")
-                    let user = try await getData(document: document)
-                    sellers.append(user)
-                } catch {
-                    print("Failed to decode user from document \(document.documentID): \(error)")
-                }
-            }
-
-            return sellers
-        } catch {
-            throw DataError.fetchError(reason: "Failed to fetch sellers: \(error.localizedDescription)")
-        }
-    }
-
 
 
     
