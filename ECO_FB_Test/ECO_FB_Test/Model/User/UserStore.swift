@@ -51,6 +51,25 @@ final class UserStore: DataControllable {
         }
     }
     
+    func getAllSellers() async throws -> [User] {
+        var sellers: [User] = []
+        
+        do {
+            let snapshots = try await db.collection(collectionName)
+                                      .whereField("is_seller", isEqualTo: true)
+                                      .getDocuments()
+            
+            for document in snapshots.documents {
+                let user = try await getData(document: document)
+                sellers.append(user)
+            }
+            
+            return sellers
+        } catch {
+            throw error
+        }
+    }
+    
     func setLogout() {
         userData = nil
     }

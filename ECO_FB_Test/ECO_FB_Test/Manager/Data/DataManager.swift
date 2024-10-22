@@ -65,6 +65,17 @@ final class DataManager {
         return "none"
     }
     
+    func getAllSellers() async -> [User] {
+        do {
+            let sellers = try await UserStore.shared.getAllSellers()
+            return sellers
+        } catch {
+            print("Error: \(error)")
+        }
+        
+        return []
+    }
+    
     /**
      로그아웃 후 유저 정보를 초기화 하는 메소드
      */
