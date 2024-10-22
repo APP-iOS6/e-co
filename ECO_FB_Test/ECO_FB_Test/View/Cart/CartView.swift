@@ -18,74 +18,81 @@ struct CartView: View {
     }
     
     var body: some View {
-        VStack {
-            Spacer()
-            
-            if var userData = userStore.userData {
-                HStack {
-                    CheckBox(isOn: $isSelectedAll) {
-                        
-                    }
-                    
-                    Text("전체선택")
-                    
-                    Spacer()
-                    
-                    if !selectedGoods.isEmpty || dataUpdateFlow == .loading {
-                        Button(dataUpdateFlow == .didLoad ? "선택 상품 삭제" : "삭제중...") {
-                            for goods in selectedGoods {
-                                userData.cart.remove(goods)
-                                selectedGoods.removeAll(where: { $0.id == goods.id })
+        ZStack {
+            VStack {
+                Spacer()
+                
+                if var userData = userStore.userData {
+                    if userData.arrayCart.count != 0 {
+                        HStack {
+                            CheckBox(isOn: $isSelectedAll) {
+                                
                             }
                             
-                            Task {
-                                _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: userData.id, user: userData))
+                            Text("전체선택")
+                            
+                            Spacer()
+                            
+                            if !selectedGoods.isEmpty {
+                                Button("선택 상품 삭제") {
+                                    for goods in selectedGoods {
+                                        userData.cart.remove(goods)
+                                        selectedGoods.removeAll(where: { $0.id == goods.id })
+                                    }
+                                    
+                                    Task {
+                                        _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: userData.id, user: userData))
+                                    }
+                                }
+                                .foregroundStyle(.red)
+                                .disabled(dataUpdateFlow == .loading)
                             }
                         }
-                        .foregroundStyle(.red)
-                        .disabled(dataUpdateFlow == .loading)
-                    }
-                }
-                
-                ScrollView {
-                    VStack {
-                        if userData.arrayCart.count == 0 {
-                            Text("장바구니가 비어있습니다")
-                        } else {
-                            ForEach(userData.arrayCart) { element in
-                                CartGoodsInfoView(totalSelected: $isSelectedAll, cartElement: element) { isOn, element in
-                                    if isOn {
-                                        selectedGoods.append(element)
-                                    } else {
-                                        selectedGoods.removeAll(where: { $0.id == element.id })
+                        
+                        
+                        ScrollView {
+                            VStack {
+                                ForEach(userData.arrayCart) { element in
+                                    CartGoodsInfoView(totalSelected: $isSelectedAll, cartElement: element) { isOn, element in
+                                        if isOn {
+                                            selectedGoods.append(element)
+                                        } else {
+                                            selectedGoods.removeAll(where: { $0.id == element.id })
+                                        }
                                     }
                                 }
                             }
                         }
+                        Spacer()
+                        
+                        NavigationLink {
+                            OrderView()
+                        } label: {
+                            Text("주문하기")
+                                .foregroundStyle(.white)
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity, maxHeight: 50)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 5)
+                                }
+                        }
+                    } else {
+                        Text("장바구니가 비어있습니다")
+                        Spacer()
                     }
+                } else {
+                    Text("로그인이 필요합니다")
+                    Spacer()
                 }
-            } else {
-                Text("로그인이 필요합니다")
             }
+            .padding()
             
-            Spacer()
-            
-            NavigationLink {
-                OrderView()
-            } label: {
-                Text("주문하기")
-                    .foregroundStyle(.white)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity, maxHeight: 50)
-                    .background {
-                        RoundedRectangle(cornerRadius: 5)
-                            .foregroundStyle(userStore.userData == nil ? .gray : .accent)
-                    }
+            if dataUpdateFlow == DataFlow.loading {
+                ProgressView()
             }
-            .disabled(userStore.userData == nil)
         }
-        .padding()
+        .disabled(dataUpdateFlow == DataFlow.loading)
     }
 }
 
