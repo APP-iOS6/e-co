@@ -1,5 +1,5 @@
 //
-//  AdressFixView.swift
+//  AdressListView.swift
 //  ECO_FB_Test
 //
 //  Created by 배문성 on 10/21/24.
