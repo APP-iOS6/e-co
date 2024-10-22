@@ -31,7 +31,7 @@ struct EcoView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 28)
                         }
-                        .padding()
+                        .padding(.trailing)
                     }
                     
                     // 상단 Info Area
