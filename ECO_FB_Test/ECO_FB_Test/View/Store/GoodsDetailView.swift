@@ -13,13 +13,6 @@ struct GoodsDetailView: View {
     @Environment(\.dismiss) private var dismiss
     var goods: Goods
     var thumbnail: URL
-    private var favoritedGoods: Set<Goods> {
-        if let user = userStore.userData {
-            user.goodsFavorited
-        } else {
-            []
-        }
-    }
     @State private var isShowReview: Bool = false
     @State private var isShowToast = false
     @State private var toastMessage: String = ""
@@ -107,12 +100,31 @@ struct GoodsDetailView: View {
                                         isShowToast = true
                                     }
                                 } label: {
-                                    Image(systemName: favoritedGoods.contains(goods) ? "heart.fill" : "heart")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 25, height: 25)
+                                    if let user = userStore.userData {
+                                        if user.goodsFavorited.contains(goods) {
+                                            Image(systemName: "heart.fill")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 25, height: 25)
+                                                .foregroundStyle(.pink)
+                                                .shadow(color: .black, radius: 1)
+                                        } else {
+                                            Image(systemName: "heart")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 25, height: 25)
+                                                .foregroundStyle(.white)
+                                                .shadow(color: .black, radius: 1)
+                                        }
+                                    } else {
+                                        Image(systemName: "heart")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 25, height: 25)
+                                            .foregroundStyle(.white)
+                                            .shadow(color: .black, radius: 1)
+                                    }
                                 }
-                                .foregroundStyle(favoritedGoods.contains(goods) ? .pink : Color(uiColor: .darkGray))
                                 .font(.title2)
                             }
                             .padding(.bottom, 5)

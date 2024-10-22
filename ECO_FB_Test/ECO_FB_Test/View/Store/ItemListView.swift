@@ -17,13 +17,7 @@ struct ItemListView: View {
         GridItem(),
         GridItem()
     ]
-    private var favoritedGoods: Set<Goods> {
-        if let user = userStore.userData {
-            user.goodsFavorited
-        } else {
-            []
-        }
-    }
+
     @Binding var dataUpdateFlow: DataUpdateFlow
     @Binding var isNeedLogin: Bool
     
@@ -85,12 +79,30 @@ struct ItemListView: View {
                                                         isNeedLogin = true
                                                     }
                                                 } label: {
-                                                    Image(systemName: favoritedGoods.contains(allGoods[index]) ? "heart.fill" : "heart")
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width: 25, height: 25)
-                                                        .foregroundStyle(favoritedGoods.contains(allGoods[index]) ? .pink : .white)
-                                                        .shadow(color: .black, radius: 1)
+                                                        if let user = userStore.userData {
+                                                            if user.goodsFavorited.contains(allGoods[index]) {
+                                                                Image(systemName: "heart.fill")
+                                                                    .resizable()
+                                                                    .aspectRatio(contentMode: .fit)
+                                                                    .frame(width: 25, height: 25)
+                                                                    .foregroundStyle(.pink)
+                                                                    .shadow(color: .black, radius: 1)
+                                                            } else {
+                                                                Image(systemName: "heart")
+                                                                    .resizable()
+                                                                    .aspectRatio(contentMode: .fit)
+                                                                    .frame(width: 25, height: 25)
+                                                                    .foregroundStyle(.white)
+                                                                    .shadow(color: .black, radius: 1)
+                                                            }
+                                                        } else {
+                                                            Image(systemName: "heart")
+                                                                .resizable()
+                                                                .aspectRatio(contentMode: .fit)
+                                                                .frame(width: 25, height: 25)
+                                                                .foregroundStyle(.white)
+                                                                .shadow(color: .black, radius: 1)
+                                                        }
                                                 }
                                                 .padding([.bottom, .trailing], 8)
                                             }
@@ -126,6 +138,7 @@ struct ItemListView: View {
         .padding(.horizontal, 10)
     }
 }
+
 /*
 #Preview {
     let sampleGoods = Goods(
