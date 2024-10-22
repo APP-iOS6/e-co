@@ -14,7 +14,9 @@ final class OneToOneInquiryStore: DataControllable {
     private let db: Firestore = DataManager.shared.db
     private let collectionName: String = "OneToOneInquiry"
     private var lastDocument: QueryDocumentSnapshot? = nil
-    private(set) var oneToOneInquiries: [OneToOneInquiry] = []
+    private(set) var oneToOneInquiryList: [OneToOneInquiry] = []
+    
+    private init() {}
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         guard case let .oneToOneInquiryAll(sellerID, limit) = parameter else {
@@ -22,7 +24,7 @@ final class OneToOneInquiryStore: DataControllable {
         }
         
         var result = DataResult.none
-        if oneToOneInquiries.isEmpty {
+        if oneToOneInquiryList.isEmpty {
             result = try await getFirstPage(id: sellerID, limit: limit)
         } else {
             result = try await getNextPage(id: sellerID, limit: limit)
@@ -72,7 +74,7 @@ final class OneToOneInquiryStore: DataControllable {
             
             for document in snapshots.documents {
                 let oneToOneInquiry = try await getDate(document: document)
-                oneToOneInquiries.append(oneToOneInquiry)
+                oneToOneInquiryList.append(oneToOneInquiry)
             }
             lastDocument = snapshots.documents.last
             
@@ -95,7 +97,7 @@ final class OneToOneInquiryStore: DataControllable {
             
             for document in snapshots.documents {
                 let oneToOneInquiry = try await getDate(document: document)
-                oneToOneInquiries.append(oneToOneInquiry)
+                oneToOneInquiryList.append(oneToOneInquiry)
             }
             self.lastDocument = snapshots.documents.last
             

@@ -18,6 +18,7 @@ final class DataManager {
         GoodsStore.shared,
         PaymentInfoStore.shared,
         CardInfoStore.shared,
+        OrderDetailStore.shared,
         AnnouncementStore.shared,
         OneToOneInquiryStore.shared,
         ZeroWasteShopStore.shared
@@ -117,6 +118,13 @@ final class DataManager {
         }
     }
     
+    /**
+     데이터를 DB에서 지우는 메소드
+     
+     - parameters:
+        - type: 지울 대상, 예) 유저라면 .user
+        - parameter: 지울 데이터의 정보, 뒤에 Delete가 붙은 값들을 써야합니다. 예) 유저라면 .userDelete()
+     */
     func deleteData(type: DataType, parameter: DataParam, deleteFlowChangeAction: (DataDeleteFlow) -> Void) async {
         do {
             var dataDeleteFlow: DataDeleteFlow = .deleting

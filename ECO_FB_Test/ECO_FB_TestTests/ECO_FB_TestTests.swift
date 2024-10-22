@@ -10,6 +10,14 @@ import XCTest
 
 final class ECO_FB_TestTests: XCTestCase {
     
+    func testOrderDetailFetch() async throws {
+        _ = await DataManager.shared.fetchData(type: .orderDetail, parameter: .orderDetailAll(userID: "idntno0505@gmail.com", limit: 500)) { _ in
+            
+        }
+        
+        print(await OrderDetailStore.shared.orderDetailList)
+    }
+    
 //    func testPaymentInfoFetch() async throws {
 //        let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
 //            
@@ -44,8 +52,8 @@ final class ECO_FB_TestTests: XCTestCase {
             
         }
         
-        let result = await OneToOneInquiryStore.shared.oneToOneInquiries[0]
-        let expect = await OneToOneInquiryStore.shared.oneToOneInquiries[0]
+        let result = await OneToOneInquiryStore.shared.oneToOneInquiryList[0]
+        let expect = await OneToOneInquiryStore.shared.oneToOneInquiryList[0]
         
         XCTAssertEqual(result, expect)
     }
