@@ -102,7 +102,7 @@ final class GoodsStore: DataControllable {
         }
     }
     
-    func updateData(parameter: DataParam) async throws {
+    func updateData(parameter: DataParam) async throws -> DataResult {
         guard case let .goodsUpdate(id, goods) = parameter else {
             throw DataError.updateError(reason: "The DataParam is not a goods update")
         }
@@ -120,10 +120,12 @@ final class GoodsStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
-        
+    func deleteData(parameter: DataParam) async throws -> DataResult {
+        return DataResult.delete(isSuccess: true)
     }
     
     private func getGoodsByID(_ id: String) async throws -> DataResult {
@@ -207,28 +209,30 @@ final class GoodsStore: DataControllable {
     }
     
     private func getData(id: String, docData: [String: Any]) async throws -> Goods {
-        let name = docData["name"] as? String ?? "none"
-        let category = try stringToCategoryEnum(docData["category"] as? String ?? "none")
-        let thumbnailImageURLName = docData["thumbnail"] as? String ?? "none"
-        let bodyContent = docData["body_content"] as? String ?? "none"
-        let bodyImageNames = docData["body_images"] as? [String] ?? []
-        let price = docData["price"] as? Int ?? 0
-        
-        let sellerID = docData["seller_id"] as? String ?? "none"
-        let seller = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: sellerID, shouldReturnUser: true)) { _ in
+        do {
+            let name = docData["name"] as? String ?? "none"
+            let category = try stringToCategoryEnum(docData["category"] as? String ?? "none")
+            let thumbnailImageURLName = docData["thumbnail"] as? String ?? "none"
+            let bodyContent = docData["body_content"] as? String ?? "none"
+            let bodyImageNames = docData["body_images"] as? [String] ?? []
+            let price = docData["price"] as? Int ?? 0
             
+            let sellerID = docData["seller_id"] as? String ?? "none"
+            let seller = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: sellerID, shouldReturnUser: true))
+            
+            guard case let .user(result) = seller else {
+                throw DataError.convertError(reason: "DataResult is not a seller")
+            }
+            
+            guard let url = URL(string: thumbnailImageURLName) else {
+                throw DataError.convertError(reason: "Invalid URL")
+            }
+            
+            let goods = Goods(id: id, name: name, category: category, thumbnailImageURL: url, bodyContent: bodyContent, bodyImageNames: bodyImageNames, price: price, seller: result)
+            return goods
+        } catch {
+            throw error
         }
-        
-        guard case let .user(result) = seller else {
-            throw DataError.convertError(reason: "DataResult is not a seller")
-        }
-        
-        guard let url = URL(string: thumbnailImageURLName) else {
-            throw DataError.convertError(reason: "Invalid URL")
-        }
-        
-        let goods = Goods(id: id, name: name, category: category, thumbnailImageURL: url, bodyContent: bodyContent, bodyImageNames: bodyImageNames, price: price, seller: result)
-        return goods
     }
     
     private func stringToCategoryEnum(_ string: String) throws -> GoodsCategory {

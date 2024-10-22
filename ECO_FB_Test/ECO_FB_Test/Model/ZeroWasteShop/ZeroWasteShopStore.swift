@@ -18,9 +18,7 @@ final class ZeroWasteShopStore: DataControllable {
     
     private init() {
         Task {
-            _ = await DataManager.shared.fetchData(type: .zeroWasteShop, parameter: .zeroWasteShopLoadAll) { _ in
-                
-            }
+            _ = try await DataManager.shared.fetchData(type: .zeroWasteShop, parameter: .zeroWasteShopLoadAll)
         }
     }
     
@@ -56,11 +54,11 @@ final class ZeroWasteShopStore: DataControllable {
         }
     }
     
-    func updateData(parameter: DataParam) async throws {
-        
+    func updateData(parameter: DataParam) async throws -> DataResult {
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
-        
+    func deleteData(parameter: DataParam) async throws -> DataResult {
+        return DataResult.delete(isSuccess: true)
     }
 }

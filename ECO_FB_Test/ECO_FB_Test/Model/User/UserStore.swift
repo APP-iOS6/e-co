@@ -51,6 +51,25 @@ final class UserStore: DataControllable {
         }
     }
     
+    func getAllSellers() async throws -> [User] {
+        var sellers: [User] = []
+        
+        do {
+            let snapshots = try await db.collection(collectionName)
+                                      .whereField("is_seller", isEqualTo: true)
+                                      .getDocuments()
+            
+            for document in snapshots.documents {
+                let user = try await getData(document: document)
+                sellers.append(user)
+            }
+            
+            return sellers
+        } catch {
+            throw error
+        }
+    }
+    
     func setLogout() {
         userData = nil
     }
@@ -74,7 +93,7 @@ final class UserStore: DataControllable {
         }
     }
     
-    func updateData(parameter: DataParam) async throws {
+    func updateData(parameter: DataParam) async throws -> DataResult {
         guard case let .userUpdate(id, user) = parameter else {
             throw DataError.updateError(reason: "The DataParam is not a user update")
         }
@@ -105,9 +124,11 @@ final class UserStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
+    func deleteData(parameter: DataParam) async throws -> DataResult {
         guard let user = userData else {
             throw DataError.deleteError(reason: "User doesn't exist")
         }
@@ -118,6 +139,8 @@ final class UserStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.delete(isSuccess: true)
     }
     
     private func getUserWithReturn(id: String) async throws -> DataResult {
@@ -164,70 +187,74 @@ final class UserStore: DataControllable {
     }
     
     private func getData(document: DocumentSnapshot) async throws -> User {
-        guard let docData = document.data() else {
-            throw DataError.fetchError(reason: "The Document Data is nil")
-        }
-        
-        let id = document.documentID
-        let loginMethod = docData["login_method"] as? String ?? "none"
-        let isSeller = docData["is_seller"] as? Bool ?? false
-        let name = docData["name"] as? String ?? "none"
-        
-        let profileImageURLString = docData["profile_image"] as? String ?? "none"
-        guard let url = URL(string: profileImageURLString) else {
-            throw DataError.convertError(reason: "The profile image URL is invalid")
-        }
-        
-        let pointCount = docData["point"] as? Int ?? 0
-        
-        var cart: Set<CartElement> = []
-        var goodsRecentWatched: Set<Goods> = []
-        var goodsFavorited: Set<Goods> = []
-        
-        if !isSeller {
-            let cartData = docData["cart"] as? [String] ?? []
-            for data in cartData {
-                let splitResult = data.components(separatedBy: "_")
-                let goodsID = splitResult[0]
-                let goodsCount = splitResult[1]
-                
-                let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID)) { _ in
+        do {
+            guard let docData = document.data() else {
+                throw DataError.fetchError(reason: "The Document Data is nil")
+            }
+            
+            let id = document.documentID
+            let loginMethod = docData["login_method"] as? String ?? "none"
+            let isSeller = docData["is_seller"] as? Bool ?? false
+            let name = docData["name"] as? String ?? "none"
+            
+            let profileImageURLString = docData["profile_image"] as? String ?? "none"
+            guard let url = URL(string: profileImageURLString) else {
+                throw DataError.convertError(reason: "The profile image URL is invalid")
+            }
+            
+            let pointCount = docData["point"] as? Int ?? 0
+            
+            var cart: Set<CartElement> = []
+            var goodsRecentWatched: Set<Goods> = []
+            var goodsFavorited: Set<Goods> = []
+            
+            if !isSeller {
+                let cartData = docData["cart"] as? [String] ?? []
+                for data in cartData {
+                    let splitResult = data.components(separatedBy: "_")
+                    let goodsID = splitResult[0]
+                    let goodsCount = splitResult[1]
                     
+                    let goodsResult = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID))
+                    
+                    guard case let .goods(result) = goodsResult else {
+                        throw DataError.fetchError(reason: "Can't get goods data")
+                    }
+                    
+                    let cartElement = CartElement(id: UUID().uuidString, goods: result, goodsCount: Int(goodsCount)!)
+                    cart.insert(cartElement)
                 }
+                
+                goodsRecentWatched = try await getGoodsSet(field: "goods_recent_watched", docData: docData)
+                goodsFavorited = try await getGoodsSet(field: "goods_favorited", docData: docData)
+            }
+            
+            let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageURL: url, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched, goodsFavorited: goodsFavorited)
+            return user
+        } catch {
+            throw error
+        }
+    }
+    
+    private func getGoodsSet(field: String, docData: [String: Any]) async throws -> Set<Goods> {
+        do {
+            var resultSet: Set<Goods> = []
+            let goodsIDs = docData[field] as? [String] ?? []
+            
+            for goodsID in goodsIDs {
+                let goodsResult = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID))
                 
                 guard case let .goods(result) = goodsResult else {
                     throw DataError.fetchError(reason: "Can't get goods data")
                 }
                 
-                let cartElement = CartElement(id: UUID().uuidString, goods: result, goodsCount: Int(goodsCount)!)
-                cart.insert(cartElement)
+                resultSet.insert(result)
             }
             
-            goodsRecentWatched = try await getGoodsSet(field: "goods_recent_watched", docData: docData)
-            goodsFavorited = try await getGoodsSet(field: "goods_favorited", docData: docData)
+            return resultSet
+        } catch {
+            throw error
         }
-        
-        let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageURL: url, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched, goodsFavorited: goodsFavorited)
-        return user
-    }
-    
-    private func getGoodsSet(field: String, docData: [String: Any]) async throws -> Set<Goods> {
-        var resultSet: Set<Goods> = []
-        let goodsIDs = docData[field] as? [String] ?? []
-        
-        for goodsID in goodsIDs {
-            let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID)) { _ in
-                
-            }
-            
-            guard case let .goods(result) = goodsResult else {
-                throw DataError.fetchError(reason: "Can't get goods data")
-            }
-            
-            resultSet.insert(result)
-        }
-        
-        return resultSet
     }
     
     private func getGoodsIDArray(goodsSet: Set<Goods>) -> [String] {
@@ -238,4 +265,7 @@ final class UserStore: DataControllable {
         
         return goodsIDs
     }
+
+
+    
 }

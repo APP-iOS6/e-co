@@ -40,9 +40,7 @@ final class KaKaoLoginManager: LoginControllable {
                 if !userExist {
                     let user: User = User(id: id, loginMethod: LoginMethod.kakao.rawValue, isSeller: false, name: "KaKao User", profileImageURL: URL(string: "https://firebasestorage.googleapis.com/v0/b/e-co-4f9aa.appspot.com/o/user%2Fdefault_profile.png?alt=media&token=afe3a2fd-d85b-49c8-8d4d-dcf773e928ef")!, pointCount: 0, cart: [], goodsRecentWatched: [], goodsFavorited: [])
                     
-                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: id, user: user)) { _ in
-                        
-                    }
+                    _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: id, user: user))
                 } else {
                     let loginMethod = await DataManager.shared.getUserLoginMethod(parameter: .userSearch(id: id))
                     
@@ -52,9 +50,7 @@ final class KaKaoLoginManager: LoginControllable {
                 }
                 
                 _ = try await Auth.auth().signIn(with: credential)
-                _ = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false)) { _ in
-                    
-                }
+                _ = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false))
             } catch {
                 throw error
             }

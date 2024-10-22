@@ -59,9 +59,7 @@ final class GoodsStorageManager: StorageControllable {
     
     private func getContentURLs(goodsID: String) async throws -> StorageResult {
         do {
-            let goodsData = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID)) { _ in
-                
-            }
+            let goodsData = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID))
             guard case let .goods(result) = goodsData else {
                 throw DataError.convertError(reason: "Can't get goods data from goods result")
             }

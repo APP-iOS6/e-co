@@ -44,7 +44,7 @@ struct ItemListView: View {
         .padding(.horizontal)
         
         LazyVGrid(columns: gridItems) {
-            ForEach(0..<4) { index in
+            ForEach(0 ..< 4) { index in
                 if allGoods.count > index {
                     NavigationLink {
                         GoodsDetailView(goods: allGoods[index], thumbnail: allGoods[index].thumbnailImageURL)
@@ -71,9 +71,7 @@ struct ItemListView: View {
                                                                 user.goodsFavorited.insert(allGoods[index])
                                                             }
                                                             
-                                                            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { flow in
-                                                                dataUpdateFlow = flow
-                                                            }
+                                                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                                                         }
                                                     } else {
                                                         isNeedLogin = true

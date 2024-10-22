@@ -29,12 +29,14 @@ enum DataParam {
     case paymentInfoUpdate(id: String, paymentInfo: PaymentInfo)
     case cardInfoUpdate(id: String, cardInfo: CardInfo)
     case addressInfoUpdate(id: String, addressInfo: AddressInfo)
+    case orderDetailUpdate(id: String, orderDetail: OrderDetail)
     case announcementUpdate(id: String, announcement: Announcement)
     case oneToOneInquiryUpdate(id: String, inquiry: OneToOneInquiry)
     
     case reviewDelete(id: String)
     case oneToOneInquiryDelete(id: String)
     case addressInfoDelete(id: String)
+    case orderDetailDelete(id: String)
     
     // 모든 데이터를 불러올 때 사용
     /**
@@ -46,13 +48,27 @@ enum DataParam {
      */
     case paymentInfoAll(userID: String)
     /**
+     주문정보를 모두 불러올 때 사용, limit으로 불러올 데이터의 수를 제한 할 수 있으며, OrderDetailStore의 orderDetailList에 저장됩니다.
+     
+     제한된 수의 데이터를 불러오기 때문에 불러온 데이터를 모두 보여주었다면 다시 그 이후의 데이터를 더 불러와야 합니다.
+     */
+    case orderDetailAll(userID: String, limit: Int)
+    /**
      공지사항을 모두 불러올 때 사용, 20개씩 불러오며, 결과값은 AnnouncementStore의 announcementList에 저장됩니다.
      */
     case announcementAll
     /**
-     1대1 문의내역을 불러올 때 사용, limit을 설정해 불러올 데이터의 수를 제한 할 수 있습니다.
+     판매자에게 들어온 1대1 문의내역을 불러올 때 사용, limit으로 불러올 데이터의 수를 제한 할 수 있으며, OneToOneInquiryStore의 oneToOneInquiryList에 저장됩니다.
+     
+     제한된 수의 데이터를 불러오기 때문에 불러온 데이터를 모두 보여주었다면 다시 그 이후의 데이터를 더 불러와야 합니다.
      */
-    case oneToOneInquiryAll(sellerID: String, limit: Int)
+    case oneToOneInquiryAllWithSeller(sellerID: String, limit: Int)
+    /**
+     유저의 1대1 문의내역을 불러올 때 사용, limit으로 불러올 데이터의 수를 제한 할 수 있으며, OneToOneInquiryStore의 oneToOneInquiryList에 저장됩니다.
+  
+     제한된 수의 데이터를 불러오기 때문에 불러온 데이터를 모두 보여주었다면 다시 그 이후의 데이터를 더 불러와야 합니다.
+     */
+    case oneToOneInquiryAllWithUser(userID: String, limit: Int)
     /**
      리뷰를 불러올 때 사용, limit을 설정해 불러올 데이터의 수를 제한 할 수 있습니다. result에 데이터를 받을 배열을 넣으면 해당 배열에 데이터를 담아 보내줍니다.
      

@@ -104,10 +104,7 @@ struct EditUserInfoView: View {
             .alert("회원 탈퇴", isPresented: $showDeleteAlert, actions: {
                 Button("탈퇴 하기", role: .destructive) {
                     Task{
-                        // User컬렉션의 user삭제
-                        await DataManager.shared.deleteData(type: .user, parameter: .none) { _ in
-                            
-                        }
+                        _ = try await DataManager.shared.deleteData(type: .user, parameter: .none)
                         // Autentication의 계정 삭제
                         try AuthManager.shared.deleteUser()
                     }

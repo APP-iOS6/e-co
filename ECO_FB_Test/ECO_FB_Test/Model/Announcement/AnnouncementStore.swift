@@ -40,7 +40,7 @@ final class AnnouncementStore: DataControllable {
         }
     }
     
-    func updateData(parameter: DataParam) async throws {
+    func updateData(parameter: DataParam) async throws -> DataResult {
         guard case let .announcementUpdate(id, announcement) = parameter else {
             throw DataError.updateError(reason: "The DataParam is not a announcement update")
         }
@@ -54,10 +54,12 @@ final class AnnouncementStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
-        
+    func deleteData(parameter: DataParam) async throws -> DataResult {
+        return DataResult.delete(isSuccess: true)
     }
     
     private func getFirstPage() async throws -> DataResult {
@@ -102,25 +104,27 @@ final class AnnouncementStore: DataControllable {
     }
     
     private func getData(document: QueryDocumentSnapshot) async throws -> Announcement {
-        let docData = document.data()
-        
-        let id = document.documentID
-        let title = docData["title"] as? String ?? "none"
-        let content = docData["content"] as? String ?? "none"
-        
-        let adminID = docData["admin_id"] as? String ?? "none"
-        let admin = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: adminID, shouldReturnUser: true)) { _ in
+        do {
+            let docData = document.data()
             
+            let id = document.documentID
+            let title = docData["title"] as? String ?? "none"
+            let content = docData["content"] as? String ?? "none"
+            
+            let adminID = docData["admin_id"] as? String ?? "none"
+            let admin = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: adminID, shouldReturnUser: true))
+            
+            guard case let DataResult.user(result) = admin else {
+                throw DataError.convertError(reason: "DataResult is not a user")
+            }
+            
+            let creationDateString = docData["creation_date"] as? String ?? "none"
+            let creationDate = Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")
+            
+            let announcement = Announcement(id: id, admin: result, title: title, content: content, creationDate: creationDate)
+            return announcement
+        } catch {
+            throw error
         }
-        
-        guard case let DataResult.user(result) = admin else {
-            throw DataError.convertError(reason: "DataResult is not a user")
-        }
-
-        let creationDateString = docData["creation_date"] as? String ?? "none"
-        let creationDate = Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")
-        
-        let announcement = Announcement(id: id, admin: result, title: title, content: content, creationDate: creationDate)
-        return announcement
     }
 }

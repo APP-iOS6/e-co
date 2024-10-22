@@ -11,9 +11,11 @@ import Combine
 struct StoreView: View {
     static private var isFirstPresent: Bool = true
     @Environment(GoodsStore.self) private var goodsStore: GoodsStore
-    @State private var dataFetchFlow: DataFetchFlow = .loading
     @State var searchText: String = ""
     
+    var dataFetchFlow: DataFlow {
+        DataManager.shared.getDataFlow(of: .goods)
+    }
     var goodsByCategories: [GoodsCategory : [Goods]] {
         goodsStore.goodsByCategories
     }
@@ -156,8 +158,10 @@ struct StoreView: View {
     }
     
     private func getGoods() async {
-        _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: GoodsCategory.allCases, limit: 4)) { flow in
-            dataFetchFlow = flow
+        do {
+            _ = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: GoodsCategory.allCases, limit: 4))
+        } catch {
+            print("Error in StoreView, getGoods(): \(error)")
         }
     }
     
@@ -181,9 +185,7 @@ struct StoreView: View {
                     if case let .single(url) = uploadResult, let user = UserStore.shared.userData {
                         let goods = Goods(id: UUID().uuidString, name: "\(category): \(j)", category: category, thumbnailImageURL: url, bodyContent: "Hi", bodyImageNames: [], price: price, seller: user)
                         
-                        await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: id, goods: goods)) { _ in
-                            
-                        }
+                        _ = try await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: id, goods: goods))
                     }
                 }
             }

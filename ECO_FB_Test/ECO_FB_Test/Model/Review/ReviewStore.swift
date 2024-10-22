@@ -33,7 +33,7 @@ final class ReviewStore: DataControllable {
         return dataResult
     }
     
-    func updateData(parameter: DataParam) async throws {
+    func updateData(parameter: DataParam) async throws -> DataResult {
         guard case .reviewUpdate(let id, let review) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a review update")
         }
@@ -56,9 +56,11 @@ final class ReviewStore: DataControllable {
                 "creation_date": creationDateString
             ])
         }
+        
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
+    func deleteData(parameter: DataParam) async throws -> DataResult {
         guard case .reviewDelete(let id) = parameter else {
             throw DataError.deleteError(reason: "The DataParam is not a review delete")
         }
@@ -68,6 +70,8 @@ final class ReviewStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.delete(isSuccess: true)
     }
     
     private func getFirstPage(id: String, limit: Int, result: [Review]) async throws -> DataResult {
@@ -124,43 +128,43 @@ final class ReviewStore: DataControllable {
     }
     
     private func getData(document: QueryDocumentSnapshot) async throws -> Review {
-        let docData = document.data()
-        
-        let id = document.documentID
-        
-        let userID = docData["user_id"] as? String ?? "none"
-        let user = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: userID, shouldReturnUser: true)) { _ in
+        do {
+            let docData = document.data()
             
-        }
-        
-        let goodsID = docData["goods_id"] as? String ?? "none"
-        
-        let title = docData["title"] as? String ?? "none"
-        let content = docData["body_content"] as? String ?? "none"
-        
-        let contentURLStrings = docData["body_images"] as? [String] ?? []
-        var contentURLs: [URL] = []
-        
-        for urlString in contentURLStrings {
-            guard let url = URL(string: urlString) else {
-                throw DataError.convertError(reason: "Can't get url from content url array")
+            let id = document.documentID
+            
+            let userID = docData["user_id"] as? String ?? "none"
+            let user = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: userID, shouldReturnUser: true))
+            
+            let goodsID = docData["goods_id"] as? String ?? "none"
+            
+            let title = docData["title"] as? String ?? "none"
+            let content = docData["body_content"] as? String ?? "none"
+            
+            let contentURLStrings = docData["body_images"] as? [String] ?? []
+            var contentURLs: [URL] = []
+            
+            for urlString in contentURLStrings {
+                guard let url = URL(string: urlString) else {
+                    throw DataError.convertError(reason: "Can't get url from content url array")
+                }
+                
+                contentURLs.append(url)
             }
             
-            contentURLs.append(url)
+            let starCount = docData["star_count"] as? Int ?? 0
+            
+            let creationDateString = docData["creation_date"] as? String ?? "none"
+            let creationDate = Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")
+            
+            guard case .user(let result) = user else {
+                throw DataError.fetchError(reason: "Can't get user data")
+            }
+            
+            let review = Review(id: id, user: result, goodsID: goodsID, title: title, content: content, contentImages: contentURLs, starCount: starCount, creationDate: creationDate)
+            return review
+        } catch {
+            throw error
         }
-        
-        let starCount = docData["star_count"] as? Int ?? 0
-        
-        let creationDateString = docData["creation_date"] as? String ?? "none"
-        let creationDate = Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")
-        
-        guard case .user(let result) = user else {
-            throw DataError.fetchError(reason: "Can't get user data")
-        }
-
-        let review = Review(id: id, user: result, goodsID: goodsID, title: title, content: content, contentImages: contentURLs, starCount: starCount, creationDate: creationDate)
-        return review
     }
-    
-    
 }

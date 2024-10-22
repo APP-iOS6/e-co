@@ -34,7 +34,7 @@ final class PaymentInfoStore: DataControllable {
         }
     }
     
-    func updateData(parameter: DataParam) async throws {
+    func updateData(parameter: DataParam) async throws -> DataResult {
         guard case .paymentInfoUpdate(let id, let paymentInfo) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a payment info update")
         }
@@ -45,25 +45,19 @@ final class PaymentInfoStore: DataControllable {
             
             for originAddressInfo in paymentInfo.originAddressInfos {
                 if !paymentInfo.addressInfos.contains(where: { $0.id == originAddressInfo.id }) {
-                    await DataManager.shared.deleteData(type: .addressInfo, parameter: .addressInfoDelete(id: originAddressInfo.id)) { _ in
-                        
-                    }
+                    _ = try await DataManager.shared.deleteData(type: .addressInfo, parameter: .addressInfoDelete(id: originAddressInfo.id))
                 }
             }
             
             for addressInfo in paymentInfo.addressInfos {
                 let addressInfoID = addressInfo.id
-                await DataManager.shared.updateData(type: .addressInfo, parameter: .addressInfoUpdate(id: addressInfoID, addressInfo: addressInfo)) { _ in
-                    
-                }
+                _ = try await DataManager.shared.updateData(type: .addressInfo, parameter: .addressInfoUpdate(id: addressInfoID, addressInfo: addressInfo))
                 
                 addressInfoIDs.append(addressInfoID)
             }
             
             if let cardInfo = paymentInfo.paymentMethodInfo {
-                await DataManager.shared.updateData(type: .cardInfo, parameter: .cardInfoUpdate(id: cardInfo.id, cardInfo: cardInfo)) { _ in
-                    
-                }
+                _ = try await DataManager.shared.updateData(type: .cardInfo, parameter: .cardInfoUpdate(id: cardInfo.id, cardInfo: cardInfo))
                 
                 paymentMethodInfoID = cardInfo.id
             }
@@ -78,10 +72,12 @@ final class PaymentInfoStore: DataControllable {
         } catch {
             throw error
         }
+        
+        return DataResult.update(isSuccess: true)
     }
     
-    func deleteData(parameter: DataParam) async throws {
-        
+    func deleteData(parameter: DataParam) async throws -> DataResult {
+        return DataResult.delete(isSuccess: true)
     }
     
     private func getPaymentInfoByID(_ id: String) async throws -> DataResult {
@@ -131,9 +127,7 @@ final class PaymentInfoStore: DataControllable {
         let addressInfoIDs = docData["address_info_ids"] as? [String] ?? []
         var addressInfos: [AddressInfo] = []
         for addressInfoID in addressInfoIDs {
-            let addressInfoResult = await DataManager.shared.fetchData(type: .addressInfo, parameter: .addressInfoLoad(id: addressInfoID)) { _ in
-                
-            }
+            let addressInfoResult = try await DataManager.shared.fetchData(type: .addressInfo, parameter: .addressInfoLoad(id: addressInfoID))
             
             guard case let .addressInfo(result) = addressInfoResult else {
                 throw DataError.fetchError(reason: "Can't get address info")
@@ -148,9 +142,7 @@ final class PaymentInfoStore: DataControllable {
         
         if paymentMethodName == .card {
             let paymentMethodID = docData["payment_method_id"] as? String ?? "none"
-            let cardInfoResult = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: paymentMethodID)) { _ in
-                
-            }
+            let cardInfoResult = try await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: paymentMethodID))
             
             guard case .cardInfo(let result) = cardInfoResult else {
                 throw DataError.fetchError(reason: "Can't get card info")
