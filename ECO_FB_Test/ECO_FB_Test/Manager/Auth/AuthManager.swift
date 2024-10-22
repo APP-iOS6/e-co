@@ -118,6 +118,21 @@ final class AuthManager {
     }
     
     /**
+     현재 유저의 계정을 삭제하는 메소드
+     */
+    func deleteUser() throws {
+        guard let user = Auth.auth().currentUser else { throw LoginError.userError(reason: "You Don't Login!") }
+        
+        user.delete { error in
+            if error != nil {
+                print("회원삭제 에러발생: \(String(describing: error))")
+            } else {
+                print("회원삭제 성공")
+            }
+        }
+    }
+    
+    /**
      로그인 되어있을 시 유저 정보를 가져오는 메소드
      */
     func getLoggedInUserData() async {
@@ -157,19 +172,5 @@ final class AuthManager {
         guard let email = user.email else { throw LoginError.emailError(reason: "User doesn't have a email")}
         
         return email
-    }
-    
-    /**
-     현재 유저의 계정을 삭제하는 메소드
-     */
-    func deleteUser() throws {
-        guard let user = Auth.auth().currentUser else { throw LoginError.userError(reason: "You Don't Login!") }
-        user.delete { error in  // authentication에서 유저 삭제
-            if error != nil {
-                print("회원삭제 에러발생")
-            } else {
-                print("회원삭제 성공")
-            }
-        }
     }
 }

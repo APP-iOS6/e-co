@@ -108,7 +108,16 @@ final class UserStore: DataControllable {
     }
     
     func deleteData(parameter: DataParam) async throws {
+        guard let user = userData else {
+            throw DataError.deleteError(reason: "User doesn't exist")
+        }
         
+        do {
+            try await db.collection(collectionName).document(user.id).delete()
+            setLogout()
+        } catch {
+            throw error
+        }
     }
     
     private func getUserWithReturn(id: String) async throws -> DataResult {
@@ -228,13 +237,5 @@ final class UserStore: DataControllable {
         }
         
         return goodsIDs
-    }
-    
-    func deleteUserData() async throws {
-        do{
-            try await db.collection(collectionName).document(userData!.id).delete()
-        }catch {
-            throw error
-        }
     }
 }
