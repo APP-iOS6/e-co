@@ -9,6 +9,7 @@ import SwiftUI
 import NukeUI
 
 struct ReviewListView: View {
+    var goods: Goods
     @State private var reviewList: [Review] = []
     @State private var showAll: Bool = false
     @State private var clickedReview: String?
@@ -26,6 +27,7 @@ struct ReviewListView: View {
                         .bold()
                     starView(starRank: Int(totalRank()))
                 }
+                .padding(.top)
                 
                 ForEach($reviewList, id: \.id) { review in
                     // TODO: 사진 클릭하면 해당사진 크게 보여주기
@@ -77,7 +79,7 @@ struct ReviewListView: View {
         .onAppear {
             Task {
                 // limit 다시 설정해야함. 조금만 불러왔다가 일정량 스크롤 하거나 하면 밑에 메서드 다시 호출해 다시 데이터 더 불러오는 형식
-                let result = await DataManager.shared.fetchData(type: .review, parameter: .reviewAll(goodsID: "31B144B7-4998-4239-B071-E1A9958CC6F7", limit: 1000, result: reviewList)) { _ in
+                let result = await DataManager.shared.fetchData(type: .review, parameter: .reviewAll(goodsID: goods.id, limit: 1000, result: reviewList)) { _ in
                     
                 }
                 
@@ -95,6 +97,6 @@ struct ReviewListView: View {
     }
 }
 
-#Preview {
-    ReviewListView()
-}
+//#Preview {
+//    ReviewListView()
+//}

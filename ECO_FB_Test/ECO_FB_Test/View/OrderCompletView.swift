@@ -55,7 +55,6 @@ struct OrderCompleteView: View {
             }
             
             if isShowToast {
-                Spacer()
                 SignUpToastView(isVisible: $isShowToast, message: "결제가 완료되었습니다.")
             }
             

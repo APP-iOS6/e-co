@@ -20,6 +20,7 @@
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
 		504B6E892CBFE9630069BC1D /* FAQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504B6E882CBFE9630069BC1D /* FAQView.swift */; };
 		5075C6DA2CC6B6630074F4F9 /* ReviewWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075C6D92CC6B6630074F4F9 /* ReviewWriteView.swift */; };
+		5086CB202CC771EE00415EB9 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086CB1F2CC771EE00415EB9 /* PhotoPicker.swift */; };
 		50C707AB2CC5DF95001CAEB5 /* SellerBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C707AA2CC5DF95001CAEB5 /* SellerBottomView.swift */; };
 		50C707AD2CC5DFA3001CAEB5 /* ProductSubmitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C707AC2CC5DFA3001CAEB5 /* ProductSubmitView.swift */; };
 		50C707AF2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C707AE2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift */; };
@@ -165,6 +166,7 @@
 		502256872CBD038F006F6D5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		504B6E882CBFE9630069BC1D /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
 		5075C6D92CC6B6630074F4F9 /* ReviewWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewWriteView.swift; sourceTree = "<group>"; };
+		5086CB1F2CC771EE00415EB9 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		50C707AA2CC5DF95001CAEB5 /* SellerBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerBottomView.swift; sourceTree = "<group>"; };
 		50C707AC2CC5DFA3001CAEB5 /* ProductSubmitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSubmitView.swift; sourceTree = "<group>"; };
 		50C707AE2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerCapsuleTitleView.swift; sourceTree = "<group>"; };
@@ -402,6 +404,7 @@
 				186DD6AF2CBE61CC0024F705 /* RecentlyViewerView.swift */,
 				50DB4B152CC60B8B00F96DEE /* EditUserInfoView.swift */,
 				5075C6D92CC6B6630074F4F9 /* ReviewWriteView.swift */,
+				5086CB1F2CC771EE00415EB9 /* PhotoPicker.swift */,
 				18DD4AC52CBF9041002AC8EA /* HelpView */,
 			);
 			path = MyPageViews;
@@ -989,6 +992,7 @@
 				FEDA911A2CBCABD300D75552 /* CartView.swift in Sources */,
 				50D468092CBE5DBD00757BAD /* InquiriesView.swift in Sources */,
 				50D4680A2CBE5DBD00757BAD /* MyPageView.swift in Sources */,
+				5086CB202CC771EE00415EB9 /* PhotoPicker.swift in Sources */,
 				4220E3392CC507A200381B51 /* SellerHomeView.swift in Sources */,
 				50D4680B2CBE5DBD00757BAD /* NoticeView.swift in Sources */,
 				6E7615EE2CC0F625009FAC72 /* RecommendedItemsView.swift in Sources */,
