@@ -1,18 +1,10 @@
-//
-//  ReviewWriteView.swift
-//  ECO_FB_Test
-//
-//  Created by Hwang_Inyoung on 10/22/24.
-//
-
 import SwiftUI
 
 struct ReviewWriteView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var starRank: Int = 0
     @State private var bodyContent: String = ""
-    @State private var selectedImages: [String] = []
-    @FocusState private var isFocused: Bool // 키보드 포커스 상태
+    let order: CartElement // 주문 정보를 전달받음
 
     var body: some View {
         NavigationStack {
@@ -21,47 +13,22 @@ struct ReviewWriteView: View {
                     .font(.largeTitle)
                     .bold()
 
-                // 별점 선택
                 HStack {
                     Text("별점:")
                     Spacer()
                     starRatingView
                 }
 
-                // 리뷰 내용 입력
-                ZStack(alignment: .topLeading) {
-                    if bodyContent.isEmpty {
-                        Text("리뷰 내용을 입력하세요...")
-                            .foregroundColor(.gray)
-                            .padding(.horizontal, 8)
-                            .padding(.top, 12)
-                    }
-                    TextEditor(text: $bodyContent)
-                        .frame(height: 250)
-                        .padding(4)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.gray.opacity(0.5), lineWidth: 1)
-                        )
-                        .focused($isFocused) // 키보드 포커스 적용
-                }
-
-                // 이미지 선택 영역 (임시 아이콘으로 표시)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
-                        ForEach(selectedImages, id: \.self) { imageName in
-                            Image(systemName: imageName)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 50, height: 50)
-                        }
-                    }
-                }
-                .frame(height: 60)
+                TextEditor(text: $bodyContent)
+                    .frame(height: 250)
+                    .padding(4)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                    )
 
                 Spacer()
 
-                // 저장 및 취소 버튼
                 HStack(spacing: 10) {
                     Button("취소") {
                         dismiss() // 취소 시 화면 닫기
@@ -72,7 +39,7 @@ struct ReviewWriteView: View {
                     .cornerRadius(10)
 
                     Button("저장") {
-                        saveReview()
+                        saveReview() // 저장 로직 호출
                     }
                     .frame(maxWidth: .infinity, maxHeight: 50)
                     .background(Color.blue)
@@ -84,22 +51,9 @@ struct ReviewWriteView: View {
             .padding()
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("구매 후기 작성")
-            .onTapGesture {
-                isFocused = false // 화면을 탭하면 키보드 숨기기
-            }
         }
-        .onChange(of: isFocused) { focused in
-            // 키보드가 나타나면 버튼이 위로 올라가도록 설정
-            withAnimation {
-                if focused {
-                    print("키보드 올라옴")
-                }
-            }
-        }
-        .padding(.bottom, isFocused ? 200 : 0) // 키보드 높이만큼 여유 추가
     }
 
-    // 별점 뷰
     private var starRatingView: some View {
         HStack {
             ForEach(1...5, id: \.self) { star in
@@ -112,13 +66,27 @@ struct ReviewWriteView: View {
         }
     }
 
-    // 리뷰 저장 로직 (임시)
     private func saveReview() {
-        print("리뷰 저장: \(starRank)점, 내용: \(bodyContent)")
-        dismiss() // 작성 후 화면 닫기
-    }
-}
+        // 새로운 리뷰 생성
+        let newReview = Review(
+            id: UUID().uuidString,
+            user: UserStore.shared.userData!, // 현재 로그인한 유저 정보
+            title: order.goods.name, // 상품명
+            content: bodyContent,
+            contentImages: [], // 이미지 배열 (추후 구현 가능)
+            starCount: starRank,
+            creationDate: Date()
+        )
 
-#Preview {
-    ReviewWriteView()
+        // ReviewStore 싱글톤 인스턴스 사용
+        Task {
+            do {
+                try await ReviewStore.shared.addReview(for: order.goods.id, review: newReview)
+                print("리뷰가 성공적으로 저장되었습니다.")
+                dismiss() // 화면 닫기
+            } catch {
+                print("리뷰 저장 중 오류 발생: \(error.localizedDescription)")
+            }
+        }
+    }
 }
