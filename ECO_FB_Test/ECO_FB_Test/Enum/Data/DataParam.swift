@@ -29,6 +29,7 @@ enum DataParam {
     case paymentInfoUpdate(id: String, paymentInfo: PaymentInfo)
     case cardInfoUpdate(id: String, cardInfo: CardInfo)
     case addressInfoUpdate(id: String, addressInfo: AddressInfo)
+    case orderDetailUpdate(id: String, orderDetail: OrderDetail)
     case announcementUpdate(id: String, announcement: Announcement)
     case oneToOneInquiryUpdate(id: String, inquiry: OneToOneInquiry)
     
