@@ -59,12 +59,13 @@ struct EcoStepsView: View {
                                 t.animation = .default
                             }
                     }
+                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                     
                     VStack {
                         Text("목표: 10,000")
-                            .offset(y: 100)
                             .font(.title3)
                     }
+                    .position(x: geometry.size.width / 2, y: geometry.size.height * 0.5 + 100)
                 }
             }
             
@@ -105,6 +106,7 @@ struct EcoStepsView: View {
                         }
                         .fontWeight(.semibold)
                     }
+                    .padding(.bottom)
                 }
             }
         }
