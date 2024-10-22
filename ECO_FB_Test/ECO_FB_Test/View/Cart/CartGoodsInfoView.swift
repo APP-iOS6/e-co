@@ -65,8 +65,7 @@ struct CartGoodsInfoView: View {
                         if var user = userStore.userData {
                             Task {
                                 user.updateCartGoodsCount(cartElement, count: 1)
-                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                                }
+                                let _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                             }
                         }
                     } onDecrement: {
@@ -74,8 +73,7 @@ struct CartGoodsInfoView: View {
                             if var user = userStore.userData {
                                 Task {
                                     user.updateCartGoodsCount(cartElement, count: -1)
-                                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                                    }
+                                    let _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                                 }
                             }
                         }
