@@ -10,187 +10,212 @@ import XCTest
 
 final class ECO_FB_TestTests: XCTestCase {
     
-
-
-    func testOneToOneInquiryWithUserFetch() async throws {
-        _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAllWithUser(userID: "dnjsgh4829@hs.ac.kr", limit: 100)) { _ in
+    func testGetAddress() async throws {
+        let result = try await SearchedAddressStore.shared.getAddresses(query: "제주특별자치도 제주시 첨단로")
+       
+        for document in result.documents {
+            if let address = document.address {
+                print("addressName: \(address.addressName)")
+                print("mainAddressNumber: \(address.mainAddressNumber)")
+                print("subAddressNumber: \(address.subAddressNumber)")
+            }
             
-        }
-        
-        print(await OneToOneInquiryStore.shared.oneToOneInquiryList)
-    }
-    
-    
-
-    func testOrderDetailFetch() async throws {
-        _ = await DataManager.shared.fetchData(type: .orderDetail, parameter: .orderDetailAll(userID: "idntno0505@gmail.com", limit: 500)) { _ in
+            print("addressName: \(document.roadAddress.addressName)")
+            print("buildingName: \(document.roadAddress.buildingName ?? "")")
+            print("mainBuildingNumber: \(document.roadAddress.mainBuildingNumber)")
+            print("region1DepthName: \(document.roadAddress.region1DepthName)")
+            print("region2DepthName: \(document.roadAddress.region2DepthName)")
+            print("region3DepthName: \(document.roadAddress.region3DepthName)")
+            print("roadName: \(document.roadAddress.roadName)")
+            print("zoneNumber: \(document.roadAddress.zoneNumber)")
             
-        }
-        
-        print(await OrderDetailStore.shared.orderDetailList)
-    }
-    
-    func testOrderDetailUpdate() async throws {
-        let id = UUID().uuidString
-        let paymentInfoResult = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "212B4A49-26DE-46A9-9AF3-88FF6D66B3FB")) { _ in
-            
-        }
-        let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: "04836B83-100F-4DEA-B686-C1C167982CED")) { _ in
-            
-        }
-        let goodsResult2 = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: "04BC4400-F95C-43D6-8EED-B9404BFC6DC7")) { _ in
-            
-        }
-        
-        guard case .paymentInfo(let result) = paymentInfoResult else {
-            throw DataError.fetchError(reason: "cant get paymentinfo data")
-        }
-        
-        guard case .goods(let goods) = goodsResult else {
-            throw DataError.fetchError(reason: "cant get goods data")
-        }
-        
-        guard case .goods(let goods2) = goodsResult2 else {
-            throw DataError.fetchError(reason: "cant get goods data")
-        }
-        
-        let orderedInfos: [OrderedGoodsInfo] = [
-            OrderedGoodsInfo(id: "seller@seller.com", deliveryStatus: .inDelivery, goodsList: [
-                OrderedGoods(id: UUID().uuidString, goods: goods, count: 5),
-                OrderedGoods(id: UUID().uuidString, goods: goods2, count: 100)
-            ]),
-            
-            OrderedGoodsInfo(id: "ghdckdwn8456@gmail.com", deliveryStatus: .inDelivery, goodsList: [
-                OrderedGoods(id: UUID().uuidString, goods: goods, count: 5),
-                OrderedGoods(id: UUID().uuidString, goods: goods2, count: 100)
-            ])
-        ]
-
-        
-        let orderDetail = OrderDetail(id: id, userID: "idntno0505@gmail.com", paymentInfo: result, orderedGoodsInfos: orderedInfos, orderDate: .now)
-        await DataManager.shared.updateData(type: .orderDetail, parameter: .orderDetailUpdate(id: id, orderDetail: orderDetail)) { _ in
-            
+            print("addressName: \(document.addressName)")
+            print("addressType: \(document.addressType)")
+            print("x: \(document.x)")
+            print("y: \(document.y)")
+            print("==================================")
         }
     }
-    
-    func testOrderDetailDelete() async throws {
-        await DataManager.shared.deleteData(type: .orderDetail, parameter: .orderDetailDelete(id: "1EBB322E-635C-4E0F-9D11-00CDAD764117")) { _ in
-            
-        }
-
-    }
-    
-//    func testPaymentInfoFetch() async throws {
-//        let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
+//
+//    func testOneToOneInquiryWithUserFetch() async throws {
+//        _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAllWithUser(userID: "dnjsgh4829@hs.ac.kr", limit: 100)) { _ in
 //            
 //        }
 //        
-//        guard case DataResult.paymentInfo(let paymentInfo) = result else {
-//            throw DataError.fetchError(reason: "Can't get paymentInfo")
-//        }
-//        
-//        let card = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
-//        let expect = PaymentInfo(id: "Ki12J9HmdyzwcO2TsMlS", userID: "idntno0505@gmail.com", recipientName: "홍재민", phoneNumber: "010-1234-5060", paymentMethod: .card, paymentMethodInfo: card, address: "home")
-//        
-//        XCTAssertEqual(paymentInfo, expect)
+//        print(await OneToOneInquiryStore.shared.oneToOneInquiryList)
 //    }
-
-
-
-    func testGetAllSellers() async {
-        let result = await DataManager.shared.getAllSellers()
-        print(result)
-    }
-    
-
-    func testReviewUpdate() async throws {
-        let userResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
-            
-        }
-        guard case .user(let user) = userResult else {
-            throw DataError.fetchError(reason: "cant get user")
-        }
-        
-        let id = UUID().uuidString
-        let review = Review(id: id, user: user, goodsID: "0360EFB2-29CD-4830-A571-7B44EEB09392", title: "test", content: "teste라고 써봅니다", contentImages: [], starCount: 1, creationDate: .now)
-        await DataManager.shared.updateData(type: .review, parameter: .reviewUpdate(id: id, review: review)) { _ in
-            
-        }
-    }
-    
-//    func testCardInfoFetch() async throws {
-//        let result = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: "0woTQSLvsGuqbKNZvtkc")) { _ in
+//    
+//    
+//
+//    func testOrderDetailFetch() async throws {
+//        _ = await DataManager.shared.fetchData(type: .orderDetail, parameter: .orderDetailAll(userID: "idntno0505@gmail.com", limit: 500)) { _ in
 //            
 //        }
 //        
-//        guard case DataResult.cardInfo(let cardInfo) = result else {
-//            throw DataError.fetchError(reason: "Can't get cardInfo")
+//        print(await OrderDetailStore.shared.orderDetailList)
+//    }
+//    
+//    func testOrderDetailUpdate() async throws {
+//        let id = UUID().uuidString
+//        let paymentInfoResult = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "212B4A49-26DE-46A9-9AF3-88FF6D66B3FB")) { _ in
+//            
+//        }
+//        let goodsResult = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: "04836B83-100F-4DEA-B686-C1C167982CED")) { _ in
+//            
+//        }
+//        let goodsResult2 = await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: "04BC4400-F95C-43D6-8EED-B9404BFC6DC7")) { _ in
+//            
 //        }
 //        
-//        let expect = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
+//        guard case .paymentInfo(let result) = paymentInfoResult else {
+//            throw DataError.fetchError(reason: "cant get paymentinfo data")
+//        }
 //        
-//        XCTAssertEqual(cardInfo, expect)
+//        guard case .goods(let goods) = goodsResult else {
+//            throw DataError.fetchError(reason: "cant get goods data")
+//        }
+//        
+//        guard case .goods(let goods2) = goodsResult2 else {
+//            throw DataError.fetchError(reason: "cant get goods data")
+//        }
+//        
+//        let orderedInfos: [OrderedGoodsInfo] = [
+//            OrderedGoodsInfo(id: "seller@seller.com", deliveryStatus: .inDelivery, goodsList: [
+//                OrderedGoods(id: UUID().uuidString, goods: goods, count: 5),
+//                OrderedGoods(id: UUID().uuidString, goods: goods2, count: 100)
+//            ]),
+//            
+//            OrderedGoodsInfo(id: "ghdckdwn8456@gmail.com", deliveryStatus: .inDelivery, goodsList: [
+//                OrderedGoods(id: UUID().uuidString, goods: goods, count: 5),
+//                OrderedGoods(id: UUID().uuidString, goods: goods2, count: 100)
+//            ])
+//        ]
+//
+//        
+//        let orderDetail = OrderDetail(id: id, userID: "idntno0505@gmail.com", paymentInfo: result, orderedGoodsInfos: orderedInfos, orderDate: .now)
+//        await DataManager.shared.updateData(type: .orderDetail, parameter: .orderDetailUpdate(id: id, orderDetail: orderDetail)) { _ in
+//            
+//        }
 //    }
-
-    func testPaymentInfoAdd() async throws {
-        let id = UUID().uuidString
-        let paymentInfo = PaymentInfo(id: id, userID: "idntno0505@gmail.com", deliveryRequest: "오지마", paymentMethod: .bank, addressInfos: [AddressInfo(id: "25DE3FCA-80CE-40D0-840E-F7B6188F6BD6", recipientName: "홍재민", phoneNumber: "010-4534-2323", address: "구월3동")])
-        
-        await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: id, paymentInfo: paymentInfo)) { _ in
-            
-        }
-    }
-    
-    func testPaymentInfoUpdate() async throws {
-        let id = "Ki12J9HmdyzwcO2TsMlS"
-        let paymentInfo = PaymentInfo(id: id, userID: "idntno0505@gmail.com", deliveryRequest: "??", paymentMethod: .bank, paymentMethodInfo: CardInfo(id: UUID().uuidString, cvc: "326", ownerName: "홍재민", cardNumber: "2315 2321 9898 2030", cardPassword: "1235", expirationDate: Date().getFormattedDate(dateString: "30-12", "yy-MM")), addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: "홍재민", phoneNumber: "010-4534-2323", address: "구월3동"), AddressInfo(id: "RTG5zronTdUlpuBT1MxE", recipientName: "홍재민", phoneNumber: "010-2321-9899", address: "my")])
-        
-        await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: id, paymentInfo: paymentInfo)) { _ in
-            
-        }
-    }
-    
-    func testOneToOneInquiryWithSellerFetch() async throws {
-        _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAllWithSeller(sellerID: "seller@seller.com", limit: 20)) { _ in
-            
-        }
-        
-        let result = await OneToOneInquiryStore.shared.oneToOneInquiryList[0]
-        let expect = await OneToOneInquiryStore.shared.oneToOneInquiryList[0]
-
-        print(result)
-
-        
-    }
-    
-    func testOneToOneInquiryUpdate() async throws {
-        let id = UUID().uuidString
-        let user = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
-            
-        }
-        let seller = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "seller@seller.com", shouldReturnUser: true)) { _ in
-            
-        }
-        
-        guard case .user(let user) = user else {
-            throw DataError.convertError(reason: "Can't get user")
-        }
-        
-        guard case .user(let seller) = seller else {
-            throw DataError.convertError(reason: "Can't get user")
-        }
-        
-        let inquiry = OneToOneInquiry(id: id, creationDate: .now, user: user, seller: seller, title: "테스트요", question: "질문이요", answer: "정답이요")
-        await DataManager.shared.updateData(type: .oneToOneInquiry, parameter: .oneToOneInquiryUpdate(id: UUID().uuidString, inquiry: inquiry)) { _ in
-            
-        }
-    }
-    
-    func testOneToOneInquiryDelete() async {
-        await DataManager.shared.deleteData(type: .oneToOneInquiry, parameter: .oneToOneInquiryDelete(id: "D974FBD5-F5E5-42AA-88A3-093162D8D8F9")) { _ in
-            
-        }
-    }
+//    
+//    func testOrderDetailDelete() async throws {
+//        await DataManager.shared.deleteData(type: .orderDetail, parameter: .orderDetailDelete(id: "1EBB322E-635C-4E0F-9D11-00CDAD764117")) { _ in
+//            
+//        }
+//
+//    }
+//    
+////    func testPaymentInfoFetch() async throws {
+////        let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
+////            
+////        }
+////        
+////        guard case DataResult.paymentInfo(let paymentInfo) = result else {
+////            throw DataError.fetchError(reason: "Can't get paymentInfo")
+////        }
+////        
+////        let card = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
+////        let expect = PaymentInfo(id: "Ki12J9HmdyzwcO2TsMlS", userID: "idntno0505@gmail.com", recipientName: "홍재민", phoneNumber: "010-1234-5060", paymentMethod: .card, paymentMethodInfo: card, address: "home")
+////        
+////        XCTAssertEqual(paymentInfo, expect)
+////    }
+//
+//
+//
+//    func testGetAllSellers() async {
+//        let result = await DataManager.shared.getAllSellers()
+//        print(result)
+//    }
+//    
+//
+//    func testReviewUpdate() async throws {
+//        let userResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
+//            
+//        }
+//        guard case .user(let user) = userResult else {
+//            throw DataError.fetchError(reason: "cant get user")
+//        }
+//        
+//        let id = UUID().uuidString
+//        let review = Review(id: id, user: user, goodsID: "0360EFB2-29CD-4830-A571-7B44EEB09392", title: "test", content: "teste라고 써봅니다", contentImages: [], starCount: 1, creationDate: .now)
+//        await DataManager.shared.updateData(type: .review, parameter: .reviewUpdate(id: id, review: review)) { _ in
+//            
+//        }
+//    }
+//    
+////    func testCardInfoFetch() async throws {
+////        let result = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: "0woTQSLvsGuqbKNZvtkc")) { _ in
+////            
+////        }
+////        
+////        guard case DataResult.cardInfo(let cardInfo) = result else {
+////            throw DataError.fetchError(reason: "Can't get cardInfo")
+////        }
+////        
+////        let expect = CardInfo(id: "0woTQSLvsGuqbKNZvtkc", cvc: "365", ownerName: "Lucy", cardNumber: "5034398373489929", cardPassword: "5100", expirationDate: Date().getFormattedDate(dateString: "27/10", "yy/MM"))
+////        
+////        XCTAssertEqual(cardInfo, expect)
+////    }
+//
+//    func testPaymentInfoAdd() async throws {
+//        let id = UUID().uuidString
+//        let paymentInfo = PaymentInfo(id: id, userID: "idntno0505@gmail.com", deliveryRequest: "오지마", paymentMethod: .bank, addressInfos: [AddressInfo(id: "25DE3FCA-80CE-40D0-840E-F7B6188F6BD6", recipientName: "홍재민", phoneNumber: "010-4534-2323", address: "구월3동")])
+//        
+//        await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: id, paymentInfo: paymentInfo)) { _ in
+//            
+//        }
+//    }
+//    
+//    func testPaymentInfoUpdate() async throws {
+//        let id = "Ki12J9HmdyzwcO2TsMlS"
+//        let paymentInfo = PaymentInfo(id: id, userID: "idntno0505@gmail.com", deliveryRequest: "??", paymentMethod: .bank, paymentMethodInfo: CardInfo(id: UUID().uuidString, cvc: "326", ownerName: "홍재민", cardNumber: "2315 2321 9898 2030", cardPassword: "1235", expirationDate: Date().getFormattedDate(dateString: "30-12", "yy-MM")), addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: "홍재민", phoneNumber: "010-4534-2323", address: "구월3동"), AddressInfo(id: "RTG5zronTdUlpuBT1MxE", recipientName: "홍재민", phoneNumber: "010-2321-9899", address: "my")])
+//        
+//        await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: id, paymentInfo: paymentInfo)) { _ in
+//            
+//        }
+//    }
+//    
+//    func testOneToOneInquiryWithSellerFetch() async throws {
+//        _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAllWithSeller(sellerID: "seller@seller.com", limit: 20)) { _ in
+//            
+//        }
+//        
+//        let result = await OneToOneInquiryStore.shared.oneToOneInquiryList[0]
+//        let expect = await OneToOneInquiryStore.shared.oneToOneInquiryList[0]
+//
+//        print(result)
+//
+//        
+//    }
+//    
+//    func testOneToOneInquiryUpdate() async throws {
+//        let id = UUID().uuidString
+//        let user = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
+//            
+//        }
+//        let seller = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "seller@seller.com", shouldReturnUser: true)) { _ in
+//            
+//        }
+//        
+//        guard case .user(let user) = user else {
+//            throw DataError.convertError(reason: "Can't get user")
+//        }
+//        
+//        guard case .user(let seller) = seller else {
+//            throw DataError.convertError(reason: "Can't get user")
+//        }
+//        
+//        let inquiry = OneToOneInquiry(id: id, creationDate: .now, user: user, seller: seller, title: "테스트요", question: "질문이요", answer: "정답이요")
+//        await DataManager.shared.updateData(type: .oneToOneInquiry, parameter: .oneToOneInquiryUpdate(id: UUID().uuidString, inquiry: inquiry)) { _ in
+//            
+//        }
+//    }
+//    
+//    func testOneToOneInquiryDelete() async {
+//        await DataManager.shared.deleteData(type: .oneToOneInquiry, parameter: .oneToOneInquiryDelete(id: "D974FBD5-F5E5-42AA-88A3-093162D8D8F9")) { _ in
+//            
+//        }
+//    }
     
     override func setUpWithError() throws {
         try super.setUpWithError()

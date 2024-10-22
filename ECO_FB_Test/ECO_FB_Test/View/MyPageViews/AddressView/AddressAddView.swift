@@ -9,7 +9,7 @@ import SwiftUI
 import WebKit
 
 struct AddressAddView: View {
-    @Binding var addresses: [Address]
+    @Binding var addresses: [AddressData]
     @Environment(\.dismiss) var dismiss
     
     @State private var name = ""
@@ -115,7 +115,7 @@ struct AddressAddView: View {
     }
 
     private func saveAddress() {
-        let newAddress = Address(name: name, address: address, phoneNumber: phoneNumber)
+        let newAddress = AddressData(name: name, address: address, phoneNumber: phoneNumber)
         
         if isDefaultAddress {
             print("기본 배송지로 설정되었습니다")
@@ -130,7 +130,7 @@ struct AddressAddView: View {
 
 #Preview {
     //임시 데이터를 사용하여 Binding을 제공.
-    @Previewable @State var previewAddresses = [Address(name: "김민수", address: "서울시 강남구", phoneNumber: "010-1234-5678")]
+    @Previewable @State var previewAddresses = [AddressData(name: "김민수", address: "서울시 강남구", phoneNumber: "010-1234-5678")]
 
     AddressAddView(addresses: $previewAddresses)
 }
