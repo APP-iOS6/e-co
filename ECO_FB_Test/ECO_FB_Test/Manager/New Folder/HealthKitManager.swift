@@ -22,22 +22,30 @@ class HealthKitManager {
     private var stepCount = 0
     private(set) var distanceWalking = 0.0
     private(set) var remainStepCount = 0
-    private(set) var changeStepCount = 0
-    private(set) var todayPoint = 0
-    private(set) var isChangedTodayStepCount: Bool = false
-    private(set) var todayStepCount: Int {
+    private(set) var changeStepCount = 0    // 직전의 걸음수와 새로 불러온 걸음수와 비교해 변화한 걸음수
+    var todayPoint = 0
+    var totalPoints = 0
+    var isChangedTodayStepCount: Bool {
+        return changeStepCount > 0
+    }
+    
+    private(set) var todayStepCount: Int {  // 건강앱에서 가져온 오늘의 총 걸음수
         get {
             return stepCount
         }
         set {
-            if newValue > 10000 {
-                stepCount = 10000
-            } else {
-                stepCount = newValue
-            }
+            stepCount = min(newValue, 10000) // 10000걸음 이상 제한
         }
     }
-//    private(set) var stepAuthorization: Bool = false
+    
+    var earnedPointsToday: Int {    // 오늘 적립한 총 포인트
+        get {
+            return UserDefaults.standard.integer(forKey: "earnedPointsToday")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "earnedPointsToday")
+        }
+    }
     
     /**
      건강앱 권한요청 함수
@@ -61,13 +69,11 @@ class HealthKitManager {
     /**
      오늘 날짜의 걷기데이터를 가져오는 함수
      */
-    func readCurrentStepCount() {
+    private func readCurrentStepCount() {
         guard let stepCountType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
             print("stepCount 타입을 가져올 수 없습니다.")
-//            stepAuthorization = false
             return
         }
-//        stepAuthorization = true
         let now = Date()
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: now)
@@ -77,18 +83,15 @@ class HealthKitManager {
             guard let self = self, let result = result, let sum = result.sumQuantity() else {
                 if error != nil {
                     print("걸음수 가져오기 오류: \(error!.localizedDescription)")
-//                    self?.stepAuthorization = false
+                } else {
+                    print("걸음수 가져오기 성공!")
                 }
                 return
             }
             
             let stepCount = Int(sum.doubleValue(for: .count()))
             DispatchQueue.main.async {
-                if self.todayStepCount < stepCount {
-                    self.isChangedTodayStepCount = true
-                    self.changeStepCount = stepCount - self.todayStepCount
-                }
-                self.todayStepCount = stepCount
+                self.handleStepCountUpdate(newStepCount: stepCount)
             }
         }
         
@@ -98,7 +101,7 @@ class HealthKitManager {
     /**
      건강앱의 걷기,뛴 거리 데이터를 가져오는 함수
      */
-    func readCurrentDistance() {
+    private func readCurrentDistance() {
         guard let distanceType = HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning) else {
             print("distanceType 타입을 가져올 수 없습니다.")
             return
@@ -113,6 +116,8 @@ class HealthKitManager {
             guard let self = self, let result = result, let sum = result.sumQuantity() else {
                 if error != nil {
                     print("거리 가져오기 오류: \(error!.localizedDescription)")
+                } else {
+                    print("거리 가져오기 성공!")
                 }
                 return
             }
@@ -127,41 +132,52 @@ class HealthKitManager {
     }
     
     /**
-     오늘의 걸음수를 가지고 오늘 획득한 총 포인트를 반환하는 함수
+     걸음 수 업데이트 시 포인트를 계산하고 반영하는 함수
      */
-    func getTodayStepPoint() -> Int {
-        var point = 0
-        remainStepCount = todayStepCount % 1000
-        
-        point += (todayStepCount / 1000) * 10    // 1000 걸음당 10포인트
-        
-        if todayStepCount >= 10000 {     // 10000걸음 목표 달성시 50포인트
-            point += 50
+    private func handleStepCountUpdate(newStepCount: Int) {
+        if newStepCount > todayStepCount {
+            changeStepCount = min(10000, newStepCount - todayStepCount)
+            
+            todayStepCount = newStepCount
+            
+            let newPoints = calculateStepPoints()
+            
+            let maxPoint = 150
+            
+            if earnedPointsToday < 150 { // 하루 최대 150포인트 제한
+                if earnedPointsToday + newPoints > 150 {
+                        totalPoints += (maxPoint - earnedPointsToday)
+                        todayPoint += (maxPoint - earnedPointsToday)
+                } else {
+                    totalPoints += newPoints
+                    todayPoint += newPoints
+                }
+            }
         }
         
-        todayPoint = point
-        return point
+        if totalPoints > 150 {
+            totalPoints = 150
+        }
+        if todayPoint > 150 {
+            todayPoint = 150
+        }
     }
-    
+  
     /**
-     걸음수가 변경이 되었을때 해당걸음수의 포인트를 계산하는 함수
+     걸음 수에 따라 포인트를 계산하는 함수
      */
-    func getStepPoint() -> Int {
-        var point = 0
-        
+    private func calculateStepPoints() -> Int {
+        var points = 0
+
         let steps = remainStepCount + changeStepCount
         remainStepCount = steps % 1000
-        
-        point += (steps / 1000) * 10
-        
-        if todayStepCount == 10000 {
-            point += 50
+
+        points += (steps / 1000) * 10 // 1000걸음당 10포인트
+
+        if todayStepCount >= 10000 && changeStepCount > 0 { // 10000걸음 달성 시 50포인트 추가
+            points += 50
         }
-        
-        if isChangedTodayStepCount == true {
-            isChangedTodayStepCount = false
-        }
-        
-        return point
+
+        return points
     }
 }
