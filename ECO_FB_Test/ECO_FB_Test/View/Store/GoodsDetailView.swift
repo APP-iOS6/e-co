@@ -17,10 +17,7 @@ struct GoodsDetailView: View {
     @State private var isShowToast = false
     @State private var toastMessage: String = ""
     private var dataUpdateFlow: DataFlow {
-        DataManager.shared.getDataFlow(of: .goods)
-    }
-    private var isUpdating: Bool {
-        dataUpdateFlow == .loading ? true : false
+        DataManager.shared.getDataFlow(of: .user)
     }
     
     var body: some View {
@@ -170,7 +167,7 @@ struct GoodsDetailView: View {
                 Spacer()
                 SignUpToastView(isVisible: $isShowToast, message: toastMessage)
                 
-                if isUpdating {
+                if dataUpdateFlow == .loading {
                     ProgressView()
                 }
             }
@@ -212,7 +209,7 @@ struct GoodsDetailView: View {
             }
         }
         .padding()
-        .disabled(isUpdating)
+        .disabled(dataUpdateFlow == .loading)
         .onAppear {
             Task {
                 if var user = userStore.userData {
