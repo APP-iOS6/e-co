@@ -14,7 +14,7 @@ final class DataControlHelper {
     private let dataType: DataType
     private var anyCancellables: Set<AnyCancellable> = []
     private var instructions: PriorityQueue<DataInstruction> = PriorityQueue {
-        $0 > $1
+        $0 < $1
     }
     private(set) var currentInstructionType: InstructionType = .none
     

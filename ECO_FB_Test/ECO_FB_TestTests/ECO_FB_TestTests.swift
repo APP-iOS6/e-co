@@ -10,6 +10,31 @@ import XCTest
 
 final class ECO_FB_TestTests: XCTestCase {
     
+    func testPriorityQueue() {
+        var priorityQueue = PriorityQueue<Int> { $0 > $1 }
+        priorityQueue.enqueue(1)
+        priorityQueue.enqueue(5)
+        priorityQueue.enqueue(2)
+        priorityQueue.enqueue(15)
+        priorityQueue.enqueue(98)
+        priorityQueue.enqueue(3)
+        
+        var result = priorityQueue.dequeue()
+        var expect = 98
+        result = priorityQueue.dequeue()
+        expect = 15
+        
+        XCTAssertEqual(result!, expect)
+        
+//        result = priorityQueue.dequeue()
+//        expect = 2
+//        XCTAssertEqual(result!, expect)
+//        
+//        result = priorityQueue.dequeue()
+//        expect = 3
+//        XCTAssertEqual(result!, expect)
+    }
+    
     func testGetAddress() async throws {
         let result = try await SearchedAddressStore.shared.getAddresses(query: "제주특별자치도 제주시 첨단로")
        
