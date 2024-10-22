@@ -24,7 +24,7 @@ struct LoginView: View {
     @State private var showCreateAccountPage = false
     @State private var goMainView: Bool = false
     @State private var loginErrorMessage: String?
-    @State private var showToast = true
+    @State private var showToast = false
     @FocusState private var isfocused: Bool // 여기는 키보드 내리는거 위해
     
     var body: some View {

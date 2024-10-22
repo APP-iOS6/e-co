@@ -20,6 +20,7 @@ struct MyPageView: View {
     @State private var usingPoint: Int = 0
     @State private var productsPrice: Int = 16000
     @State private var requestMessage = "문앞에 놔주세요"
+    @State private var favoritedGoods: [Goods] = []
     
     var body: some View {
         AppNameView()
@@ -88,8 +89,7 @@ struct MyPageView: View {
                 }
                 Spacer()
                 NavigationLink {
-                    // TODO: 유저 데이터 연결하기
-                    LikeView(category: GoodsCategory.none, allGoods: [])
+                    LikeView(category: GoodsCategory.none, allGoods: favoritedGoods)
                 } label: {
                     VStack {
                         Image(systemName: "heart")
@@ -119,6 +119,11 @@ struct MyPageView: View {
             }
         }
         .listStyle(.inset)
+        .onAppear {
+            if let user = userStore.userData {
+                favoritedGoods = Array(user.goodsFavorited)
+            }
+        }
     }
 }
 
