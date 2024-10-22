@@ -10,6 +10,7 @@ import Foundation
 struct Review: Identifiable {
     let id: String
     var user: User
+    var goodsID: String
     var title: String
     var content: String
     var contentImages: [URL]

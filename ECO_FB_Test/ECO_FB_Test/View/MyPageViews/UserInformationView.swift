@@ -34,7 +34,7 @@ struct UserInformationView: View {
                     .padding()
                 Spacer()
             }
-
+ 
             Spacer()
 
             logoutButton()

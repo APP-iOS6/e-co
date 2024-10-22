@@ -201,6 +201,16 @@ struct GoodsDetailView: View {
         }
         .padding()
         .disabled(isUpdating)
+        .onAppear {
+            Task {
+                if var user = userStore.userData {
+                    user.goodsRecentWatched.insert(goods)
+                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                        
+                    }
+                }
+            }
+        }
     }
 }
 
