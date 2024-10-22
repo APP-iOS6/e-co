@@ -16,6 +16,7 @@ struct UserInformationView: View {
     @State private var showToast: Bool = false // 토스트 표시 여부
 
     @State private var showLogoutAlert: Bool = false // 로그아웃 알림 표시 여부
+    @State private var isShowingAddressList: Bool = false // 배송지 수정화면 표시 여부
 
     @Environment(\.dismiss) var dismiss
     @Environment(UserStore.self) private var userStore: UserStore
@@ -97,13 +98,33 @@ struct UserInformationView: View {
             .font(.system(size: 17))
             .foregroundStyle(Color(uiColor: .darkGray))
             .padding(.vertical)
+            
+            
+            
         }
     }
 
     private func shippingInfoSection() -> some View {
         VStack(alignment: .leading) {
-            sectionHeader(title: "배송지정보", buttonTitle: "배송지 수정") {
-                // 배송지 수정 로직 추가 예정
+            HStack {
+                Text("배송지정보")
+                    .font(.system(size: 14))
+                    .padding(.vertical, 5)
+                    .foregroundStyle(Color(uiColor: .darkGray))
+                
+                Spacer()
+                
+                Button {
+                    isShowingAddressList = true
+                } label: {
+                    HStack {
+                        Text("배송지 수정")
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundStyle(.black)
+                }
+                .bold()
+                
             }
 
             HStack {
@@ -200,6 +221,8 @@ struct UserInformationView: View {
             .bold()
         }
         .padding()
-        
+        .sheet(isPresented: $isShowingAddressList) {
+            AddressListView()
+        }
     }
 }
