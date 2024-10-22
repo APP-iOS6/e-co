@@ -133,7 +133,7 @@ struct GoodsDetailView: View {
                                 .foregroundStyle(Color(uiColor: .darkGray))
                             }
                             .sheet(isPresented: $isShowReview) {
-                                ReviewListView()
+                                ReviewListView(goods: goods)
                             }
                             Divider()
                             
