@@ -34,11 +34,40 @@ final class ReviewStore: DataControllable {
     }
     
     func updateData(parameter: DataParam) async throws {
+        guard case .reviewUpdate(let id, let review) = parameter else {
+            throw DataError.fetchError(reason: "The DataParam is not a review update")
+        }
+
+        let creationDateString = review.creationDate.getFormattedString("yyyy-MM-dd-HH-mm")
+        var contentImageURLStrings: [String] = []
         
+        for contentImageURL in review.contentImages {
+            contentImageURLStrings.append(contentImageURL.absoluteString)
+        }
+        
+        do {
+            try await db.collection(collectionName).document(id).setData([
+                "user_id": review.user.id,
+                "goods_id": review.goodsID,
+                "title": review.title,
+                "body_content": review.content,
+                "body_images": contentImageURLStrings,
+                "star_count": review.starCount,
+                "creation_date": creationDateString
+            ])
+        }
     }
     
     func deleteData(parameter: DataParam) async throws {
-        
+        guard case .reviewDelete(let id) = parameter else {
+            throw DataError.deleteError(reason: "The DataParam is not a review delete")
+        }
+
+        do {
+            try await db.collection(collectionName).document(id).delete()
+        } catch {
+            throw error
+        }
     }
     
     private func getFirstPage(id: String, limit: Int, result: [Review]) async throws -> DataResult {
@@ -104,6 +133,8 @@ final class ReviewStore: DataControllable {
             
         }
         
+        let goodsID = docData["goods_id"] as? String ?? "none"
+        
         let title = docData["title"] as? String ?? "none"
         let content = docData["body_content"] as? String ?? "none"
         
@@ -127,7 +158,7 @@ final class ReviewStore: DataControllable {
             throw DataError.fetchError(reason: "Can't get user data")
         }
 
-        let review = Review(id: id, user: result, title: title, content: content, contentImages: contentURLs, starCount: starCount, creationDate: creationDate)
+        let review = Review(id: id, user: result, goodsID: goodsID, title: title, content: content, contentImages: contentURLs, starCount: starCount, creationDate: creationDate)
         return review
     }
 }

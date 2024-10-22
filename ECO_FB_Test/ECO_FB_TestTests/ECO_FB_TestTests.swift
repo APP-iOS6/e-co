@@ -10,6 +10,21 @@ import XCTest
 
 final class ECO_FB_TestTests: XCTestCase {
     
+    func testReviewUpdate() async throws {
+        let userResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
+            
+        }
+        guard case .user(let user) = userResult else {
+            throw DataError.fetchError(reason: "cant get user")
+        }
+        
+        let id = UUID().uuidString
+        let review = Review(id: id, user: user, goodsID: "0360EFB2-29CD-4830-A571-7B44EEB09392", title: "test", content: "teste라고 써봅니다", contentImages: [], starCount: 1, creationDate: .now)
+        await DataManager.shared.updateData(type: .review, parameter: .reviewUpdate(id: id, review: review)) { _ in
+            
+        }
+    }
+    
     func testPaymentInfoFetch() async throws {
         let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
             
@@ -21,6 +36,7 @@ final class ECO_FB_TestTests: XCTestCase {
         
         print(paymentInfo)
     }
+
     
 //    func testCardInfoFetch() async throws {
 //        let result = await DataManager.shared.fetchData(type: .cardInfo, parameter: .cardInfoLoad(id: "0woTQSLvsGuqbKNZvtkc")) { _ in
