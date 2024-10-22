@@ -20,7 +20,10 @@ struct AllGoodsOfCategoryView: View {
     ]
     private let itemsPerPage: Int = 10
     @State private var tabSelection: Int = 0
-    @State private var dataFetchFlow: DataFetchFlow = .none
+    
+    private var dataFetchFlow: DataFlow {
+        DataManager.shared.getDataFlow(of: .goods)
+    }
     
     private var numberOfPages: Int {
         ((goodsStore.goodsByCategories[category] ?? []).count + itemsPerPage - 1) / itemsPerPage
@@ -61,21 +64,16 @@ struct AllGoodsOfCategoryView: View {
             Task {
                 let isLoaded = AllGoodsOfCategoryView.loadedCategories.contains(where: { $0 == category })
                 if !isLoaded && goodsStore.goodsByCategories[category] != nil {
-                    dataFetchFlow = .loading
-                    _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsStore.dataCount)) { flow in
-                        dataFetchFlow = flow
-                        
-                        AllGoodsOfCategoryView.loadedCategories.append(category)
-                    }
+                    _ = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsStore.dataCount))
+                    
+                    AllGoodsOfCategoryView.loadedCategories.append(category)
                 }
             }
         }
         .refreshable {
             Task {
                 if goodsStore.goodsByCategories[category] != nil {
-                    _ = await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsStore.dataCount)) { flow in
-                        dataFetchFlow = flow
-                    }
+                    _ = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsAll(category: [category], limit: goodsStore.dataCount))
                 }
             }
         }

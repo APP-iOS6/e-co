@@ -9,11 +9,13 @@ import Foundation
 
 enum DataResult {
     case none
+    case update(isSuccess: Bool)
+    case delete(isSuccess: Bool)
     case user(result: User)
     case goods(result: Goods)
     case paymentInfo(result: PaymentInfo)
     case cardInfo(result: CardInfo)
     case addressInfo(result: AddressInfo)
     case review(result: [Review])
-    case error(reason: String)
+    case error(error: Error?)
 }

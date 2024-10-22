@@ -121,9 +121,7 @@ struct ProductSubmitView: View {
                                               price: Int(goodsPrice)!,
                                               seller: user)
                             
-                            await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: id, goods: goods)) { _ in
-                                
-                            }
+                            _ = try await DataManager.shared.updateData(type: .goods, parameter: .goodsUpdate(id: id, goods: goods))
                         }
                     }
                     print("등록 완료")

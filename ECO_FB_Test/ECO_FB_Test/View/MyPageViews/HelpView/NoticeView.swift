@@ -9,12 +9,13 @@ import SwiftUI
 
 struct NoticeView: View {
     @Environment(AnnouncementStore.self) private var announcementStore: AnnouncementStore
-    @State private var dataFetchFlow: DataFetchFlow = .none
+    private var dataFlow: DataFlow {
+        DataManager.shared.getDataFlow(of: .announcement)
+    }
     
     var body: some View {
-        
         Group {
-            if announcementStore.announcementList.isEmpty {
+            if dataFlow == .loading {
                 ProgressView("공지사항을 불러오는 중입니다...")
                     .progressViewStyle(CircularProgressViewStyle())
                     .font(.subheadline)
@@ -37,9 +38,7 @@ struct NoticeView: View {
         }
         .onAppear {
             Task {
-                _ = await DataManager.shared.fetchData(type: .announcement, parameter: .announcementAll) { flow in
-                    dataFetchFlow = flow
-                }
+                _ = try await DataManager.shared.fetchData(type: .announcement, parameter: .announcementAll)
             }
         }
         EmptyView()

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DataDeleteFlow {
+enum DataDeleteFlow: CaseIterable {
     case none
     case deleting
     case deleted

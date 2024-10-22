@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DataFetchFlow {
+enum DataFetchFlow: CaseIterable {
     case none
     case loading
     case didLoad

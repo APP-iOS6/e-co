@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DataUpdateFlow {
+enum DataUpdateFlow: CaseIterable {
     case none
     case updating
     case didUpdate

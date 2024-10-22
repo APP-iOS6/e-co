@@ -23,9 +23,11 @@ struct GoodsDetailView: View {
     @State private var isShowReview: Bool = false
     @State private var isShowToast = false
     @State private var toastMessage: String = ""
-    @State private var dataUpdateFlow: DataUpdateFlow = .none
+    private var dataUpdateFlow: DataFlow {
+        DataManager.shared.getDataFlow(of: .goods)
+    }
     private var isUpdating: Bool {
-        dataUpdateFlow == .updating ? true : false
+        dataUpdateFlow == .loading ? true : false
     }
     
     var body: some View {
@@ -98,9 +100,7 @@ struct GoodsDetailView: View {
                                                 user.goodsFavorited.insert(goods)
                                             }
                                             
-                                            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { flow in
-                                                dataUpdateFlow = flow
-                                            }
+                                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                                         }
                                     } else {
                                         toastMessage = "로그인이 필요합니다"
@@ -169,8 +169,8 @@ struct GoodsDetailView: View {
                         Task {
                             let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
                             user.cart.insert(cartElement)
-                            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                            }
+                            
+                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                         }
                         toastMessage = "장바구니에 추가되었습니다"
                     } else {
@@ -205,9 +205,8 @@ struct GoodsDetailView: View {
             Task {
                 if var user = userStore.userData {
                     user.goodsRecentWatched.insert(goods)
-                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                        
-                    }
+                    
+                    _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
                 }
             }
         }

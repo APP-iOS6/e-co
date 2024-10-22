@@ -10,9 +10,12 @@ import SwiftUI
 struct CartView: View {
     @Environment(UserStore.self) private var userStore: UserStore
     @State private var selectedGoods: [CartElement] = []
-    @State private var dataUpdateFlow: DataUpdateFlow = .didUpdate
     @State private var totalPrice: Int = 0
     @State private var isSelectedAll: Bool = false
+    
+    private var dataUpdateFlow: DataFlow {
+        DataManager.shared.getDataFlow(of: .user)
+    }
     
     var body: some View {
         VStack {
@@ -28,25 +31,19 @@ struct CartView: View {
                     
                     Spacer()
                     
-                    if !selectedGoods.isEmpty || dataUpdateFlow == .updating {
-                        Button(dataUpdateFlow == .didUpdate ? "선택 상품 삭제" : "삭제중...") {
+                    if !selectedGoods.isEmpty || dataUpdateFlow == .loading {
+                        Button(dataUpdateFlow == .didLoad ? "선택 상품 삭제" : "삭제중...") {
                             for goods in selectedGoods {
                                 userData.cart.remove(goods)
                                 selectedGoods.removeAll(where: { $0.id == goods.id })
                             }
                             
                             Task {
-                                await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: userData.id, user: userData)) { flow in
-                                    dataUpdateFlow = flow
-                                    
-                                    if flow == .didUpdate {
-                                        isSelectedAll = false
-                                    }
-                                }
+                                _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: userData.id, user: userData))
                             }
                         }
                         .foregroundStyle(.red)
-                        .disabled(dataUpdateFlow == .updating)
+                        .disabled(dataUpdateFlow == .loading)
                     }
                 }
                 

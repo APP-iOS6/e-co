@@ -165,7 +165,6 @@ struct ReviewWriteView: View {
 
     // 리뷰 저장 로직
     private func saveReview() {
-
         guard let user = UserStore.shared.userData else {
             print("유저 정보가 없습니다.")
             return
@@ -186,13 +185,11 @@ struct ReviewWriteView: View {
                     starCount: starRank,
                     creationDate: Date()
                 )
-
-                await DataManager.shared.updateData(
+              
+                _ = try await DataManager.shared.updateData(
                     type: .review,
                     parameter: .reviewUpdate(id: newReview.id, review: newReview)
-                ) { updateFlow in
-                    print("Update Flow: \(updateFlow)")
-                }
+                )
 
                 print("리뷰가 성공적으로 저장되었습니다.")
                 dismiss()
