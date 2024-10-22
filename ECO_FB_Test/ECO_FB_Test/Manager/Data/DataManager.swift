@@ -18,6 +18,7 @@ final class DataManager {
         GoodsStore.shared,
         PaymentInfoStore.shared,
         CardInfoStore.shared,
+        AddressInfoStore.shared,
         AnnouncementStore.shared,
         OneToOneInquiryStore.shared,
         ReviewStore.shared,

@@ -13,6 +13,7 @@ enum DataResult {
     case goods(result: Goods)
     case paymentInfo(result: PaymentInfo)
     case cardInfo(result: CardInfo)
+    case addressInfo(result: AddressInfo)
     case review(result: [Review])
     case error(reason: String)
 }
