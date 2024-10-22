@@ -21,9 +21,6 @@ struct LikeView: View {
     private var dataUpdateFlow: DataFlow {
         DataManager.shared.getDataFlow(of: .user)
     }
-    private var isUpdating: Bool {
-        dataUpdateFlow == .loading ? true : false
-    }
     
     var body: some View {
         if allGoods.count == 0 {
@@ -138,11 +135,11 @@ struct LikeView: View {
                 }
                 .scrollIndicators(.hidden)
                 
-                if isUpdating {
+                if dataUpdateFlow == .loading {
                     ProgressView()
                 }
             }
-            .disabled(isUpdating)
+            .disabled(dataUpdateFlow == .loading)
         }
     }
 }
