@@ -69,7 +69,15 @@ final class OrderDetailStore: DataControllable {
     }
     
     func deleteData(parameter: DataParam) async throws {
-        
+        guard case .orderDetailDelete(let id) = parameter else {
+            throw DataError.deleteError(reason: "The DataParam is not an order detail delete")
+        }
+
+        do {
+            try await db.collection(collectionName).document(id).delete()
+        } catch {
+            throw error
+        }
     }
     
     private func getFirstPage(userID: String, limit: Int) async throws -> DataResult {

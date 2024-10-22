@@ -36,6 +36,7 @@ enum DataParam {
     case reviewDelete(id: String)
     case oneToOneInquiryDelete(id: String)
     case addressInfoDelete(id: String)
+    case orderDetailDelete(id: String)
     
     // 모든 데이터를 불러올 때 사용
     /**

@@ -61,6 +61,12 @@ final class ECO_FB_TestTests: XCTestCase {
         }
     }
     
+    func testOrderDetailDelete() async throws {
+        await DataManager.shared.deleteData(type: .orderDetail, parameter: .orderDetailDelete(id: "1EBB322E-635C-4E0F-9D11-00CDAD764117")) { _ in
+            
+        }
+    }
+    
 //    func testPaymentInfoFetch() async throws {
 //        let result = await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoLoad(id: "Ki12J9HmdyzwcO2TsMlS")) { _ in
 //            
