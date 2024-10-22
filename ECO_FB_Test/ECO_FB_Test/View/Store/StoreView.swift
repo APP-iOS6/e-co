@@ -88,52 +88,42 @@ struct StoreView: View {
                         .background(Rectangle().foregroundColor(.white))
                             
                     ) {
-                        if dataFetchFlow == .loading {
-                            HStack {
-                                Spacer()
-                                
-                                ProgressView()
-                                
-                                Spacer()
-                            }
-                        } else {
-                            VStack {
-                                ScrollView(.horizontal) {
-                                    HStack {
+                        VStack {
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    Button {
+                                        goodsStore.categorySelectAction(GoodsCategory.none)
+                                    } label: {
+                                        Text("ALL")
+                                            .fontWeight(selectedCategory == GoodsCategory.none ? .semibold : .regular)
+                                            .foregroundStyle(selectedCategory == GoodsCategory.none ? Color.black : Color(uiColor: .darkGray))
+                                    }
+                                    .buttonStyle(.bordered)
+                                    
+                                    ForEach(Array(goodsByCategories.keys), id: \.self) { category in
                                         Button {
-                                            goodsStore.categorySelectAction(GoodsCategory.none)
+                                            goodsStore.categorySelectAction(category)
                                         } label: {
-                                            Text("ALL")
-                                                .fontWeight(selectedCategory == GoodsCategory.none ? .semibold : .regular)
-                                                .foregroundStyle(selectedCategory == GoodsCategory.none ? Color.black : Color(uiColor: .darkGray))
+                                            Text(category.rawValue)
+                                                .fontWeight(selectedCategory == category ? .semibold : .regular)
+                                                .foregroundStyle(selectedCategory == category ? Color.black : Color(uiColor: .darkGray))
                                         }
                                         .buttonStyle(.bordered)
-                                        
-                                        ForEach(Array(goodsByCategories.keys), id: \.self) { category in
-                                            Button {
-                                                goodsStore.categorySelectAction(category)
-                                            } label: {
-                                                Text(category.rawValue)
-                                                    .fontWeight(selectedCategory == category ? .semibold : .regular)
-                                                    .foregroundStyle(selectedCategory == category ? Color.black : Color(uiColor: .darkGray))
-                                            }
-                                            .buttonStyle(.bordered)
-                                        }
                                     }
                                 }
-                                .scrollIndicators(.hidden)
-                                .padding([.horizontal, .bottom])
-                                
-                                RecommendedItemsView(goodsByCategories: goodsByCategories)
-                                
-                                ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                                    
-                                    ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [], dataUpdateFlow: $dataUpdateFlow, isNeedLogin: $isShowToast)
-                                }
                             }
-                            .onTapGesture {
-                                focused = false
+                            .scrollIndicators(.hidden)
+                            .padding([.horizontal, .bottom])
+                            
+                            RecommendedItemsView(goodsByCategories: goodsByCategories)
+                            
+                            ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+                                
+                                ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [], dataUpdateFlow: $dataUpdateFlow, isNeedLogin: $isShowToast)
                             }
+                        }
+                        .onTapGesture {
+                            focused = false
                         }
                     }
                 }
