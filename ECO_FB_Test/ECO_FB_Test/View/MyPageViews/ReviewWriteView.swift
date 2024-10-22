@@ -185,7 +185,7 @@ struct ReviewWriteView: View {
                     starCount: starRank,
                     creationDate: Date()
                 )
-
+              
                 _ = try await DataManager.shared.updateData(
                     type: .review,
                     parameter: .reviewUpdate(id: newReview.id, review: newReview)

@@ -38,7 +38,7 @@ struct OrderDetailView: View {
                 
                 Divider()
                 
-                ProductListView(goodsList: [], usingPoint: usingPoint)
+                ProductListView(cart: [], usingPoint: usingPoint)
                 
                 Divider()
                 

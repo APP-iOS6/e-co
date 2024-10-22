@@ -166,7 +166,9 @@ struct LoginView: View {
                 try await AuthManager.shared.login(type: type)
                 dismiss()
             }
+            
         }
+        
     }
 }
 

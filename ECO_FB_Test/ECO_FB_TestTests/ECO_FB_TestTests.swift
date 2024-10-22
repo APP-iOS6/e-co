@@ -10,6 +10,18 @@ import XCTest
 
 final class ECO_FB_TestTests: XCTestCase {
     
+
+
+    func testOneToOneInquiryWithUserFetch() async throws {
+        _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAllWithUser(userID: "dnjsgh4829@hs.ac.kr", limit: 100)) { _ in
+            
+        }
+        
+        print(await OneToOneInquiryStore.shared.oneToOneInquiryList)
+    }
+    
+    
+
     func testOrderDetailFetch() async throws {
         _ = await DataManager.shared.fetchData(type: .orderDetail, parameter: .orderDetailAll(userID: "idntno0505@gmail.com", limit: 500)) { _ in
             
@@ -65,6 +77,7 @@ final class ECO_FB_TestTests: XCTestCase {
         await DataManager.shared.deleteData(type: .orderDetail, parameter: .orderDetailDelete(id: "1EBB322E-635C-4E0F-9D11-00CDAD764117")) { _ in
             
         }
+
     }
     
 //    func testPaymentInfoFetch() async throws {
@@ -81,6 +94,14 @@ final class ECO_FB_TestTests: XCTestCase {
 //        
 //        XCTAssertEqual(paymentInfo, expect)
 //    }
+
+
+
+    func testGetAllSellers() async {
+        let result = await DataManager.shared.getAllSellers()
+        print(result)
+    }
+    
 
     func testReviewUpdate() async throws {
         let userResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
@@ -129,15 +150,17 @@ final class ECO_FB_TestTests: XCTestCase {
         }
     }
     
-    func testOneToOneInquiryFetch() async throws {
-        _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAll(sellerID: "seller@seller.com", limit: 20)) { _ in
+    func testOneToOneInquiryWithSellerFetch() async throws {
+        _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAllWithSeller(sellerID: "seller@seller.com", limit: 20)) { _ in
             
         }
         
         let result = await OneToOneInquiryStore.shared.oneToOneInquiryList[0]
         let expect = await OneToOneInquiryStore.shared.oneToOneInquiryList[0]
+
+        print(result)
+
         
-        XCTAssertEqual(result, expect)
     }
     
     func testOneToOneInquiryUpdate() async throws {
