@@ -10,95 +10,129 @@ import Nuke
 import NukeUI
 
 struct LikeView: View {
+    @Environment(UserStore.self) private var userStore: UserStore
     var category: GoodsCategory
     var allGoods: [Goods]
     var gridItems: [GridItem] = [
         GridItem(),
         GridItem()
     ]
-    @State var isLike: Bool = true
+    
+    private var favoritedGoods: Set<Goods> {
+        if let user = userStore.userData {
+            user.goodsFavorited
+        } else {
+            []
+        }
+    }
+    @State private var dataUpdateFlow: DataUpdateFlow = .none
+    private var isUpdating: Bool {
+        dataUpdateFlow == .updating ? true : false
+    }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                HStack {
-                    Image(systemName: "heart.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
-                        .foregroundStyle(.pink)
-                        .shadow(color: .black, radius: 1)
-                    Text("좋아요한 상품")
-                        .font(.system(size: 20, weight: .semibold))
-                    Spacer()
-                }
-                .font(.footnote)
-                .padding(.top)
-                Divider()
-            }
-            .padding(.horizontal)
-            
-            LazyVGrid(columns: gridItems) {
-                ForEach(0..<Int(allGoods.count)) { index in
-                    NavigationLink {
-                        GoodsDetailView(goods: allGoods[index], thumbnail: allGoods[index].thumbnailImageURL)
-                    } label: {
-                        VStack(alignment: .center) {
-                            LazyImage(url: allGoods[index].thumbnailImageURL) { state in
-                                if let image = state.image {
-                                    ZStack {
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(minHeight: 80)
-                                        
-                                        VStack(alignment: .trailing) {
-                                            Spacer()
-                                            HStack(alignment: .bottom) {
-                                                Spacer()
-                                                Button {
-                                                    isLike.toggle()
-                                                } label: {
-                                                    Image(systemName: isLike ? "heart.fill" : "heart")
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width: 25, height: 25)
-                                                        .foregroundStyle(isLike ? .pink : .white)
-                                                        .shadow(color: .black, radius: 1)
+        if allGoods.count == 0 {
+            Text("로그인이 필요합니다")
+        } else {
+            ZStack {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Image(systemName: "heart.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .foregroundStyle(.pink)
+                                .shadow(color: .black, radius: 1)
+                            Text("좋아요한 상품")
+                                .font(.system(size: 20, weight: .semibold))
+                            Spacer()
+                        }
+                        .font(.footnote)
+                        .padding(.top)
+                        Divider()
+                    }
+                    .padding(.horizontal)
+                    
+                    LazyVGrid(columns: gridItems) {
+                        ForEach(allGoods) { goods in
+                            NavigationLink {
+                                GoodsDetailView(goods: goods, thumbnail: goods.thumbnailImageURL)
+                            } label: {
+                                VStack(alignment: .center) {
+                                    LazyImage(url: goods.thumbnailImageURL) { state in
+                                        if let image = state.image {
+                                            ZStack {
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(minHeight: 80)
+                                                
+                                                VStack(alignment: .trailing) {
+                                                    Spacer()
+                                                    HStack(alignment: .bottom) {
+                                                        Spacer()
+                                                        Button {
+                                                            if var user = UserStore.shared.userData {
+                                                                Task {
+                                                                    if user.goodsFavorited.contains(goods) {
+                                                                        user.goodsFavorited.remove(goods)
+                                                                    } else {
+                                                                        user.goodsFavorited.insert(goods)
+                                                                    }
+                                                                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { flow in
+                                                                        dataUpdateFlow = flow
+                                                                    }
+                                                                }
+                                                            }
+                                                        } label: {
+                                                            Image(systemName: favoritedGoods.contains(goods) ? "heart.fill" : "heart")
+                                                                .resizable()
+                                                                .aspectRatio(contentMode: .fit)
+                                                                .frame(width: 25, height: 25)
+                                                                .foregroundStyle(favoritedGoods.contains(goods) ? .pink : .white)
+                                                                .shadow(color: .black, radius: 1)
+                                                        }
+                                                        .padding([.bottom, .trailing], 8)
+                                                    }
                                                 }
-                                                .padding([.bottom, .trailing], 8)
                                             }
+                                        } else {
+                                            ProgressView()
+                                                .frame(minHeight: 80)
+                                        }
+                                        
+                                        if let error = state.error {
+                                            Text("Lazy Image Error: \(error)")
                                         }
                                     }
-                                } else {
-                                    ProgressView()
-                                        .frame(minHeight: 80)
+                                    .priority(.high)
+                                    
+                                    HStack {
+                                        Text(goods.name)
+                                            .font(.system(size: 14, weight: .semibold))
+                                        Spacer()
+                                        Text("\(goods.price)원")
+                                            .font(.system(size: 14, weight: .semibold))
+                                    }
+                                    .padding(.bottom)
+                                    .foregroundStyle(.black)
                                 }
-                                
-                                if let error = state.error {
-                                    Text("Lazy Image Error: \(error)")
-                                }
+                                .padding(5)
                             }
-                            .priority(.high)
-                            
-                            HStack {
-                                Text(allGoods[index].name)
-                                    .font(.system(size: 14, weight: .semibold))
-                                Spacer()
-                                Text("\(allGoods[index].price)원")
-                                    .font(.system(size: 14, weight: .semibold))
-                            }
-                            .padding(.bottom)
-                            .foregroundStyle(.black)
                         }
-                        .padding(5)
+                        .padding(.bottom)
                     }
+                    .padding(.horizontal, 10)
                 }
-                .padding(.bottom)
+                .scrollIndicators(.hidden)
+                
+                if isUpdating {
+                    ProgressView()
+                }
             }
-            .padding(.horizontal, 10)
+            .disabled(isUpdating)
         }
-        .scrollIndicators(.hidden)
     }
 }
 

@@ -10,13 +10,22 @@ import Nuke
 import NukeUI
 
 struct ItemListView: View {
+    @Environment(UserStore.self) private var userStore: UserStore
     var category: GoodsCategory
     var allGoods: [Goods]
     var gridItems: [GridItem] = [
         GridItem(),
         GridItem()
     ]
-    @State var isLike: Bool = false
+    private var favoritedGoods: Set<Goods> {
+        if let user = userStore.userData {
+            user.goodsFavorited
+        } else {
+            []
+        }
+    }
+    @Binding var dataUpdateFlow: DataUpdateFlow
+    @Binding var isNeedLogin: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -60,13 +69,27 @@ struct ItemListView: View {
                                             HStack(alignment: .bottom) {
                                                 Spacer()
                                                 Button {
-                                                    isLike.toggle()
+                                                    if var user = UserStore.shared.userData {
+                                                        Task {
+                                                            if user.goodsFavorited.contains(allGoods[index]) {
+                                                                user.goodsFavorited.remove(allGoods[index])
+                                                            } else {
+                                                                user.goodsFavorited.insert(allGoods[index])
+                                                            }
+                                                            
+                                                            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { flow in
+                                                                dataUpdateFlow = flow
+                                                            }
+                                                        }
+                                                    } else {
+                                                        isNeedLogin = true
+                                                    }
                                                 } label: {
-                                                    Image(systemName: isLike ? "heart.fill" : "heart")
+                                                    Image(systemName: favoritedGoods.contains(allGoods[index]) ? "heart.fill" : "heart")
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fit)
                                                         .frame(width: 25, height: 25)
-                                                        .foregroundStyle(isLike ? .pink : .white)
+                                                        .foregroundStyle(favoritedGoods.contains(allGoods[index]) ? .pink : .white)
                                                         .shadow(color: .black, radius: 1)
                                                 }
                                                 .padding([.bottom, .trailing], 8)
