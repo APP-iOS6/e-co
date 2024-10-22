@@ -9,50 +9,61 @@
 import SwiftUI
 
 struct SellerBottomView: View {
+    @State var isUploaded: Bool = false
+    
     var body: some View {
-        GeometryReader{ proxy in
-            VStack {
-                NavigationLink(destination: ProductSubmitView()) {
+        ZStack{
+            VStack{
+                NavigationLink(destination: ProductSubmitView(isUploaded: $isUploaded)) {
                     ZStack{
                         Rectangle()
+                            .fill(.accent)
                             .cornerRadius(20)
-                            .frame(width: proxy.size.width * (9/10), height: proxy.size.height / 10)
                         Text("상품 등록")
                             .foregroundStyle(.white)
                             .font(.title)
                             .fontWeight(.bold)
                     }
                 }
+                .frame(maxHeight: 90)
                 .padding()
                 
                 NavigationLink(destination: OrderManageView()) {
                     ZStack{
                         Rectangle()
+                            .fill(.accent)
                             .cornerRadius(20)
-                            .frame(width: proxy.size.width * (9/10), height: proxy.size.height / 10)
                         Text("주문 관리")
                             .foregroundStyle(.white)
                             .font(.title)
                             .fontWeight(.bold)
                     }
                 }
+                .frame(maxHeight: 90)
                 .padding()
                 
                 NavigationLink(destination: HelpManageView()) {
                     ZStack{
                         Rectangle()
+                            .fill(.accent)
                             .cornerRadius(20)
-                            .frame(width: proxy.size.width * (9/10), height: proxy.size.height / 10)
                         Text("문의 관리")
                             .foregroundStyle(.white)
                             .font(.title)
                             .fontWeight(.bold)
                     }
                 }
+                .frame(maxHeight: 90)
                 .padding()
             }
-            .frame(width: proxy.size.width, height: proxy.size.height * (4/7))
-            .offset(x: 0, y: proxy.size.height * (3/7))
+            VStack{
+                Spacer()
+                SignUpToastView(isVisible: $isUploaded, message: "상품 등록이 완료되었습니다.")
+            }
         }
     }
+}
+
+#Preview {
+    SellerHomeView()
 }

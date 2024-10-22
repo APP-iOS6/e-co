@@ -64,9 +64,8 @@ struct EcoEventsView: View {
                     }
                 }
             }
-            .padding(.top)
         }
-        .padding()
+        .padding(.horizontal)
     }
 }
 

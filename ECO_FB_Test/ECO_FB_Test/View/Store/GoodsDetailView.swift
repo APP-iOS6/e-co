@@ -9,16 +9,27 @@ import SwiftUI
 import NukeUI
 
 struct GoodsDetailView: View {
+    @Environment(UserStore.self) private var userStore: UserStore
     @Environment(\.dismiss) private var dismiss
     var goods: Goods
     var thumbnail: URL
-    @State var moveToCart: Bool = false
-    @State var isBought: Bool = false
-    @State var isLike: Bool = false
-    @State var isShowReview: Bool = false
+    private var favoritedGoods: Set<Goods> {
+        if let user = userStore.userData {
+            user.goodsFavorited
+        } else {
+            []
+        }
+    }
+    @State private var isShowReview: Bool = false
+    @State private var isShowToast = false
+    @State private var toastMessage: String = ""
+    @State private var dataUpdateFlow: DataUpdateFlow = .none
+    private var isUpdating: Bool {
+        dataUpdateFlow == .updating ? true : false
+    }
     
     var body: some View {
-        GeometryReader { GeometryProxy in
+        VStack {
             ZStack {
                 VStack {
                     ScrollView {
@@ -34,17 +45,27 @@ struct GoodsDetailView: View {
                                     ProgressView()
                                 }
                             }
-                            
                         }
                         
                         LazyVStack(alignment: .leading) {
                             HStack(alignment: .center) {
-                                // TODO: 해당 thumbnail image로 변경하기
-                                Image(systemName: "text.aligncenter")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                                    .clipShape(Circle())
+                                LazyImage(url: goods.seller.profileImageURL) { state in
+                                    if let image = state.image {
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 25, height: 25)
+                                    } else {
+                                        ProgressView()
+                                            .frame(minHeight: 80)
+                                    }
+                                    
+                                    if let error = state.error {
+                                        Text("Lazy Image Error: \(error)")
+                                    }
+                                }
+                                .priority(.high)
+                                
                                 Text("\(goods.seller.name)")
                                     .fontWeight(.semibold)
                             }
@@ -69,15 +90,29 @@ struct GoodsDetailView: View {
                                 Spacer()
                                 
                                 Button {
-                                    // TODO: 좋아요 정보 저장 로직 구현
-                                    isLike.toggle()
+                                    if var user = userStore.userData {
+                                        Task {
+                                            if  user.goodsFavorited.contains(goods) {
+                                                user.goodsFavorited.remove(goods)
+                                            } else {
+                                                user.goodsFavorited.insert(goods)
+                                            }
+                                            
+                                            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { flow in
+                                                dataUpdateFlow = flow
+                                            }
+                                        }
+                                    } else {
+                                        toastMessage = "로그인이 필요합니다"
+                                        isShowToast = true
+                                    }
                                 } label: {
-                                    Image(systemName: isLike ? "heart.fill" : "heart")
+                                    Image(systemName: favoritedGoods.contains(goods) ? "heart.fill" : "heart")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 25, height: 25)
                                 }
-                                .foregroundStyle(isLike ? .pink : Color(uiColor: .darkGray))
+                                .foregroundStyle(favoritedGoods.contains(goods) ? .pink : Color(uiColor: .darkGray))
                                 .font(.title2)
                             }
                             .padding(.bottom, 5)
@@ -98,7 +133,7 @@ struct GoodsDetailView: View {
                                 .foregroundStyle(Color(uiColor: .darkGray))
                             }
                             .sheet(isPresented: $isShowReview) {
-                                ReviewListView()
+                                ReviewListView(goods: goods)
                             }
                             Divider()
                             
@@ -115,55 +150,67 @@ struct GoodsDetailView: View {
                                     .padding(.bottom, 30)
                             }
                         }
-                        .frame(width: GeometryProxy.size.width)
                     }
-                    
                     .scrollIndicators(.hidden)
                     
-                    HStack {
-                        Button {
-                            if var user = UserStore.shared.userData {
-                                Task {
-                                    let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
-                                    user.cart.insert(cartElement)
-                                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
-                                        
-                                        
-                                    }
-                                }
-                            }
-                        } label: {
-                            Text("장바구니 담기")
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 10)
-                                .foregroundStyle(.white)
-                                .font(.headline)
-                                .background(Color.green)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                        }
-                    }
-                    .padding(.top, 5)
+                    
                 }
-                VStack {
-                    Spacer()
-                    SignUpToastView(isVisible: $isBought, message: "물품 구매가 완료되었습니다.")
+                Spacer()
+                SignUpToastView(isVisible: $isShowToast, message: toastMessage)
+                
+                if isUpdating {
+                    ProgressView()
                 }
             }
+            
+            HStack {
+                Button {
+                    if var user = userStore.userData {
+                        Task {
+                            let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
+                            user.cart.insert(cartElement)
+                            await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                            }
+                        }
+                        toastMessage = "장바구니에 추가되었습니다"
+                    } else {
+                        toastMessage = "로그인이 필요합니다"
+                    }
+                    isShowToast = true
+                } label: {
+                    Text("장바구니 담기")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .foregroundStyle(.white)
+                        .font(.headline)
+                        .background(Color.green)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+            .padding(.top, 5)
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    moveToCart = true
+                NavigationLink {
+                    CartView()
                 } label: {
                     Image(systemName: "cart")
-                }
-                .sheet(isPresented: $moveToCart) {
-                    CartView(isBought: $isBought)
                 }
                 .foregroundStyle(Color(uiColor: .darkGray))
             }
         }
         .padding()
+        .disabled(isUpdating)
+        .onAppear {
+            Task {
+                if var user = userStore.userData {
+                    user.goodsRecentWatched.insert(goods)
+                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                        
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -184,4 +231,5 @@ struct GoodsDetailView: View {
     
     
     GoodsDetailView(goods: sampleGoods, thumbnail: URL(string: "https://kean-docs.github.io/nukeui/images/nukeui-preview.png")!)
+        .environment(UserStore.shared)
 }
