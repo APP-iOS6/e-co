@@ -21,6 +21,7 @@ final class OrderDetailStore: DataControllable {
     func fetchData(parameter: DataParam) async throws -> DataResult {
         guard case let .orderDetailAll(userID, limit) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a order detail all")
+
         }
         
         var result: DataResult = .none
