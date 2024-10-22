@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 @Observable
-final class OneToOneInquiryStore: DataControllable {
+final class OneToOneInquiryStore: DataControllable{
     static let shared: OneToOneInquiryStore = OneToOneInquiryStore()
     private let db: Firestore = DataManager.shared.db
     private let collectionName: String = "OneToOneInquiry"
@@ -139,4 +139,42 @@ final class OneToOneInquiryStore: DataControllable {
         
         return oneToOneInquiry
     }
+    
+    func saveInquiry(inquiry: OneToOneInquiry) async throws {
+           do {
+               let _ = try await db.collection(collectionName).document(inquiry.id).setData([
+                   "creation_date": inquiry.creationDate.getFormattedString("yyyy-MM-dd-HH-mm"),
+                   "user_id": inquiry.user.id,
+                   "seller_id": inquiry.seller.id,
+                   "title": inquiry.title,
+                   "question": inquiry.question,
+                   "answer": inquiry.answer
+               ])
+               oneToOneInquiries.append(inquiry)
+           } catch {
+               throw error
+           }
+       }
+    
+       private func fetchUser(id: String) async throws -> User {
+           // 유저 데이터를 가져오는 메서드
+           let result = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: true)) { _ in }
+           guard case let .user(user) = result else {
+               throw DataError.convertError(reason: "Failed to fetch user with id: \(id)")
+           }
+           return user
+       }
+    
+   
+    //답변
+    func updateInquiryAnswer(inquiryID: String, answer: String) async throws {
+          let inquiryRef = db.collection(collectionName).document(inquiryID)
+        
+          // Firestore에서 답변 업데이트
+          try await inquiryRef.updateData([
+              "answer": answer,
+            //  "creation_date":Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")// 시간찍기
+          ])
+      }
+       
 }
