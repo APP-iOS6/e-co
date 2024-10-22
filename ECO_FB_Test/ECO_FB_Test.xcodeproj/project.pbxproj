@@ -14,6 +14,7 @@
 		4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */; };
 		4223D7332CBCACBA00F94D1B /* EcoEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */; };
 		4223D7352CBCB49900F94D1B /* EcoStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7342CBCB49900F94D1B /* EcoStepsView.swift */; };
+		4228E9D72CC5E8C600D290AD /* SecretKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4228E9D62CC5E8C600D290AD /* SecretKeys.xcconfig */; };
 		42807F022CBE2B69007A83D5 /* MoreEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42807F012CBE2B69007A83D5 /* MoreEventsView.swift */; };
 		429157B22CBD0EFD0085828F /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429157B02CBD0EFD0085828F /* HealthKitManager.swift */; };
 		502256882CBD038F006F6D5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502256872CBD038F006F6D5C /* ContentView.swift */; };
@@ -29,7 +30,7 @@
 		50D4680B2CBE5DBD00757BAD /* NoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468052CBE5DBD00757BAD /* NoticeView.swift */; };
 		50D4680C2CBE5DBD00757BAD /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468062CBE5DBD00757BAD /* PrivacyPolicyView.swift */; };
 		50D4680D2CBE5DBD00757BAD /* ProductQuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D468072CBE5DBD00757BAD /* ProductQuestionsView.swift */; };
-		50D8C9652CC5D4A40003F3C5 /* SecretKeys.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50D8C9642CC5D4A40003F3C5 /* SecretKeys.xcconfig */; };
+		50DB4B162CC60B8B00F96DEE /* EditUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DB4B152CC60B8B00F96DEE /* EditUserInfoView.swift */; };
 		6E7615EE2CC0F625009FAC72 /* RecommendedItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7615ED2CC0F625009FAC72 /* RecommendedItemsView.swift */; };
 		6E7615F02CC0F654009FAC72 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7615EF2CC0F654009FAC72 /* ItemListView.swift */; };
 		6E7615F22CC0F67C009FAC72 /* AllGoodsOfCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7615F12CC0F67C009FAC72 /* AllGoodsOfCategoryView.swift */; };
@@ -119,6 +120,8 @@
 		FEC6F3812CBE0D13000E5441 /* GoodsStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3802CBE0D13000E5441 /* GoodsStorageManager.swift */; };
 		FEC6F3942CBE2714000E5441 /* ZeroWasteShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3932CBE2714000E5441 /* ZeroWasteShop.swift */; };
 		FEC6F3962CBE28EC000E5441 /* ZeroWasteShopStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6F3952CBE28EC000E5441 /* ZeroWasteShopStore.swift */; };
+		FECCE04F2CC691BB00BA1693 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECCE04E2CC691BB00BA1693 /* Review.swift */; };
+		FECCE0512CC692DA00BA1693 /* ReviewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECCE0502CC692DA00BA1693 /* ReviewStore.swift */; };
 		FED0CF1E2CC4EAEE0097DEFC /* OneToOneInquiry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0CF1D2CC4EAEE0097DEFC /* OneToOneInquiry.swift */; };
 		FED0CF202CC4EB7D0097DEFC /* OneToOneInquiryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0CF1F2CC4EB7D0097DEFC /* OneToOneInquiryStore.swift */; };
 		FED0CF222CC50E360097DEFC /* DataDeleteFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED0CF212CC50E360097DEFC /* DataDeleteFlow.swift */; };
@@ -152,6 +155,7 @@
 		4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoTopInfoView.swift; sourceTree = "<group>"; };
 		4223D7322CBCACBA00F94D1B /* EcoEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoEventsView.swift; sourceTree = "<group>"; };
 		4223D7342CBCB49900F94D1B /* EcoStepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoStepsView.swift; sourceTree = "<group>"; };
+		4228E9D62CC5E8C600D290AD /* SecretKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SecretKeys.xcconfig; sourceTree = "<group>"; };
 		42807F012CBE2B69007A83D5 /* MoreEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreEventsView.swift; sourceTree = "<group>"; };
 		429157AA2CBD0E4A0085828F /* ECO_FB_Test.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ECO_FB_Test.entitlements; sourceTree = "<group>"; };
 		429157B02CBD0EFD0085828F /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
@@ -168,7 +172,7 @@
 		50D468052CBE5DBD00757BAD /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
 		50D468062CBE5DBD00757BAD /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		50D468072CBE5DBD00757BAD /* ProductQuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductQuestionsView.swift; sourceTree = "<group>"; };
-		50D8C9642CC5D4A40003F3C5 /* SecretKeys.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SecretKeys.xcconfig; sourceTree = "<group>"; };
+		50DB4B152CC60B8B00F96DEE /* EditUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserInfoView.swift; sourceTree = "<group>"; };
 		6E7615ED2CC0F625009FAC72 /* RecommendedItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedItemsView.swift; sourceTree = "<group>"; };
 		6E7615EF2CC0F654009FAC72 /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
 		6E7615F12CC0F67C009FAC72 /* AllGoodsOfCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGoodsOfCategoryView.swift; sourceTree = "<group>"; };
@@ -250,6 +254,8 @@
 		FEC6F3802CBE0D13000E5441 /* GoodsStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsStorageManager.swift; sourceTree = "<group>"; };
 		FEC6F3932CBE2714000E5441 /* ZeroWasteShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeroWasteShop.swift; sourceTree = "<group>"; };
 		FEC6F3952CBE28EC000E5441 /* ZeroWasteShopStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZeroWasteShopStore.swift; sourceTree = "<group>"; };
+		FECCE04E2CC691BB00BA1693 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
+		FECCE0502CC692DA00BA1693 /* ReviewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewStore.swift; sourceTree = "<group>"; };
 		FED0CF1D2CC4EAEE0097DEFC /* OneToOneInquiry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneToOneInquiry.swift; sourceTree = "<group>"; };
 		FED0CF1F2CC4EB7D0097DEFC /* OneToOneInquiryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneToOneInquiryStore.swift; sourceTree = "<group>"; };
 		FED0CF212CC50E360097DEFC /* DataDeleteFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDeleteFlow.swift; sourceTree = "<group>"; };
@@ -388,6 +394,7 @@
 				6E7615F72CC0F7AA009FAC72 /* OrderStatusView.swift */,
 				6E7615F52CC0F757009FAC72 /* UserInformationView.swift */,
 				186DD6AF2CBE61CC0024F705 /* RecentlyViewerView.swift */,
+				50DB4B152CC60B8B00F96DEE /* EditUserInfoView.swift */,
 				18DD4AC52CBF9041002AC8EA /* HelpView */,
 			);
 			path = MyPageViews;
@@ -481,7 +488,7 @@
 				FE40BBF32CB9405F00786E34 /* View */,
 				FE40BBF42CB9405F00786E34 /* Assets.xcassets */,
 				50CF078F2CC00FFB00C720A7 /* GoogleService-Info.plist */,
-				50D8C9642CC5D4A40003F3C5 /* SecretKeys.xcconfig */,
+				4228E9D62CC5E8C600D290AD /* SecretKeys.xcconfig */,
 			);
 			path = ECO_FB_Test;
 			sourceTree = "<group>";
@@ -536,6 +543,7 @@
 				FE6A7ADC2CB99C6D000F5DB6 /* Goods */,
 				FE29E15C2CBD312A005E2EFD /* PaymentInfo */,
 				FE6EC1A02CC39C6600EC9874 /* CardInfo */,
+				FECCE04D2CC6919D00BA1693 /* Review */,
 				FE29E1612CBD4115005E2EFD /* Announcement */,
 				FED0CF1C2CC4EA9B0097DEFC /* OneToOneInquiry */,
 			);
@@ -700,6 +708,15 @@
 			path = ZeroWasteShop;
 			sourceTree = "<group>";
 		};
+		FECCE04D2CC6919D00BA1693 /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				FECCE0502CC692DA00BA1693 /* ReviewStore.swift */,
+				FECCE04E2CC691BB00BA1693 /* Review.swift */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
 		FED0CF1C2CC4EA9B0097DEFC /* OneToOneInquiry */ = {
 			isa = PBXGroup;
 			children = (
@@ -851,7 +868,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE40BBFA2CB9405F00786E34 /* Assets.xcassets in Resources */,
-				50D8C9652CC5D4A40003F3C5 /* SecretKeys.xcconfig in Resources */,
+				4228E9D72CC5E8C600D290AD /* SecretKeys.xcconfig in Resources */,
 				50CF07902CC00FFB00C720A7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -902,6 +919,7 @@
 				FE6EC1932CC38DF600EC9874 /* EncryptManager.swift in Sources */,
 				FE6A7B012CB9B043000F5DB6 /* CommonError.swift in Sources */,
 				6E7615F82CC0F7AA009FAC72 /* OrderStatusView.swift in Sources */,
+				FECCE0512CC692DA00BA1693 /* ReviewStore.swift in Sources */,
 				4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */,
 				50C707B12CC5DFC5001CAEB5 /* OrderManageView.swift in Sources */,
 				50C707AB2CC5DF95001CAEB5 /* SellerBottomView.swift in Sources */,
@@ -942,6 +960,7 @@
 				6EBBB3D42CC3E80E008EB202 /* starView.swift in Sources */,
 				FE40BC002CB9428700786E34 /* DataControllable.swift in Sources */,
 				FE40BBF92CB9405F00786E34 /* ECO_FB_TestApp.swift in Sources */,
+				FECCE04F2CC691BB00BA1693 /* Review.swift in Sources */,
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
 				50C707AF2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift in Sources */,
 				FE6EC1902CC383D400EC9874 /* PaymentMethod.swift in Sources */,
@@ -957,6 +976,7 @@
 				6E7615EE2CC0F625009FAC72 /* RecommendedItemsView.swift in Sources */,
 				50D4680C2CBE5DBD00757BAD /* PrivacyPolicyView.swift in Sources */,
 				50D4680D2CBE5DBD00757BAD /* ProductQuestionsView.swift in Sources */,
+				50DB4B162CC60B8B00F96DEE /* EditUserInfoView.swift in Sources */,
 				FE6A7ADE2CB99C78000F5DB6 /* Goods.swift in Sources */,
 				6EBBB3822CC296C9008EB202 /* ChooseMethodView.swift in Sources */,
 				6E7616082CC0FB44009FAC72 /* TextDivider.swift in Sources */,
@@ -1015,6 +1035,7 @@
 /* Begin XCBuildConfiguration section */
 		FE40BBDE2CB93E4200786E34 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4228E9D62CC5E8C600D290AD /* SecretKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1078,6 +1099,7 @@
 		};
 		FE40BBDF2CB93E4200786E34 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4228E9D62CC5E8C600D290AD /* SecretKeys.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
