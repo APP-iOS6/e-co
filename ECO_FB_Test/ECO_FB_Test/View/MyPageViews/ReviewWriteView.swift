@@ -68,15 +68,15 @@ struct ReviewWriteView: View {
 
     private func saveReview() {
         // 새로운 리뷰 생성
-        let newReview = Review(
-            id: UUID().uuidString,
-            user: UserStore.shared.userData!, // 현재 로그인한 유저 정보
-            title: order.goods.name, // 상품명
-            content: bodyContent,
-            contentImages: [], // 이미지 배열 (추후 구현 가능)
-            starCount: starRank,
-            creationDate: Date()
-        )
+//        let newReview = Review(
+//            id: UUID().uuidString,
+//            user: UserStore.shared.userData!, // 현재 로그인한 유저 정보
+//            title: order.goods.name, // 상품명
+//            content: bodyContent,
+//            contentImages: [], // 이미지 배열 (추후 구현 가능)
+//            starCount: starRank,
+//            creationDate: Date()
+//        )
 
         /*
         // ReviewStore 싱글톤 인스턴스 사용

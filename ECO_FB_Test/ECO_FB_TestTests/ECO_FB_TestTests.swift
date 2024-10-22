@@ -10,6 +10,11 @@ import XCTest
 
 final class ECO_FB_TestTests: XCTestCase {
     
+    func testGetAllSellers() async {
+        let result = await DataManager.shared.getAllSellers()
+        print(result)
+    }
+    
     func testReviewUpdate() async throws {
         let userResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
             
