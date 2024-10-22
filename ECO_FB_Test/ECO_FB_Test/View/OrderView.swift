@@ -23,13 +23,6 @@ struct OrderView: View {
     @State private var isShowToast: Bool = false
     @State private var isShowAlert: Bool = false
     @State private var isComplete: Bool = false // true: 주문완료, false: 주문하기
-    private var cart: [CartElement] {
-        if let user = userStore.userData {
-            Array(user.cart)
-        } else {
-            []
-        }
-    }
     @State private var progress: Int = 0
     @State private var dataUpdateFlow: DataUpdateFlow = .none
     private var isDidUpdate: Bool {
@@ -67,7 +60,7 @@ struct OrderView: View {
                                         
                                         Divider()
                                         
-                                        ProductListView(cart: cart, usingPoint: usingPoint)
+                                        ProductListView(cart: user.arrayCart, usingPoint: usingPoint)
                                         
                                         Divider()
                                         
@@ -167,8 +160,10 @@ struct OrderView: View {
     }
     
     private func getProducsPrice() {
-        for element in cart {
-            productsPrice = productsPrice + (element.goods.price * element.goodsCount)
+        if let user = userStore.userData {
+            for element in user.arrayCart {
+                productsPrice = productsPrice + (element.goods.price * element.goodsCount)
+            }
         }
     }
 }
