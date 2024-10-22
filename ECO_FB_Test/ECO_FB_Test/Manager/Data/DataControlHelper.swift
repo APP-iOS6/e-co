@@ -6,50 +6,40 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 @Observable
 final class DataControlHelper {
     private let dataType: DataType
+    private var anyCancellables: Set<AnyCancellable> = []
     private var instructions: PriorityQueue<DataInstruction> = PriorityQueue {
         $0 > $1
-    }
-    private(set) var dataFlow: DataFlow = .none {
-        didSet {
-            handleDataFlow()
-        }
     }
     private(set) var currentInstructionType: InstructionType = .none
     
     init(dataType: DataType) {
         self.dataType = dataType
+        
+        let timer = Timer.publish(every: 0.3, on: .main, in: .default).autoconnect()
+        
+        timer
+            .sink { [weak self] _ in
+                Task {
+                    await self?.executeNextInstruction()
+                }
+            }
+            .store(in: &anyCancellables)
     }
     
     func insertInstruction(_ instruction: DataInstruction) {
         instructions.enqueue(instruction)
-        
-        if dataFlow == .none {
-            dataFlow = .didLoad
-        }
-    }
-    
-    private func handleDataFlow() {
-        switch dataFlow {
-        case .none, .loading:
-            break
-        case .didLoad:
-            Task {
-                await executeNextInstruction()
-                
-            }
-        }
     }
     
     private func executeNextInstruction() async {
         let firstInstruction = instructions.dequeue()
         
-        guard var firstInstruction else {
-            dataFlow = .none
+        guard let firstInstruction else {
             currentInstructionType = .none
             return
         }
@@ -69,7 +59,6 @@ final class DataControlHelper {
             }
         }
         
-        dataFlow = .loading
         currentInstructionType = firstInstruction.instructionType
         
         await withTaskGroup(of: Void.self) { [weak self] taskGroup in
@@ -81,7 +70,11 @@ final class DataControlHelper {
                     }
                     
                     do {
+                        instruction.dataFlow?.wrappedValue = .loading
+                        
                         let result = try await instruction.action(self.dataType, instruction.parameter)
+                        
+                        instruction.dataFlow?.wrappedValue = .didLoad
                         instruction.completion(.success(result))
                     } catch {
                         instruction.completion(.failure(error))
@@ -91,6 +84,5 @@ final class DataControlHelper {
         }
         
         currentInstructionType = .none
-        dataFlow = .didLoad
     }
 }

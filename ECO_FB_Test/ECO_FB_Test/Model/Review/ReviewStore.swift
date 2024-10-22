@@ -80,7 +80,7 @@ final class ReviewStore: DataControllable {
         do {
             let snapshots = try await db.collection(collectionName)
                                       .whereField("goods_id", isEqualTo: id)
-                                      .order(by: "star_count")
+                                      .order(by: "star_count", descending: true)
                                       .order(by: "creation_date")
                                       .limit(to: limit)
                                       .getDocuments()
@@ -108,7 +108,7 @@ final class ReviewStore: DataControllable {
         do {
             let snapshots = try await db.collection(collectionName)
                                       .whereField("goods_id", isEqualTo: id)
-                                      .order(by: "star_count")
+                                      .order(by: "star_count", descending: true)
                                       .order(by: "creation_date")
                                       .start(afterDocument: last)
                                       .limit(to: limit)

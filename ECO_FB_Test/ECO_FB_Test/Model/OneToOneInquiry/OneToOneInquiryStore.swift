@@ -35,8 +35,6 @@ final class OneToOneInquiryStore: DataControllable{
             throw DataError.fetchError(reason: "The DataParam is not a oneToOneInquiry all")
         }
         
-        oneToOneInquiryList.removeAll()
-        
         var result = DataResult.none
         if oneToOneInquiryList.isEmpty {
             result = try await getFirstPage(queryFieldName: queryFieldName, id: id, limit: fetchLimit)

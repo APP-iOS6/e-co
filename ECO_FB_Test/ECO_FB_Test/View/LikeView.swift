@@ -17,6 +17,7 @@ struct LikeView: View {
         GridItem(),
         GridItem()
     ]
+    @State private var dataUpdateFlow: DataFlow = .none
     
     private var favoritedGoods: Set<Goods> {
         if let user = userStore.userData {
@@ -24,9 +25,6 @@ struct LikeView: View {
         } else {
             []
         }
-    }
-    private var dataUpdateFlow: DataFlow {
-        DataManager.shared.getDataFlow(of: .user)
     }
     private var isUpdating: Bool {
         dataUpdateFlow == .loading ? true : false
@@ -82,7 +80,7 @@ struct LikeView: View {
                                                                     } else {
                                                                         user.goodsFavorited.insert(goods)
                                                                     }
-                                                                    _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                                                                    _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
                                                                 }
                                                             }
                                                         } label: {

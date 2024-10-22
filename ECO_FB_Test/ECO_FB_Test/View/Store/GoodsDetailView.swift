@@ -23,9 +23,8 @@ struct GoodsDetailView: View {
     @State private var isShowReview: Bool = false
     @State private var isShowToast = false
     @State private var toastMessage: String = ""
-    private var dataUpdateFlow: DataFlow {
-        DataManager.shared.getDataFlow(of: .goods)
-    }
+    @State private var dataUpdateFlow: DataFlow = .none
+
     private var isUpdating: Bool {
         dataUpdateFlow == .loading ? true : false
     }
@@ -100,7 +99,7 @@ struct GoodsDetailView: View {
                                                 user.goodsFavorited.insert(goods)
                                             }
                                             
-                                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
                                         }
                                     } else {
                                         toastMessage = "로그인이 필요합니다"
@@ -170,7 +169,7 @@ struct GoodsDetailView: View {
                             let cartElement = CartElement(id: UUID().uuidString, goods: goods, goodsCount: 1)
                             user.cart.insert(cartElement)
                             
-                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
                         }
                         toastMessage = "장바구니에 추가되었습니다"
                     } else {
@@ -206,7 +205,7 @@ struct GoodsDetailView: View {
                 if var user = userStore.userData {
                     user.goodsRecentWatched.insert(goods)
                     
-                    _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                    _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
                 }
             }
         }

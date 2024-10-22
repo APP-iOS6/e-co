@@ -24,7 +24,7 @@ struct ItemListView: View {
             []
         }
     }
-    @Binding var dataUpdateFlow: DataUpdateFlow
+    @Binding var dataUpdateFlow: DataFlow
     @Binding var isNeedLogin: Bool
     
     var body: some View {

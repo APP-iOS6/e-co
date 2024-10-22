@@ -12,7 +12,7 @@ struct UserTestView: View {
     @Environment(AuthManager.self) private var authManager: AuthManager
     @Environment(DataManager.self) private var dataManager: DataManager
     @State private var goods: [Goods] = []
-    @State private var dataFetchFlow: DataFetchFlow = .none
+    @State private var dataFetchFlow: DataFlow = .none
     
     var body: some View {
         VStack {
