@@ -10,6 +10,7 @@ import SwiftUI
 struct SellerInquiryView: View {
     @Environment(UserStore.self) private var userStore: UserStore
     @Environment(OneToOneInquiryStore.self) private var inquiryStore: OneToOneInquiryStore
+    @State private var dataFetchFlow: DataFetchFlow = .loading
     //프로그레스뷰 만들예정
     @State private var isLoading = true
     @State private var errorMessage: String?
@@ -46,7 +47,9 @@ struct SellerInquiryView: View {
             }
             .navigationTitle("현재 들어온 문의 내역")
             .task {
+                
                 loadInquiries()
+                print("로드성공")
             }
             .onDisappear {
                 inquiryStore.removeAll()
@@ -63,7 +66,15 @@ struct SellerInquiryView: View {
                     return
                 }
                 isLoading = true
-                _ = try await inquiryStore.fetchData(parameter: .oneToOneInquiryAll(sellerID: user.id, limit: 10))
+             //   _ = try await inquiryStore.fetchData(parameter: .oneToOneInquiryAll(sellerID: user.id, limit: 10))
+                _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAll(sellerID: user.id, limit: 10)) { _ in
+                    
+                }
+                
+                print("불렷나?")
+//                try await DataManager.shared.fetchData(type:.user, parameter: .oneToOneInquiryAll(sellerID: user.id, limit: 10){ _ in
+//                    
+//                }
                 isLoading = false
             } catch {
                 errorMessage = "Failed to load inquiries: \(error.localizedDescription)"

@@ -113,20 +113,20 @@ struct UserInquiryView: View {
     }
     
     private func loadSellers() async {
-//        do {
-//            // 셀러 목록 로딩
-//         //   let fetchedSellers = try await UserStore.shared.fetchSellers()
-//            DispatchQueue.main.async {
-//                sellers = fetchedSellers
-//                selectedSellerID = sellers.first?.id  // 기본 선택
-//                isLoading = false // 로딩 완료
-//            }
-//        } catch {
-//            print("Error fetching sellers: \(error)")
-//            DispatchQueue.main.async {
-//                isLoading = false // 로딩 실패
-//            }
-//        }
+        do {
+            // 셀러 목록 로딩
+            let fetchedSellers = try await DataManager.shared.getAllSellers()
+            DispatchQueue.main.async {
+                sellers = fetchedSellers
+                selectedSellerID = sellers.first?.id  // 기본 선택
+                isLoading = false // 로딩 완료
+            }
+        } catch {
+            print("Error fetching sellers: \(error)")
+            DispatchQueue.main.async {
+                isLoading = false // 로딩 실패
+            }
+        }
     }
     
 }
