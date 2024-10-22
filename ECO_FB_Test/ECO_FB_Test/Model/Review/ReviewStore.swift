@@ -161,4 +161,6 @@ final class ReviewStore: DataControllable {
         let review = Review(id: id, user: result, goodsID: goodsID, title: title, content: content, contentImages: contentURLs, starCount: starCount, creationDate: creationDate)
         return review
     }
+    
+    
 }

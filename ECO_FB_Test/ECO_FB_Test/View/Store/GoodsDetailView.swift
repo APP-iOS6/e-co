@@ -10,6 +10,7 @@ import NukeUI
 
 struct GoodsDetailView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(UserStore.self) private var userStore: UserStore
     var goods: Goods
     var thumbnail: URL
     @State var moveToCart: Bool = false
@@ -164,6 +165,16 @@ struct GoodsDetailView: View {
             }
         }
         .padding()
+        .onAppear {
+            Task {
+                if var user = userStore.userData {
+                    user.goodsRecentWatched.insert(goods)
+                    await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user)) { _ in
+                        
+                    }
+                }
+            }
+        }
     }
 }
 
