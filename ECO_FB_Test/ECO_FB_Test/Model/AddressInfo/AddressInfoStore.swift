@@ -40,7 +40,19 @@ final class AddressInfoStore: DataControllable {
     }
     
     func updateData(parameter: DataParam) async throws {
-        
+        guard case .addressInfoUpdate(let id, let addressInfo) = parameter else {
+            throw DataError.fetchError(reason: "The DataParam is not a address info update")
+        }
+
+        do {
+            try await db.collection(collectionName).document(id).setData([
+                "recipient_name": addressInfo.recipientName,
+                "phone_number": addressInfo.phoneNumber,
+                "address": addressInfo.address
+            ])
+        } catch {
+            throw error
+        }
     }
     
     func deleteData(parameter: DataParam) async throws {

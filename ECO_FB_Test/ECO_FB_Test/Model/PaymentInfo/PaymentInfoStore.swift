@@ -35,7 +35,40 @@ final class PaymentInfoStore: DataControllable {
     }
     
     func updateData(parameter: DataParam) async throws {
-        
+        guard case .paymentInfoUpdate(let id, let paymentInfo) = parameter else {
+            throw DataError.fetchError(reason: "The DataParam is not a payment info update")
+        }
+
+        do {
+            var addressInfoIDs: [String] = []
+            var paymentMethodInfoID: String = "none"
+            
+            for addressInfo in paymentInfo.addressInfos {
+                let addressInfoID = addressInfo.id
+                await DataManager.shared.updateData(type: .addressInfo, parameter: .addressInfoUpdate(id: addressInfoID, addressInfo: addressInfo)) { _ in
+                    
+                }
+                
+                addressInfoIDs.append(addressInfoID)
+            }
+            
+            if let cardInfo = paymentInfo.paymentMethodInfo {
+                await DataManager.shared.updateData(type: .cardInfo, parameter: .cardInfoUpdate(id: cardInfo.id, cardInfo: cardInfo)) { _ in
+                    
+                }
+                
+                paymentMethodInfoID = cardInfo.id
+            }
+            
+            try await db.collection(collectionName).document(id).setData([
+                "user_id": paymentInfo.userID,
+                "payment_method_name": paymentInfo.paymentMethod.rawValue,
+                "payment_method_id": paymentMethodInfoID,
+                "address_info_ids": addressInfoIDs
+            ])
+        } catch {
+            throw error
+        }
     }
     
     func deleteData(parameter: DataParam) async throws {
