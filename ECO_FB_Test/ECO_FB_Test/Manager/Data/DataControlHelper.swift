@@ -3,7 +3,7 @@
 //  ECO_FB_Test
 //
 //  Created by Jaemin Hong on 10/22/24.
-// 
+//
 
 import Foundation
 
@@ -46,22 +46,48 @@ final class DataControlHelper {
     }
     
     private func executeNextInstruction() async {
-        let instruction = instructions.dequeue()
+        let firstInstruction = instructions.dequeue()
         
-        guard let instruction else {
+        guard var firstInstruction else {
             dataFlow = .none
             currentInstructionType = .none
             return
         }
         
-        currentInstructionType = instruction.instructionType
-        dataFlow = .loading
+        var top = instructions.top()
+        var sameInstructions: [DataInstruction] = []
+        sameInstructions.append(firstInstruction)
         
-        do {
-            let result = try await instruction.action(dataType, instruction.parameter)
-            instruction.completion(.success(result))
-        } catch {
-            instruction.completion(.failure(error))
+        while top != nil {
+            if top!.instructionType == firstInstruction.instructionType {
+                let instruction = instructions.dequeue()!
+                sameInstructions.append(instruction)
+                
+                top = instructions.top()
+            } else {
+                break
+            }
+        }
+        
+        dataFlow = .loading
+        currentInstructionType = firstInstruction.instructionType
+        
+        await withTaskGroup(of: Void.self) { [weak self] taskGroup in
+            for instruction in sameInstructions {
+                taskGroup.addTask { [weak self] in
+                    guard let self = self else {
+                        instruction.completion(.failure(CommonError.referenceError(reason: "Self is nil")))
+                        return
+                    }
+                    
+                    do {
+                        let result = try await instruction.action(self.dataType, instruction.parameter)
+                        instruction.completion(.success(result))
+                    } catch {
+                        instruction.completion(.failure(error))
+                    }
+                }
+            }
         }
         
         currentInstructionType = .none

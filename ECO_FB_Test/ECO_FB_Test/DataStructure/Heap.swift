@@ -47,6 +47,14 @@ struct Heap<T: Comparable> {
         return removed
     }
     
+    mutating func peek() -> T? {
+        if isEmpty {
+            return nil
+        }
+        
+        return elements[rootIndex]
+    }
+    
     private func leftChild(of index: Int) -> Int {
         return index * 2
     }
