@@ -12,7 +12,14 @@ struct UserTestView: View {
     @Environment(AuthManager.self) private var authManager: AuthManager
     @Environment(DataManager.self) private var dataManager: DataManager
     @State private var goods: [Goods] = []
-    @State private var dataFetchFlow: DataFetchFlow = .none
+    
+    private var dataFlowOfUser: DataFlow {
+        DataManager.shared.getDataFlow(of: .user)
+    }
+    
+    private var dataFlowOfGoods: DataFlow {
+        DataManager.shared.getDataFlow(of: .goods)
+    }
     
     var body: some View {
         VStack {
@@ -99,7 +106,7 @@ struct UserTestView: View {
                 }
             }
             
-            if dataFetchFlow == .loading {
+            if dataFlowOfUser == .loading || dataFlowOfGoods == .loading {
                 Text("데이터 로딩중...")
                     .font(.largeTitle)
                     .fontWeight(.bold)
