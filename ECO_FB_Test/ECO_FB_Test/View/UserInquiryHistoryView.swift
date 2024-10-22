@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct UserInquiryHistoryView: View {
-    private static var isFirstLoad: Bool = true
     @Environment(UserStore.self) private var userStore: UserStore
     @Environment(OneToOneInquiryStore.self) private var inquiryStore: OneToOneInquiryStore
     
@@ -54,12 +53,8 @@ struct UserInquiryHistoryView: View {
                 }
             }
             .task {
-                if UserInquiryHistoryView.isFirstLoad {
-                    await loadInquiries()
-                    UserInquiryHistoryView.isFirstLoad = false
-                    
-                    print("로드 성공")
-                }
+                await loadInquiries()
+                print("로드 성공")
             }
         }
     }
