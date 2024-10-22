@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 @Observable
-final class OneToOneInquiryStore: DataControllable {
+final class OneToOneInquiryStore: DataControllable{
     static let shared: OneToOneInquiryStore = OneToOneInquiryStore()
     private let db: Firestore = DataManager.shared.db
     private let collectionName: String = "OneToOneInquiry"
@@ -153,4 +153,38 @@ final class OneToOneInquiryStore: DataControllable {
         
         return oneToOneInquiry
     }
+    
+    //재민님 기존 메소드 제외 새로 만든 메소드들(기존 메소드는 건들지 않았습니다)
+    
+    //질문 보내기
+    func saveInquiry(inquiry: OneToOneInquiry) async throws {
+           do {
+               let _ = try await db.collection(collectionName).document(inquiry.id).setData([
+                   "creation_date": inquiry.creationDate.getFormattedString("yyyy-MM-dd-HH-mm"),
+                   "user_id": inquiry.user.id,
+                   "seller_id": inquiry.seller.id,
+                   "title": inquiry.title,
+                   "question": inquiry.question,
+                   "answer": inquiry.answer
+               ])
+               oneToOneInquiries.append(inquiry)
+           } catch {
+               throw error
+           }
+       }
+   
+    //답변 업데이트
+    func updateInquiryAnswer(inquiryID: String, answer: String) async throws {
+          let inquiryRef = db.collection(collectionName).document(inquiryID)
+        
+          // Firestore 답변 업데이트
+          try await inquiryRef.updateData([
+              "answer": answer,
+            //  "creation_date":Date().getFormattedDate(dateString: creationDateString, "yyyy-MM-dd-HH-mm")// 시간찍기
+          ])
+      }
+    
+    func removeAll() {
+           oneToOneInquiries.removeAll()
+       }
 }

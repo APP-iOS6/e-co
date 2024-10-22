@@ -10,6 +10,7 @@ import XCTest
 
 final class ECO_FB_TestTests: XCTestCase {
     
+
     func testOneToOneInquiryWithUserFetch() async throws {
         _ = await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryAllWithUser(userID: "dnjsgh4829@hs.ac.kr", limit: 100)) { _ in
             
@@ -40,6 +41,13 @@ final class ECO_FB_TestTests: XCTestCase {
 //        
 //        XCTAssertEqual(paymentInfo, expect)
 //    }
+
+
+    func testGetAllSellers() async {
+        let result = await DataManager.shared.getAllSellers()
+        print(result)
+    }
+    
 
     func testReviewUpdate() async throws {
         let userResult = await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: "idntno0505@gmail.com", shouldReturnUser: true)) { _ in
