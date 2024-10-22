@@ -23,7 +23,7 @@ struct OrderStatusView: View {
                             AsyncImage(url: cartElement.goods.thumbnailImageURL) { phase in
                                 if let image = phase.image {
                                     image.resizable()
-                                        .frame(width: 70, height: 70)
+                                        .frame(width: 100, height: 100)
                                         .cornerRadius(8)
                                 } else {
                                     ProgressView()
@@ -33,14 +33,17 @@ struct OrderStatusView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(cartElement.goods.name)
                                     .font(.headline)
-                                Text("\(cartElement.goods.formattedPrice)   -   \(cartElement.goodsCount)개")
+                                    .lineLimit(2) // 최대 두 줄까지 허용 (더 넓게 사용)
+                                    .multilineTextAlignment(.leading) // 왼쪽 정렬
+                                Text("\(cartElement.goods.formattedPrice)   \(cartElement.goodsCount)개")
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
+                            .layoutPriority(1) // 텍스트가 공간을 우선 차지하게 함
 
                             Spacer()
 
-                            // 주문 상세보기 링크
+                            // 작은 크기의 투명한 NavigationLink
                             NavigationLink(destination: OrderDetailView(
                                 isCredit: .constant(true),
                                 isZeroWaste: .constant(true),
@@ -50,19 +53,27 @@ struct OrderStatusView: View {
                                 } ?? 0,
                                 requestMessage: .constant("문앞에 놔주세요")
                             )) {
-                                EmptyView()
+                                
                             }
-                            .opacity(0) // 링크 표시 숨기기
+                            .frame(width: 20) // 최소한의 공간만 차지
                         }
-
                         // 교환 및 배송 조회 버튼
                         HStack {
                             Button("교환, 반품 신청") {
                                 showExchangeAlert = true
                             }
                             .buttonStyle(.bordered)
-                            .alert("판매자에게 문의해주세요.\nMy-지원-문의하기-1:1문의", isPresented: $showExchangeAlert) {
-                                Button("확인", role: .cancel) { }
+                            .foregroundStyle(.black)
+                            .alert(isPresented: $showExchangeAlert) {
+                                Alert(
+                                    title: Text("판매자에게 문의해주세요.")
+                                        .font(.headline)
+                                        .foregroundColor(.black),
+                                    message: Text("My-지원-문의하기-1:1문의")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray),
+                                    dismissButton: .default(Text("확인"))
+                                )
                             }
 
                             Spacer()
@@ -72,8 +83,16 @@ struct OrderStatusView: View {
                             }
                             .buttonStyle(.borderedProminent)
                             .foregroundColor(.white)
-                            .alert("현재 판매자가 주문을 확인하고 있습니다.\n곧 배송이 시작될 예정입니다.\n감사합니다.", isPresented: $showShippingAlert) {
-                                Button("확인", role: .cancel) { }
+                            .alert(isPresented: $showShippingAlert) {
+                                Alert(
+                                    title: Text("현재 판매자가 주문을 확인하고 있습니다.")
+                                        .font(.headline)
+                                        .foregroundColor(.black),
+                                    message: Text("곧 배송이 시작될 예정입니다.\n감사합니다.")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray),
+                                    dismissButton: .default(Text("확인"))
+                                )
                             }
                         }
                         .padding(.vertical, 2)

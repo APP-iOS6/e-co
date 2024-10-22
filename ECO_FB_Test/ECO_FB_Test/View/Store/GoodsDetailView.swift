@@ -10,6 +10,7 @@ import NukeUI
 
 struct GoodsDetailView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(UserStore.self) private var userStore: UserStore
     var goods: Goods
     var thumbnail: URL
     @State var moveToCart: Bool = false
@@ -164,6 +165,9 @@ struct GoodsDetailView: View {
             }
         }
         .padding()
+        .onAppear {
+            userStore.saveToRecentlyViewed(goods: goods)  // UserStore에 저장 로직 호출
+        }
     }
 }
 

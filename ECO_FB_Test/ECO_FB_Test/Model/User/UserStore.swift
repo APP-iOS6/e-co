@@ -3,7 +3,7 @@
 //  ECO_FB_Test
 //
 //  Created by Jaemin Hong on 10/11/24.
-// 
+//
 
 import Foundation
 import Combine
@@ -36,7 +36,7 @@ final class UserStore: DataControllable {
         guard case let .userSearch(id) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a user search")
         }
-
+        
         do {
             let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
@@ -67,7 +67,7 @@ final class UserStore: DataControllable {
             } else {
                 result = try await getUserWithNoReturn(id: id)
             }
-
+            
             return result
         } catch {
             throw error
@@ -237,5 +237,49 @@ final class UserStore: DataControllable {
         }
         
         return goodsIDs
+    }
+    
+    // 최근 본 상품 저장 함수 (중복 방지 + 최신 본 상품 맨 위로 이동)
+    func saveToRecentlyViewed(goods: Goods) {
+        guard var user = userData else { return }
+        
+        // 최근 본 상품 배열로 변환
+        var recentGoods = Array(user.goodsRecentWatched)
+        
+        // 이미 있는 상품이면 삭제 후 맨 앞에 추가
+        if let index = recentGoods.firstIndex(of: goods) {
+            recentGoods.remove(at: index)
+        }
+        
+        // 상품을 맨 앞에 추가
+        recentGoods.insert(goods, at: 0)
+        
+        // 최대 10개의 항목만 유지, 초과 시 가장 오래된 항목 삭제
+        if recentGoods.count > 10 {
+            recentGoods.removeLast()
+        }
+        
+        // 업데이트된 배열을 Set으로 변환하여 저장
+        user.goodsRecentWatched = Set(recentGoods)
+        
+        // 업데이트된 유저 데이터를 저장
+        userData = user
+        
+        // 파이어베이스에 동기화 (옵션)
+        Task {
+            do {
+                try await updateUserDataInFirestore(user: user)
+            } catch {
+                print("Failed to update user data in Firestore: \(error)")
+            }
+        }
+    }
+    
+    // Firestore에 유저 데이터 업데이트
+    private func updateUserDataInFirestore(user: User) async throws {
+        let recentWatchedIDs = user.goodsRecentWatched.map { $0.id }
+        try await db.collection("User").document(user.id).setData([
+            "goods_recent_watched": recentWatchedIDs
+        ], merge: true)
     }
 }
