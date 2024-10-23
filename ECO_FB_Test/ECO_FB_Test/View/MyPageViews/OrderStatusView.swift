@@ -117,7 +117,6 @@ struct OrderStatusView: View {
                                     )
                                 }
                             }
-                            .padding(.vertical, 2)
                             
                             // 구매 후기 쓰기 버튼을 네비게이션 링크로 구현
                             NavigationLink(destination: ReviewWriteView(order: cartElement)) {
@@ -125,8 +124,8 @@ struct OrderStatusView: View {
                                     .frame(maxWidth: .infinity, maxHeight: 50)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.vertical, 8)
                         }
+                        .listRowSeparator(.hidden)
                     }
                 }
                 .listStyle(.insetGrouped)
