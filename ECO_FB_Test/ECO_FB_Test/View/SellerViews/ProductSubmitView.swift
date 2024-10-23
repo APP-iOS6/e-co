@@ -22,6 +22,7 @@ struct ProductSubmitView: View {
     @State var goodsImage: Image? = nil
     @State var selectedUIImage: UIImage? = nil
     @State var showImagePicker: Bool = false
+    @State var inputText: String = ""
     
     private var isEmptyAnyFields: Bool {    //
         selectedCategory == nil || goodsName.isEmpty || goodsContent.isEmpty || goodsPrice.isEmpty || goodsImage == nil
@@ -61,7 +62,13 @@ struct ProductSubmitView: View {
                     HStack{
                         TextField("등록하려는 상품 가격을 입력해주세요.", text: $goodsPrice)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .textContentType(.telephoneNumber)
+                            .keyboardType(.numberPad)
+                            .onChange(of: goodsPrice) { oldValue, newValue in
+                                let filtered = newValue.filter(\.isNumber)
+                                if filtered != newValue {
+                                    goodsPrice = filtered
+                                }
+                            }
                         Text("원")
                             .bold()
                     }
