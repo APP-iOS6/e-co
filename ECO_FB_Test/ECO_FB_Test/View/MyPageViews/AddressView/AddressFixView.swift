@@ -8,8 +8,8 @@ import SwiftUI
 import WebKit
 
 struct AddressFixView: View {
-    @Binding var addresses: [Address]
-    @State var addressToFix: Address
+    @Binding var addresses: [AddressData]
+    @State var addressToFix: AddressData
     @Environment(\.presentationMode) var presentationMode
     
     @State private var name: String
@@ -24,7 +24,7 @@ struct AddressFixView: View {
     
     let requests = ["문 앞에 놓아주세요", "경비실에 맡겨주세요", "도착 전 연락바랍니다", "노크,초인종 하지말아주세요"]
 
-    init(addresses: Binding<[Address]>, addressToFix: Address) {
+    init(addresses: Binding<[AddressData]>, addressToFix: AddressData) {
         self._addresses = addresses
         self._addressToFix = State(initialValue: addressToFix)
         _name = State(initialValue: addressToFix.name)
@@ -139,7 +139,7 @@ struct AddressFixView: View {
 
 #Preview {
     //임시 데이터를 사용하여 Binding을 제공.
-    @Previewable @State var previewAddresses = [Address(name: "김민수", address: "서울시 강남구", phoneNumber: "010-1234-5678")]
+    @Previewable @State var previewAddresses = [AddressData(name: "김민수", address: "서울시 강남구", phoneNumber: "010-1234-5678")]
 
     AddressFixView(addresses: $previewAddresses, addressToFix: previewAddresses[0])
 }

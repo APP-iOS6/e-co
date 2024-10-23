@@ -20,6 +20,14 @@ struct Heap<T: Comparable> {
         self.sortBy = sortBy
     }
     
+    func peek() -> T? {
+        if isEmpty {
+            return nil
+        }
+        
+        return elements[rootIndex]
+    }
+    
     mutating func insert(_ node: T) {
         if elements.isEmpty {
             elements.append(node)
@@ -35,7 +43,7 @@ struct Heap<T: Comparable> {
     }
     
     mutating func remove() -> T? {
-        if isEmpty {
+        if isEmpty || elements.isEmpty {
             return nil
         }
         

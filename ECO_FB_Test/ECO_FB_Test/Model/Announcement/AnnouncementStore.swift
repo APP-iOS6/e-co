@@ -36,6 +36,11 @@ final class AnnouncementStore: DataControllable {
             
             return result
         } catch {
+            if error is DataError {
+                print("Error In Announcement Store: \(error)")
+                return DataResult.none
+            }
+            
             throw error
         }
     }

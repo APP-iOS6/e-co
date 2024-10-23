@@ -44,6 +44,11 @@ final class CardInfoStore: DataControllable {
             
             return DataResult.cardInfo(result: cardInfo)
         } catch {
+            if error is DataError {
+                print("Error In Goods Store: \(error)")
+                return DataResult.none
+            }
+            
             throw error
         }
     }

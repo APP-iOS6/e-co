@@ -30,6 +30,11 @@ final class PaymentInfoStore: DataControllable {
             
             return result
         } catch {
+            if error is DataError {
+                print("Error In PaymentInfo Store: \(error)")
+                return DataResult.none
+            }
+            
             throw error
         }
     }

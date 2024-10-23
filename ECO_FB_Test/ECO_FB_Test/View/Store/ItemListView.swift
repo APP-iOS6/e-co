@@ -18,6 +18,7 @@ struct ItemListView: View {
         GridItem()
     ]
 
+    @Binding var dataUpdateFlow: DataFlow
     @Binding var isNeedLogin: Bool
     
     var body: some View {

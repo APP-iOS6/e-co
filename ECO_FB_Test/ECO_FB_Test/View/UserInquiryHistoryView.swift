@@ -11,13 +11,13 @@ struct UserInquiryHistoryView: View {
     @Environment(UserStore.self) private var userStore: UserStore
     @Environment(OneToOneInquiryStore.self) private var inquiryStore: OneToOneInquiryStore
     
-    @State private var isLoading = true
+    @State private var dataFetchFlow: DataFlow = .none
     @State private var errorMessage: String?
     
     var body: some View {
         NavigationView {
             ZStack {
-                if isLoading {
+                if dataFetchFlow == .loading {
                     ProgressView("로딩 중...")
                         .progressViewStyle(CircularProgressViewStyle(tint: .accentColor))
                         .scaleEffect(1.5, anchor: .center)
@@ -67,12 +67,11 @@ struct UserInquiryHistoryView: View {
             }
             _ = try await DataManager.shared.fetchData(
                 type: .oneToOneInquiry,
-                parameter: .oneToOneInquiryAllWithUser(userID: user.id, limit: 10)
+                parameter: .oneToOneInquiryAllWithUser(userID: user.id, limit: 10),
+                flow: $dataFetchFlow
             )
-            isLoading = false
         } catch {
             errorMessage = "데이터를 불러오는데 실패했습니다."
-            isLoading = false
         }
     }
 }

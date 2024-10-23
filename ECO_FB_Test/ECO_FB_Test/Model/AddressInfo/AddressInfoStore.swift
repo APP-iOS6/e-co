@@ -35,6 +35,11 @@ final class AddressInfoStore: DataControllable {
             let addressInfo = AddressInfo(id: id, recipientName: recipientName, phoneNumber: phoneNumber, address: address)
             return DataResult.addressInfo(result: addressInfo)
         } catch {
+            if error is DataError {
+                print("Error In AddressInfo Store: \(error)")
+                return DataResult.none
+            }
+            
             throw error
         }
     }

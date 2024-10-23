@@ -12,10 +12,7 @@ struct CartView: View {
     @State private var selectedGoods: [CartElement] = []
     @State private var totalPrice: Int = 0
     @State private var isSelectedAll: Bool = false
-    
-    private var dataUpdateFlow: DataFlow {
-        DataManager.shared.getDataFlow(of: .user)
-    }
+    @State private var dataUpdateFlow: DataFlow = .none
     
     var body: some View {
         ZStack {
@@ -41,14 +38,18 @@ struct CartView: View {
                                     }
                                     
                                     Task {
-                                        _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: userData.id, user: userData))
+                                        _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: userData.id, user: userData), flow: $dataUpdateFlow)
+                                        
+                                        if dataUpdateFlow == .didLoad {
+                                            isSelectedAll = false
+                                        }
                                     }
                                 }
                                 .foregroundStyle(.red)
                                 .disabled(dataUpdateFlow == .loading)
+
                             }
                         }
-                        
                         
                         ScrollView {
                             VStack {

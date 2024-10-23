@@ -35,16 +35,24 @@ final class OneToOneInquiryStore: DataControllable{
             throw DataError.fetchError(reason: "The DataParam is not a oneToOneInquiry all")
         }
         
-        oneToOneInquiryList.removeAll()
-        
-        var result = DataResult.none
-        if oneToOneInquiryList.isEmpty {
-            result = try await getFirstPage(queryFieldName: queryFieldName, id: id, limit: fetchLimit)
-        } else {
-            result = try await getNextPage(queryFieldName: queryFieldName, id: id, limit: fetchLimit)
+        do {
+            var result = DataResult.none
+            
+            if oneToOneInquiryList.isEmpty {
+                result = try await getFirstPage(queryFieldName: queryFieldName, id: id, limit: fetchLimit)
+            } else {
+                result = try await getNextPage(queryFieldName: queryFieldName, id: id, limit: fetchLimit)
+            }
+            
+            return result
+        } catch {
+            if error is DataError {
+                print("Error In OneToOneInquiry Store: \(error)")
+                return DataResult.none
+            }
+            
+            throw error
         }
-        
-        return result
     }
     
     func updateData(parameter: DataParam) async throws -> DataResult {

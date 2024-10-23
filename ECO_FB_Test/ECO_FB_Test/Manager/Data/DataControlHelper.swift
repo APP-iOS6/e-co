@@ -3,68 +3,79 @@
 //  ECO_FB_Test
 //
 //  Created by Jaemin Hong on 10/22/24.
-// 
+//
 
 import Foundation
+import Combine
 
 @MainActor
 @Observable
 final class DataControlHelper {
     private let dataType: DataType
+    private var anyCancellables: Set<AnyCancellable> = []
     private var instructions: PriorityQueue<DataInstruction> = PriorityQueue {
-        $0 > $1
+        $0 < $1
     }
-    private(set) var dataFlow: DataFlow = .none {
-        didSet {
-            handleDataFlow()
-        }
-    }
-    private(set) var currentInstructionType: InstructionType = .none
     
     init(dataType: DataType) {
         self.dataType = dataType
+        
+        let timer = Timer.publish(every: 0.3, on: .main, in: .default).autoconnect()
+        timer
+            .sink { [weak self] _ in
+                Task {
+                    await self?.executeNextInstruction()
+                }
+            }
+            .store(in: &anyCancellables)
     }
     
     func insertInstruction(_ instruction: DataInstruction) {
         instructions.enqueue(instruction)
-        
-        if dataFlow == .none {
-            dataFlow = .didLoad
-        }
-    }
-    
-    private func handleDataFlow() {
-        switch dataFlow {
-        case .none, .loading:
-            break
-        case .didLoad:
-            Task {
-                await executeNextInstruction()
-                
-            }
-        }
     }
     
     private func executeNextInstruction() async {
-        let instruction = instructions.dequeue()
+        let firstInstruction = instructions.dequeue()
         
-        guard let instruction else {
-            dataFlow = .none
-            currentInstructionType = .none
+        guard let firstInstruction else {
             return
         }
         
-        currentInstructionType = instruction.instructionType
-        dataFlow = .loading
+        var top = instructions.top()
+        var sameInstructions: [DataInstruction] = []
+        sameInstructions.append(firstInstruction)
         
-        do {
-            let result = try await instruction.action(dataType, instruction.parameter)
-            instruction.completion(.success(result))
-        } catch {
-            instruction.completion(.failure(error))
+        while top != nil {
+            if top!.instructionType == firstInstruction.instructionType {
+                let instruction = instructions.dequeue()!
+                sameInstructions.append(instruction)
+                
+                top = instructions.top()
+            } else {
+                break
+            }
         }
         
-        currentInstructionType = .none
-        dataFlow = .didLoad
+        await withTaskGroup(of: Void.self) { [weak self] taskGroup in
+            for instruction in sameInstructions {
+                taskGroup.addTask { [weak self] in
+                    guard let self = self else {
+                        instruction.completion(.failure(CommonError.referenceError(reason: "Self is nil")))
+                        return
+                    }
+                    
+                    do {
+                        instruction.dataFlow?.wrappedValue = .loading
+                        
+                        let result = try await instruction.action(self.dataType, instruction.parameter)
+                        
+                        instruction.dataFlow?.wrappedValue = .didLoad
+                        instruction.completion(.success(result))
+                    } catch {
+                        instruction.completion(.failure(error))
+                    }
+                }
+            }
+        }
     }
 }

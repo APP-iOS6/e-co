@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct Address: Identifiable {
+struct AddressData: Identifiable {
     let id = UUID()
     var name: String
     var address: String
@@ -15,10 +15,10 @@ struct Address: Identifiable {
 
 struct AddressListView: View {
     @State private var addresses = [
-        Address(name: "김민준", address: "경기 용인시 수지구 만현로 79 507-1003", phoneNumber: "010-8950-7687")
+        AddressData(name: "김민준", address: "경기 용인시 수지구 만현로 79 507-1003", phoneNumber: "010-8950-7687")
     ]
     @State private var selectedAddress: UUID?
-    @State private var addressToFix: Address?
+    @State private var addressToFix: AddressData?
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {

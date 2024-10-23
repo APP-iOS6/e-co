@@ -17,6 +17,10 @@ struct PriorityQueue<T: Comparable> {
     var isEmpty: Bool { heap.isEmpty }
     var count: Int { heap.count }
     
+    func top() -> T? {
+        return heap.peek()
+    }
+    
     mutating func dequeue() -> T? {
         return heap.remove()
     }

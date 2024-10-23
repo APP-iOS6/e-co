@@ -42,5 +42,7 @@
 		<string>kakaolink</string>
 		<string>kakaokompassauth</string>
 	</array>
+	<key>RestKey</key>
+	<string>$(RestKey)</string>
 </dict>
 </plist>

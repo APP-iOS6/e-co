@@ -24,10 +24,8 @@ struct OrderView: View {
     @State private var isShowAlert: Bool = false
     @State private var isComplete: Bool = false // true: 주문완료, false: 주문하기
     @State private var progress: Int = 0
-    
-    private var dataUpdateFlow: DataFlow {
-        DataManager.shared.getDataFlow(of: .paymentInfo)
-    }
+    @State private var dataUpdateFlow: DataFlow = .none
+
     private var isDidUpdate: Bool {
         dataUpdateFlow == .didLoad
     }
@@ -131,12 +129,11 @@ struct OrderView: View {
                         progress = 1
                         
                         Task {
-                            isUpdateOfPaymentFlow = true
-                            
-                            _ = try await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: user.id, paymentInfo: PaymentInfo(id: UUID().uuidString, userID: user.id, deliveryRequest: requestMessage, paymentMethod: isCredit ? .card : .bank, addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: user.name, phoneNumber: "010-0000-0000", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호")])))
-                            
-                            user.cart.removeAll()
-                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+// TODO: 장바구니 비우기
+//                            isUpdateOfPaymentFlow = true
+//                            user.cart.removeAll()
+//                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                            _ = try await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: user.id, paymentInfo: PaymentInfo(id: UUID().uuidString, userID: user.id, deliveryRequest: requestMessage, paymentMethod: isCredit ? .card : .bank, addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: user.name, phoneNumber: "010-0000-0000", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호")])), flow: $dataUpdateFlow)
                         }
                     } label: {
                         Text("결제하기")
@@ -151,7 +148,7 @@ struct OrderView: View {
                 if let user = userStore.userData {
                     isUpdateOfPaymentFlow = false
                     
-                    _ = try await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoAll(userID: user.id))
+                    _ = try await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoAll(userID: user.id), flow: $dataUpdateFlow)
                 }
             }
         }

@@ -22,15 +22,24 @@ final class ReviewStore: DataControllable {
             throw DataError.fetchError(reason: "The DataParam is not a review all")
         }
         
-        var dataResult: DataResult = .review(result: result)
-        
-        if result.isEmpty {
-            dataResult = try await getFirstPage(id: goodsID, limit: limit, result: result)
-        } else {
-            dataResult = try await getNextPage(id: goodsID, limit: limit, result: result)
+        do {
+            var dataResult: DataResult = .review(result: result)
+            
+            if result.isEmpty {
+                dataResult = try await getFirstPage(id: goodsID, limit: limit, result: result)
+            } else {
+                dataResult = try await getNextPage(id: goodsID, limit: limit, result: result)
+            }
+            
+            return dataResult
+        } catch {
+            if error is DataError {
+                print("Error In Review Store: \(error)")
+                return DataResult.none
+            }
+            
+            throw error
         }
-        
-        return dataResult
     }
     
     func updateData(parameter: DataParam) async throws -> DataResult {
@@ -80,7 +89,7 @@ final class ReviewStore: DataControllable {
         do {
             let snapshots = try await db.collection(collectionName)
                                       .whereField("goods_id", isEqualTo: id)
-                                      .order(by: "star_count")
+                                      .order(by: "star_count", descending: true)
                                       .order(by: "creation_date")
                                       .limit(to: limit)
                                       .getDocuments()
@@ -108,7 +117,7 @@ final class ReviewStore: DataControllable {
         do {
             let snapshots = try await db.collection(collectionName)
                                       .whereField("goods_id", isEqualTo: id)
-                                      .order(by: "star_count")
+                                      .order(by: "star_count", descending: true)
                                       .order(by: "creation_date")
                                       .start(afterDocument: last)
                                       .limit(to: limit)

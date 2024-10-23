@@ -6,6 +6,7 @@
 // 
 
 import Foundation
+import SwiftUI
 import FirebaseFirestore
 
 @MainActor
@@ -35,14 +36,6 @@ final class DataManager {
             dataControlHelpers.append(DataControlHelper(dataType: dataType))
             dataResults.append(.none)
         }
-    }
-    
-    func getInstructionType(of type: DataType) -> InstructionType {
-        return dataControlHelpers[type.rawValue].currentInstructionType
-    }
-    
-    func getDataFlow(of type: DataType) -> DataFlow {
-        return dataControlHelpers[type.rawValue].dataFlow
     }
     
     /**
@@ -107,10 +100,11 @@ final class DataManager {
         - parameter: 가져올 대상의 정보, 뒤에 Load가 붙은 값들을 쓰거나 특정 대상에 한해 All이 붙은 값을 쓸 수 있습니다. 예) 유저라면 .userLoad(id)
      - Returns: 가져온 데이터, 만약 가져온 데이터를 Store 자체에서 저장한다면 반환값은 none이고, 데이터를 가져올 수 없다면 error가 반환됩니다.
      */
-    func fetchData(type: DataType, parameter: DataParam) async throws -> DataResult {
+    func fetchData(type: DataType, parameter: DataParam, flow: Binding<DataFlow>? = nil) async throws -> DataResult {
         return try await withCheckedThrowingContinuation { continuation in
             let instruction: DataInstruction = DataInstruction(
                 instructionType: .fetch,
+                dataFlow: flow,
                 parameter: parameter,
                 action: { [weak self] type, parameter in
                     guard let self = self else {
@@ -141,10 +135,11 @@ final class DataManager {
         - type: 업데이트 할 대상, 예) 유저라면 .user
         - parameter: 업데이트 할 대상의 정보, 뒤에 Update가 붙은 값들을 써야합니다. 예) 유저라면 .userUpdate(id, user)
      */
-    func updateData(type: DataType, parameter: DataParam) async throws -> DataResult {
+    func updateData(type: DataType, parameter: DataParam, flow: Binding<DataFlow>? = nil) async throws -> DataResult {
         return try await withCheckedThrowingContinuation { continuation in
             let instruction: DataInstruction = DataInstruction(
                 instructionType: .update,
+                dataFlow: flow,
                 parameter: parameter,
                 action: { [weak self] type, parameter in
                     guard let self = self else {
@@ -177,10 +172,11 @@ final class DataManager {
         - type: 삭제할 대상, 예) 유저라면 .user
         - parameter: 삭제할 대상의 정보, 뒤에 Delete가 붙은 값들을 써야합니다. 예) 상품이라면 .goodsDelete()
      */
-    func deleteData(type: DataType, parameter: DataParam) async throws -> DataResult {
+    func deleteData(type: DataType, parameter: DataParam, flow: Binding<DataFlow>? = nil) async throws -> DataResult {
         return try await withCheckedThrowingContinuation { continuation in
             let instruction: DataInstruction = DataInstruction(
                 instructionType: .delete,
+                dataFlow: flow,
                 parameter: parameter,
                 action: { [weak self] type, parameter in
                     guard let self = self else {
