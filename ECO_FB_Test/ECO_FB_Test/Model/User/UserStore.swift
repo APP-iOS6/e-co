@@ -112,7 +112,13 @@ final class UserStore: DataControllable {
             goodsCartIDs.append(cartInfo)
         }
         
-        let recentWatchedIDs: [String] = getGoodsIDArray(goodsSet: user.goodsRecentWatched)
+        var recentWatchedDic: [String: String] = [:]
+        for recentWatchedInfo in user.goodsRecentWatched {
+            let goodsID = recentWatchedInfo.goods.id
+            let dateString = recentWatchedInfo.watchedDate.getFormattedString("yyyy-MM-dd-HH-mm")
+            recentWatchedDic[goodsID] = dateString
+        }
+        
         let goodsFavoritedIDs: [String] = getGoodsIDArray(goodsSet: user.goodsFavorited)
         
         do {
@@ -123,7 +129,7 @@ final class UserStore: DataControllable {
                 "profile_image": user.profileImageURL.absoluteString,
                 "point": user.pointCount,
                 "cart": goodsCartIDs,
-                "goods_recent_watched": recentWatchedIDs,
+                "goods_recent_watched": recentWatchedDic,
                 "goods_favorited": goodsFavoritedIDs
             ])
         } catch {
@@ -210,7 +216,7 @@ final class UserStore: DataControllable {
             let pointCount = docData["point"] as? Int ?? 0
             
             var cart: Set<CartElement> = []
-            var goodsRecentWatched: Set<Goods> = []
+            var goodsRecentWatched: Set<RecentWatchedGoodsInfo> = []
             var goodsFavorited: Set<Goods> = []
             
             if !isSeller {
@@ -228,31 +234,30 @@ final class UserStore: DataControllable {
                     }
                 }
                 
-                goodsRecentWatched = try await getGoodsSet(field: "goods_recent_watched", docData: docData)
-                goodsFavorited = try await getGoodsSet(field: "goods_favorited", docData: docData)
+                let recentWatched = docData["goods_recent_watched"] as? [String: String] ?? [:]
+                for (id, dateString) in recentWatched {
+                    let goodsResult = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: id))
+                    
+                    if case .goods(let goods) = goodsResult {
+                        let date: Date = Date().getFormattedDate(dateString: dateString, "yyyy-MM-dd-HH-mm")
+                        let watchedGoodsInfo = RecentWatchedGoodsInfo(id: UUID().uuidString, goods: goods, watchedDate: date)
+                        
+                        goodsRecentWatched.insert(watchedGoodsInfo)
+                    }
+                }
+                
+                let goodsIDs = docData["goods_favorited"] as? [String] ?? []
+                for goodsID in goodsIDs {
+                    let goodsResult = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID))
+                    
+                    if case let .goods(result) = goodsResult {
+                        goodsFavorited.insert(result)
+                    }
+                }
             }
             
             let user = User(id: id, loginMethod: loginMethod, isSeller: isSeller, name: name, profileImageURL: url, pointCount: pointCount, cart: cart, goodsRecentWatched: goodsRecentWatched, goodsFavorited: goodsFavorited)
             return user
-        } catch {
-            throw error
-        }
-    }
-    
-    private func getGoodsSet(field: String, docData: [String: Any]) async throws -> Set<Goods> {
-        do {
-            var resultSet: Set<Goods> = []
-            let goodsIDs = docData[field] as? [String] ?? []
-            
-            for goodsID in goodsIDs {
-                let goodsResult = try await DataManager.shared.fetchData(type: .goods, parameter: .goodsLoad(id: goodsID))
-                
-                if case let .goods(result) = goodsResult {
-                    resultSet.insert(result)
-                }
-            }
-            
-            return resultSet
         } catch {
             throw error
         }

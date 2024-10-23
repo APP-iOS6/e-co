@@ -15,7 +15,7 @@ struct User: Identifiable, Hashable {
     let profileImageURL: URL
     var pointCount: Int
     var cart: Set<CartElement>
-    var goodsRecentWatched: Set<Goods>
+    var goodsRecentWatched: Set<RecentWatchedGoodsInfo>
     var goodsFavorited: Set<Goods>
     
     var arrayCart: [CartElement] {
@@ -26,10 +26,10 @@ struct User: Identifiable, Hashable {
         return cart.map(\.self).sorted(using: sortOrder)
     }
     
-    var arrayRecentWatched: [Goods] {
+    var arrayRecentWatched: [RecentWatchedGoodsInfo] {
         let sortOrder: [KeyPathComparator] = [
-            KeyPathComparator(\Goods.name),
-            KeyPathComparator(\Goods.price),
+            KeyPathComparator(\RecentWatchedGoodsInfo.watchedDate),
+            KeyPathComparator(\RecentWatchedGoodsInfo.goods.price),
         ]
         
         return goodsRecentWatched.map(\.self).sorted(using: sortOrder)
