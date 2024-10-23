@@ -54,6 +54,7 @@ struct SellerInquiryView: View {
                 }
             }
             .task {
+                inquiryStore.removeALL()
                 await loadInquiries()
                 print("로드 성공")
             }

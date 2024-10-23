@@ -13,62 +13,68 @@ struct SellerInquiryDetailView: View {
     @State private var answer: String = ""
     let inquiryStore = OneToOneInquiryStore.shared
     let inquiry: OneToOneInquiry
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        VStack(spacing: 40){            
-            LazyVGrid(columns: [GridItem(.fixed(40)), GridItem(.flexible())], spacing: 10) {
-                Text("제목:")
-                //.font(.headline)
-                Text(inquiry.title)
-                //.font(.title3)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("셀러:")
-                Text(inquiry.seller.name)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("질문:")
-                // .font(.headline)
-                Text(inquiry.question)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("날짜:")
-                //.font(.headline)
-                Text(inquiry.creationDate, style: .date)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("답변:")
-            }
-            
-            
-            if inquiry.answer.isEmpty {
-                TextEditor(text: $answer)
-                    .frame(height: 300)
-                    .border(Color.gray, width: 1)
-                    .padding(.top, -40)
-                Button(action: {
-                    submitAnswer()
-                }) {
-                    Text("답변 제출")
-                        .font(.headline)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.accentColor)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+        ScrollView{
+            VStack(spacing: 40){
+                LazyVGrid(columns: [GridItem(.fixed(40)), GridItem(.flexible())], spacing: 10) {
+                    Text("제목:")
+                    //.font(.headline)
+                    Text(inquiry.title)
+                    //.font(.title3)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("셀러:")
+                    Text(inquiry.seller.name)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("질문:")
+                    // .font(.headline)
+                    Text(inquiry.question)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("날짜:")
+                    //.font(.headline)
+                    Text(inquiry.creationDate, style: .date)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("답변:")
                 }
-                .padding(.bottom)
-            } else {
-                Text(inquiry.answer)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .lineLimit(nil)
-                    .padding()
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(5)
+                
+                
+                if inquiry.answer.isEmpty {
+                    TextEditor(text: $answer)
+                        .frame(height: 300)
+                        .border(Color.gray, width: 1)
+                        .padding(.top, -40)
+                    Button(action: {
+                        submitAnswer()
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Text("답변 제출")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.accentColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
                     .padding(.bottom)
-                    .padding(.top, -40)
+                } else {
+                    Text(inquiry.answer)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .lineLimit(nil)
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(5)
+                        .padding(.bottom)
+                        .padding(.top, -40)
+                }
+                
+                Spacer()
             }
-            
-            Spacer()
-        }
-        .padding()
-        .navigationTitle("상세 문의 내역")
+            }
+            .padding()
+            .navigationTitle("상세 문의 내역")
+        
     }
+    
     
     private func submitAnswer() {
         //답변 업데이트 될 로직 이 와야할곳
@@ -81,7 +87,8 @@ struct SellerInquiryDetailView: View {
                 let inquiryID = inquiry.id // 업데이트할 문의의 ID
                 var inquiry = inquiry
                 inquiry.answer = answer
-                _ = try await DataManager.shared.fetchData(type: .oneToOneInquiry, parameter: .oneToOneInquiryUpdate(id: inquiryID, inquiry: inquiry))
+                print("업데이트할 문의 내용: \(inquiry)")
+                _ = try await DataManager.shared.updateData(type: .oneToOneInquiry, parameter: .oneToOneInquiryUpdate(id: inquiryID, inquiry: inquiry))
                 print("답변이 성공적으로 업데이트되었습니다.")
                 answer = ""
             } catch {

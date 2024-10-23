@@ -42,7 +42,7 @@ struct SellerBottomView: View {
                 .frame(maxHeight: 90)
                 .padding()
                 
-                NavigationLink(destination: HelpManageView()) {
+                NavigationLink(destination: SellerInquiryView()) {
                     ZStack{
                         Rectangle()
                             .fill(.accent)
