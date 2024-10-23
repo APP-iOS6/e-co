@@ -69,7 +69,7 @@ struct ReviewWriteView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
-
+                    
                     // 이미지 추가 및 미리보기
                     VStack(alignment: .leading) {
                         Button(action: {
@@ -86,25 +86,29 @@ struct ReviewWriteView: View {
                             .cornerRadius(10)
                         }
                         .padding(.bottom, 10)
-
+                        
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 10) {
                                 ForEach(selectedImages, id: \.self) { image in
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 80, height: 80)
-                                        .cornerRadius(8)
-                                        .overlay(
-                                            Button(action: {
-                                                removeImage(image)
-                                            }) {
-                                                Image(systemName: "xmark.circle.fill")
-                                                    .foregroundColor(.white)
-                                                    .background(Circle().fill(Color.black.opacity(0.7)))
-                                            }
-                                            .offset(x: 35, y: -35)
-                                        )
+                                    ZStack(alignment: .topTrailing) { // ZStack으로 이미지와 버튼을 정렬
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 80, height: 80)
+                                            .cornerRadius(8)
+                                            .clipped() // 이미지를 프레임 안에 잘리게 함
+                                        
+                                        // X 버튼 오버레이
+                                        Button(action: {
+                                            removeImage(image) // 이미지 삭제 함수 호출
+                                        }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.white)
+                                                .background(Circle().fill(Color.black.opacity(0.7)))
+                                        }
+                                        .frame(width: 24, height: 24) // 버튼 크기 조정
+                                        .padding(4) // 이미지 모서리와 간격 추가
+                                    }
                                 }
                             }
                         }
