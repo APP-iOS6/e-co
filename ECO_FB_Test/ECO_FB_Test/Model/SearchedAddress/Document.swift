@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Document: Codable {
+struct Document: Identifiable, Codable {
+    let id: String = UUID().uuidString
     let address: Address?
     let roadAddress: RoadAddress
     let addressName: String

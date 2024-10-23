@@ -8,46 +8,41 @@
 import SwiftUI
 import WebKit
 
-struct AddressSearchView: UIViewRepresentable {
-    @Binding var postalCode: String
-    @Binding var address: String
-    @Environment(\.presentationMode) var presentationMode
-
-    func makeUIView(context: Context) -> WKWebView {
-        let webView = WKWebView(frame: .zero)
-        webView.navigationDelegate = context.coordinator
-
-        // 카카오 우편검색 서비스 URL삽입 예쩡
-        let url = URL(string: "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js")!
-        webView.load(URLRequest(url: url))
-
-        return webView
-    }
+struct AddressSearchView: View {
+    @State private var documents: [Document] = []
+    @State private var input: String = ""
     
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
-        var parent: AddressSearchView
-
-        init(_ parent: AddressSearchView) {
-            self.parent = parent
-        }
-
-        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            webView.configuration.userContentController.add(self, name: "addressSelected")
-        }
-        
-        func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-            if message.name == "addressSelected",
-               let body = message.body as? [String: String] {
-                parent.postalCode = body["zonecode"] ?? ""
-                parent.address = body["address"] ?? ""
-                parent.presentationMode.wrappedValue.dismiss()
+    var body: some View {
+        VStack {
+            TextField("주소를 입력해 주세요.", text: $input)
+                .textInputAutocapitalization(.never)
+                .padding(10)
+                .background {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.gray, lineWidth: 1)
+                }
+                .padding(.top, 8)
+                .padding(.horizontal)
+            
+            List(documents) { document in
+                VStack(alignment: .leading) {
+                    Text(document.addressName)
+                        .font(.headline)
+                        .bold()
+                    Text("\(document.roadAddress.region1DepthName) \(document.roadAddress.region2DepthName) \(document.roadAddress.region3DepthName)")
+                        .font(.subheadline)
+                }
             }
+            .listStyle(.plain)
+        }
+        .onChange(of: input) {
+            Task {
+                let result = try await SearchedAddressStore.shared.getAddresses(query: input)
+                documents = result.documents
+            }
+        }
+        .onAppear {
+            UITextField.appearance().clearButtonMode = .whileEditing
         }
     }
 }

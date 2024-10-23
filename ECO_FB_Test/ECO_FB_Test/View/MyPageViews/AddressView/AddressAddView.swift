@@ -108,8 +108,7 @@ struct AddressAddView: View {
             .navigationTitle("배송지 추가")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $isShowingWebView) {
-                AddressSearchManager.presentAddressSearch(postalCode: $postalCode, address: $address)
-                
+                AddressSearchView()
             }
         }
     }

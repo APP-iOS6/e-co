@@ -116,7 +116,7 @@ struct AddressFixView: View {
             .navigationTitle("배송지 수정")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $isShowingWebView) {
-                AddressSearchManager.presentAddressSearch(postalCode: $postalCode, address: $address)
+                AddressSearchView()
             }
         }
     }

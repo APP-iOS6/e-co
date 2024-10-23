@@ -13,7 +13,6 @@
 		18DD4AC42CBF8AD7002AC8EA /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD4AC32CBF8ACD002AC8EA /* HelpView.swift */; };
 		18E668B12CC77A4F00035395 /* AddressFixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E668B02CC77A4800035395 /* AddressFixView.swift */; };
 		18E668B32CC785A400035395 /* AddressSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E668B22CC7859600035395 /* AddressSearchView.swift */; };
-		18E668B52CC785F100035395 /* AddressSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E668B42CC785DA00035395 /* AddressSearchManager.swift */; };
 		4220E3392CC507A200381B51 /* SellerHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220E3382CC507A200381B51 /* SellerHomeView.swift */; };
 		4223D72F2CBCAA3D00F94D1B /* EcoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D72E2CBCAA3D00F94D1B /* EcoView.swift */; };
 		4223D7312CBCAB3000F94D1B /* EcoTopInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */; };
@@ -185,7 +184,6 @@
 		18DD4AC32CBF8ACD002AC8EA /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		18E668B02CC77A4800035395 /* AddressFixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressFixView.swift; sourceTree = "<group>"; };
 		18E668B22CC7859600035395 /* AddressSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchView.swift; sourceTree = "<group>"; };
-		18E668B42CC785DA00035395 /* AddressSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchManager.swift; sourceTree = "<group>"; };
 		4220E3382CC507A200381B51 /* SellerHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerHomeView.swift; sourceTree = "<group>"; };
 		4223D72E2CBCAA3D00F94D1B /* EcoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoView.swift; sourceTree = "<group>"; };
 		4223D7302CBCAB3000F94D1B /* EcoTopInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoTopInfoView.swift; sourceTree = "<group>"; };
@@ -391,7 +389,6 @@
 				18475D502CC73B27004A5214 /* AddressAddView.swift */,
 				18E668B02CC77A4800035395 /* AddressFixView.swift */,
 				18E668B22CC7859600035395 /* AddressSearchView.swift */,
-				18E668B42CC785DA00035395 /* AddressSearchManager.swift */,
 			);
 			path = AddressView;
 			sourceTree = "<group>";
@@ -1132,7 +1129,6 @@
 				FE40BC0F2CB94B0F00786E34 /* DataError.swift in Sources */,
 				50C707AF2CC5DFBE001CAEB5 /* SellerCapsuleTitleView.swift in Sources */,
 				FE6EC1902CC383D400EC9874 /* PaymentMethod.swift in Sources */,
-				18E668B52CC785F100035395 /* AddressSearchManager.swift in Sources */,
 				FE42060C2CBCE2B20004941B /* CartGoodsInfoView.swift in Sources */,
 				FE940C062CC7BF0F0040554E /* DataInstruction.swift in Sources */,
 				FE940C112CC841900040554E /* SearchedAddressStore.swift in Sources */,
