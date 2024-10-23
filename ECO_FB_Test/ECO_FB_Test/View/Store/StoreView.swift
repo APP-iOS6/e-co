@@ -42,14 +42,8 @@ struct StoreView: View {
                         HStack {
                             Spacer()
                             
-                            Button {
-                                isMapVisible.toggle()
-                            } label: {
+                            NavigationLink(destination: StoreLocationView()) {
                                 Text("오프라인 매장찾기")
-                            }
-                            .sheet(isPresented: $isMapVisible) {
-                                StoreLocationView()
-                                    .presentationDragIndicator(.visible)
                             }
                             .padding(.horizontal)
                         }

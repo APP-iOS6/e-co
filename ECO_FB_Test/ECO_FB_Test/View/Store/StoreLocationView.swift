@@ -50,8 +50,16 @@ struct StoreLocationView: View {
                         HStack {
                             Text(shop.name)
                                 .fontWeight(.semibold)
+                                .lineLimit(1)
+                                .frame(width: max(0, GeometryProxy.size.width / 2 - 10), alignment: .leading)
+                                
+                            VStack(alignment: .leading){
+                                Text(shop.phoneNumber)
+                            }
+                            
                             Spacer()
-                            Text(shop.phoneNumber)
+                            Image(systemName: "chevron.right")
+                                .padding(.trailing)
                         }
                     }
                 }
