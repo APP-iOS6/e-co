@@ -30,7 +30,6 @@ struct User: Identifiable, Hashable {
         let sortOrder: [KeyPathComparator] = [
             KeyPathComparator(\Goods.name),
             KeyPathComparator(\Goods.price),
-            KeyPathComparator(\Goods.id)
         ]
         
         return goodsRecentWatched.map(\.self).sorted(using: sortOrder)
