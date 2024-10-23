@@ -122,18 +122,14 @@ struct GoodsDetailView: View {
                                     .bold()
                                 
                                 Spacer()
-                                
-                                Button {
-                                    isShowReview.toggle()
-                                } label: {
+
+                                NavigationLink(destination: ReviewListView(goods: goods)) {
                                     Text("리뷰보기")
                                         .underline()
+                                        .foregroundStyle(Color(uiColor: .darkGray))
                                 }
-                                .foregroundStyle(Color(uiColor: .darkGray))
                             }
-                            .sheet(isPresented: $isShowReview) {
-                                ReviewListView(goods: goods)
-                            }
+
                             Divider()
                             
                             Section(header:

@@ -67,6 +67,7 @@ struct EcoView: View {
         }
         .sheet(isPresented: $showInfoSheet){
             EcoPointInfoView()
+                .presentationDetents([.medium])
         }
     }
     
