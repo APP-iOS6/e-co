@@ -13,7 +13,20 @@ final class AddressInfoStore: DataControllable {
     private let db: Firestore = DataManager.shared.db
     private let collectionName: String = "AddressInfo"
     
-    private init() {}
+    private init() {
+        Task {
+            let snapshot = try await db.collection(collectionName).getDocuments()
+            for document in snapshot.documents {
+                let id = document.documentID
+                let result = try await DataManager.shared.fetchData(type: .addressInfo, parameter: .addressInfoLoad(id: id))
+                
+                if case .addressInfo(var addressInfo) = result {
+                    addressInfo.detailAddress = "철수 아파트 120동 1202호"
+                    try await DataManager.shared.updateData(type: .addressInfo, parameter: .addressInfoUpdate(id: id, addressInfo: addressInfo))
+                }
+            }
+        }
+    }
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         guard case let .addressInfoLoad(id) = parameter else {
@@ -31,8 +44,9 @@ final class AddressInfoStore: DataControllable {
             let recipientName = docData["recipient_name"] as? String ?? "none"
             let phoneNumber = docData["phone_number"] as? String ?? "none"
             let address = docData["address"] as? String ?? "none"
+            let detailAddress = docData["detail_address"] as? String ?? "none"
             
-            let addressInfo = AddressInfo(id: id, recipientName: recipientName, phoneNumber: phoneNumber, address: address)
+            let addressInfo = AddressInfo(id: id, recipientName: recipientName, phoneNumber: phoneNumber, address: address, detailAddress: detailAddress)
             return DataResult.addressInfo(result: addressInfo)
         } catch {
             if error is DataError {
@@ -53,7 +67,8 @@ final class AddressInfoStore: DataControllable {
             try await db.collection(collectionName).document(id).setData([
                 "recipient_name": addressInfo.recipientName,
                 "phone_number": addressInfo.phoneNumber,
-                "address": addressInfo.address
+                "address": addressInfo.address,
+                "detail_address": addressInfo.detailAddress
             ])
         } catch {
             throw error

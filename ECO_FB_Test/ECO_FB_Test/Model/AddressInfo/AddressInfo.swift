@@ -12,4 +12,5 @@ struct AddressInfo: Identifiable, Equatable {
     var recipientName: String
     var phoneNumber: String
     var address: String
+    var detailAddress: String
 }
