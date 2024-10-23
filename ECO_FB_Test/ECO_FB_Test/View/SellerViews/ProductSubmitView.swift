@@ -22,6 +22,7 @@ struct ProductSubmitView: View {
     @State var goodsImage: Image? = nil
     @State var selectedUIImage: UIImage? = nil
     @State var showImagePicker: Bool = false
+    @State var inputText: String = ""
     
     private var isEmptyAnyFields: Bool {    //
         selectedCategory == nil || goodsName.isEmpty || goodsContent.isEmpty || goodsPrice.isEmpty || goodsImage == nil
@@ -34,8 +35,6 @@ struct ProductSubmitView: View {
                 AppNameView()
                 ScrollView(.vertical){
                     VStack(alignment: .leading){
-                        SellerCapsuleTitleView(title: "상품 등록")
-                            .padding(.bottom)
                         Text("카테고리 선택")
                             .bold()
                         ScrollView(.horizontal) {   // storeView의 스크롤뷰를 재활용 했습니다.
@@ -46,7 +45,7 @@ struct ProductSubmitView: View {
                                     } label: {
                                         Text(category.rawValue)
                                             .fontWeight(.semibold)
-                                            .foregroundStyle(selectedCategory == category ? .accent : Color(uiColor: .darkGray))
+                                            .foregroundStyle(selectedCategory == category ? .black : Color(uiColor: .darkGray))
                                     }
                                     .buttonStyle(.bordered)
                                 }
@@ -143,20 +142,19 @@ struct ProductSubmitView: View {
                                         .frame(maxWidth: .infinity)
                                 }
                         }
-                        .disabled(isEmptyAnyFields)
+                        .disabled(isEmptyAnyFields || dataUpdateFlow == .loading)
                     }
                     .padding()
+                    
+                    if dataUpdateFlow == .loading {
+                        ProgressView()
+                    }
                 }
                 .scrollIndicators(.hidden)
-                .disabled(dataUpdateFlow == .loading)
-            }
-            
-            if dataUpdateFlow == .loading {
-                ProgressView()
+                .padding(.bottom)
             }
         }
     }
-    
     private func loadImage() {
         guard let selectedImage = selectedUIImage else { return }
         goodsImage = Image(uiImage: selectedImage)

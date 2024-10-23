@@ -14,11 +14,9 @@ struct OrderManageView: View {
     var body: some View {
         AppNameView()
         VStack(alignment: .leading){
-            SellerCapsuleTitleView(title: "주문 관리")
-                .padding(.bottom)
             Text("현재 들어온 주문들입니다.")
                 .bold()
-                .padding(.bottom)
+                .padding(.vertical)
             
             ScrollView(.vertical){
                 ForEach(0..<10){ index in
@@ -63,5 +61,6 @@ struct OrderManageView: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
+        .navigationTitle("주문 관리")
     }
 }

@@ -107,24 +107,22 @@ struct MyPageView: View {
         }
         
 
-        ZStack {
-            List {
-                Section(header:
-                            Text("지원")
-                    .font(.headline)
-                    .foregroundColor(.gray)
-                ) {
-                    NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
-                    NavigationLink("문의하기", destination: UserInquiryView())
-                    NavigationLink("나의문의내역", destination: UserInquiryHistoryView())
-                    NavigationLink("FAQ", destination: FAQView())
-                    NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
-                    NavigationLink("도움말", destination: HealthHelpView())
-                }
 
-            }
+        List {
+            Section(header:
+                        Text("지원")
+                .font(.headline)
+                .foregroundColor(.gray)
+            ) {
+                NavigationLink("공지사항", destination: NoticeView())  // NoticeView로 이동
+                NavigationLink("문의하기", destination: UserInquiryView())
+                NavigationLink("나의문의내역", destination: UserInquiryHistoryView())
+                NavigationLink("FAQ", destination: FAQView())
+                NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
+                NavigationLink("도움말", destination: HealthHelpView())
         }
         .listStyle(.inset)
+        .padding(.bottom)
         .onAppear {
             if let user = userStore.userData {
                 favoritedGoods = Array(user.goodsFavorited)

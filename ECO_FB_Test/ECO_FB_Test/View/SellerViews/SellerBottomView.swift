@@ -59,6 +59,7 @@ struct SellerBottomView: View {
             VStack{
                 Spacer()
                 SignUpToastView(isVisible: $isUploaded, message: "상품 등록이 완료되었습니다.")
+                    .padding()
             }
         }
     }

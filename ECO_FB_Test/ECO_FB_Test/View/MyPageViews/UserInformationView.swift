@@ -83,6 +83,7 @@ struct UserInformationView: View {
             sectionHeader(title: "회원정보", buttonTitle: "회원정보 수정") {
                 showReauthAlert = true
             }
+            .padding(.top)
 
             HStack {
                 VStack(alignment: .leading, spacing: 15) {
@@ -98,9 +99,6 @@ struct UserInformationView: View {
             .font(.system(size: 17))
             .foregroundStyle(Color(uiColor: .darkGray))
             .padding(.vertical)
-            
-            
-            
         }
     }
 
@@ -108,9 +106,8 @@ struct UserInformationView: View {
         VStack(alignment: .leading) {
             HStack {
                 Text("배송지정보")
-                    .font(.system(size: 14))
-                    .padding(.vertical, 5)
                     .foregroundStyle(Color(uiColor: .darkGray))
+                    .fontWeight(.semibold)
                 
                 Spacer()
                 
@@ -126,6 +123,7 @@ struct UserInformationView: View {
                 .bold()
                 
             }
+            .padding(.top)
 
             HStack {
                 VStack(alignment: .leading, spacing: 15) {
@@ -205,10 +203,9 @@ struct UserInformationView: View {
     private func sectionHeader(title: String, buttonTitle: String, action: @escaping () -> Void) -> some View {
         HStack {
             Text(title)
-                .font(.system(size: 14))
-                .padding(.vertical, 5)
                 .foregroundStyle(Color(uiColor: .darkGray))
-
+                .fontWeight(.semibold)
+            
             Spacer()
 
             Button(action: action) {
@@ -220,7 +217,6 @@ struct UserInformationView: View {
             }
             .bold()
         }
-        .padding()
         .sheet(isPresented: $isShowingAddressList) {
             AddressListView()
         }

@@ -53,12 +53,12 @@ struct EcoView: View {
         .onChange(of: healthManager.todayStepCount) {
             print("onChange step")
             healthManager.loadData()
-            updateUserPoints()
+//            updateUserPoints()
         }
         .onChange(of: scene, {
             print("onChange scene")
             healthManager.loadData()
-//            updateUserPoints()
+            updateUserPoints()
         })
         .onAppear {
             print("onAppear")
@@ -67,6 +67,7 @@ struct EcoView: View {
         }
         .sheet(isPresented: $showInfoSheet){
             EcoPointInfoView()
+                .presentationDetents([.medium])
         }
     }
     
