@@ -39,8 +39,7 @@ struct User: Identifiable, Hashable {
     var arrayGoodsFavorited: [Goods] {
         let sortOrder: [KeyPathComparator] = [
             KeyPathComparator(\Goods.name),
-            KeyPathComparator(\Goods.price),
-            KeyPathComparator(\Goods.id)
+            KeyPathComparator(\Goods.price)
         ]
         
         return goodsFavorited.map(\.self).sorted(using: sortOrder)
