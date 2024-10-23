@@ -16,13 +16,11 @@ final class DataControlHelper {
     private var instructions: PriorityQueue<DataInstruction> = PriorityQueue {
         $0 < $1
     }
-    private(set) var currentInstructionType: InstructionType = .none
     
     init(dataType: DataType) {
         self.dataType = dataType
         
         let timer = Timer.publish(every: 0.3, on: .main, in: .default).autoconnect()
-        
         timer
             .sink { [weak self] _ in
                 Task {
@@ -40,7 +38,6 @@ final class DataControlHelper {
         let firstInstruction = instructions.dequeue()
         
         guard let firstInstruction else {
-            currentInstructionType = .none
             return
         }
         
@@ -58,8 +55,6 @@ final class DataControlHelper {
                 break
             }
         }
-        
-        currentInstructionType = firstInstruction.instructionType
         
         await withTaskGroup(of: Void.self) { [weak self] taskGroup in
             for instruction in sameInstructions {
@@ -82,7 +77,5 @@ final class DataControlHelper {
                 }
             }
         }
-        
-        currentInstructionType = .none
     }
 }

@@ -38,10 +38,6 @@ final class DataManager {
         }
     }
     
-    func getInstructionType(of type: DataType) -> InstructionType {
-        return dataControlHelpers[type.rawValue].currentInstructionType
-    }
-    
     /**
      유저 존재 여부 확인 메소드
      
