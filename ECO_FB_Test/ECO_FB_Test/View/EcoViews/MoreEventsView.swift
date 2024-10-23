@@ -41,10 +41,9 @@ struct MoreEventsView: View {
                         self.selectedIndex = index
                         isShowSafari.toggle()
                     }
-                    .listStyle(.inset)
-                    .listRowSeparator(.visible)
                 }
             }
+            .listStyle(.plain)
             .sheet(isPresented: $isShowSafari) {
                 SafariView(url: URL(string: sampleURL[selectedIndex])!)
             }
