@@ -180,7 +180,10 @@ struct OrderView: View {
             if isUpdateOfPaymentFlow {
                 // 결제정보, 결제상세정보 업데이트가 끝나면 장바구니를 비워준다
                 if var user = userStore.userData {
-                    user.cart.removeAll()
+                    for element in cart {
+                        user.cart.remove(element)
+                    }
+                    
                     do {
                         _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $userDataUpdateFlow)
                     } catch {
