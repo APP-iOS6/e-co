@@ -53,7 +53,7 @@ struct User: Identifiable, Hashable {
      */
     mutating func updateCartGoodsCount(_ cartElement: CartElement, count: Int) {
         if var removeResult = cart.remove(cartElement) {
-            removeResult.goodsCount = count
+            removeResult.goodsCount += count
             cart.insert(removeResult)
         }
     }
