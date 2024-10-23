@@ -123,5 +123,12 @@ struct OrderStatusView: View {
         }
         .navigationTitle("주문 내역")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            Task {
+                if let user = userStore.userData {
+//                    _ = try await DataManager.shared.fetchData(type: .orderDetail, parameter: .)
+                }
+            }
+        }
     }
 }

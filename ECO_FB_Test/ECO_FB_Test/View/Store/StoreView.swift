@@ -112,12 +112,16 @@ struct StoreView: View {
                             }
                             .scrollIndicators(.hidden)
                             .padding([.horizontal, .bottom])
+                            if filteredGoodsByCategories.count > 0 {
+                                RecommendedItemsView(goodsByCategories: goodsByCategories)
                             
-                            RecommendedItemsView(goodsByCategories: goodsByCategories)
-                            
-                            ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                                
-                                ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [], dataUpdateFlow: $dataUpdateFlow, isNeedLogin: $isShowToast)
+                                ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+                                    
+                                    ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [], dataUpdateFlow: $dataUpdateFlow, isNeedLogin: $isShowToast)
+                                }
+                            } else {
+                                Spacer()
+                                Text("검색결과가 없습니다.")
                             }
                         }
                         .onTapGesture {
