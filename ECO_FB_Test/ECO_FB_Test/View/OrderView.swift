@@ -26,6 +26,7 @@ struct OrderView: View {
     @State private var progress: Int = 0
     @State private var paymentDataUpdateFlow: DataFlow = .none
     @State private var orderDetailDataUpdateFlow: DataFlow = .none
+    @State private var userDataUpdateFlow: DataFlow = .none
 
     private var isDidUpdate: Bool {
         paymentDataUpdateFlow == .didLoad && orderDetailDataUpdateFlow == .didLoad
@@ -97,7 +98,7 @@ struct OrderView: View {
                             .padding(.horizontal)
                     }
                     
-                    if progress > 0 {
+                    if progress > 0  || userDataUpdateFlow == .loading {
                         ProgressView()
                     }
                 }
@@ -129,7 +130,7 @@ struct OrderView: View {
                     
                     Button(role: .destructive) {
                         progress = 1
-                        // TODO: 결제정보 파이어 스토어에 보내기, 장바구니 비우기
+                        
                         Task {
                             isUpdateOfPaymentFlow = true
                             
@@ -156,7 +157,7 @@ struct OrderView: View {
                 .padding()
             }
         }
-        .disabled(progress > 0)
+        .disabled(progress > 0 || userDataUpdateFlow == .loading)
         .onAppear {
             Task {
                 if let user = userStore.userData {
@@ -175,6 +176,19 @@ struct OrderView: View {
                 getProductsPrice()
             }
         }
+        .task(id: isComplete, {
+            if isUpdateOfPaymentFlow {
+                // 결제정보, 결제상세정보 업데이트가 끝나면 장바구니를 비워준다
+                if var user = userStore.userData {
+                    user.cart.removeAll()
+                    do {
+                        _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $userDataUpdateFlow)
+                    } catch {
+                        
+                    }
+                }
+            }
+        })
     }
     
     private func getProductsPrice() {
