@@ -157,8 +157,10 @@ final class OrderDetailStore: DataControllable {
                 orderedGoodsInfoList.append(orderedGoodsInfo)
             }
             
-            guard case let .paymentInfo(paymentInfo) = paymentInfoResult else {
-                throw DataError.fetchError(reason: "Can't get payment info data")
+            var paymentInfo: PaymentInfo = PaymentInfo(id: "none", userID: "none", deliveryRequest: "none", paymentMethod: .none, addressInfos: [])
+            
+            if case let .paymentInfo(result) = paymentInfoResult {
+                paymentInfo = result
             }
             
             let orderDetail = OrderDetail(id: id, userID: userID, paymentInfo: paymentInfo, orderedGoodsInfos: orderedGoodsInfoList, orderDate: orderDate)

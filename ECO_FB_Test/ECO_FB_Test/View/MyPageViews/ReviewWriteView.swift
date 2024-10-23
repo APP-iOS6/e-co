@@ -17,36 +17,38 @@ struct ReviewWriteView: View {
     @State private var uploadedURLs: [URL] = [] // 업로드된 URL 저장
     @State private var isUploading = false // 업로드 상태
     @State private var isShowingPhotoPicker = false // 포토 피커 표시 플래그
-    let order: CartElement // 주문 정보를 전달받음
+    let orderDetail: OrderDetail // **OrderDetail**을 전달받음
 
     var body: some View {
         NavigationStack {
             ScrollView { // 전체 내용을 스크롤 가능하게 감싸기
                 VStack(alignment: .leading, spacing: 20) {
-                    
-                    // 상품 정보 표시
-                    HStack(spacing: 15) {
-                        AsyncImage(url: order.goods.thumbnailImageURL) { phase in
-                            if let image = phase.image {
-                                image.resizable()
-                                    .frame(width: 120, height: 120)
-                                    .cornerRadius(8)
-                            } else {
-                                ProgressView()
+
+                    // 주문된 첫 번째 상품 정보 표시
+                    if let firstGoods = orderDetail.orderedGoodsInfos.first?.goodsList.first {
+                        HStack(spacing: 15) {
+                            AsyncImage(url: firstGoods.goods.thumbnailImageURL) { phase in
+                                if let image = phase.image {
+                                    image.resizable()
+                                        .frame(width: 120, height: 120)
+                                        .cornerRadius(8)
+                                } else {
+                                    ProgressView()
+                                }
+                            }
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(firstGoods.goods.name)
+                                    .font(.headline)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(2)
+                                Text("\(firstGoods.goods.formattedPrice) - \(firstGoods.count)개")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
                             }
                         }
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(order.goods.name)
-                                .font(.headline)
-                                .multilineTextAlignment(.leading)
-                                .lineLimit(2)
-                            Text("\(order.goods.formattedPrice) - \(order.goodsCount)개")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
+                        .padding(.bottom, 10)
                     }
-                    .padding(.bottom, 10)
 
                     // 리뷰 제목 입력 필드
                     TextField("리뷰 제목을 입력하세요", text: $title)
@@ -69,7 +71,7 @@ struct ReviewWriteView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                         )
-                    
+
                     // 이미지 추가 및 미리보기
                     VStack(alignment: .leading) {
                         Button(action: {
@@ -79,35 +81,34 @@ struct ReviewWriteView: View {
                                 Image(systemName: "photo.on.rectangle.angled")
                                 Text("이미지 추가")
                             }
-                            .frame(maxWidth: .infinity, maxHeight: 70) // 최소 높이 설정
-                            .padding() // 여유로운 패딩 추가
+                            .frame(maxWidth: .infinity, maxHeight: 70)
+                            .padding()
                             .background(Color.accentColor)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                         }
                         .padding(.bottom, 10)
-                        
+
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 10) {
                                 ForEach(selectedImages, id: \.self) { image in
-                                    ZStack(alignment: .topTrailing) { // ZStack으로 이미지와 버튼을 정렬
+                                    ZStack(alignment: .topTrailing) {
                                         Image(uiImage: image)
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: 80, height: 80)
                                             .cornerRadius(8)
-                                            .clipped() // 이미지를 프레임 안에 잘리게 함
-                                        
-                                        // X 버튼 오버레이
+                                            .clipped()
+
                                         Button(action: {
-                                            removeImage(image) // 이미지 삭제 함수 호출
+                                            removeImage(image)
                                         }) {
                                             Image(systemName: "xmark.circle.fill")
                                                 .foregroundColor(.white)
                                                 .background(Circle().fill(Color.black.opacity(0.7)))
                                         }
-                                        .frame(width: 24, height: 24) // 버튼 크기 조정
-                                        .padding(4) // 이미지 모서리와 간격 추가
+                                        .frame(width: 24, height: 24)
+                                        .padding(4)
                                     }
                                 }
                             }
@@ -115,8 +116,6 @@ struct ReviewWriteView: View {
                         .frame(height: 80)
                     }
                     .padding(.vertical)
-
-                    
 
                     // 취소 및 등록하기 버튼
                     HStack(spacing: 10) {
@@ -182,14 +181,14 @@ struct ReviewWriteView: View {
                 let newReview = Review(
                     id: UUID().uuidString,
                     user: user,
-                    goodsID: order.goods.id,
-                    title: title.isEmpty ? order.goods.name : title, // 제목이 비어 있으면 상품명 사용
+                    goodsID: orderDetail.orderedGoodsInfos.first?.goodsList.first?.goods.id ?? "",
+                    title: title.isEmpty ? "리뷰" : title,
                     content: bodyContent,
                     contentImages: urls,
                     starCount: starRank,
                     creationDate: Date()
                 )
-              
+
                 _ = try await DataManager.shared.updateData(
                     type: .review,
                     parameter: .reviewUpdate(id: newReview.id, review: newReview)
