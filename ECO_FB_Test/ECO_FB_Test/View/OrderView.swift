@@ -148,6 +148,8 @@ struct OrderView: View {
                             
                             _ = try await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: UUID().uuidString, paymentInfo: paymentInfo), flow: $paymentDataUpdateFlow)
                             
+                            _ = try await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: paymentInfo.id, paymentInfo: paymentInfo))
+                            
                             _ = try await DataManager.shared.updateData(type: .orderDetail, parameter: .orderDetailUpdate(id: UUID().uuidString, orderDetail: orderDetail), flow: $orderDetailDataUpdateFlow)
                         }
                     } label: {
