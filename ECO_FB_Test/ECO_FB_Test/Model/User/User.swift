@@ -29,7 +29,7 @@ struct User: Identifiable, Hashable {
     var arrayRecentWatched: [RecentWatchedGoodsInfo] {
         let sortOrder: [KeyPathComparator] = [
             KeyPathComparator(\RecentWatchedGoodsInfo.watchedDate),
-            KeyPathComparator(\RecentWatchedGoodsInfo.goods.price),
+            KeyPathComparator(\RecentWatchedGoodsInfo.goods.name),
         ]
         
         return goodsRecentWatched.map(\.self).sorted(using: sortOrder)

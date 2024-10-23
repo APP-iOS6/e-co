@@ -211,7 +211,8 @@ struct GoodsDetailView: View {
         .onAppear {
             Task {
                 if var user = userStore.userData {
-                    user.goodsRecentWatched.insert(goods)
+                    let watchedGoods = RecentWatchedGoodsInfo(id: UUID().uuidString, goods: goods, watchedDate: .now)
+                    user.goodsRecentWatched.insert(watchedGoods)
                     
                     _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
                 }
