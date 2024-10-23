@@ -14,22 +14,26 @@ struct UserInquiryHistoryDetailView: View {
         VStack(alignment: .leading){
             HStack{
                 Text("제목:")
+                    .font(.headline)
                 Text(inquiry.title)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
           
             HStack {
                 Text("날짜:")
+                    .font(.headline)
                 Text(inquiry.creationDate, style: .date)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             HStack {
                 Text("셀러:")
+                    .font(.headline)
                 Text(inquiry.seller.name)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
            
             Text("질문:")
+                .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
             Text(inquiry.question)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -40,6 +44,7 @@ struct UserInquiryHistoryDetailView: View {
                 .padding(.bottom)
                 
             Text("답변:")
+                .font(.headline)
             
             if inquiry.answer.isEmpty {
                 Text("답변 대기중입니다.")

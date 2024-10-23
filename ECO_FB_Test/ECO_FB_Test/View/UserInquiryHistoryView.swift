@@ -50,13 +50,19 @@ struct UserInquiryHistoryView: View {
                         }
                     }
                     .navigationTitle("내 문의 내역")
+                    
                 }
             }
-            .task {
-                await loadInquiries()
-                print("로드 성공")
+            .onAppear {
+                Task {
+                    inquiryStore.removeALL()
+                    await loadInquiries()
+                    print("로드 성공")
+                }
             }
+            
         }
+        
     }
     
     private func loadInquiries() async {
@@ -74,6 +80,7 @@ struct UserInquiryHistoryView: View {
             errorMessage = "데이터를 불러오는데 실패했습니다."
         }
     }
+    
 }
 
 #Preview {

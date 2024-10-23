@@ -167,4 +167,7 @@ final class OneToOneInquiryStore: DataControllable{
             throw error
         }
     }
+    func removeALL() {
+        oneToOneInquiryList.removeAll()
+    }
 }
