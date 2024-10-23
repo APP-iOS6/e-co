@@ -17,24 +17,26 @@ struct SellerInquiryDetailView: View {
     var body: some View {
         ScrollView{
             VStack(spacing: 40){
-                LazyVGrid(columns: [GridItem(.fixed(40)), GridItem(.flexible())], spacing: 10) {
+                LazyVGrid(columns: [GridItem(.fixed(50)), GridItem(.flexible())], spacing: 10) {
                     Text("제목:")
-                    //.font(.headline)
+                    .font(.headline)
                     Text(inquiry.title)
-                    //.font(.title3)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("셀러:")
-                    Text(inquiry.seller.name)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("질문:")
-                    // .font(.headline)
-                    Text(inquiry.question)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Text("날짜:")
-                    //.font(.headline)
+                        .font(.headline)
                     Text(inquiry.creationDate, style: .date)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("유저:")
+                        .font(.headline)
+                    Text(inquiry.user.name)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("질문:")
+                        .font(.headline)
+                    Text(inquiry.question)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                 
                     Text("답변:")
+                        .font(.headline)
                 }
                 
                 
