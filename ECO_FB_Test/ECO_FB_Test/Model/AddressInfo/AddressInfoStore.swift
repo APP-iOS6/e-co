@@ -13,20 +13,7 @@ final class AddressInfoStore: DataControllable {
     private let db: Firestore = DataManager.shared.db
     private let collectionName: String = "AddressInfo"
     
-    private init() {
-        Task {
-            let snapshot = try await db.collection(collectionName).getDocuments()
-            for document in snapshot.documents {
-                let id = document.documentID
-                let result = try await DataManager.shared.fetchData(type: .addressInfo, parameter: .addressInfoLoad(id: id))
-                
-                if case .addressInfo(var addressInfo) = result {
-                    addressInfo.detailAddress = "철수 아파트 120동 1202호"
-                    try await DataManager.shared.updateData(type: .addressInfo, parameter: .addressInfoUpdate(id: id, addressInfo: addressInfo))
-                }
-            }
-        }
-    }
+    private init() {}
     
     func fetchData(parameter: DataParam) async throws -> DataResult {
         guard case let .addressInfoLoad(id) = parameter else {
