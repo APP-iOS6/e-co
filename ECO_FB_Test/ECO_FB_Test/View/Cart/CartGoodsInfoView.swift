@@ -20,7 +20,14 @@ struct CartGoodsInfoView: View {
         cartElement.goods
     }
     
-    @State private var count = 1
+    private var count: Int {
+        if let user = userStore.userData {
+            if let i = user.arrayCart.firstIndex(of: cartElement) {
+                return user.arrayCart[i].goodsCount
+            }
+        }
+        return 1
+    }
     
     var body: some View {
         VStack {
@@ -48,11 +55,28 @@ struct CartGoodsInfoView: View {
                     
                     Text("\(goods.formattedPrice)")
                         .font(.headline)
-                    Stepper(value: $count, in: 1...10, step: 1) {
-                        Text("총 \(count)개")
-                    }
-                    .onTapGesture {
-                        
+                    
+                    Stepper {
+                        HStack {
+                            Spacer()
+                            Text("총 \(count)개")
+                        }
+                    } onIncrement: {
+                        if var user = userStore.userData {
+                            Task {
+                                user.updateCartGoodsCount(cartElement, count: 1)
+                                let _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                            }
+                        }
+                    } onDecrement: {
+                        if cartElement.goodsCount != 1 {
+                            if var user = userStore.userData {
+                                Task {
+                                    user.updateCartGoodsCount(cartElement, count: -1)
+                                    let _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -64,17 +88,6 @@ struct CartGoodsInfoView: View {
         }
         .onTapGesture {
             isSelected = true
-        }
-        .onAppear {
-            count = cartElement.goodsCount
-        }
-        .onChange(of: count) { oldValue, newValue in
-            if var user = userStore.userData {
-                Task {
-                    user.updateCartGoodsCount(cartElement, count: count)
-                    _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
-                }
-            }
         }
     }
 }
