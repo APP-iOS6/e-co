@@ -22,15 +22,35 @@ struct OrderStatusView: View {
                             // 주문 정보와 상세보기 링크
                             HStack {
                                 AsyncImage(url: cartElement.goods.thumbnailImageURL) { phase in
-                                    if let image = phase.image {
-                                        image.resizable()
-                                            .frame(width: 100, height: 100)
-                                            .cornerRadius(8)
-                                    } else {
+                                    switch phase {
+                                    case .empty:
+                                        // 이미지가 아직 로드되지 않았을 때 (로딩 중일 때)
                                         ProgressView()
+                                            .frame(width: 100, height: 100) // 고정된 프레임
+                                            .background(Color.gray.opacity(0.2)) // 배경 색으로 빈 영역 표시 (선택)
+                                            .cornerRadius(8)
+                                        
+                                    case .success(let image):
+                                        // 이미지 로드가 성공했을 때
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 100, height: 100) // 고정된 프레임
+                                            .cornerRadius(8)
+                                        
+                                    case .failure:
+                                        // 이미지 로드가 실패했을 때
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 100, height: 100) // 고정된 프레임
+                                            .foregroundColor(.gray)
+                                            .cornerRadius(8)
+                                    @unknown default:
+                                        EmptyView()
                                     }
                                 }
-
+                                
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(cartElement.goods.name)
                                         .font(.headline)
@@ -97,7 +117,7 @@ struct OrderStatusView: View {
                                     )
                                 }
                             }
-                            .padding(.vertical, 2)
+//                            .padding(.vertical, 2)
 
                             // 구매 후기 쓰기 버튼을 네비게이션 링크로 구현
                             NavigationLink(destination: ReviewWriteView(order: cartElement)) {
@@ -105,8 +125,9 @@ struct OrderStatusView: View {
                                     .frame(maxWidth: .infinity, maxHeight: 50)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.vertical, 8)
+//                            .padding(.vertical, 8)
                         }
+                        .listRowSeparator(.hidden)
                     }
                 }
                 .listStyle(.insetGrouped)
