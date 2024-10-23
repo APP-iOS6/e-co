@@ -13,10 +13,12 @@ struct GoodsDetailView: View {
     @Environment(\.dismiss) private var dismiss
     var goods: Goods
     var thumbnail: URL
+    @State private var reviewList: [Review] = []
     @State private var isShowReview: Bool = false
     @State private var isShowToast = false
     @State private var toastMessage: String = ""
     @State private var dataUpdateFlow: DataFlow = .none
+    @State private var reviewFetchFlow: DataFlow = .none
     
     var body: some View {
         VStack {
@@ -131,7 +133,7 @@ struct GoodsDetailView: View {
                                 
                                 Spacer()
 
-                                NavigationLink(destination: ReviewListView(goods: goods)) {
+                                NavigationLink(destination: ReviewListView(goods: goods, reviewList: $reviewList, reviewFetchFlow: $reviewFetchFlow)) {
                                     Text("리뷰보기")
                                         .underline()
                                         .foregroundStyle(Color(uiColor: .darkGray))
@@ -211,6 +213,12 @@ struct GoodsDetailView: View {
                     user.goodsRecentWatched.insert(watchedGoods)
                     
                     _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
+                    
+                    let result = try await DataManager.shared.fetchData(type: .review, parameter: .reviewAll(goodsID: goods.id, limit: 100, result: reviewList), flow: $reviewFetchFlow)
+                    
+                    if case .review(let result) = result {
+                        reviewList = result
+                    }
                 }
             }
         }
