@@ -31,8 +31,6 @@ struct ProductSubmitView: View {
         AppNameView()
         ScrollView(.vertical){
             VStack(alignment: .leading){
-                SellerCapsuleTitleView(title: "상품 등록")
-                    .padding(.bottom)
                 Text("카테고리 선택")
                     .bold()
                 ScrollView(.horizontal) {   // storeView의 스크롤뷰를 재활용 했습니다.
@@ -145,6 +143,7 @@ struct ProductSubmitView: View {
             .padding()
         }
         .scrollIndicators(.hidden)
+        .navigationTitle("물품 등록")
     }
     
     private func loadImage() {
