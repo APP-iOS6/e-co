@@ -95,7 +95,7 @@ struct UserInquiryView: View {
                         isSubmitted = true
                         title = ""
                         message = ""
-                        inquiryStore.removeALL()
+                        inquiryStore.removeAll()
                     }
                     
                     

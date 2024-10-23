@@ -22,7 +22,7 @@ struct MyPageView: View {
     @State private var requestMessage = "문앞에 놔주세요"
     @State private var favoritedGoods: [Goods] = []
     
-
+    
     var body: some View {
         AppNameView()
             .padding(.top)
@@ -106,8 +106,8 @@ struct MyPageView: View {
                 .padding(.horizontal)
         }
         
-
-
+        
+        
         List {
             Section(header:
                         Text("지원")
@@ -120,13 +120,14 @@ struct MyPageView: View {
                 NavigationLink("FAQ", destination: FAQView())
                 NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
                 NavigationLink("도움말", destination: HealthHelpView())
+            }
         }
         .listStyle(.inset)
         .padding(.bottom)
         .onAppear {
             if let user = userStore.userData {
                 favoritedGoods = Array(user.goodsFavorited)
-
+                
             }
         }
     }

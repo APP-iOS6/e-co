@@ -55,7 +55,7 @@ struct UserInquiryHistoryView: View {
             }
             .onAppear {
                 Task {
-                    inquiryStore.removeALL()
+                    inquiryStore.removeAll()
                     await loadInquiries()
                     print("로드 성공")
                 }

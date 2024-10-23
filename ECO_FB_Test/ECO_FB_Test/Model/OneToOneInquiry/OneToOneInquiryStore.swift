@@ -18,6 +18,10 @@ final class OneToOneInquiryStore: DataControllable{
     
     private init() {}
     
+    func removeAll() {
+        oneToOneInquiryList.removeAll()
+    }
+    
     func fetchData(parameter: DataParam) async throws -> DataResult {
         var queryFieldName: String = ""
         var id: String = ""
@@ -166,8 +170,5 @@ final class OneToOneInquiryStore: DataControllable{
         } catch {
             throw error
         }
-    }
-    func removeALL() {
-        oneToOneInquiryList.removeAll()
     }
 }
