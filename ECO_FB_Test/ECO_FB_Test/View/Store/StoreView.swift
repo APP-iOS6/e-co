@@ -28,9 +28,7 @@ struct StoreView: View {
     @FocusState var focused: Bool
     @State var isShowToast = false
     @State private var dataUpdateFlow: DataFlow = .none
-    private var isUpdating: Bool {
-        dataUpdateFlow == .loading ? true : false
-    }
+    
     @Environment(UserStore.self) private var userStore: UserStore
     
     var body: some View {
@@ -88,52 +86,42 @@ struct StoreView: View {
                         .background(Rectangle().foregroundColor(.white))
                             
                     ) {
-                        if dataFetchFlow == .loading {
-                            HStack {
-                                Spacer()
-                                
-                                ProgressView()
-                                
-                                Spacer()
-                            }
-                        } else {
-                            VStack {
-                                ScrollView(.horizontal) {
-                                    HStack {
+                        VStack {
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    Button {
+                                        goodsStore.categorySelectAction(GoodsCategory.none)
+                                    } label: {
+                                        Text("ALL")
+                                            .fontWeight(selectedCategory == GoodsCategory.none ? .semibold : .regular)
+                                            .foregroundStyle(selectedCategory == GoodsCategory.none ? Color.black : Color(uiColor: .darkGray))
+                                    }
+                                    .buttonStyle(.bordered)
+                                    
+                                    ForEach(Array(goodsByCategories.keys), id: \.self) { category in
                                         Button {
-                                            goodsStore.categorySelectAction(GoodsCategory.none)
+                                            goodsStore.categorySelectAction(category)
                                         } label: {
-                                            Text("ALL")
-                                                .fontWeight(selectedCategory == GoodsCategory.none ? .semibold : .regular)
-                                                .foregroundStyle(selectedCategory == GoodsCategory.none ? Color.black : Color(uiColor: .darkGray))
+                                            Text(category.rawValue)
+                                                .fontWeight(selectedCategory == category ? .semibold : .regular)
+                                                .foregroundStyle(selectedCategory == category ? Color.black : Color(uiColor: .darkGray))
                                         }
                                         .buttonStyle(.bordered)
-                                        
-                                        ForEach(Array(goodsByCategories.keys), id: \.self) { category in
-                                            Button {
-                                                goodsStore.categorySelectAction(category)
-                                            } label: {
-                                                Text(category.rawValue)
-                                                    .fontWeight(selectedCategory == category ? .semibold : .regular)
-                                                    .foregroundStyle(selectedCategory == category ? Color.black : Color(uiColor: .darkGray))
-                                            }
-                                            .buttonStyle(.bordered)
-                                        }
                                     }
                                 }
-                                .scrollIndicators(.hidden)
-                                .padding([.horizontal, .bottom])
-                                
-                                RecommendedItemsView(goodsByCategories: goodsByCategories)
-                                
-                                ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
-                                    
-                                    ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [], dataUpdateFlow: $dataUpdateFlow, isNeedLogin: $isShowToast)
-                                }
                             }
-                            .onTapGesture {
-                                focused = false
+                            .scrollIndicators(.hidden)
+                            .padding([.horizontal, .bottom])
+                            
+                            RecommendedItemsView(goodsByCategories: goodsByCategories)
+                            
+                            ForEach(Array(filteredGoodsByCategories.keys), id: \.self) { category in
+                                
+                                ItemListView(category: category, allGoods: filteredGoodsByCategories[category] ?? [], dataUpdateFlow: $dataUpdateFlow, isNeedLogin: $isShowToast)
                             }
+                        }
+                        .onTapGesture {
+                            focused = false
                         }
                     }
                 }
@@ -145,7 +133,7 @@ struct StoreView: View {
             SignUpToastView(isVisible: $isShowToast, message: "로그인이 필요합니다")
                 .padding()
             
-            if isUpdating || dataFetchFlow == .loading {
+            if dataFetchFlow == .loading {
                 ProgressView()
             }
         }
@@ -162,7 +150,7 @@ struct StoreView: View {
                 await getGoods()
             }
         }
-        .disabled(isUpdating || dataFetchFlow == .loading)
+        .disabled(dataFetchFlow == .loading)
     }
     
     private func getGoods() async {

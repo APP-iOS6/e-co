@@ -14,7 +14,7 @@ struct OrderView: View {
     @State private var isCredit: Bool = true
     @State private var isZeroWaste: Bool = true // 친환경 앱이기 때문에 친환경 포장방식을 기본값으로 했습니다.
     @State private var usingPoint: Int = 0
-    @State private var productsPrice: Int = 16000
+    @State private var productsPrice: Int = 0
     @State private var deliveryPrice: Int = 3000
     private var totalPrice: Int {
         isZeroWaste ? productsPrice - usingPoint : productsPrice + deliveryPrice - usingPoint
@@ -23,19 +23,13 @@ struct OrderView: View {
     @State private var isShowToast: Bool = false
     @State private var isShowAlert: Bool = false
     @State private var isComplete: Bool = false // true: 주문완료, false: 주문하기
-    private var cart: [CartElement] {
-        if let user = userStore.userData {
-            Array(user.cart)
-        } else {
-            []
-        }
-    }
     @State private var progress: Int = 0
     @State private var dataUpdateFlow: DataFlow = .none
 
     private var isDidUpdate: Bool {
-        dataUpdateFlow == .didLoad ? true : false
+        dataUpdateFlow == .didLoad
     }
+    @State  private var isUpdateOfPaymentFlow = false
     
     var body: some View {
         VStack {
@@ -68,7 +62,7 @@ struct OrderView: View {
                                         
                                         Divider()
                                         
-                                        ProductListView(cart: cart, usingPoint: usingPoint)
+                                        ProductListView(cart: user.arrayCart, usingPoint: usingPoint)
                                         
                                         Divider()
                                         
@@ -150,22 +144,28 @@ struct OrderView: View {
                 if let user = userStore.userData {
                     _ = try await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoAll(userID: user.id), flow: $dataUpdateFlow)
                     
-                    getProducsPrice()
+                    getProductsPrice()
                 }
             }
         }
         .onChange(of: isDidUpdate) { oldValue, newValue in
-            if newValue {
+            if newValue && isUpdateOfPaymentFlow {
                 isComplete = true
                 isShowToast = true
                 progress = 0
+            } else if newValue && !isUpdateOfPaymentFlow {
+                getProductsPrice()
             }
         }
     }
     
-    private func getProducsPrice() {
-        for element in cart {
-            productsPrice = productsPrice + (element.goods.price * element.goodsCount)
+    private func getProductsPrice() {
+        productsPrice = 0 // 중복 호출 되는 경우 방지
+        
+        if let user = userStore.userData {
+            for element in user.arrayCart {
+                productsPrice = productsPrice + (element.goods.price * element.goodsCount)
+            }
         }
     }
 }
