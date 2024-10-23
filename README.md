@@ -1,4 +1,12 @@
 # 이코 (e-co)
+![Simulator Screenshot - iPhone 16 Pro - 2024-10-24 at 00 11 48](https://github.com/user-attachments/assets/ab16c023-f520-4f9b-9c91-a82230bc5ea0)
+![Simulator Screenshot - iPhone 16 Pro - 2024-10-23 at 23 59 10](https://github.com/user-attachments/assets/d4771e5b-f87c-45f3-9b05-21b65e187f5b)
+![Simulator Screenshot - iPhone 16 Pro - 2024-10-23 at 23 59 14](https://github.com/user-attachments/assets/5e488117-8f26-44f7-88c5-4eec8027165c)
+![Simulator Screenshot - iPhone 16 Pro - 2024-10-23 at 23 59 51](https://github.com/user-attachments/assets/4489f7f9-6300-4470-b270-b78338d47f1d)
+![Simulator Screenshot - iPhone 16 Pro - 2024-10-24 at 00 00 22](https://github.com/user-attachments/assets/acbe10c1-fca7-45a2-8d5d-906c2925665a)
+![Simulator Screenshot - iPhone 16 Pro - 2024-10-24 at 00 00 58](https://github.com/user-attachments/assets/19bf6ab5-fad5-447c-8e69-5df88b7c5318)
+
+
 
 # ADS
 - 지속 가능한 소비를 실천하고자 하며, 친환경 제품과 윤리적 소비를 우선시하는 20~40대의 환경 의식이 높은 소비자
