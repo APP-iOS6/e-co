@@ -55,7 +55,9 @@ struct ItemListView: View {
                                         image
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(minHeight: 80)
+                                            .frame(height: 150)
+                                            .clipped()
+                                        
                                         
                                         VStack(alignment: .trailing) {
                                             Spacer()
@@ -119,6 +121,7 @@ struct ItemListView: View {
                             HStack {
                                 Text(allGoods[index].name)
                                     .font(.system(size: 14, weight: .semibold))
+                                    .lineLimit(1)
                                 Spacer()
                                 Text("\(allGoods[index].price)원")
                                     .font(.system(size: 14, weight: .semibold))
