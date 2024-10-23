@@ -66,7 +66,7 @@ struct CartView: View {
                         Spacer()
                         
                         NavigationLink {
-                            OrderView()
+                            OrderView(cart: selectedGoods)
                         } label: {
                             Text("주문하기")
                                 .foregroundStyle(.white)
@@ -75,15 +75,18 @@ struct CartView: View {
                                 .frame(maxWidth: .infinity, maxHeight: 50)
                                 .background {
                                     RoundedRectangle(cornerRadius: 5)
-                                        .foregroundStyle(userStore.userData == nil ? .gray : .accent)
+                                        .foregroundStyle(userStore.userData == nil || selectedGoods.isEmpty ? .gray : .accent)
                                 }
                         }
+                        .disabled(selectedGoods.isEmpty)
                     } else {
-                        Text("장바구니가 비어있습니다")
+                        Text("장바구니가 비어있습니다.")
+                            .font(.headline)
                         Spacer()
                     }
                 } else {
-                    Text("로그인이 필요합니다")
+                    Text("로그인이 필요합니다.")
+                        .font(.headline)
                     Spacer()
                 }
             }

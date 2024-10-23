@@ -22,7 +22,8 @@ struct LikeView: View {
     var body: some View {
         if let userData = userStore.userData {
             if allGoods.count == 0 {
-                Text("로그인이 필요합니다")
+                Text("좋아요한 상품이 없습니다.")
+                    .font(.headline)
             } else {
                 ZStack {
                     ScrollView {
@@ -140,7 +141,8 @@ struct LikeView: View {
                 .disabled(dataUpdateFlow == .loading)
             }
         } else {
-            Text("로그인이 필요합니다")
+            Text("로그인이 필요합니다.")
+                .font(.headline)
         }
     }
 }
