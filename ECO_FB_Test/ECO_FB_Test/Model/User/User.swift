@@ -26,10 +26,10 @@ struct User: Identifiable, Hashable {
         return cart.map(\.self).sorted(using: sortOrder)
     }
     
-    var arrayRecentWatched: [Goods] {
+    var arrayRecentWatched: [RecentWatchedGoodsInfo] {
         let sortOrder: [KeyPathComparator] = [
-            KeyPathComparator(\Goods.name),
-            KeyPathComparator(\Goods.price),
+            KeyPathComparator(\RecentWatchedGoodsInfo.watchedDate),
+            KeyPathComparator(\RecentWatchedGoodsInfo.goods.price),
         ]
         
         return goodsRecentWatched.map(\.self).sorted(using: sortOrder)
