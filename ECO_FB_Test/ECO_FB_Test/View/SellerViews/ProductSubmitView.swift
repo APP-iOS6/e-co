@@ -43,7 +43,7 @@ struct ProductSubmitView: View {
                             } label: {
                                 Text(category.rawValue)
                                     .fontWeight(.semibold)
-                                    .foregroundStyle(selectedCategory == category ? .accent : Color(uiColor: .darkGray))
+                                    .foregroundStyle(selectedCategory == category ? .black : Color(uiColor: .darkGray))
                             }
                             .buttonStyle(.bordered)
                         }
