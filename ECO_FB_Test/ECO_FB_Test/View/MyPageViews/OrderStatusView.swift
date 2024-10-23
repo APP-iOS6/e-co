@@ -12,7 +12,7 @@ struct OrderStatusView: View {
     @State private var selectedPaymentInfo: PaymentInfo? = nil // 선택한 주문 정보
     @State private var showExchangeAlert = false // 교환/반품 알림 표시
     @State private var showShippingAlert = false // 배송 조회 알림 표시
-
+    
     var body: some View {
         NavigationStack {
             if let cart = userStore.userData?.arrayCart, !cart.isEmpty {
@@ -22,15 +22,35 @@ struct OrderStatusView: View {
                             // 주문 정보와 상세보기 링크
                             HStack {
                                 AsyncImage(url: cartElement.goods.thumbnailImageURL) { phase in
-                                    if let image = phase.image {
-                                        image.resizable()
-                                            .frame(width: 100, height: 100)
-                                            .cornerRadius(8)
-                                    } else {
+                                    switch phase {
+                                    case .empty:
+                                        // 이미지가 아직 로드되지 않았을 때 (로딩 중일 때)
                                         ProgressView()
+                                            .frame(width: 100, height: 100) // 고정된 프레임
+                                            .background(Color.gray.opacity(0.2)) // 배경 색으로 빈 영역 표시 (선택)
+                                            .cornerRadius(8)
+                                        
+                                    case .success(let image):
+                                        // 이미지 로드가 성공했을 때
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 100, height: 100) // 고정된 프레임
+                                            .cornerRadius(8)
+                                        
+                                    case .failure:
+                                        // 이미지 로드가 실패했을 때
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 100, height: 100) // 고정된 프레임
+                                            .foregroundColor(.gray)
+                                            .cornerRadius(8)
+                                    @unknown default:
+                                        EmptyView()
                                     }
                                 }
-
+                                
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(cartElement.goods.name)
                                         .font(.headline)
@@ -41,9 +61,9 @@ struct OrderStatusView: View {
                                         .foregroundColor(.gray)
                                 }
                                 .layoutPriority(1) // 텍스트가 공간을 우선 차지하게 함
-
+                                
                                 Spacer()
-
+                                
                                 // 작은 크기의 투명한 NavigationLink
                                 NavigationLink(destination: OrderDetailView(
                                     isCredit: .constant(true),
@@ -58,7 +78,7 @@ struct OrderStatusView: View {
                                 }
                                 .frame(width: 20) // 최소한의 공간만 차지
                             }
-
+                            
                             // 교환 및 배송 조회 버튼
                             HStack {
                                 Button("교환, 반품 신청") {
@@ -77,9 +97,9 @@ struct OrderStatusView: View {
                                         dismissButton: .default(Text("확인"))
                                     )
                                 }
-
+                                
                                 Spacer()
-
+                                
                                 Button("배송 조회") {
                                     showShippingAlert = true
                                 }
@@ -97,16 +117,15 @@ struct OrderStatusView: View {
                                     )
                                 }
                             }
-                            .padding(.vertical, 2)
-
+                            
                             // 구매 후기 쓰기 버튼을 네비게이션 링크로 구현
                             NavigationLink(destination: ReviewWriteView(order: cartElement)) {
                                 Text("구매 후기 쓰기")
                                     .frame(maxWidth: .infinity, maxHeight: 50)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.vertical, 8)
                         }
+                        .listRowSeparator(.hidden)
                     }
                 }
                 .listStyle(.insetGrouped)
@@ -123,5 +142,12 @@ struct OrderStatusView: View {
         }
         .navigationTitle("주문 내역")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            Task {
+                if let user = userStore.userData {
+//                    _ = try await DataManager.shared.fetchData(type: .orderDetail, parameter: .)
+                }
+            }
+        }
     }
 }

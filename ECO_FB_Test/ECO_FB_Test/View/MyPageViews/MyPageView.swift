@@ -107,6 +107,7 @@ struct MyPageView: View {
         }
         
 
+
         List {
             Section(header:
                         Text("지원")
@@ -119,9 +120,6 @@ struct MyPageView: View {
                 NavigationLink("FAQ", destination: FAQView())
                 NavigationLink("개인정보 고지", destination: PrivacyPolicyView())
                 NavigationLink("도움말", destination: HealthHelpView())
-                NavigationLink("임시 셀러뷰", destination: SellerInquiryView())
-            }
-            
         }
         .listStyle(.inset)
         .padding(.bottom)
