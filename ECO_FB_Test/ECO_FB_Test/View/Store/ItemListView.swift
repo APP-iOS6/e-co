@@ -72,7 +72,7 @@ struct ItemListView: View {
                                                                 user.goodsFavorited.insert(allGoods[index])
                                                             }
                                                             
-                                                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                                                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
                                                         }
                                                     } else {
                                                         isNeedLogin = true
@@ -136,6 +136,7 @@ struct ItemListView: View {
             .padding(.bottom)
         }
         .padding(.horizontal, 10)
+        .disabled(dataUpdateFlow == .loading)
     }
 }
 /*
