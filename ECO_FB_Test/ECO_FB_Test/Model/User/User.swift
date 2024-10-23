@@ -15,7 +15,7 @@ struct User: Identifiable, Hashable {
     let profileImageURL: URL
     var pointCount: Int
     var cart: Set<CartElement>
-    var goodsRecentWatched: Set<Goods>
+    var goodsRecentWatched: Set<RecentWatchedGoodsInfo>
     var goodsFavorited: Set<Goods>
     
     var arrayCart: [CartElement] {
