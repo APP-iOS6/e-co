@@ -14,7 +14,7 @@ struct OrderView: View {
     @State private var isCredit: Bool = true
     @State private var isZeroWaste: Bool = true // 친환경 앱이기 때문에 친환경 포장방식을 기본값으로 했습니다.
     @State private var usingPoint: Int = 0
-    @State private var productsPrice: Int = 16000
+    @State private var productsPrice: Int = 0
     @State private var deliveryPrice: Int = 3000
     private var totalPrice: Int {
         isZeroWaste ? productsPrice - usingPoint : productsPrice + deliveryPrice - usingPoint
@@ -23,19 +23,16 @@ struct OrderView: View {
     @State private var isShowToast: Bool = false
     @State private var isShowAlert: Bool = false
     @State private var isComplete: Bool = false // true: 주문완료, false: 주문하기
-    private var cart: [CartElement] {
-        if let user = userStore.userData {
-            Array(user.cart)
-        } else {
-            []
-        }
-    }
     @State private var progress: Int = 0
-    @State private var dataUpdateFlow: DataFlow = .none
+    @State private var paymentDataUpdateFlow: DataFlow = .none
+    @State private var orderDetailDataUpdateFlow: DataFlow = .none
+    @State private var userDataUpdateFlow: DataFlow = .none
 
     private var isDidUpdate: Bool {
-        dataUpdateFlow == .didLoad ? true : false
+        paymentDataUpdateFlow == .didLoad && orderDetailDataUpdateFlow == .didLoad
     }
+    @State  private var isUpdateOfPaymentFlow = false
+    var cart: [CartElement]
     
     var body: some View {
         VStack {
@@ -101,7 +98,7 @@ struct OrderView: View {
                             .padding(.horizontal)
                     }
                     
-                    if progress > 0 {
+                    if progress > 0  || userDataUpdateFlow == .loading {
                         ProgressView()
                     }
                 }
@@ -133,9 +130,25 @@ struct OrderView: View {
                     
                     Button(role: .destructive) {
                         progress = 1
-                        // TODO: 결제정보 파이어 스토어에 보내기, 장바구니 비우기
+                        
                         Task {
-                            _ = try await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: user.id, paymentInfo: PaymentInfo(id: UUID().uuidString, userID: user.id, deliveryRequest: requestMessage, paymentMethod: isCredit ? .card : .bank, addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: user.name, phoneNumber: "010-0000-0000", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호")])), flow: $dataUpdateFlow)
+                            isUpdateOfPaymentFlow = true
+                            
+                            let paymentInfo: PaymentInfo = PaymentInfo(id: UUID().uuidString, userID: user.id, deliveryRequest: requestMessage, paymentMethod: isCredit ? .card : .bank, addressInfos: [AddressInfo(id: UUID().uuidString, recipientName: user.name, phoneNumber: "010-0000-0000", address: "철수구 철수동 철수로 11 철수 아파트 120동 1202호")])
+                            
+                            var orderedGoods: [OrderedGoods] = []
+                            
+                            for element in cart {
+                                orderedGoods.append(OrderedGoods(id: element.id, goods: element.goods, count: element.goodsCount))
+                            }
+                            
+                            let orderedGoodsInfo = OrderedGoodsInfo(id: UUID().uuidString, deliveryStatus: DeliveryStatus.shipped, goodsList: orderedGoods)
+                            
+                            let orderDetail = OrderDetail(id: UUID().uuidString, userID: user.id, paymentInfo: paymentInfo, orderedGoodsInfos: [orderedGoodsInfo], orderDate: Date.now)
+                            
+                            _ = try await DataManager.shared.updateData(type: .paymentInfo, parameter: .paymentInfoUpdate(id: UUID().uuidString, paymentInfo: paymentInfo), flow: $paymentDataUpdateFlow)
+                            
+                            _ = try await DataManager.shared.updateData(type: .orderDetail, parameter: .orderDetailUpdate(id: UUID().uuidString, orderDetail: orderDetail), flow: $orderDetailDataUpdateFlow)
                         }
                     } label: {
                         Text("결제하기")
@@ -144,33 +157,53 @@ struct OrderView: View {
                 .padding()
             }
         }
-        .disabled(progress > 0)
+        .disabled(progress > 0 || userDataUpdateFlow == .loading)
         .onAppear {
             Task {
                 if let user = userStore.userData {
-                    _ = try await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoAll(userID: user.id), flow: $dataUpdateFlow)
+                    _ = try await DataManager.shared.fetchData(type: .paymentInfo, parameter: .paymentInfoAll(userID: user.id), flow: $paymentDataUpdateFlow)
                     
-                    getProducsPrice()
+                    getProductsPrice()
                 }
             }
         }
         .onChange(of: isDidUpdate) { oldValue, newValue in
-            if newValue {
+            if newValue && isUpdateOfPaymentFlow {
                 isComplete = true
                 isShowToast = true
                 progress = 0
+            } else if newValue && !isUpdateOfPaymentFlow {
+                getProductsPrice()
             }
         }
+        .task(id: isComplete, {
+            if isUpdateOfPaymentFlow {
+                // 결제정보, 결제상세정보 업데이트가 끝나면 장바구니를 비워준다
+                if var user = userStore.userData {
+                    for element in cart {
+                        user.cart.remove(element)
+                    }
+                    
+                    do {
+                        _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $userDataUpdateFlow)
+                    } catch {
+                        
+                    }
+                }
+            }
+        })
     }
     
-    private func getProducsPrice() {
+    private func getProductsPrice() {
+        productsPrice = 0 // 중복 호출 되는 경우 방지
+        
         for element in cart {
             productsPrice = productsPrice + (element.goods.price * element.goodsCount)
         }
     }
 }
 
-#Preview {
-    OrderView()
-        .environment(UserStore.shared)
-}
+//#Preview {
+//    OrderView()
+//        .environment(UserStore.shared)
+//}

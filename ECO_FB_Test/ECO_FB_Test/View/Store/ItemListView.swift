@@ -17,13 +17,6 @@ struct ItemListView: View {
         GridItem(),
         GridItem()
     ]
-    private var favoritedGoods: Set<Goods> {
-        if let user = userStore.userData {
-            user.goodsFavorited
-        } else {
-            []
-        }
-    }
     @Binding var dataUpdateFlow: DataFlow
     @Binding var isNeedLogin: Bool
     
@@ -77,18 +70,36 @@ struct ItemListView: View {
                                                                 user.goodsFavorited.insert(allGoods[index])
                                                             }
                                                             
-                                                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
+                                                            _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
                                                         }
                                                     } else {
                                                         isNeedLogin = true
                                                     }
                                                 } label: {
-                                                    Image(systemName: favoritedGoods.contains(allGoods[index]) ? "heart.fill" : "heart")
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width: 25, height: 25)
-                                                        .foregroundStyle(favoritedGoods.contains(allGoods[index]) ? .pink : .white)
-                                                        .shadow(color: .black, radius: 1)
+                                                    if let user = userStore.userData {
+                                                        if user.goodsFavorited.contains(allGoods[index]) {
+                                                            Image(systemName: "heart.fill")
+                                                                .resizable()
+                                                                .aspectRatio(contentMode: .fit)
+                                                                .frame(width: 25, height: 25)
+                                                                .foregroundStyle(.pink)
+                                                                .shadow(color: .black, radius: 1)
+                                                        } else {
+                                                            Image(systemName: "heart")
+                                                                .resizable()
+                                                                .aspectRatio(contentMode: .fit)
+                                                                .frame(width: 25, height: 25)
+                                                                .foregroundStyle(.white)
+                                                                .shadow(color: .black, radius: 1)
+                                                        }
+                                                    } else {
+                                                        Image(systemName: "heart")
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .frame(width: 25, height: 25)
+                                                            .foregroundStyle(.white)
+                                                            .shadow(color: .black, radius: 1)
+                                                    }
                                                 }
                                                 .padding([.bottom, .trailing], 8)
                                             }
@@ -122,6 +133,7 @@ struct ItemListView: View {
             .padding(.bottom)
         }
         .padding(.horizontal, 10)
+        .disabled(dataUpdateFlow == .loading)
     }
 }
 /*

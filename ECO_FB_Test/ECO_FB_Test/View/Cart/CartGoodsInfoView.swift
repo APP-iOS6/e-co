@@ -20,61 +20,81 @@ struct CartGoodsInfoView: View {
         cartElement.goods
     }
     
-    @State private var count = 1
+    private var count: Int {
+        if let user = userStore.userData {
+            if let i = user.arrayCart.firstIndex(of: cartElement) {
+                return user.arrayCart[i].goodsCount
+            }
+        }
+        return 1
+    }
+    @State private var dataUpdateFlow: DataFlow = .none
     
     var body: some View {
-        VStack {
-            HStack {
-                CheckBox(isOn: $isOn) {
-                    selectEvent(isOn, cartElement)
-                }
-                
-                LazyImage(url: goods.thumbnailImageURL) { state in
-                    if let image = state.image {
-                        image
-                            .resizable()
-                            .frame(width: 100, height: 100)
-                    } else {
-                        ProgressView()
+        ZStack {
+            VStack {
+                HStack {
+                    CheckBox(isOn: $isOn) {
+                        selectEvent(isOn, cartElement)
                     }
-                }
-                
-                VStack(alignment: .trailing) {
-                    Text("\(goods.seller.name)")
-                        .font(.footnote)
-                    Text("\(goods.name)")
-                        .font(.title2)
-                        .fontWeight(.bold)
                     
-                    Text("\(goods.formattedPrice)")
-                        .font(.headline)
-                    Stepper(value: $count, in: 1...10, step: 1) {
-                        Text("총 \(count)개")
+                    LazyImage(url: goods.thumbnailImageURL) { state in
+                        if let image = state.image {
+                            image
+                                .resizable()
+                                .frame(width: 100, height: 100)
+                        } else {
+                            ProgressView()
+                        }
                     }
-                    .onTapGesture {
+                    
+                    VStack(alignment: .trailing) {
+                        Text("\(goods.seller.name)")
+                            .font(.footnote)
+                        Text("\(goods.name)")
+                            .font(.title2)
+                            .fontWeight(.bold)
                         
+                        Text("\(goods.formattedPrice)")
+                            .font(.headline)
+                        
+                        Stepper {
+                            HStack {
+                                Spacer()
+                                Text("총 \(count)개")
+                            }
+                        } onIncrement: {
+                            if var user = userStore.userData {
+                                Task {
+                                    user.updateCartGoodsCount(cartElement, count: 1)
+                                    let _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
+                                }
+                            }
+                        } onDecrement: {
+                            if cartElement.goodsCount != 1 {
+                                if var user = userStore.userData {
+                                    Task {
+                                        user.updateCartGoodsCount(cartElement, count: -1)
+                                        let _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user), flow: $dataUpdateFlow)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
+                Divider()
             }
-            Divider()
-        }
-        .onChange(of: totalSelected) {
-            isOn = totalSelected
-            selectEvent(isOn, cartElement)
-        }
-        .onTapGesture {
-            isSelected = true
-        }
-        .onAppear {
-            count = cartElement.goodsCount
-        }
-        .onChange(of: count) { oldValue, newValue in
-            if var user = userStore.userData {
-                Task {
-                    user.updateCartGoodsCount(cartElement, count: count)
-                    _ = try await DataManager.shared.updateData(type: .user, parameter: .userUpdate(id: user.id, user: user))
-                }
+            .onChange(of: totalSelected) {
+                isOn = totalSelected
+                selectEvent(isOn, cartElement)
+            }
+            .onTapGesture {
+                isSelected = true
+            }
+            if dataUpdateFlow == .loading {
+                ProgressView()
             }
         }
+        .disabled(dataUpdateFlow == .loading)
     }
 }
