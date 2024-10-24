@@ -1,11 +1,57 @@
 # 이코 (e-co)
-<img src="https://github.com/user-attachments/assets/b61d8679-2ae2-46e0-a750-2273565bc3b0" style="width: 30%;" alt="Image 1">
-<img src="https://github.com/user-attachments/assets/e591979a-15da-40be-aa95-c8983ee64994" style="width: 30%;" alt="Image 2">
-<img src="https://github.com/user-attachments/assets/753dd41d-c62f-4dcd-b8d6-e5f7e45ecd73" style="width: 30%;" alt="Image 3">
-<img src="https://github.com/user-attachments/assets/de2039db-4817-475a-a6ea-5ecd84838a21" style="width: 30%;" alt="Image 4">
-<img src="https://github.com/user-attachments/assets/597f34a2-c4ba-4f90-ac90-aaef1fbbb877" style="width: 30%;" alt="Image 5">
+<div>
+  <img src="https://github.com/user-attachments/assets/8541537f-8f2d-4b7f-9316-9bdf60cfc04d" width="200" />
+</div>
 
-
+# 개발자
+<div>
+  <table>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/KimLips.png" width="100" />
+        <br/>
+        <strong>김원호</strong><br/>
+        상품 상세보기<br>로그인<br>문의하기작성 및 답변<br/>
+        <a href="https://https://github.com/KimLips"><button>GitHub</button></a>
+      </td>
+      <td align="center">
+        <img src="https://github.com/ActDine.png" width="100" />
+        <br/>
+        <strong>배문성</strong><br/>
+        마이페이지<br>배송지관리<br><br/>
+        <a href="https://github.com/ActDine"><button>GitHub</button></a>
+      </td>
+       <td align="center">
+        <img src="https://github.com/Leesooooyoung.png" width="100" />
+        <br/>
+        <strong>이소영</strong><br/>
+        상품 메인, 매장찾기<br>주문결제<br>주문결제상세<br/>
+        <a href="https://github.com/Leesooooyoung"><button>GitHub</button></a>
+      </td>
+       <td align="center">
+        <img src="https://github.com/sts06017.png" width="100" />
+        <br/>
+        <strong>최승호</strong><br/>
+        홈(헬스킷)<br>이벤트<br>판매자용 기능<br/>
+        <a href="https://github.com/sts06017"><button>GitHub</button></a>
+      </td>
+      <td align="center">
+        <img src="https://github.com/IUCyH.png" width="100" />
+        <br/>
+        <strong>홍재민</strong><br/>
+        파이어베이스 연동<br>풀스텍<br>데이터 관리<br/>
+        <a href="https://github.com/IUCyH"><button>GitHub</button></a>
+      </td>
+      <td align="center">
+        <img src="https://github.com/InyoungTechit.png" width="100" />
+        <br/>
+        <strong>황인영</strong><br/>
+        PM<br>마이페이지<br>주문내역<br/>
+        <a href="https://github.com/InyoungTechit"><button>GitHub</button></a>
+      </td>
+    </tr>
+  </table>
+</div>
 
 # ADS
 - 지속 가능한 소비를 실천하고자 하며, 친환경 제품과 윤리적 소비를 우선시하는 20~40대의 환경 의식이 높은 소비자
@@ -102,12 +148,53 @@
 - Xcode 16.0
 - iOS 18.0
 
-# 개발자
+# 동작 화면
+### 홈
+<div>
+  <img src="https://github.com/user-attachments/assets/b61d8679-2ae2-46e0-a750-2273565bc3b0" style="width: 20%;" alt="Image 1">
+</div>
 
-| 김원호 | 배문성 | 이소영 | 최승호 | 홍재민 | 황인영 |
-| --- | --- | --- | --- | --- | --- |
-| 상품 상세보기, 로그인, 문의하기작성 및 답변 | 마이페이지, 배송지관리 | 상품 메인, 매장찾기, 주문결제, 주문결제상세 | 에코메인(건강데이터연동), 이벤트, 판매자용 기능 | 파이어베이스 연동, 풀스텍, 데이터 관리 | PM, 마이페이지, 주문내역 |
-| [GitHub](https://github.com/KimLips) | [GitHub](https://github.com/ActDine) | [GitHub](https://github.com/Leesooooyoung) | [GitHub](https://github.com/sts06017) | [GitHub](https://github.com/IUCyH) | [GitHub](https://github.com/InyoungTechit) |
+### 스토어
+<div>
+  <img src="https://github.com/user-attachments/assets/e591979a-15da-40be-aa95-c8983ee64994" style="width: 20%;" alt="Image 2">  
+  <img src="https://github.com/user-attachments/assets/753dd41d-c62f-4dcd-b8d6-e5f7e45ecd73" style="width: 20%;" alt="Image 3">
+  <img src="https://github.com/user-attachments/assets/597f34a2-c4ba-4f90-ac90-aaef1fbbb877" style="width: 20%;" alt="Image 5">
+</div>
+
+### 결제
+<div>
+  <img src="https://github.com/user-attachments/assets/53747c91-dffa-455d-add0-89401a465ecc" style="width: 20%;" alt="Image 5">
+  <img src="https://github.com/user-attachments/assets/de2039db-4817-475a-a6ea-5ecd84838a21" style="width: 20%;" alt="Image 4">
+</div>
+
+### 마이페이지
+<div>
+  
+  #### 회원정보
+  <img src="https://github.com/user-attachments/assets/37ef8404-7322-4936-b0f7-b3399363e888" style="width: 20%;" alt="Image 2">  
+  <img src="https://github.com/user-attachments/assets/00bb8059-a009-42a8-9fd7-cdd828b67281" style="width: 20%;" alt="Image 2">
+  <img src="https://github.com/user-attachments/assets/08b4000d-88ea-46db-a425-91806e9593b6" style="width: 20%;" alt="Image 2">  
+    <p></p>
+  
+  #### 주문상세
+  <img src="https://github.com/user-attachments/assets/06c1eb7f-b13a-4089-b443-bad1edba9977" style="width: 20%;" alt="Image 2">  
+  <img src="https://github.com/user-attachments/assets/8dde38e3-0e74-4ea2-bcf4-ce3127ad5ef4" style="width: 20%;" alt="Image 2"> 
+    <p></p>
+    
+  #### 최근 본 상품
+  <img src="https://github.com/user-attachments/assets/5490c093-9cb4-4c2f-ad87-a849e1d23a11" style="width: 20%;" alt="Image 2"> 
+    <p></p>
+
+  #### 찜목록
+  <img src="https://github.com/user-attachments/assets/21096df4-646b-4886-8682-2cb01b45972d" style="width: 20%;" alt="Image 2">
+</div>
+
+### 로그인
+<div>
+  <img src="https://github.com/user-attachments/assets/bc2c1f7d-cda0-4355-b496-37d31deafe6c" style="width: 20%;" alt="Image 2">  
+  <img src="https://github.com/user-attachments/assets/66024011-7156-4983-a1ee-66aceb1740da" style="width: 20%;" alt="Image 2">  
+</div>
+
 
 # 라이선스
 Licensed under the [MIT](LICENSE) license.
