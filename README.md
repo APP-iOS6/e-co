@@ -3,6 +3,10 @@
   <img src="https://github.com/user-attachments/assets/8541537f-8f2d-4b7f-9316-9bdf60cfc04d" width="200" />
 </div>
 
+🦁 앱스쿨: iOS 6기 Project 3
+
+⏳ 2024/10/11 - 2024/10/24
+
 # 개발자
 <div>
   <table>
