@@ -15,7 +15,7 @@ struct AddressData: Identifiable {
 
 struct AddressListView: View {
     @State private var addresses = [
-        AddressData(name: "김민준", address: "경기 용인시 수지구 만현로 79 507-1003", phoneNumber: "010-8950-7687")
+        AddressData(name: "김길동", address: "서울시 중구 이순신로 1길 1", phoneNumber: "010-1234-1234")
     ]
     @State private var selectedAddress: UUID?
     @State private var addressToFix: AddressData?
