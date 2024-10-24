@@ -47,6 +47,10 @@ final class OrderDetailStore: DataControllable {
             throw DataError.updateError(reason: "The DataParam is not a order detail update")
         }
         
+        if let index = orderDetailList.firstIndex(where: { $0.id == id }) {
+            orderDetailList[index] = orderDetail
+        }
+        
         let orderDate = orderDetail.orderDate.getFormattedString("yyyy-MM-dd-HH-mm")
 
         do {
@@ -93,6 +97,7 @@ final class OrderDetailStore: DataControllable {
         return DataResult.delete(isSuccess: true)
     }
     
+    @MainActor
     private func getFirstPage(userID: String, limit: Int) async throws -> DataResult {
         do {
             let snapshots = try await db.collection(collectionName)
@@ -113,6 +118,7 @@ final class OrderDetailStore: DataControllable {
         }
     }
     
+    @MainActor
     private func getNextPage(userID: String, limit: Int) async throws -> DataResult {
         guard let last = lastDocument else { return DataResult.none }
         

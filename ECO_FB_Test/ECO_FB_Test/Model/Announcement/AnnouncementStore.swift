@@ -67,6 +67,7 @@ final class AnnouncementStore: DataControllable {
         return DataResult.delete(isSuccess: true)
     }
     
+    @MainActor
     private func getFirstPage() async throws -> DataResult {
         do {
             let snapshots = try await db.collection(collectionName)
@@ -86,6 +87,7 @@ final class AnnouncementStore: DataControllable {
         }
     }
     
+    @MainActor
     private func getNextPage() async throws -> DataResult {
         guard let lastDocument else { return DataResult.none }
         

@@ -9,13 +9,11 @@ import Foundation
 import SwiftUI
 import FirebaseFirestore
 
-@MainActor
 @Observable
 final class DataManager {
     static let shared: DataManager = DataManager()
     private let _db: Firestore = Firestore.firestore()
     private var dataControlHelpers: [DataControlHelper] = []
-    private(set) var dataResults: [DataResult] = []
     @ObservationIgnored private lazy var dataStores: [DataControllable] = [
         UserStore.shared,
         GoodsStore.shared,
@@ -34,7 +32,6 @@ final class DataManager {
     private init() {
         for dataType in DataType.allCases {
             dataControlHelpers.append(DataControlHelper(dataType: dataType))
-            dataResults.append(.none)
         }
     }
     

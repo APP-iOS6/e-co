@@ -12,7 +12,7 @@ struct DataInstruction: Comparable {
     let instructionType: InstructionType
     let dataFlow: Binding<DataFlow>?
     let parameter: DataParam
-    let action: (DataType, DataParam) async throws -> DataResult
+    @MainActor let action: (DataType, DataParam) async throws -> DataResult
     let completion: (Result<DataResult, Error>) -> Void
     
     static func < (lhs: DataInstruction, rhs: DataInstruction) -> Bool {

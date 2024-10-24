@@ -133,6 +133,7 @@ final class GoodsStore: DataControllable {
         return DataResult.delete(isSuccess: true)
     }
     
+    @MainActor
     private func getGoodsByID(_ id: String) async throws -> DataResult {
         do {
             let snapshot = try await db.collection(collectionName).document(id).getDocument()
@@ -150,6 +151,7 @@ final class GoodsStore: DataControllable {
         }
     }
     
+    @MainActor
     private func getGoodsAll(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
         if lastDocumentEachCategory.isEmpty {
             return try await getFirstPage(categories: categories, limit: limit)
@@ -158,6 +160,7 @@ final class GoodsStore: DataControllable {
         }
     }
     
+    @MainActor
     private func getFirstPage(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
         do {
             for category in categories {
@@ -184,6 +187,7 @@ final class GoodsStore: DataControllable {
         }
     }
     
+    @MainActor
     private func getNextPage(categories: [GoodsCategory], limit: Int) async throws -> DataResult {
         do {
             for category in categories {

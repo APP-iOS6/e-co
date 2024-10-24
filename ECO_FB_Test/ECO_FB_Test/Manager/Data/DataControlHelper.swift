@@ -8,8 +8,6 @@
 import Foundation
 import Combine
 
-@MainActor
-@Observable
 final class DataControlHelper {
     private let dataType: DataType
     private var anyCancellables: Set<AnyCancellable> = []
@@ -20,7 +18,7 @@ final class DataControlHelper {
     init(dataType: DataType) {
         self.dataType = dataType
         
-        let timer = Timer.publish(every: 0.3, on: .main, in: .default).autoconnect()
+        let timer = Timer.publish(every: 0.15, on: .main, in: .default).autoconnect()
         timer
             .sink { [weak self] _ in
                 Task {
