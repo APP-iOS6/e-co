@@ -51,6 +51,7 @@ final class UserStore: DataControllable {
         }
     }
     
+    @MainActor
     func getAllSellers() async throws -> [User] {
         var sellers: [User] = []
         
@@ -101,6 +102,12 @@ final class UserStore: DataControllable {
     func updateData(parameter: DataParam) async throws -> DataResult {
         guard case let .userUpdate(id, user) = parameter else {
             throw DataError.updateError(reason: "The DataParam is not a user update")
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            if let self = self, let userData = self.userData, userData.id == id {
+                self.userData = user
+            }
         }
         
         var goodsCartIDs: [String] = []
@@ -154,6 +161,7 @@ final class UserStore: DataControllable {
         return DataResult.delete(isSuccess: true)
     }
     
+    @MainActor
     private func getUserWithReturn(id: String) async throws -> DataResult {
         do {
             let snapshot = try await db.collection(collectionName).document(id).getDocument()
@@ -165,32 +173,12 @@ final class UserStore: DataControllable {
         }
     }
     
+    @MainActor
     private func getUserWithNoReturn(id: String) async throws -> DataResult {
         do {
-            _ = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<DataResult, Error>) in
-                _ = db.collection(collectionName).document(id).addSnapshotListener { [weak self] snapshot, error in
-                    if let error {
-                        continuation.resume(throwing: error)
-                    }
-                    
-                    guard let snapshot else {
-                        continuation.resume(throwing: DataError.fetchError(reason: "User Data Snapshot not exist"))
-                        return
-                    }
-                    
-                    Task {
-                        guard self != nil else {
-                            continuation.resume(throwing: CommonError.referenceError(reason: "The self is nil"))
-                            return
-                        }
-                        
-                        self!.userData = try await self!.getData(document: snapshot)
-                    }
-                }
-                
-                continuation.resume(returning: DataResult.none)
-            }
+            let snapshot = try await db.collection(collectionName).document(id).getDocument()
             
+            userData = try await getData(document: snapshot)
             return DataResult.none
         } catch {
             throw error

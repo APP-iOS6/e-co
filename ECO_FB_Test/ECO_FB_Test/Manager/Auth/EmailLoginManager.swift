@@ -30,13 +30,14 @@ final class EmailLoginManager: LoginControllable {
                 throw LoginError.userError(reason: "A user that logged in with email doesn't exist")
             }
             
-            _ = try await Auth.auth().signIn(withEmail: email, password: password)
             _ = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: email, shouldReturnUser: false))
+            _ = try await Auth.auth().signIn(withEmail: email, password: password)
         } catch {
             throw error
         }
     }
     
+    @MainActor
     func signUpWithEmail(_ email: String, password: String, name: String) async throws {
         do {
             _ = try await Auth.auth().createUser(withEmail: email, password: password)
@@ -49,6 +50,7 @@ final class EmailLoginManager: LoginControllable {
         }
     }
     
+    @MainActor
     func reauthenticateUser(password: String, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let user = Auth.auth().currentUser, let email = user.email else {
             let error = NSError(domain: "UserError", code: -1, userInfo: [NSLocalizedDescriptionKey: "사용자 정보를 가져올 수 없습니다."])

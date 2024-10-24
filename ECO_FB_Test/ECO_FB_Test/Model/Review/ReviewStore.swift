@@ -43,7 +43,7 @@ final class ReviewStore: DataControllable {
     }
     
     func updateData(parameter: DataParam) async throws -> DataResult {
-        guard case .reviewUpdate(let id, let review) = parameter else {
+        guard case let .reviewUpdate(id, review) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a review update")
         }
 
@@ -83,6 +83,7 @@ final class ReviewStore: DataControllable {
         return DataResult.delete(isSuccess: true)
     }
     
+    @MainActor
     private func getFirstPage(id: String, limit: Int, result: [Review]) async throws -> DataResult {
         var resultList = result
         
@@ -107,6 +108,7 @@ final class ReviewStore: DataControllable {
         return DataResult.review(result: resultList)
     }
     
+    @MainActor
     private func getNextPage(id: String, limit: Int, result: [Review]) async throws -> DataResult {
         guard let dictionaryResult = lastDocuments[id], let last = dictionaryResult else {
             return DataResult.review(result: result)

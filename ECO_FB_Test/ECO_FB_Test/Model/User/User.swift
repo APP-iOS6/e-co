@@ -28,7 +28,7 @@ struct User: Identifiable, Hashable {
     
     var arrayRecentWatched: [RecentWatchedGoodsInfo] {
         let sortOrder: [KeyPathComparator] = [
-            KeyPathComparator(\RecentWatchedGoodsInfo.watchedDate),
+            KeyPathComparator(\RecentWatchedGoodsInfo.watchedDate, order: .reverse),
             KeyPathComparator(\RecentWatchedGoodsInfo.goods.name),
         ]
         

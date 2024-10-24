@@ -49,14 +49,15 @@ final class KaKaoLoginManager: LoginControllable {
                     }
                 }
                 
-                _ = try await Auth.auth().signIn(with: credential)
                 _ = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false))
+                _ = try await Auth.auth().signIn(with: credential)
             } catch {
                 throw error
             }
         }
     }
     
+    @MainActor
     private func loginWithKakaoTalkAsync() async throws -> OAuthToken {
         // 비동기 코드가 아닌 것을 비동기로 실행할 수 있도록 하는 함수, 오류 반환 가능
         try await withCheckedThrowingContinuation { continuation in
@@ -72,6 +73,7 @@ final class KaKaoLoginManager: LoginControllable {
         }
     }
     
+    @MainActor
     private func checkIfNeedEmailPermission() async throws -> Bool {
         try await withCheckedThrowingContinuation { continuation in
             UserApi.shared.me { user, error in
@@ -86,6 +88,7 @@ final class KaKaoLoginManager: LoginControllable {
         }
     }
     
+    @MainActor
     private func loginWithEmailPermissionAsync() async throws -> OAuthToken {
         try await withCheckedThrowingContinuation { continuation in
             let scopes: [String] = ["openid", "account_email"]
@@ -102,6 +105,7 @@ final class KaKaoLoginManager: LoginControllable {
         }
     }
     
+    @MainActor
     private func getUserEmail() async throws -> String {
         try await withCheckedThrowingContinuation { continuation in
             UserApi.shared.me { user, error in

@@ -40,8 +40,12 @@ final class PaymentInfoStore: DataControllable {
     }
     
     func updateData(parameter: DataParam) async throws -> DataResult {
-        guard case .paymentInfoUpdate(let id, let paymentInfo) = parameter else {
+        guard case let .paymentInfoUpdate(id, paymentInfo) = parameter else {
             throw DataError.fetchError(reason: "The DataParam is not a payment info update")
+        }
+        
+        if let index = paymentList.firstIndex(where: { $0.id == id }) {
+            paymentList[index] = paymentInfo
         }
 
         do {
@@ -85,6 +89,7 @@ final class PaymentInfoStore: DataControllable {
         return DataResult.delete(isSuccess: true)
     }
     
+    @MainActor
     private func getPaymentInfoByID(_ id: String) async throws -> DataResult {
         do {
             let snapshot = try await db.collection(collectionName).document(id).getDocument()
@@ -102,6 +107,7 @@ final class PaymentInfoStore: DataControllable {
         }
     }
     
+    @MainActor
     private func getPaymentInfoAll(userID: String) async throws -> DataResult {
         paymentList.removeAll()
         

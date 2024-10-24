@@ -60,8 +60,12 @@ final class OneToOneInquiryStore: DataControllable{
     }
     
     func updateData(parameter: DataParam) async throws -> DataResult {
-        guard case .oneToOneInquiryUpdate(let id, let inquiry) = parameter else {
+        guard case let .oneToOneInquiryUpdate(id, inquiry) = parameter else {
             throw DataError.updateError(reason: "The DataParam is not a oneToOneInquiry update")
+        }
+        
+        if let index = oneToOneInquiryList.firstIndex(of: inquiry) {
+            oneToOneInquiryList[index] = inquiry
         }
         
         do {
@@ -94,6 +98,7 @@ final class OneToOneInquiryStore: DataControllable{
         return DataResult.delete(isSuccess: true)
     }
     
+    @MainActor
     private func getFirstPage(queryFieldName: String, id: String, limit: Int) async throws -> DataResult {
         do {
             let snapshots = try await db.collection(collectionName)
@@ -114,6 +119,7 @@ final class OneToOneInquiryStore: DataControllable{
         }
     }
     
+    @MainActor
     private func getNextPage(queryFieldName: String, id: String, limit: Int) async throws -> DataResult {
         guard let lastDocument else { return DataResult.none }
         

@@ -11,7 +11,6 @@ import FirebaseAuth
 import GoogleSignIn
 import KakaoSDKUser
 
-@MainActor
 @Observable
 final class AuthManager {
     static let shared: AuthManager = AuthManager()
@@ -49,6 +48,7 @@ final class AuthManager {
         }
     }
     
+    @MainActor
     func reauthenticateUser(password: String, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let user = UserStore.shared.userData else {
             return
@@ -73,6 +73,7 @@ final class AuthManager {
         - type: 로그인 제공자, 예) 구글 로그인이라면 .google
         - parameter: 로그인 시 필요한 인자, 이메일 로그인의 경우 필요합니다
     */
+    @MainActor
     func login(type: LoginType, parameter: LoginParam = .none) async throws {
         do {
             tryToLoginNow = true
@@ -100,6 +101,7 @@ final class AuthManager {
     /**
      로그아웃 메소드
     */
+    @MainActor
     func logout() {
         do {
             try Auth.auth().signOut()
@@ -120,6 +122,7 @@ final class AuthManager {
     /**
      현재 유저의 계정을 삭제하는 메소드
      */
+    @MainActor
     func deleteUser() throws {
         guard let user = Auth.auth().currentUser else { throw LoginError.userError(reason: "You Don't Login!") }
         

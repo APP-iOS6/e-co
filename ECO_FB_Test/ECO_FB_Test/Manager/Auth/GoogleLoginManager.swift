@@ -54,8 +54,8 @@ final class GoogleLoginManager: LoginControllable {
                 }
             }
             
-            _ = try await Auth.auth().signIn(with: credential)
             _ = try await DataManager.shared.fetchData(type: .user, parameter: .userLoad(id: id, shouldReturnUser: false))
+            _ = try await Auth.auth().signIn(with: credential)
         } catch {
             throw error
         }
