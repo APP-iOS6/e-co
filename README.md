@@ -218,6 +218,15 @@
   <img src="https://github.com/user-attachments/assets/66024011-7156-4983-a1ee-66aceb1740da" style="width: 20%;" alt="Image 2">  
 </div>
 
+# 앱 실행 방법
+  1. 프로젝트를 클론받아주세요.
+  2. firebase의 plist 파일과 kakao 로그인을 위한 key파일이 필요한데, 개발자 멤버에게 문의해주세요.
+  3. 전달받은 두 파일을 xcode실행 후 우측 디렉토리 네비게이션에 프로젝트 폴더에 넣어주세요.
+  4. 프로젝트를 실행해 주세요.
+
+  - 앱내에서 건강앱과 사용자위치 정보 요청을 수락해주세요.
 
 # 라이선스
-Licensed under the [MIT](LICENSE) license.
+ - Licensed under the [MIT](LICENSE) license.
+ - This product includes software developed by the "Marcin Krzyzanowski" (http://krzyzanowskim.com/).
+ - http://www.apache.org/licenses/LICENSE-2.0
